@@ -18,6 +18,7 @@
 package com.huawei.ims
 
 import android.os.SystemProperties
+import android.telephony.Rlog
 import android.text.TextUtils
 import android.util.Log
 
@@ -30,6 +31,8 @@ object HwModemCapability {
         var z = true
         val bcdIndex = capability / 4
         val bcdOffset = capability % 4
+
+        Rlog.d(HwModemCapability.tag, "HwImsService isCapabilitySupport" + bcdIndex)
         if (capability < 0 || capability >= 360) {
             return false
         }
