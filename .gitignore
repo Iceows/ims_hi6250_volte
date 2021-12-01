@@ -1,0 +1,5 @@
+
+.gradle/*
+.gradle/5.2.1/fileHashes/fileHashes.bin
+.gradle/5.2.1/fileHashes/fileHashes.lock
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
