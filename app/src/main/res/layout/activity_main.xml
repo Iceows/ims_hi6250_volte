@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HwIms
+  ~ Copyright (C) 2019 Penn Mackintosh
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/warning"
+            android:textColor="#ff3333"
+            android:onClick="ims0"
+            android:textSize="20sp" />
+
+        <Switch
+            android:id="@+id/ims0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="ims1"
+            android:text="Enable IMS Sim 0" />
+
+        <Switch
+            android:id="@+id/ims1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable IMS Sim 1" />
+
+        <Button
+            android:id="@+id/rild0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="restartRILD0"
+            android:text="Restart RILD 0" />
+
+        <Button
+            android:id="@+id/rild1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="restartRILD1"
+            android:text="Restart RILD 1" />
+
+        <Button
+            android:id="@+id/rild2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="restartRILD2"
+            android:text="Restart RILD 2" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/license"
+            android:textSize="9sp" />
+
+    </LinearLayout>
+</ScrollView>
