@@ -109,6 +109,7 @@ class HwImsService : ImsService() {
         var instance: HwImsService? = null
 
         fun supportsDualIms(context: Context): Boolean {
+            //MODEM_CAP_SUPPORT_DUAL_VOLTE = 21
             return HwModemCapability.isCapabilitySupport(21) && context.getSystemService(TelephonyManager::class.java).phoneCount > 1
         }
     }

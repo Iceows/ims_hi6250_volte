@@ -70,8 +70,9 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="460dp"
             android:text="@string/license"
+            android:textColor="#000000"
             android:textSize="9sp" />
 
     </LinearLayout>
