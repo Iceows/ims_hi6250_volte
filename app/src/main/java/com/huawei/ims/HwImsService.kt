@@ -17,6 +17,7 @@
 
 package com.huawei.ims
 
+import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.telephony.SubscriptionManager
@@ -36,10 +37,13 @@ class HwImsService : ImsService() {
     internal lateinit var telephonyManager: TelephonyManager
 
     override fun onCreate() {
-        Log.v(LOG_TAG, "HwImsService version " + BuildConfig.GIT_HASH + " created!")
+        Log.v(LOG_TAG, "HwImsService (Iceows) version " + BuildConfig.GIT_HASH + " created!")
         subscriptionManager = getSystemService(SubscriptionManager::class.java)
         telephonyManager = getSystemService(TelephonyManager::class.java)
-        prefs = createDeviceProtectedStorageContext().getSharedPreferences("config", Context.MODE_PRIVATE)
+
+        // ApplicationID : "com.huawei.ims"
+        prefs = getSharedPreferences( "com.huawei.ims", Activity.MODE_PRIVATE)
+
         MapconController.getInstance().init(this)
     }
 

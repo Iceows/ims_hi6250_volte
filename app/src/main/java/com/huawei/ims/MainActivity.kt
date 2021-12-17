@@ -22,6 +22,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Switch
 
@@ -33,7 +34,10 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        prefs = createDeviceProtectedStorageContext().getSharedPreferences("config", Context.MODE_PRIVATE)
+
+        // ApplicationID : "com.huawei.ims"
+        prefs = getSharedPreferences( "com.huawei.ims", MODE_PRIVATE )
+
         ims0state = prefs!!.getBoolean("ims0", true)
         ims1state = prefs!!.getBoolean("ims1", false)
         (findViewById<View>(R.id.ims0) as Switch).isChecked = ims0state
@@ -81,6 +85,7 @@ class MainActivity : Activity() {
                 // Check
             }
             ims0state = view.isChecked
+            Log.d("MainActivity", "ims0state is : " + ims0state)
             prefs!!.edit().putBoolean("ims0", ims0state).commit()
         }
     }
@@ -99,4 +104,5 @@ class MainActivity : Activity() {
             prefs!!.edit().putBoolean("ims1", ims1state).commit()
         }
     }
+
 }
