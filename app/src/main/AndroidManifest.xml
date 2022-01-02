@@ -22,7 +22,7 @@
     package="com.huawei.ims"
     android:sharedUserId="android.uid.phone">
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:allowBackup="false"
@@ -32,7 +32,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

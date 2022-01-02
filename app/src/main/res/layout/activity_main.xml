@@ -16,6 +16,7 @@
   -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -30,20 +31,20 @@
             android:layout_height="wrap_content"
             android:text="@string/warning"
             android:textColor="#ff3333"
-            android:onClick="ims0"
             android:textSize="20sp" />
 
-        <Switch
-            android:id="@+id/ims0"
+        <CheckBox
+            android:id="@+id/chkBoxIMS0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="ims1"
+            android:onClick="enableIMS0"
             android:text="Enable IMS Sim 0" />
 
-        <Switch
-            android:id="@+id/ims1"
+        <CheckBox
+            android:id="@+id/chkBoxIMS1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="enableIMS1"
             android:text="Enable IMS Sim 1" />
 
         <Button
@@ -51,22 +52,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="restartRILD0"
-            android:text="Restart RILD 0" />
+            android:text="@string/restart_rild_0" />
+
 
         <Button
             android:id="@+id/rild1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="restartRILD1"
-            android:text="Restart RILD 1" />
-
-        <Button
-            android:id="@+id/rild2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="restartRILD2"
-            android:text="Restart RILD 2" />
-
+            android:text="@string/restart_rild_1" />
 
         <TextView
             android:layout_width="match_parent"
