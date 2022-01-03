@@ -17,8 +17,8 @@
 
 package com.huawei.ims;
 
-import android.annotation.NonNull;
 import android.os.RemoteException;
+import androidx.annotation.NonNull;
 import android.telephony.Rlog;
 import android.telephony.TelephonyManager;
 import android.telephony.ims.ImsCallProfile;

@@ -37,7 +37,7 @@ class HwImsService : ImsService() {
     internal lateinit var telephonyManager: TelephonyManager
 
     override fun onCreate() {
-        Log.v(LOG_TAG, "HwImsService (Iceows) version " + BuildConfig.GIT_HASH + " created!")
+        Log.i(LOG_TAG, "HwImsService (Iceows) version " + BuildConfig.GIT_HASH + " created!")
         subscriptionManager = getSystemService(SubscriptionManager::class.java)
         telephonyManager = getSystemService(TelephonyManager::class.java)
 
@@ -48,7 +48,7 @@ class HwImsService : ImsService() {
     }
 
     override fun onDestroy() {
-        Log.v(LOG_TAG, "Shutting down HwImsService...")
+        Log.i(LOG_TAG, "Shutting down HwImsService...")
         instance = null
     }
 

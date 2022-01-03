@@ -13,27 +13,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1040c749-78a8-4074-b1a1-5b9a0376d3ca" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/debug/app-debug.apk" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/debug/output.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/release/app-release.apk" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/release/output.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/keystore/platform.pk8" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/keystore/platform.x509.pem" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/keystore/volte-ims.jks" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tools/HuaweiIMS.apk" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tools/Sign.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tools/apksigner.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tools/app-debug.apk" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tools/platform.pk8" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tools/platform.x509.pem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ims_hi6250_volte.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/other-apk/Qualcomm-ims.apk" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/other-apk/Qualcomm.jadx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/other-apk/sources/org/codeaurora/ims/ImsConfigImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwMmTelFeature.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwMmTelFeature.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/HuaweiIMS.apk" beforeDir="false" afterPath="$PROJECT_DIR$/tools/HuaweiIMS.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/Sign.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/tools/Sign.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/tools/app-debug.apk" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,9 +79,18 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/keystore/platform.x509.pem" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Suggestions" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
-  <component name="RunManager">
+  <component name="PsdUISettings">
+    <option name="MODULE_TAB" value="Properties" />
+    <option name="BUILD_VARIANTS_TAB" value="Flavors" />
+    <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
+    <option name="LAST_EDITED_BUILD_TYPE" value="debug" />
+  </component>
+  <component name="RunManager" selected="Gradle.ims_hi6250_volte">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="ims_hi6250_volte.app" />
       <option name="DEPLOY" value="true" />
@@ -144,6 +149,34 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ims_hi6250_volte" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Android App.app" />
+      <item itemvalue="Gradle.ims_hi6250_volte" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.ims_hi6250_volte" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

@@ -33,22 +33,32 @@
  */
 package com.huawei.ims
 
-import android.annotation.NonNull
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import android.telephony.ims.stub.ImsConfigImplBase
+import android.util.Log
 import com.android.ims.ImsConfig
 import java.util.concurrent.ConcurrentHashMap
+
 
 class HwImsConfig : ImsConfigImplBase() {
     private val configInt = ConcurrentHashMap<Int, Int>()
     private val configString = ConcurrentHashMap<Int, String>()
+    private val LOG_TAG = "HwImsConfig"
 
     init {
         // We support VoLTE by default.
         configInt[ImsConfig.ConfigConstants.VLT_SETTING_ENABLED] = ImsConfig.FeatureValueConstants.ON
+
     }
 
     override fun setConfig(item: Int, value: Int): Int {
         configInt[item] = value
+
+        Log.i(LOG_TAG, "setConfig (int):: item=" + item + " value=" + value)
+
         when (item) {
             ImsConfig.ConfigConstants.VOICE_OVER_WIFI_ROAMING -> MapconController.getInstance().notifyRoaming(0)
             ImsConfig.ConfigConstants.VOICE_OVER_WIFI_MODE -> MapconController.getInstance().setDomain(0, value)
@@ -59,16 +69,20 @@ class HwImsConfig : ImsConfigImplBase() {
 
     override fun setConfig(item: Int, value: String): Int {
         configString[item] = value
+
+        Log.i(LOG_TAG, "setConfig (string):: item=" + item + " value=" + value)
         notifyProvisionedValueChanged(item, value)
         return ImsConfig.OperationStatusConstants.SUCCESS
     }
 
-    override fun getConfigInt(@NonNull item: Int): Int {
+    override fun getConfigInt(item: Int): Int {
+        Log.i(LOG_TAG, "getConfigInt :: item=" + item);
         return configInt.getOrDefault(item, null) ?: ImsConfig.FeatureValueConstants.ERROR
-
     }
 
     override fun getConfigString(item: Int): String? {
+        Log.i(LOG_TAG, "getConfigString :: item=" + item);
         return configString.getOrDefault(item, null)
     }
+
 }

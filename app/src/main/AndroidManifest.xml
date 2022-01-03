@@ -23,6 +23,10 @@
     android:sharedUserId="android.uid.phone">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+  <!--  <uses-permission android:name="android.permission.READ_PRECISE_PHONE_STATE"/> -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="false"
@@ -40,11 +44,14 @@
             android:name=".HwImsService"
             android:directBootAware="true"
             android:permission="android.permission.BIND_IMS_SERVICE"
-            android:persistent="true">
+            android:persistent="true"
+            android:process="com.android.phone"
+            android:singleUser="true">
+            <meta-data android:name="android.telephony.ims.MMTEL_FEATURE" android:value="true"/>
+            <meta-data android:name="android.telephony.ims.EMERGENCY_MMTEL_FEATURE" android:value="true"/>
             <intent-filter>
                 <action android:name="android.telephony.ims.ImsService" />
             </intent-filter>
         </service>
     </application>
-
 </manifest>
