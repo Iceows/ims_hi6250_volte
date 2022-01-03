@@ -139,11 +139,11 @@ class HwImsCallSession
         val telephonyManager = HwImsService.instance!!.telephonyManager.createForSubscriptionId(subId)
 
         // We have to do lots of complicated formatting stuff here because RIL returns different formats depending on the MCC-MNC
-        Log.d(tag, "CC ${telephonyManager.networkCountryIso.toUpperCase()}")
+        Log.d(tag, "CC ${telephonyManager.networkCountryIso.uppercase()}")
         mProfile.setCallExtra(EXTRA_OI, PhoneNumberUtils.formatNumberToE164(
                 call.number,
                 (telephonyManager.networkCountryIso
-                        ?: telephonyManager.simCountryIso).toUpperCase()))
+                        ?: telephonyManager.simCountryIso).uppercase()))
 
         Log.d(tag, "Using OI ${Rlog.pii(tag, mProfile.getCallExtra(EXTRA_OI))} for profile")
 

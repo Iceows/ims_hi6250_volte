@@ -69,6 +69,7 @@ class HwImsService : ImsService() {
 
     override fun querySupportedImsFeatures(): ImsFeatureConfiguration {
         val builder = ImsFeatureConfiguration.Builder()
+        Log.i(LOG_TAG, "querySupportedImsFeatures...")
         if (prefs!!.getBoolean("ims0", true)) {
             builder.addFeature(0, ImsFeature.FEATURE_MMTEL)
         }

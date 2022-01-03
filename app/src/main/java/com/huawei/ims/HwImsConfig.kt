@@ -33,10 +33,6 @@
  */
 package com.huawei.ims
 
-import android.content.pm.PackageManager
-import android.os.Build
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import android.telephony.ims.stub.ImsConfigImplBase
 import android.util.Log
 import com.android.ims.ImsConfig
@@ -49,7 +45,9 @@ class HwImsConfig : ImsConfigImplBase() {
     private val LOG_TAG = "HwImsConfig"
 
     init {
-        // We support VoLTE by default.
+
+        Log.i(LOG_TAG,"Init")
+            // We support VoLTE by default.
         configInt[ImsConfig.ConfigConstants.VLT_SETTING_ENABLED] = ImsConfig.FeatureValueConstants.ON
 
     }
@@ -82,7 +80,10 @@ class HwImsConfig : ImsConfigImplBase() {
 
     override fun getConfigString(item: Int): String? {
         Log.i(LOG_TAG, "getConfigString :: item=" + item);
-        return configString.getOrDefault(item, null)
+        return configString.getOrDefault(
+            item,
+            null
+        )
     }
 
 }

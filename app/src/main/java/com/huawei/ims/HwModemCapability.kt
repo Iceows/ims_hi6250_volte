@@ -84,13 +84,13 @@ object HwModemCapability {
 
     private fun convertChar2Int(origChar: Char): Int {
         if (origChar in '0'..'9') {
-            return origChar.toInt() - 48
+            return origChar.code - 48
         }
         if (origChar in 'a'..'f') {
-            return origChar.toInt() - 97 + 10
+            return origChar.code - 97 + 10
         }
         return if (origChar < 'A' || origChar > 'F') {
             -1
-        } else origChar.toInt() - 65 + 10
+        } else origChar.code - 65 + 10
     }
 }
