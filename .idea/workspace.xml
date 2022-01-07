@@ -13,24 +13,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1040c749-78a8-4074-b1a1-5b9a0376d3ca" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/32bit/ims/ims.apk" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/32bit/ims/lib/arm/libimscamera_jni.so" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/32bit/ims/lib/arm/libimsmedia_jni.so" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/64bit/ims/ims.apk" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/64bit/ims/lib/arm64/libimscamera_jni.so" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/64bit/ims/lib/arm64/libimsmedia_jni.so" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/libs/libimscamera_jni.so" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/libs/libimsmedia_jni.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsCallSession.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsCallSession.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsConfig.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsRadioIndication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsRadioIndication.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsRadioResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsRadioResponse.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsRegistration.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsRegistration.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwModemCapability.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwModemCapability.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/RilHolder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/RilHolder.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tools/HuaweiIMS.apk" beforeDir="false" afterPath="$PROJECT_DIR$/tools/HuaweiIMS.apk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tools/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/tools/app-debug.apk" afterDir="false" />
@@ -84,12 +71,12 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Dependencies" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="PsdUISettings">
-    <option name="MODULE_TAB" value="Properties" />
+    <option name="MODULE_TAB" value="Default Config" />
     <option name="BUILD_VARIANTS_TAB" value="Flavors" />
     <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
     <option name="LAST_EDITED_BUILD_TYPE" value="debug" />
