@@ -708,6 +708,7 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
 
     enum class RespCode(var value: Int) {
         IMS_DIAL_RESPONSE(0xdc), SET_IMS_CALL_WAITING_RESPONSE(0x100),
+        IMS_DEF1(0x124),
         GET_LTE_INFO_RESPONSE(0x136), ACCEPT_IMS_CALL_RESPONSE(0xe7),
         SET_DMPCSCF_RESPONSE(0x13c), SET_DMDYN_RESPONSE(0x13d),
         SET_DMTIMER_RESPONSE(0x13e), SET_DMSMS_RESPONSE(0x13f),
