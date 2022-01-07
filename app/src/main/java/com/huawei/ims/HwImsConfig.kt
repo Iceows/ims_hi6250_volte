@@ -47,19 +47,25 @@ class HwImsConfig : ImsConfigImplBase() {
     init {
 
         Log.i(LOG_TAG,"Init")
-            // We support VoLTE by default.
+
+        // We support VoLTE by default.
         configInt[ImsConfig.ConfigConstants.VLT_SETTING_ENABLED] = ImsConfig.FeatureValueConstants.ON
+        configInt[ImsConfig.ConfigConstants.EAB_SETTING_ENABLED] = ImsConfig.FeatureValueConstants.OFF
 
     }
 
     override fun setConfig(item: Int, value: Int): Int {
         configInt[item] = value
 
+        //HwImsConfig: setConfig (int):: item=27 value=1 (VOICE_OVER_WIFI_MODE)
+        //HwImsConfig: setConfig (int):: item=26 value=0 (VOICE_OVER_WIFI_ROAMING)
+        // HwImsConfig: setConfig (int):: item=66 value=0
         Log.i(LOG_TAG, "setConfig (int):: item=" + item + " value=" + value)
 
         when (item) {
             ImsConfig.ConfigConstants.VOICE_OVER_WIFI_ROAMING -> MapconController.getInstance().notifyRoaming(0)
             ImsConfig.ConfigConstants.VOICE_OVER_WIFI_MODE -> MapconController.getInstance().setDomain(0, value)
+            //ImsConfig.ConfigConstants.VOICE_OVER_WIFI_SETTING_ENABLED
         }
         notifyProvisionedValueChanged(item, value)
         return ImsConfig.OperationStatusConstants.SUCCESS
