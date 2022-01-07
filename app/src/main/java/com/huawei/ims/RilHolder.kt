@@ -131,6 +131,10 @@ object RilHolder {
             Log.i(LOG_TAG, "callbacks found")
             callbacks[serial]!!(radioResponseInfo, rspMsgPayload)
         }
+        else {
+            Log.i(LOG_TAG, "unable to find a valid callbacks")
+        }
+
     }
 
     fun prepareBlock(slotId: Int): Int {
