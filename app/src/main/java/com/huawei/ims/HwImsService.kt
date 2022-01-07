@@ -17,9 +17,9 @@
 
 package com.huawei.ims
 
-import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import android.telephony.ims.ImsService
@@ -28,21 +28,36 @@ import android.telephony.ims.stub.ImsConfigImplBase
 import android.telephony.ims.stub.ImsFeatureConfiguration
 import android.util.Log
 
+
 class HwImsService : ImsService() {
     private val mmTelFeatures = arrayOfNulls<HwMmTelFeature>(3)
     private val registrations = arrayOfNulls<HwImsRegistration>(3)
     private val configs = arrayOfNulls<HwImsConfig>(3)
     private var prefs: SharedPreferences? = null
+    private val APP_NAME_IMS = "com.huawei.ims"
     internal lateinit var subscriptionManager: SubscriptionManager
     internal lateinit var telephonyManager: TelephonyManager
 
     override fun onCreate() {
+        val storageContext: Context
+
         Log.i(LOG_TAG, "HwImsService (Iceows) version " + BuildConfig.GIT_HASH + " created!")
         subscriptionManager = getSystemService(SubscriptionManager::class.java)
         telephonyManager = getSystemService(TelephonyManager::class.java)
 
+        // support direct boot mode (Build.VERSION.SDK_INT> N)
+        // All N devices have split storage areas, but we may need to
+        // move the existing preferences to the new device protected
+        // storage area, which is where the data lives from now on.
+        val directBootContext: Context = this.createDeviceProtectedStorageContext()
+        if (!directBootContext.moveSharedPreferencesFrom(this, APP_NAME_IMS)) {
+            Log.w(LOG_TAG, "Failed to migrate shared preferences.");
+        }
+        storageContext = directBootContext;
+
         // ApplicationID : "com.huawei.ims"
-        prefs = getSharedPreferences( "com.huawei.ims", Activity.MODE_PRIVATE)
+        //prefs = getSharedPreferences( "com.huawei.ims", Activity.MODE_PRIVATE)
+        prefs = storageContext.getSharedPreferences(APP_NAME_IMS, Context.MODE_PRIVATE);
 
         MapconController.getInstance().init(this)
     }

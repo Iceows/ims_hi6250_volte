@@ -51,6 +51,7 @@
             <meta-data android:name="android.telephony.ims.EMERGENCY_MMTEL_FEATURE" android:value="true"/>
             <intent-filter>
                 <action android:name="android.telephony.ims.ImsService" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
             </intent-filter>
         </service>
     </application>
