@@ -44,6 +44,8 @@ public class HwMmTelFeature extends MmTelFeature {
     public TelephonyManager telephonyManager;
 
     private HwMmTelFeature(int slotId) { // Use getInstance(slotId)
+
+        Log.d(LOG_TAG, "HwMmTelFeature::constructor");
         mSlotId = slotId;
         mEnabledCapabilities.append(ImsRegistrationImplBase.REGISTRATION_TECH_LTE,
                 new MmTelCapabilities(MmTelCapabilities.CAPABILITY_TYPE_VOICE));
@@ -94,6 +96,7 @@ public class HwMmTelFeature extends MmTelFeature {
 
     private void registerImsInner() {
         try {
+            Log.d(LOG_TAG, "registerImsInner");
             RilHolder.INSTANCE.getRadio(mSlotId).imsRegister(RilHolder.INSTANCE.callback((radioResponseInfo, rspMsgPayload) -> {
                 if (radioResponseInfo.error != 0) {
                     Log.e(LOG_TAG, "radiorespinfo gives error " + radioResponseInfo.error);
@@ -113,6 +116,7 @@ public class HwMmTelFeature extends MmTelFeature {
     }
 
     public void registerIms() {
+        Log.d(LOG_TAG, "registerIms");
         HwImsService.Companion.getInstance().getRegistration(mSlotId).notifyRegistering(HwImsRegistration.REGISTRATION_TECH_LTE);
         try {
             RilHolder.INSTANCE.getRadio(mSlotId).setImsSwitch(RilHolder.INSTANCE.callback((radioResponseInfo, rspMsgPayload) -> {

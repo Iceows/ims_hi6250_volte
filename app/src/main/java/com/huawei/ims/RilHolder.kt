@@ -69,17 +69,17 @@ object RilHolder {
                 responseCallbacks[slotId] = HwImsRadioResponse(slotId)
                 unsolCallbacks[slotId] = HwImsRadioIndication(slotId)
             } catch (e: RemoteException) {
-                Log.e(LOG_TAG, "remoteexception getting serivce. will throw npe later ig.")
+                Log.e(LOG_TAG, "remoteexception getting service. will throw npe later ig.")
                 throw RuntimeException("Failed to get service due to internal error")
             }
-
         }
+
         try {
             radioImpls[slotId]!!.setResponseFunctionsHuawei(responseCallbacks[slotId], unsolCallbacks[slotId])
             radioImpls[slotId]!!.setResponseFunctions(responseCallbacks[slotId], unsolCallbacks[slotId])
             Log.i(LOG_TAG, "getRadio setResponse ok")
         } catch (e: RemoteException) {
-            Log.e(LOG_TAG, "Failed to update resp functions!")
+            Log.e(LOG_TAG, "Failed to update resp functions!, Err : " + e.printStackTrace())
         }
 
         return radioImpls[slotId]!!

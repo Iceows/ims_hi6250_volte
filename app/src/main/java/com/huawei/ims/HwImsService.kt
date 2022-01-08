@@ -19,7 +19,6 @@ package com.huawei.ims
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Build
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import android.telephony.ims.ImsService
@@ -55,10 +54,7 @@ class HwImsService : ImsService() {
         }
         storageContext = directBootContext;
 
-        // ApplicationID : "com.huawei.ims"
-        //prefs = getSharedPreferences( "com.huawei.ims", Activity.MODE_PRIVATE)
         prefs = storageContext.getSharedPreferences(APP_NAME_IMS, Context.MODE_PRIVATE);
-
         MapconController.getInstance().init(this)
     }
 
@@ -66,6 +62,7 @@ class HwImsService : ImsService() {
         Log.i(LOG_TAG, "Shutting down HwImsService...")
         instance = null
     }
+
 
     override fun enableIms(slotId: Int) {
         (createMmTelFeature(slotId) as HwMmTelFeature).registerIms()
@@ -86,9 +83,11 @@ class HwImsService : ImsService() {
         val builder = ImsFeatureConfiguration.Builder()
         Log.i(LOG_TAG, "querySupportedImsFeatures...")
         if (prefs!!.getBoolean("ims0", true)) {
+            Log.i(LOG_TAG, "querySupportedImsFeatures...add FEATURE_MMTEL on ims0")
             builder.addFeature(0, ImsFeature.FEATURE_MMTEL)
         }
         if (supportsDualIms(this) && prefs!!.getBoolean("ims1", false)) {
+            Log.i(LOG_TAG, "querySupportedImsFeatures...add FEATURE_MMTEL on ims1")
             builder.addFeature(1, ImsFeature.FEATURE_MMTEL)
         }
         return builder.build()

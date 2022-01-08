@@ -47,6 +47,11 @@
             android:persistent="true"
             android:process="com.android.phone"
             android:singleUser="true">
+            <!--
+            Try to support dynamic Feature
+            <meta-data android:name="android.telephony.ims.MMTEL_FEATURE" android:value="true"/>
+            <meta-data android:name="android.telephony.ims.EMERGENCY_MMTEL_FEATURE" android:value="true"/>
+            -->
             <meta-data android:name="android.telephony.ims.MMTEL_FEATURE" android:value="true"/>
             <meta-data android:name="android.telephony.ims.EMERGENCY_MMTEL_FEATURE" android:value="true"/>
             <intent-filter>

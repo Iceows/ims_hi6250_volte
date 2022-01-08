@@ -53,7 +53,8 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
 
         }*/
         // Huawei
-        RilHolder.triggerCB(radioResponseInfo.serial, radioResponseInfo, rspMsgPayload)
+        if (msgType!=-1)
+            RilHolder.triggerCB(radioResponseInfo.serial, radioResponseInfo, rspMsgPayload)
     }
     /*
     public static final int IMS_DIAL_RESPONSE = 0XDC;
@@ -79,7 +80,8 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
     public static final int SWITCH_WAITING_OR_HOLDING_AND_ACTIVE_FOR_IMS_RESPONSE = 0X156;
     public static final int PASS_1 = 0XE3;
     public static final int PASS_2 = 0X35;
-    public static final int PASS_3 = 0X36;*/
+    public static final int PASS_3 = 0X36;
+    public static final int IMS_DEF1 = 0x124;*/
 
     override fun deactivateDataCallEmergencyResponse(radioResponseInfo: RadioResponseInfo) {
         // Huawei
@@ -708,7 +710,6 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
 
     enum class RespCode(var value: Int) {
         IMS_DIAL_RESPONSE(0xdc), SET_IMS_CALL_WAITING_RESPONSE(0x100),
-        IMS_DEF1(0x124),
         GET_LTE_INFO_RESPONSE(0x136), ACCEPT_IMS_CALL_RESPONSE(0xe7),
         SET_DMPCSCF_RESPONSE(0x13c), SET_DMDYN_RESPONSE(0x13d),
         SET_DMTIMER_RESPONSE(0x13e), SET_DMSMS_RESPONSE(0x13f),
@@ -719,7 +720,7 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
         MODIFY_IMS_CALL_CONFIRM_RESPONSE(0x114), GET_IMS_IMPU_RESPONSE(0xf6),
         SET_IMS_VT_CAPABILITY_RESPONSE(0x150), IMS_LAST_CALL_FAIL_REASON_INFO_RESPONSE(0x14f),
         SWITCH_WAITING_OR_HOLDING_AND_ACTIVE_FOR_IMS_RESPONSE(0x156),
-        PASS1(0xe3), PASS2(0x35), PASS3(0x36);
+        PASS1(0xe3), PASS2(0x35), PASS3(0x36),IMS_NONDEF1(0x124),IMS_NONDEF2(0x148);
 
 
         companion object {
