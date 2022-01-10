@@ -18,7 +18,7 @@
 package com.huawei.ims
 
 import android.os.SystemProperties
-import android.telephony.Rlog
+//import android.telephony.Rlog
 import android.text.TextUtils
 import android.util.Log
 
@@ -84,13 +84,13 @@ object HwModemCapability {
 
     private fun convertChar2Int(origChar: Char): Int {
         if (origChar in '0'..'9') {
-            return origChar.code - 48
+            return origChar.toInt() - 48
         }
         if (origChar in 'a'..'f') {
-            return origChar.code - 97 + 10
+            return origChar.toInt() - 97 + 10
         }
         return if (origChar < 'A' || origChar > 'F') {
             -1
-        } else origChar.code - 65 + 10
+        } else origChar.toInt() - 65 + 10
     }
 }
