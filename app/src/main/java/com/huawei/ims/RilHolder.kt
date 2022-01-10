@@ -17,8 +17,6 @@
 
 package com.huawei.ims
 
-import android.annotation.NonNull
-import android.annotation.Nullable
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -48,7 +46,9 @@ object RilHolder {
         if (radioImpls[slotId] == null) {
             try {
                 try {
+                    Log.i(LOG_TAG, "getRadio")
                     radioImpls[slotId] = IRadio.getService(serviceNames[slotId])
+                    Log.i(LOG_TAG, "getRadio found IRadio service on slotid : " + slotId)
                 } catch (e: NoSuchElementException) {
                     Log.e(LOG_TAG, "Index oob in rilholder. Bail Out!!!", e)
                     val notificationManager = HwImsService.instance!!.getSystemService(NotificationManager::class.java)
@@ -69,16 +69,17 @@ object RilHolder {
                 responseCallbacks[slotId] = HwImsRadioResponse(slotId)
                 unsolCallbacks[slotId] = HwImsRadioIndication(slotId)
             } catch (e: RemoteException) {
-                Log.e(LOG_TAG, "remoteexception getting serivce. will throw npe later ig.")
+                Log.e(LOG_TAG, "remoteexception getting service. will throw npe later ig.")
                 throw RuntimeException("Failed to get service due to internal error")
             }
-
         }
+
         try {
             radioImpls[slotId]!!.setResponseFunctionsHuawei(responseCallbacks[slotId], unsolCallbacks[slotId])
             radioImpls[slotId]!!.setResponseFunctions(responseCallbacks[slotId], unsolCallbacks[slotId])
+            Log.i(LOG_TAG, "getRadio setResponse ok")
         } catch (e: RemoteException) {
-            Log.e(LOG_TAG, "Failed to update resp functions!")
+            Log.e(LOG_TAG, "Failed to update resp functions!, Err : " + e.printStackTrace())
         }
 
         return radioImpls[slotId]!!
@@ -115,7 +116,7 @@ object RilHolder {
         val serial = getNextSerial()
         serialToSlot[serial] = slotId
         callbacks[serial] = cb
-        Log.v(LOG_TAG, "Setting callback for serial $serial")
+        Log.i(LOG_TAG, "Setting callback for serial " + serial + ", slotid " + slotId)
         return serial
     }
 
@@ -125,9 +126,15 @@ object RilHolder {
     }
 
     fun triggerCB(serial: Int, radioResponseInfo: RadioResponseInfo, rspMsgPayload: RspMsgPayload?) {
-        Log.e(LOG_TAG, "Incoming response for slot " + serialToSlot[serial] + ", serial " + serial + ", radioResponseInfo " + radioResponseInfo + ", rspMsgPayload " + rspMsgPayload)
-        if (callbacks.containsKey(serial))
+        Log.i(LOG_TAG, "Incoming response for slot " + serialToSlot[serial] + ", serial " + serial + ", radioResponseInfo " + radioResponseInfo + ", rspMsgPayload " + rspMsgPayload)
+        if (callbacks.containsKey(serial)) {
+            Log.i(LOG_TAG, "callbacks found")
             callbacks[serial]!!(radioResponseInfo, rspMsgPayload)
+        }
+        else {
+            Log.i(LOG_TAG, "unable to find a valid callbacks")
+        }
+
     }
 
     fun prepareBlock(slotId: Int): Int {
