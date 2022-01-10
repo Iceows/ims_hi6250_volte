@@ -26,27 +26,27 @@ import vendor.huawei.hardware.radio.V1_0.IRadioIndication
 
 class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRadioIndication.Stub() {
 
-    private val tag = "HwImsRadioIndication"
+    private val LOG_TAG = "HwImsRadioIndication"
 
     override fun UnsolMsg(indicationType: Int, msgId: Int, rilUnsolMsgPayload: RILUnsolMsgPayload) {
-        Log.v(tag, "indicationType = $indicationType, msgId = $msgId, msgPayload = $rilUnsolMsgPayload")
+        Log.v(LOG_TAG, "indicationType = $indicationType, msgId = $msgId, msgPayload = $rilUnsolMsgPayload")
         // Huawei
         when (msgId) {
             1079 -> imsCallStateChanged(indicationType)
             1122 -> imsCallHeldChange(indicationType)
-            else -> Log.w(tag, "Unknown indication type!")
+            else -> Log.w(LOG_TAG, "Unknown indication type!")
         }
     }
 
     private fun imsCallStateChanged(indicationType: Int) {
         if (indicationType > 1) { // 1 is the normal one, 0 happens sometimes, 0 seems to mean "call terminated"
             // Weird...
-            Rlog.w(tag, "unknown indicationType $indicationType")
+            Rlog.w(LOG_TAG, "unknown indicationType $indicationType")
         }
         try {
             RilHolder.getRadio(mSlotId)!!.getCurrentImsCalls(RilHolder.getNextSerial())
         } catch (e: RemoteException) {
-            Rlog.e(tag, "Error getting current calls", e)
+            Rlog.e(LOG_TAG, "Error getting current calls", e)
         }
 
     }
@@ -73,14 +73,14 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
         try {
             RilHolder.getRadio(mSlotId)!!.getCurrentImsCalls(RilHolder.getNextSerial())
         } catch (e: RemoteException) {
-            Rlog.e(tag, "Error getting current calls for handover", e)
+            Rlog.e(LOG_TAG, "Error getting current calls for handover", e)
         }
         // Huawei
     }
 
     override fun imsCallMtStatusInd(type: Int, imsCallMtStatus: RILImsMtStatusReport) {
         // TODO: MT status indications - Missed incoming call notifications
-        Log.d(tag, "Received MT status indication: $type/$imsCallMtStatus")
+        Log.d(LOG_TAG, "Received MT status indication: $type/$imsCallMtStatus")
         // Huawei
     }
 

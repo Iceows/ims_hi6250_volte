@@ -19,16 +19,20 @@ package com.huawei.ims
 
 import android.telephony.ims.ImsReasonInfo
 import android.telephony.ims.stub.ImsRegistrationImplBase
+import android.util.Log
 
 class HwImsRegistration(private val mSlotId: Int) : ImsRegistrationImplBase() {
+    private val LOG_TAG = "HwImsRegistration"
 
     // BEWARE FUTURE ME: https://android-review.googlesource.com/c/platform/frameworks/base/+/809459 is changing this big-time in AOSP Q
 
     fun notifyRegistered(@ImsRegistrationTech imsRadioTech: Int) {
+        Log.i(LOG_TAG,"notifyRegistered")
         this.onRegistered(imsRadioTech)
     }
 
     fun notifyRegistering(@ImsRegistrationTech imsRadioTech: Int) {
+        Log.i(LOG_TAG,"notifyRegistering")
         this.onRegistering(imsRadioTech)
     }
 

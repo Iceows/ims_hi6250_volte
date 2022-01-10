@@ -28,11 +28,12 @@ import vendor.huawei.hardware.radio.V1_0.IRadioResponse
 import java.util.*
 
 class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadioResponse.Stub() {
+    private val LOG_TAG = "HwImsRadioResponse"
 
     override fun RspMsg(radioResponseInfo: RadioResponseInfo, msgType: Int, rspMsgPayload: RspMsgPayload?) {
-        Log.d(tag, "rspmsg radioresponseinfo = $radioResponseInfo,msgtype=$msgType")
-        Log.d(tag, "serial " + radioResponseInfo.serial)
-        Log.d(tag, "type=" + RespCode.getName(msgType))
+        Log.i(LOG_TAG, "rspmsg radioresponseinfo = $radioResponseInfo,msgtype=$msgType")
+        Log.i(LOG_TAG, "serial " + radioResponseInfo.serial)
+        Log.i(LOG_TAG, "type=" + RespCode.getName(msgType))
         /*switch (msgType) {
             case PASS_1:
             case PASS_2:
@@ -53,6 +54,7 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
         }*/
         // Huawei
         RilHolder.triggerCB(radioResponseInfo.serial, radioResponseInfo, rspMsgPayload)
+
     }
     /*
     public static final int IMS_DIAL_RESPONSE = 0XDC;
@@ -79,6 +81,12 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
     public static final int PASS_1 = 0XE3;
     public static final int PASS_2 = 0X35;
     public static final int PASS_3 = 0X36;*/
+    /*
+    public static final int IMS_DEF1 = 0x124;
+	type=292 = 0x124
+    type=293 = 0x125
+	type=328 = 0x148
+    */
 
     override fun deactivateDataCallEmergencyResponse(radioResponseInfo: RadioResponseInfo) {
         // Huawei
@@ -97,24 +105,24 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
         synchronized(HwImsCallSession.sCallsLock) {
             val calls = ArrayList<Int>(arrayList.size)
             for (call in arrayList) {
-                Log.d(tag, "calls list contains " + redactCall(call))
+                Log.d(LOG_TAG, "calls list contains " + redactCall(call))
                 // RIL sometimes gives us the leading +, so first try with one, and if its null, try again without the +.
                 var session = HwImsCallSession.awaitingIdFromRIL["+" + call.number]
                 if (session == null)
                     session = HwImsCallSession.awaitingIdFromRIL[call.number]
                 if (session != null) {
-                    Rlog.d(tag, "giving call id from ril.")
+                    Rlog.d(LOG_TAG, "giving call id from ril.")
                     session.addIdFromRIL(call)
                 }
                 session = HwImsCallSession.calls[call.index]
                 if (session == null) {
                     if (call.isMT > 0) {
-                        Log.d(tag, "Notifying MmTelFeature incoming call! " + redactCall(call))
+                        Log.d(LOG_TAG, "Notifying MmTelFeature incoming call! " + redactCall(call))
                         // An incoming call that we have never seen before, tell the framework.
                     } else {
-                        Log.e(tag, "Phantom Call!!!! " + redactCall(call))
-                        HwImsCallSession.calls.forEach { s, hwImsCallSession -> Rlog.d(tag, "Phantom debugging got call in static calls " + redactCall(hwImsCallSession.rilImsCall!!) + " with number " + s) }
-                        HwImsCallSession.awaitingIdFromRIL.forEach { s, hwImsCallSession -> Rlog.d(tag, "Phantom debugging got call in static awaiting " + hwImsCallSession.mCallee + " with number " + s) }
+                        Log.e(LOG_TAG, "Phantom Call!!!! " + redactCall(call))
+                        HwImsCallSession.calls.forEach { s, hwImsCallSession -> Rlog.d(LOG_TAG, "Phantom debugging got call in static calls " + redactCall(hwImsCallSession.rilImsCall!!) + " with number " + s) }
+                        HwImsCallSession.awaitingIdFromRIL.forEach { s, hwImsCallSession -> Rlog.d(LOG_TAG, "Phantom debugging got call in static awaiting " + hwImsCallSession.mCallee + " with number " + s) }
                         // Someone has been talking to AT... naughty.
                     }
                     val extras = Bundle()
@@ -133,7 +141,7 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
                     // It is a new conference call being added.
                     for (confSession in HwImsCallSession.calls.values) {
                         if (confSession.isMultiparty) {
-                            Rlog.d(tag, "adding call " + call.index + " to conference " + confSession.callId)
+                            Rlog.d(LOG_TAG, "adding call " + call.index + " to conference " + confSession.callId)
                             confSession.notifyConfDone(call)
                             break
                         }
@@ -144,10 +152,10 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
             for ((_, value) in HwImsCallSession.calls) {
                 if (!calls.contains(value.rilImsCall!!.index)) {
                     try {
-                        Rlog.d(tag, "notifying dead call " + redactCall(value.rilImsCall!!))
+                        Rlog.d(LOG_TAG, "notifying dead call " + redactCall(value.rilImsCall!!))
                         value.notifyEnded()
                     } catch (e: RuntimeException) {
-                        Rlog.e(tag, "error notifying dead call!", e)
+                        Rlog.e(LOG_TAG, "error notifying dead call!", e)
                     }
 
                 }
@@ -156,7 +164,7 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
     }
 
     private fun redactCall(call: RILImsCall): String {
-        return "{.state = " + call.state + ", .index = " + call.index + ", .toa = " + call.toa + ", .isMpty = " + call.isMpty + ", .isMT = " + call.isMT + ", .als = " + call.als + ", .isVoice = " + call.isVoice + ", .isVoicePrivacy = " + call.isVoicePrivacy + ", .number = " + Rlog.pii(tag, call.number) + ", .numberPresentation = " + call.numberPresentation + ", .name = " + Rlog.pii(tag, call.name) + ", .namePresentation = " + call.namePresentation + ", .callDetails = " + call.callDetails.toString() + ", .isEConference = " + call.isECOnference + ", .peerVideoSupport = " + call.peerVideoSupport + "}"
+        return "{.state = " + call.state + ", .index = " + call.index + ", .toa = " + call.toa + ", .isMpty = " + call.isMpty + ", .isMT = " + call.isMT + ", .als = " + call.als + ", .isVoice = " + call.isVoice + ", .isVoicePrivacy = " + call.isVoicePrivacy + ", .number = " + Rlog.pii(LOG_TAG, call.number) + ", .numberPresentation = " + call.numberPresentation + ", .name = " + Rlog.pii(LOG_TAG, call.name) + ", .namePresentation = " + call.namePresentation + ", .callDetails = " + call.callDetails.toString() + ", .isEConference = " + call.isECOnference + ", .peerVideoSupport = " + call.peerVideoSupport + "}"
     }
 
     override fun getDeviceVersionResponse(radioResponseInfo: RadioResponseInfo, rilDeviceVersionResponse: RILDeviceVersionResponse) {
@@ -719,7 +727,6 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
         SWITCH_WAITING_OR_HOLDING_AND_ACTIVE_FOR_IMS_RESPONSE(0x156),
         PASS1(0xe3), PASS2(0x35), PASS3(0x36);
 
-
         companion object {
 
             fun getName(code: Int): String {
@@ -733,10 +740,5 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
         }
 
     }
-
-    companion object {
-        private const val tag = "HwImsRadioResponse"
-    }
-
 
 }
