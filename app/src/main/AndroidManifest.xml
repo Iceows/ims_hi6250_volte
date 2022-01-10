@@ -48,12 +48,10 @@
             android:process="com.android.phone"
             android:singleUser="true">
             <!--
-            Try to support dynamic Feature
+            Uncomment for non dynamic Feature
             <meta-data android:name="android.telephony.ims.MMTEL_FEATURE" android:value="true"/>
             <meta-data android:name="android.telephony.ims.EMERGENCY_MMTEL_FEATURE" android:value="true"/>
             -->
-            <meta-data android:name="android.telephony.ims.MMTEL_FEATURE" android:value="true"/>
-            <meta-data android:name="android.telephony.ims.EMERGENCY_MMTEL_FEATURE" android:value="true"/>
             <intent-filter>
                 <action android:name="android.telephony.ims.ImsService" />
                 <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />

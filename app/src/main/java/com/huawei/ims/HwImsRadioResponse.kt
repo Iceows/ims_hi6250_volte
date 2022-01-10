@@ -53,8 +53,13 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
 
         }*/
         // Huawei
-        if (msgType!=-1)
+        if (msgType>0) {
             RilHolder.triggerCB(radioResponseInfo.serial, radioResponseInfo, rspMsgPayload)
+        }
+        else
+        {
+            Log.i(LOG_TAG,"msgType < 0")
+        }
     }
     /*
     public static final int IMS_DIAL_RESPONSE = 0XDC;
@@ -720,8 +725,9 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
         MODIFY_IMS_CALL_CONFIRM_RESPONSE(0x114), GET_IMS_IMPU_RESPONSE(0xf6),
         SET_IMS_VT_CAPABILITY_RESPONSE(0x150), IMS_LAST_CALL_FAIL_REASON_INFO_RESPONSE(0x14f),
         SWITCH_WAITING_OR_HOLDING_AND_ACTIVE_FOR_IMS_RESPONSE(0x156),
-        PASS1(0xe3), PASS2(0x35), PASS3(0x36),IMS_NONDEF1(0x124),IMS_NONDEF2(0x148);
+        PASS1(0xe3), PASS2(0x35), PASS3(0x36);
 
+        //,IMS_NONDEF1(0x124),IMS_NONDEF2(0x148);
 
         companion object {
 

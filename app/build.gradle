@@ -32,11 +32,11 @@ android {
         }
         return stdout.toString().trim()
     }
-    compileSdkVersion 29
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.huawei.ims"
-        minSdkVersion 29
-        targetSdkVersion 29
+        minSdkVersion 28
+        targetSdkVersion 28
         versionCode 2
         versionName androidGitVersion.name()
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
