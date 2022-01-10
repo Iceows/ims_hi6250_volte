@@ -17,8 +17,8 @@
 
 package com.huawei.ims;
 
-import android.annotation.NonNull;
 import android.os.RemoteException;
+import android.annotation.NonNull;
 import android.telephony.Rlog;
 import android.telephony.TelephonyManager;
 import android.telephony.ims.ImsCallProfile;
@@ -44,6 +44,8 @@ public class HwMmTelFeature extends MmTelFeature {
     public TelephonyManager telephonyManager;
 
     private HwMmTelFeature(int slotId) { // Use getInstance(slotId)
+
+        Log.d(LOG_TAG, "HwMmTelFeature::constructor");
         mSlotId = slotId;
         mEnabledCapabilities.append(ImsRegistrationImplBase.REGISTRATION_TECH_LTE,
                 new MmTelCapabilities(MmTelCapabilities.CAPABILITY_TYPE_VOICE));
@@ -94,6 +96,7 @@ public class HwMmTelFeature extends MmTelFeature {
 
     private void registerImsInner() {
         try {
+            Log.d(LOG_TAG, "registerImsInner");
             RilHolder.INSTANCE.getRadio(mSlotId).imsRegister(RilHolder.INSTANCE.callback((radioResponseInfo, rspMsgPayload) -> {
                 if (radioResponseInfo.error != 0) {
                     Log.e(LOG_TAG, "radiorespinfo gives error " + radioResponseInfo.error);
@@ -113,6 +116,7 @@ public class HwMmTelFeature extends MmTelFeature {
     }
 
     public void registerIms() {
+        Log.d(LOG_TAG, "registerIms");
         HwImsService.Companion.getInstance().getRegistration(mSlotId).notifyRegistering(HwImsRegistration.REGISTRATION_TECH_LTE);
         try {
             RilHolder.INSTANCE.getRadio(mSlotId).setImsSwitch(RilHolder.INSTANCE.callback((radioResponseInfo, rspMsgPayload) -> {
@@ -131,6 +135,7 @@ public class HwMmTelFeature extends MmTelFeature {
     }
 
     public void unregisterIms() {
+        Log.d(LOG_TAG, "unregisterIms");
         try {
             RilHolder.INSTANCE.getRadio(mSlotId).setImsSwitch(RilHolder.INSTANCE.callback((radioResponseInfo, rspMsgPayload) -> {
                 if (radioResponseInfo.error != 0) {
