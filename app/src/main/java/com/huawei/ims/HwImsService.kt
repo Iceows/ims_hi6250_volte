@@ -17,9 +17,7 @@
 
 package com.huawei.ims
 
-import android.app.Activity
-import android.content.Context
-import android.content.SharedPreferences
+import android.content.*
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import android.telephony.ims.ImsService
@@ -27,30 +25,54 @@ import android.telephony.ims.feature.ImsFeature
 import android.telephony.ims.stub.ImsConfigImplBase
 import android.telephony.ims.stub.ImsFeatureConfiguration
 import android.util.Log
+//import android.telephony.Rlog
+
+import android.os.SystemProperties
+
+
 
 class HwImsService : ImsService() {
     private val mmTelFeatures = arrayOfNulls<HwMmTelFeature>(3)
     private val registrations = arrayOfNulls<HwImsRegistration>(3)
     private val configs = arrayOfNulls<HwImsConfig>(3)
     private var prefs: SharedPreferences? = null
+
+    private var isVolteEnable = 0
+
+    private val APP_NAME_IMS = "com.huawei.ims"
     internal lateinit var subscriptionManager: SubscriptionManager
     internal lateinit var telephonyManager: TelephonyManager
 
     override fun onCreate() {
-        Log.v(LOG_TAG, "HwImsService (Iceows) version " + BuildConfig.GIT_HASH + " created!")
+        val storageContext: Context
+
+        Log.i(LOG_TAG, "HwImsService (Iceows) version " + BuildConfig.GIT_HASH + " created!")
         subscriptionManager = getSystemService(SubscriptionManager::class.java)
         telephonyManager = getSystemService(TelephonyManager::class.java)
 
-        // ApplicationID : "com.huawei.ims"
-        prefs = getSharedPreferences( "com.huawei.ims", Activity.MODE_PRIVATE)
+        // To disable/enable volte
+        isVolteEnable=SystemProperties.getInt("ro.hw.volte.enable", 0)
+
+
+        // support direct boot mode (Build.VERSION.SDK_INT> N)
+        // All N devices have split storage areas, but we may need to
+        // move the existing preferences to the new device protected
+        // storage area, which is where the data lives from now on.
+        val directBootContext: Context = this.createDeviceProtectedStorageContext()
+        if (!directBootContext.moveSharedPreferencesFrom(this, APP_NAME_IMS)) {
+            Log.w(LOG_TAG, "Failed to migrate shared preferences.")
+        }
+        storageContext = directBootContext;
+        prefs = storageContext.getSharedPreferences(APP_NAME_IMS, Context.MODE_PRIVATE)
 
         MapconController.getInstance().init(this)
     }
 
     override fun onDestroy() {
-        Log.v(LOG_TAG, "Shutting down HwImsService...")
+        Log.i(LOG_TAG, "Shutting down HwImsService...")
         instance = null
     }
+
 
     override fun enableIms(slotId: Int) {
         (createMmTelFeature(slotId) as HwMmTelFeature).registerIms()
@@ -69,12 +91,23 @@ class HwImsService : ImsService() {
 
     override fun querySupportedImsFeatures(): ImsFeatureConfiguration {
         val builder = ImsFeatureConfiguration.Builder()
-        if (prefs!!.getBoolean("ims0", true)) {
-            builder.addFeature(0, ImsFeature.FEATURE_MMTEL)
+        Log.i(LOG_TAG, "querySupportedImsFeatures...")
+
+        if (isVolteEnable==1) {
+            if (prefs!!.getBoolean("ims0", true)) {
+                Log.i(LOG_TAG, "querySupportedImsFeatures...add FEATURE_MMTEL on ims0")
+                builder.addFeature(0, ImsFeature.FEATURE_MMTEL)
+            }
+            if (supportsDualIms(this) && prefs!!.getBoolean("ims1", false)) {
+                Log.i(LOG_TAG, "querySupportedImsFeatures...add FEATURE_MMTEL on ims1")
+                builder.addFeature(1, ImsFeature.FEATURE_MMTEL)
+            }
         }
-        if (supportsDualIms(this) && prefs!!.getBoolean("ims1", false)) {
-            builder.addFeature(1, ImsFeature.FEATURE_MMTEL)
+        else
+        {
+            Log.i(LOG_TAG, "Volte is disable. To enable set ro.hw.volte.enable to 1")
         }
+
         return builder.build()
     }
 
