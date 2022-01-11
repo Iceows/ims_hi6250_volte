@@ -19,11 +19,7 @@ package com.huawei.ims
 
 import android.app.Activity
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import android.util.Log
 import android.view.View
 import android.widget.CheckBox
@@ -32,13 +28,12 @@ class MainActivity : Activity() {
     private var prefs: SharedPreferences? = null
     private var ims0state: Boolean = false
     private var ims1state: Boolean = false
-    private val LOG_TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Log.i(LOG_TAG, "onCreate")
+        Log.i("MainActivity", "onCreate")
 
         // ApplicationID : "com.huawei.ims"
         prefs = getSharedPreferences("com.huawei.ims", MODE_PRIVATE)
@@ -56,34 +51,8 @@ class MainActivity : Activity() {
             findViewById<View>(R.id.chkBoxIMS1).isEnabled = false
         else
             findViewById<View>(R.id.chkBoxIMS1).isEnabled = true
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            enforceReadPhoneState();
     }
 
-
-    // Check READ_PHONE_STATE permission
-    private fun enforceReadPhoneState() {
-
-        var permissions=arrayOf(android.Manifest.permission.READ_PHONE_STATE)
-        //var permission_array=arrayOf(android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE)
-        //if (this.mContext.checkCallingOrSelfPermission("android.permission.READ_PRIVILEGED_PHONE_STATE") != 0 && this.mContext.checkCallingOrSelfPermission("android.permission.READ_PHONE_STATE") != 0) {
-        //    this.mContext.enforceCallingOrSelfPermission("android.permission.READ_PHONE_STATE", fn);
-        //}
-
-
-        if((ContextCompat.checkSelfPermission(this,permissions[0]))== PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(this,permissions,0)
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if(requestCode==0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
-            // Do Your Operations Here
-            Log.i(LOG_TAG, "permission READ_PHONE_STATE ok !!")
-
-        }
-    }
 
     fun enableIMS0(view: View) {
         Log.i("MainActivity", "enableIMS0 ")
@@ -94,7 +63,6 @@ class MainActivity : Activity() {
                 HwImsService.instance?.disableIms(0)
             } else {
                 // Check
-                HwImsService.instance?.enableIms(0)
             }
             ims0state = newstate
             Log.d("MainActivity", "enableIMS0 new state is : " + ims0state)
@@ -111,7 +79,6 @@ class MainActivity : Activity() {
                 HwImsService.instance?.disableIms(1)
             } else {
                 // Check
-                HwImsService.instance?.enableIms(1)
             }
             ims1state = newstate
             prefs!!.edit().putBoolean("ims1", ims1state).commit()

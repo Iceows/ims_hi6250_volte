@@ -57,10 +57,10 @@ class HwImsConfig : ImsConfigImplBase() {
     override fun setConfig(item: Int, value: Int): Int {
         configInt[item] = value
 
-        //HwImsConfig: setConfig (int):: item=27 value=1 (VOICE_OVER_WIFI_MODE)
         //HwImsConfig: setConfig (int):: item=26 value=0 (VOICE_OVER_WIFI_ROAMING)
-        // HwImsConfig: setConfig (int):: item=66 value=0
-        Log.i(LOG_TAG, "setConfig (int):: item=" + item + " value=" + value)
+        //HwImsConfig: setConfig (int):: item=27 value=1 (VOICE_OVER_WIFI_MODE)
+        //HwImsConfig: setConfig (int):: item=66 value=0
+        Log.i(LOG_TAG, "setConfig (int):: item=$item value=$value")
 
         when (item) {
             ImsConfig.ConfigConstants.VOICE_OVER_WIFI_ROAMING -> MapconController.getInstance().notifyRoaming(0)
@@ -74,18 +74,18 @@ class HwImsConfig : ImsConfigImplBase() {
     override fun setConfig(item: Int, value: String): Int {
         configString[item] = value
 
-        Log.i(LOG_TAG, "setConfig (string):: item=" + item + " value=" + value)
+        Log.i(LOG_TAG, "setConfig (string):: item=$item value=$value")
         notifyProvisionedValueChanged(item, value)
         return ImsConfig.OperationStatusConstants.SUCCESS
     }
 
     override fun getConfigInt(item: Int): Int {
-        Log.i(LOG_TAG, "getConfigInt :: item=" + item);
+        Log.i(LOG_TAG, "getConfigInt :: item=$item")
         return configInt.getOrDefault(item, null) ?: ImsConfig.FeatureValueConstants.ERROR
     }
 
     override fun getConfigString(item: Int): String? {
-        Log.i(LOG_TAG, "getConfigString :: item=" + item);
+        Log.i(LOG_TAG, "getConfigString :: item=$item")
         return configString.getOrDefault(
             item,
             null

@@ -18,7 +18,6 @@
 package com.huawei.ims
 
 import android.content.*
-import android.content.Intent.ACTION_BOOT_COMPLETED
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import android.telephony.ims.ImsService
@@ -26,24 +25,11 @@ import android.telephony.ims.feature.ImsFeature
 import android.telephony.ims.stub.ImsConfigImplBase
 import android.telephony.ims.stub.ImsFeatureConfiguration
 import android.util.Log
-import android.telephony.Rlog
+//import android.telephony.Rlog
 
 import android.os.SystemProperties
 
 
-
-val broadCastReceiver = object : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent) {
-        when (intent?.action) {
-            ACTION_BOOT_COMPLETED -> handleBootCompleted()
-        }
-    }
-
-   fun handleBootCompleted() {
-       Log.i("HwImsBcRec", "handleBootCompleted...")
-    }
-
-}
 
 class HwImsService : ImsService() {
     private val mmTelFeatures = arrayOfNulls<HwMmTelFeature>(3)
@@ -79,15 +65,11 @@ class HwImsService : ImsService() {
         storageContext = directBootContext;
         prefs = storageContext.getSharedPreferences(APP_NAME_IMS, Context.MODE_PRIVATE)
 
-        this.applicationContext.registerReceiver(broadCastReceiver, IntentFilter(ACTION_BOOT_COMPLETED))
-
         MapconController.getInstance().init(this)
     }
 
     override fun onDestroy() {
         Log.i(LOG_TAG, "Shutting down HwImsService...")
-
-        this.applicationContext.unregisterReceiver(broadCastReceiver)
         instance = null
     }
 
