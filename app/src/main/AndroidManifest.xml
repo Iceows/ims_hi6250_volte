@@ -15,7 +15,7 @@
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-
+<!--suppress AndroidUnknownAttribute coreApp -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     coreApp="true"
@@ -23,10 +23,6 @@
     android:sharedUserId="android.uid.phone">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-  <!--  <uses-permission android:name="android.permission.READ_PRECISE_PHONE_STATE"/> -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="false"
@@ -44,18 +40,11 @@
             android:name=".HwImsService"
             android:directBootAware="true"
             android:permission="android.permission.BIND_IMS_SERVICE"
-            android:persistent="true"
-            android:process="com.android.phone"
-            android:singleUser="true">
-            <!--
-            Uncomment for non dynamic Feature
-            <meta-data android:name="android.telephony.ims.MMTEL_FEATURE" android:value="true"/>
-            <meta-data android:name="android.telephony.ims.EMERGENCY_MMTEL_FEATURE" android:value="true"/>
-            -->
+            android:persistent="true">
             <intent-filter>
                 <action android:name="android.telephony.ims.ImsService" />
-                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
             </intent-filter>
         </service>
     </application>
+
 </manifest>

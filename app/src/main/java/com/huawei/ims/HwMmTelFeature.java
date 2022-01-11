@@ -18,7 +18,7 @@
 package com.huawei.ims;
 
 import android.os.RemoteException;
-import androidx.annotation.NonNull;
+import android.annotation.NonNull;
 import android.telephony.Rlog;
 import android.telephony.TelephonyManager;
 import android.telephony.ims.ImsCallProfile;
@@ -135,6 +135,7 @@ public class HwMmTelFeature extends MmTelFeature {
     }
 
     public void unregisterIms() {
+        Log.d(LOG_TAG, "unregisterIms");
         try {
             RilHolder.INSTANCE.getRadio(mSlotId).setImsSwitch(RilHolder.INSTANCE.callback((radioResponseInfo, rspMsgPayload) -> {
                 if (radioResponseInfo.error != 0) {
