@@ -12,18 +12,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1040c749-78a8-4074-b1a1-5b9a0376d3ca" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tools/InstallVolte.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tools/TrebleApp.apk" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tools/treble-overlay-telephony-hw-ims.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/libs/framework.jar" beforeDir="false" afterPath="$PROJECT_DIR$/app/libs/framework.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/libs/ims-common.jar" beforeDir="false" afterPath="$PROJECT_DIR$/app/libs/ims-common.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/libs/telephony-common.jar" beforeDir="false" afterPath="$PROJECT_DIR$/app/libs/telephony-common.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/Sign.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/tools/app-debug.apk" afterDir="false" />
-    </list>
+    <list default="true" id="1040c749-78a8-4074-b1a1-5b9a0376d3ca" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
