@@ -1,6 +1,6 @@
 /*
  * This file is part of HwIms
- * Copyright (C) 2019 Penn Mackintosh
+ * Copyright (C) 2019,2022 Penn Mackintosh and Raphael Mounier
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
  *     the Free Software Foundation, either version 3 of the License, or
