@@ -102,10 +102,11 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
 
     override fun getCurrentImsCallsResponse(radioResponseInfo: RadioResponseInfo, arrayList: ArrayList<RILImsCall>) {
         // Huawei
+        Log.i(LOG_TAG, "getCurrentImsCallsResponse")
         synchronized(HwImsCallSession.sCallsLock) {
             val calls = ArrayList<Int>(arrayList.size)
             for (call in arrayList) {
-                Log.d(LOG_TAG, "calls list contains " + redactCall(call))
+                Log.i(LOG_TAG, "calls list contains " + redactCall(call))
                 // RIL sometimes gives us the leading +, so first try with one, and if its null, try again without the +.
                 var session = HwImsCallSession.awaitingIdFromRIL["+" + call.number]
                 if (session == null)
@@ -130,9 +131,8 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
                     extras.putInt(ImsManager.EXTRA_PHONE_ID, mSlotId)
                     extras.putString(ImsManager.EXTRA_CALL_ID, callSession.callId)
                     extras.putBoolean(ImsManager.EXTRA_IS_UNKNOWN_CALL, call.isMT.toInt() == 0) // A new outgoing call should never happen. Someone is playing with AT commands or talking to the modem.
+                    Log.i(LOG_TAG, "createMmTelFeature" )
                     HwImsService.instance!!.createMmTelFeature(mSlotId)!!.notifyIncomingCall(callSession, extras)
-
-
                 } else {
                     // Existing call, update it's data.
                     session.updateCall(call)

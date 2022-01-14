@@ -75,7 +75,12 @@ class HwImsService : ImsService() {
 
 
     override fun enableIms(slotId: Int) {
-        (createMmTelFeature(slotId) as HwMmTelFeature).registerIms()
+        val vHwMmTelFeature = createMmTelFeature(slotId)
+
+        if (vHwMmTelFeature!=null)
+            vHwMmTelFeature.registerIms()
+        else
+            Log.i(LOG_TAG, "Impossible to enable Ims on slotid "+ slotId )
     }
 
     override fun disableIms(slotId: Int) {
@@ -118,6 +123,7 @@ class HwImsService : ImsService() {
         if (mmTelFeatures[slotId] == null) {
             mmTelFeatures[slotId] = HwMmTelFeature.getInstance(slotId)
         }
+        Log.i(LOG_TAG, "return mmTelFeatures with slodid :" + slotId )
         return mmTelFeatures[slotId]
     }
 

@@ -33,9 +33,17 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
         // Huawei
         when (msgId) {
             1079 -> imsCallStateChanged(indicationType)
+            1080 -> imsMsgInconnu(indicationType)
+            1081 -> imsMsgInconnu(indicationType)
+            1087 -> imsMsgInconnu(indicationType)
             1122 -> imsCallHeldChange(indicationType)
-            else -> Log.w(LOG_TAG, "Unknown indication type!")
+            else -> Log.w(LOG_TAG, "Unknown msg type :$msgId")
         }
+    }
+
+
+    private fun imsMsgInconnu(indicationType: Int) {
+
     }
 
     private fun imsCallStateChanged(indicationType: Int) {
@@ -67,6 +75,7 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
 
     override fun imsCallModifyEndCauseInd(type: Int, cause: RILImsModifyEndCause) {
         // Huawei
+        Log.i(LOG_TAG, "imsCallModifyEndCauseInd" + type)
     }
 
     override fun imsCallModifyInd(type: Int, modify: RILImsCallModify) {
@@ -113,7 +122,7 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
 
 
     override fun callRing(i: Int, b: Boolean, cdmaSignalInfoRecord: CdmaSignalInfoRecord) {
-
+        Log.i(LOG_TAG, "callRing")
     }
 
     override fun callStateChanged(i: Int) {
