@@ -1,6 +1,8 @@
 package android.telephony;
 
 import android.telephony.TelephonyManager;
+import android.util.Log;
+import java.lang.Integer;
 
 public class HwTelephonyManager {
 	private final static HwTelephonyManager INSTANCE = new HwTelephonyManager();
@@ -13,7 +15,9 @@ public class HwTelephonyManager {
 	}
 
 	public int getDefault4GSlotId() {
-		return TelephonyManager.getDefault().getSlotIndex();
+                int retval = SubscriptionManager.getSlotIndex(SubscriptionManager.getDefaultDataSubscriptionId());
+                Log.e("HwTelephonyManager", Integer.toString(retval));
+		return retval;
 	}
 
 	public int getCardType(int p) {

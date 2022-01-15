@@ -1,12 +1,13 @@
 package com.android.internal.telephony;
 
-import android.os.SystemProperties;
-import android.text.TextUtils;
 import android.util.Log;
+import android.text.TextUtils;
+import android.os.SystemProperties;
 
 public class HwModemCapability {
 
-	private static String TAG = "HwIms:isCapabilitySupport";
+        private static final String TAG = "HwModemCapability";
+        private static String MODEM_CAP = SystemProperties.get("persist.radio.modem.cap", "");
 
 	public static boolean isCapabilitySupport(int capability) {
 		boolean z = true;
@@ -15,7 +16,9 @@ public class HwModemCapability {
 		if (capability < 0 || capability >= 360) {
 			return false;
 		}
-		String MODEM_CAP = SystemProperties.get("persist.radio.modem.cap", "");
+		if (TextUtils.isEmpty(MODEM_CAP)) {
+			MODEM_CAP = SystemProperties.get("persist.radio.modem.cap", "");
+		}
 		try {
 			int bcdValue = convertChar2Int(MODEM_CAP.charAt(bcdIndex));
 			if (bcdValue != -1) {
