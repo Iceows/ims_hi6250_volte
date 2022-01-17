@@ -28,14 +28,56 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
 
     private val LOG_TAG = "HwImsRadioIndication"
 
+    val RIL_UNSOL_HW_IMSA_VOWIFI_MSG = 1109
+    val RIL_UNSOL_HW_IMS_CALL_RING = 1080
+    val RIL_UNSOL_HW_IMS_CS_REDIAL_NOTIFY = 1106
+    val RIL_UNSOL_HW_IMS_DATA_CONNECT_IND = 1110
+    val RIL_UNSOL_HW_IMS_DATA_DISCONNECT_IND = 1111
+    val RIL_UNSOL_HW_IMS_DMCN = 1120
+    val RIL_UNSOL_HW_IMS_ECONF_STATE_CHANGED = 1101
+    val RIL_UNSOL_HW_IMS_HOLD_TONE_IND = 1122
+    val RIL_UNSOL_HW_IMS_MT_STATUS_REPORT = 1104
+    val RIL_UNSOL_HW_IMS_ON_SS = 1085
+    val RIL_UNSOL_HW_IMS_ON_USSD = 1084
+    val RIL_UNSOL_HW_IMS_REG_FAILED_INFO = 1121
+    val RIL_UNSOL_HW_IMS_RESPONSE_CALL_STATE_CHANGED = 1079
+    val RIL_UNSOL_HW_IMS_RESPONSE_HANDOVER = 1082
+    val RIL_UNSOL_HW_IMS_RESPONSE_MODIFY_END_CAUSE = 1098
+    val RIL_UNSOL_HW_IMS_RESPONSE_MODIFY_IND = 1097
+    val RIL_UNSOL_HW_IMS_RINGBACK_TONE = 1081
+    val RIL_UNSOL_HW_IMS_SRV_STATUS_UPDATE = 1083
+    val RIL_UNSOL_HW_IMS_SUPP_SVC_NOTIFICATION = 1086
+    val RIL_UNSOL_HW_IMS_VOICE_BAND_INFO = 1087
+
     override fun UnsolMsg(indicationType: Int, msgId: Int, rilUnsolMsgPayload: RILUnsolMsgPayload) {
-        Log.v(LOG_TAG, "indicationType = $indicationType, msgId = $msgId, msgPayload = $rilUnsolMsgPayload")
-        // Huawei
+        Log.d(LOG_TAG, "indicationType = $indicationType, msgId = $msgId, msgPayload = $rilUnsolMsgPayload")
+
+        // Huawei see RilConstS32 on package vendor.huawei.hardware.radio.V1_1;
         when (msgId) {
-            1079 -> imsCallStateChanged(indicationType)
-            1122 -> imsCallHeldChange(indicationType)
-            else -> Log.w(LOG_TAG, "Unknown indication type!")
+            RIL_UNSOL_HW_IMS_RESPONSE_CALL_STATE_CHANGED -> imsCallStateChanged(indicationType)
+            RIL_UNSOL_HW_IMS_CALL_RING -> imsCallRing(indicationType)
+            RIL_UNSOL_HW_IMS_RINGBACK_TONE -> imsRingBackTone(indicationType)
+            RIL_UNSOL_HW_IMS_VOICE_BAND_INFO -> imsVoiceBandInfo(indicationType)
+            RIL_UNSOL_HW_IMS_HOLD_TONE_IND -> imsCallHeldChange(indicationType)
+            else -> Log.w(LOG_TAG, "Unknown msg type :$msgId")
         }
+    }
+
+
+    private fun imsRingBackTone(indicationType: Int) {
+
+    }
+
+    private fun imsVoiceBandInfo(indicationType: Int) {
+
+    }
+
+    private fun imsCallRing(indicationType: Int) {
+
+    }
+
+    private fun imsMsgInconnu(indicationType: Int) {
+
     }
 
     private fun imsCallStateChanged(indicationType: Int) {
@@ -67,6 +109,7 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
 
     override fun imsCallModifyEndCauseInd(type: Int, cause: RILImsModifyEndCause) {
         // Huawei
+        Log.i(LOG_TAG, "imsCallModifyEndCauseInd" + type)
     }
 
     override fun imsCallModifyInd(type: Int, modify: RILImsCallModify) {
@@ -113,7 +156,7 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
 
 
     override fun callRing(i: Int, b: Boolean, cdmaSignalInfoRecord: CdmaSignalInfoRecord) {
-
+        Log.i(LOG_TAG, "callRing")
     }
 
     override fun callStateChanged(i: Int) {

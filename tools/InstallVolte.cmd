@@ -1,9 +1,10 @@
-#xcopy "C:\GitRepo\iceows\ims_hi6250_volte\app\build\outputs\apk\debug\app-debug.apk" .
-#java.exe -jar "ApkSigner.jar" sign  --key platform.pk8 --cert platform.x509.pem  --v4-signing-enabled false --out "HuaweiIMS.apk" "app-debug.apk"
-#xcopy HuaweiIMS.apk "C:\Users\MOUNIERR\Documents\Personnel\Huawei\LeaOS\VoLTE-FIX-A11-Altair-V1.4\system\app\HuaweiIMS"
 
-xcopy "C:\GitRepo\iceows\treble_app\app\build\outputs\apk\debug\app-debug.apk" .
-java.exe -jar "ApkSigner.jar" sign  --key platform.pk8 --cert platform.x509.pem  --v4-signing-enabled false --out "TrebleApp.apk" "app-debug.apk"
+xcopy "C:\GitRepo\iceows\ims_hi6250_volte\app\build\outputs\apk\release\app-release.apk" .
+java.exe -jar "ApkSigner.jar" sign  --key platform.pk8 --cert platform.x509.pem  --v4-signing-enabled false --out "HuaweiIMS.apk" "app-release.apk"
+xcopy HuaweiIMS.apk "C:\Users\MOUNIERR\Documents\Personnel\Huawei\LeaOS\VoLTE-FIX-A11-Altair-V1.4\system\app\HuaweiIMS"
+
+xcopy "C:\GitRepo\iceows\treble_app\app\build\outputs\apk\release\app-release-unsigned.apk" .
+java.exe -jar "ApkSigner.jar" sign  --key platform.pk8 --cert platform.x509.pem  --v4-signing-enabled false --out "TrebleApp.apk" "app-release-unsigned.apk"
 xcopy TrebleApp.apk "C:\Users\MOUNIERR\Documents\Personnel\Huawei\LeaOS\VoLTE-FIX-A11-Altair-V1.4\system\priv-app\TrebleApp"
 
 xcopy treble-overlay-telephony-hw-ims.apk "C:\Users\MOUNIERR\Documents\Personnel\Huawei\LeaOS\VoLTE-FIX-A11-Altair-V1.4\system\app\treble-overlay-telephony-hw-ims"
