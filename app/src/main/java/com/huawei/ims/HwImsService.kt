@@ -117,6 +117,7 @@ class HwImsService : ImsService() {
     }
 
     override fun createMmTelFeature(slotId: Int): HwMmTelFeature? {
+        Log.i(LOG_TAG, "Enter mmTelFeatures with slodid :" + slotId )
         if (slotId > 0 && !supportsDualIms(this)) {
             return null
         }
@@ -124,6 +125,7 @@ class HwImsService : ImsService() {
             mmTelFeatures[slotId] = HwMmTelFeature.getInstance(slotId)
         }
         Log.i(LOG_TAG, "return mmTelFeatures with slodid :" + slotId )
+
         return mmTelFeatures[slotId]
     }
 

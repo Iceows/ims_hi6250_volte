@@ -52,7 +52,7 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
     override fun UnsolMsg(indicationType: Int, msgId: Int, rilUnsolMsgPayload: RILUnsolMsgPayload) {
         Log.d(LOG_TAG, "indicationType = $indicationType, msgId = $msgId, msgPayload = $rilUnsolMsgPayload")
 
-        // Huawei see RilConstS32 on package vendor.huawei.hardware.radio.V1_1;
+        // Huawei RilConstS32.java on package vendor.huawei.hardware.radio.V1_1;
         when (msgId) {
             RIL_UNSOL_HW_IMS_RESPONSE_CALL_STATE_CHANGED -> imsCallStateChanged(indicationType)
             RIL_UNSOL_HW_IMS_CALL_RING -> imsCallRing(indicationType)

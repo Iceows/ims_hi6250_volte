@@ -34,6 +34,7 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
         Log.i(LOG_TAG, "rspmsg radioresponseinfo = $radioResponseInfo,msgtype=$msgType")
         Log.i(LOG_TAG, "serial " + radioResponseInfo.serial)
         Log.i(LOG_TAG, "type=" + RespCode.getName(msgType))
+        Log.i(LOG_TAG, "slotID=" + mSlotId)
         /*switch (msgType) {
             case PASS_1:
             case PASS_2:
@@ -102,7 +103,7 @@ class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadio
 
     override fun getCurrentImsCallsResponse(radioResponseInfo: RadioResponseInfo, arrayList: ArrayList<RILImsCall>) {
         // Huawei
-        Log.i(LOG_TAG, "getCurrentImsCallsResponse")
+        Log.i(LOG_TAG, "getCurrentImsCallsResponse on slotID " + mSlotId)
         synchronized(HwImsCallSession.sCallsLock) {
             val calls = ArrayList<Int>(arrayList.size)
             for (call in arrayList) {

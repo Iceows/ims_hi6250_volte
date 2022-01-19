@@ -41,17 +41,21 @@ public class HwMmTelFeature extends MmTelFeature {
     // Enabled Capabilities - not status
     private final SparseArray<MmTelCapabilities> mEnabledCapabilities = new SparseArray<>();
     private final int mSlotId;
+    private boolean mbImsRegister;
     public TelephonyManager telephonyManager;
 
     private HwMmTelFeature(int slotId) { // Use getInstance(slotId)
 
         Log.d(LOG_TAG, "HwMmTelFeature::constructor");
         mSlotId = slotId;
+        mbImsRegister = false;
         mEnabledCapabilities.append(ImsRegistrationImplBase.REGISTRATION_TECH_LTE,
                 new MmTelCapabilities(MmTelCapabilities.CAPABILITY_TYPE_VOICE));
         // TODO: check if Mapcon is installed.
+        // TODO : test VoWIFI
         mEnabledCapabilities.append(ImsRegistrationImplBase.REGISTRATION_TECH_IWLAN,
                 new MmTelCapabilities(MmTelCapabilities.CAPABILITY_TYPE_VOICE));
+
         setFeatureState(STATE_READY);
     }
 
@@ -82,6 +86,8 @@ public class HwMmTelFeature extends MmTelFeature {
                 MapconController.Companion.getInstance().turnVowifiOff(mSlotId);
         }
     }
+
+
 
     int getImsSwitch() {
         int serial = RilHolder.INSTANCE.prepareBlock(mSlotId);
@@ -127,6 +133,7 @@ public class HwMmTelFeature extends MmTelFeature {
                 }
                 return null;
             }, mSlotId), 1);
+            mbImsRegister=true;
         } catch (RemoteException e) {
             HwImsService.Companion.getInstance().getRegistration(mSlotId).notifyDeregistered(new ImsReasonInfo(), ImsRegistrationImplBase.REGISTRATION_TECH_LTE);
         }
@@ -144,6 +151,7 @@ public class HwMmTelFeature extends MmTelFeature {
                 }
                 return null;
             }, mSlotId), 0);
+            mbImsRegister=false;
         } catch (RemoteException e) {
             Log.e(LOG_TAG, "Failed to setImsSwitch to unregister", e);
         }

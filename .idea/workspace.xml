@@ -14,14 +14,101 @@
   <component name="ChangeListManager">
     <list default="true" id="1040c749-78a8-4074-b1a1-5b9a0376d3ca" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/InstallVolte.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/tools/InstallVolte.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VoLTE-HW/build.jar.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VoLTE-HW/build.mapcon.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VoLTE-HW/build.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VoLTE-HW/src/android/telephony/HwTelephonyManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VoLTE-HW/src/com/android/ims/HwImsManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VoLTE-HW/src/com/android/internal/telephony/HwChrServiceManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VoLTE-HW/src/com/android/internal/telephony/HwChrServiceManagerImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VoLTE-HW/src/com/android/internal/telephony/HwModemCapability.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VoLTE-HW/src/com/android/internal/telephony/HwTelephonyFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VoLTE-HW/src/com/android/internal/telephony/HwVolteChrManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VoLTE-HW/src/com/android/internal/telephony/HwVolteChrManagerImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VoLTE-HW/src/com/huawei/cust/HwCfgFilePolicy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apktool.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apktool_2.3.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsRadioIndication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsRadioIndication.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsRadioResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsRadioResponse.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwMmTelFeature.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwMmTelFeature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/MapconController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/MapconController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/baksmali-2.2.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/baksmali.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/NOTICE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/bin/dex-tools" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/bin/dex-tools.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-apk-sign.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-apk-sign.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-asm-verify.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-asm-verify.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-baksmali.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-baksmali.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-class-version-switch.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-class-version-switch.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-decrypt-string.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-decrypt-string.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-dex-recompute-checksum.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-dex-recompute-checksum.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-dex-weaver.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-dex-weaver.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-dex2jar.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-dex2jar.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-dex2smali.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-dex2smali.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-jar-access.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-jar-access.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-jar-weaver.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-jar-weaver.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-jar2dex.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-jar2dex.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-jar2jasmin.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-jar2jasmin.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-jasmin2jar.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-jasmin2jar.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-smali.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-smali.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-std-apk.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j-std-apk.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j_invoke.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/d2j_invoke.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/ST4-4.0.8.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/antlr-3.5.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/antlr-runtime-3.5.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/antlr4-4.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/antlr4-runtime-4.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/asm-debug-all-5.0.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/d2j-base-cmd-2.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/d2j-jasmin-2.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/d2j-smali-2.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/dex-ir-2.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/dex-reader-2.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/dex-reader-api-2.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/dex-tools-2.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/dex-translator-2.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/dex-writer-2.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/dx-23.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/open-source-license.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dex2jar/lib/org.abego.treelayout.core-1.0.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/keys/platform.pk8" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/keys/platform.x509.pem" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/framework.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/ims-common.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/telephony-common.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/vendor.huawei.hardware.radio-java.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/HuaweiIMS.apk" beforeDir="false" afterPath="$PROJECT_DIR$/tools/HuaweiIMS.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/TrebleApp.apk" beforeDir="false" afterPath="$PROJECT_DIR$/tools/TrebleApp.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/app-release-unsigned.apk" beforeDir="false" afterPath="$PROJECT_DIR$/tools/app-release-unsigned.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/app-release.apk" beforeDir="false" afterPath="$PROJECT_DIR$/tools/app-release.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vdexExtractor" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[9DC7N17807008133]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -76,7 +163,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />

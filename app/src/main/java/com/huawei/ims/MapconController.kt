@@ -37,7 +37,7 @@ class MapconController : ServiceConnection {
     }
 
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-        Log.d(tag, "Mapcon Connected!")
+        Log.i(tag, "Mapcon Connected!")
         this.service = service as? IMapconService
     }
 
@@ -50,7 +50,7 @@ class MapconController : ServiceConnection {
     }
 
     fun turnVowifiOn(phoneId: Int) {
-        Log.d(tag, "turnVowifiOn($phoneId)")
+        Log.i(tag, "turnVowifiOn($phoneId)")
         service?.setVoWifiOn(phoneId)
         HwImsService.instance!!.getRegistration(phoneId)?.notifyRegistered(ImsRegistrationImplBase.REGISTRATION_TECH_IWLAN)
     }
@@ -78,7 +78,7 @@ class MapconController : ServiceConnection {
         // I'm leaving this here in case I ever try again.
         //context.startService(i)
         //context.bindService(i, this, Context.BIND_IMPORTANT or Context.BIND_ABOVE_CLIENT)
-        Log.d(tag, "Requesting bind for Mapcon.")
+        Log.i(tag, "Requesting bind for Mapcon.")
     }
 
     companion object {
