@@ -28,6 +28,7 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
 
     private val LOG_TAG = "HwImsRadioIndication"
 
+
     val RIL_UNSOL_HW_IMSA_VOWIFI_MSG = 1109
     val RIL_UNSOL_HW_IMS_CALL_RING = 1080
     val RIL_UNSOL_HW_IMS_CS_REDIAL_NOTIFY = 1106
@@ -69,11 +70,11 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
     }
 
     private fun imsVoiceBandInfo(indicationType: Int) {
-
+        Rlog.d(LOG_TAG, "imsVoiceBandInfo")
     }
 
     private fun imsCallRing(indicationType: Int) {
-
+        Rlog.d(LOG_TAG, "imsCallRing")
     }
 
     private fun imsMsgInconnu(indicationType: Int) {
@@ -81,6 +82,7 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
     }
 
     private fun imsCallStateChanged(indicationType: Int) {
+        Rlog.d(LOG_TAG, "imsCallStateChanged")
         if (indicationType > 1) { // 1 is the normal one, 0 happens sometimes, 0 seems to mean "call terminated"
             // Weird...
             Rlog.w(LOG_TAG, "unknown indicationType $indicationType")
@@ -109,7 +111,7 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
 
     override fun imsCallModifyEndCauseInd(type: Int, cause: RILImsModifyEndCause) {
         // Huawei
-        Log.i(LOG_TAG, "imsCallModifyEndCauseInd" + type)
+        RLog.d(LOG_TAG, "imsCallModifyEndCauseInd" + type)
     }
 
     override fun imsCallModifyInd(type: Int, modify: RILImsCallModify) {
@@ -123,7 +125,7 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
 
     override fun imsCallMtStatusInd(type: Int, imsCallMtStatus: RILImsMtStatusReport) {
         // TODO: MT status indications - Missed incoming call notifications
-        Log.d(LOG_TAG, "Received MT status indication: $type/$imsCallMtStatus")
+        Rlog.d(LOG_TAG, "Received MT status indication: $type/$imsCallMtStatus")
         // Huawei
     }
 
