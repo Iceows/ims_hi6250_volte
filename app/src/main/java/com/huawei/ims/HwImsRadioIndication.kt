@@ -66,19 +66,20 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
 
 
     private fun imsRingBackTone(indicationType: Int) {
+        Rlog.d(LOG_TAG, "imsRingBackTone, indication type : " + indicationType)
 
     }
 
     private fun imsVoiceBandInfo(indicationType: Int) {
-        Rlog.d(LOG_TAG, "imsVoiceBandInfo")
+        Rlog.d(LOG_TAG, "imsVoiceBandInfo, indication type : " + indicationType)
     }
 
     private fun imsCallRing(indicationType: Int) {
-        Rlog.d(LOG_TAG, "imsCallRing")
+        Rlog.d(LOG_TAG, "imsCallRing indication type : " + indicationType)
     }
 
     private fun imsMsgInconnu(indicationType: Int) {
-
+        Rlog.d(LOG_TAG, "imsMsgInconnu indication type : " + indicationType)
     }
 
     private fun imsCallStateChanged(indicationType: Int) {
