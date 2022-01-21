@@ -2,3 +2,4 @@
 *.salive
 app/debug/*
 app/release/*
+build/intermediates/*

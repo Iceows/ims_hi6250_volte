@@ -111,7 +111,7 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
 
     override fun imsCallModifyEndCauseInd(type: Int, cause: RILImsModifyEndCause) {
         // Huawei
-        RLog.d(LOG_TAG, "imsCallModifyEndCauseInd" + type)
+        Rlog.d(LOG_TAG, "imsCallModifyEndCauseInd" + type)
     }
 
     override fun imsCallModifyInd(type: Int, modify: RILImsCallModify) {
