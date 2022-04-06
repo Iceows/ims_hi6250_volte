@@ -30,6 +30,8 @@ import android.telephony.ims.stub.ImsRegistrationImplBase;
 import android.util.Log;
 import android.util.SparseArray;
 
+import com.android.ims.ImsException;
+
 // This file has to remain Java because changeEnabledCapabilities is abstract in MmTelFeature and
 // it exposes a protected subclass of MmTelFeature which Kotlin blocks from compilation.
 // TODO find a way to refactor to Kt
@@ -162,12 +164,25 @@ public class HwMmTelFeature extends MmTelFeature {
         if (callSessionType == ImsCallProfile.SERVICE_TYPE_EMERGENCY) {
             return null;
         }
+        /**
+         * It is for a special case. It helps that the application can make a call
+         * without IMS connection (not registered).
+         * In the moment of the call initiation, the device try to connect to the IMS network
+         * and initiates the call.
+         */
         if (callSessionType == ImsCallProfile.SERVICE_TYPE_NONE) {
+            // Check status of IMS
+            Log.d(LOG_TAG,"createCallProfile for service type none");
             // Register IMS
             registerIms();
         }
+        if (callSessionType == ImsCallProfile.SERVICE_TYPE_NORMAL) {
+            Log.d(LOG_TAG,"createCallProfile for service type normal");
+        }
+
         return new ImsCallProfile(callSessionType, callType);
         // Is this right?
+
     }
 
     @Override

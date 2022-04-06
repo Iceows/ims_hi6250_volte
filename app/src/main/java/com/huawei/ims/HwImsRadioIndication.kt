@@ -23,6 +23,10 @@ import android.telephony.Rlog
 import android.util.Log
 import vendor.huawei.hardware.radio.V1_0.*
 import vendor.huawei.hardware.radio.V1_0.IRadioIndication
+import android.os.AsyncResult
+
+
+
 
 class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRadioIndication.Stub() {
 
@@ -60,27 +64,75 @@ class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRad
             RIL_UNSOL_HW_IMS_RINGBACK_TONE -> imsRingBackTone(indicationType)
             RIL_UNSOL_HW_IMS_VOICE_BAND_INFO -> imsVoiceBandInfo(indicationType)
             RIL_UNSOL_HW_IMS_HOLD_TONE_IND -> imsCallHeldChange(indicationType)
+            RIL_UNSOL_HW_IMS_CS_REDIAL_NOTIFY -> imsCSRedialNotify(indicationType)
+
+/*
+            Rlog.d("ImsRadioIndication", "UnsolMsg:indicationType =" + var1 + ",msgId = " + var2)
+                switch(var2) {
+                    case 1079:
+                    this.imsCallStateChanged(var1);
+                    break;
+                    case 1081:
+                    this.imsCallRingBackTone(var1, var3.nDatas);
+                    break;
+                    case 1087:
+                    this.imsVoiceBandInfo(var1, var3.nDatas);
+                    break;
+                    case 1106:
+                    this.imsCsRedialNotify(var1);
+                    break;
+                    case 1113:
+                    this.imsLtePdcpInfo(var1, var3.nDatas);
+                    break;
+                    case 1114:
+                    this.imsLteRrcInfo(var1, var3.nDatas);
+                    break;
+                    case 1120:
+                    this.imsDMCNNotify(var1);
+                    break;
+                    case 1122:
+                    this.imsHoldToneInd(var1, var3.nDatas);
+                }*/
+
+
             else -> Log.w(LOG_TAG, "Unknown msg type :$msgId")
         }
     }
 
+    private fun imsCSRedialNotify(indicationType: Int) {
+        Rlog.d(LOG_TAG, "imsCSRedialNotify, indication type : " + indicationType)
+    }
 
     private fun imsRingBackTone(indicationType: Int) {
         Rlog.d(LOG_TAG, "imsRingBackTone, indication type : " + indicationType)
-
     }
 
     private fun imsVoiceBandInfo(indicationType: Int) {
         Rlog.d(LOG_TAG, "imsVoiceBandInfo, indication type : " + indicationType)
+
+        /*
+        Rlog.d("ImsRadioIndication", "imsVoiceBandInfo =" + var1.toString() + ",bandInfo = " + var2)
+        this.mRil.processIndication(var1)
+        val var3: ImsRIL = this.mRil
+        val var4: IntArray = ImsRIL.arrayListToPrimitiveArray(var2)
+        this.mRil.unsljLog(3019)
+        if (this.mRil.mSpeechInfoRegistrants != null && var4 != null) {
+            this.mRil.mSpeechInfoRegistrants.notifyRegistrants(
+                AsyncResult(
+                    null as Any?,
+                    var4,
+                    null as Throwable?
+                )
+            )
+        }
+        */
+
     }
 
     private fun imsCallRing(indicationType: Int) {
         Rlog.d(LOG_TAG, "imsCallRing indication type : " + indicationType)
     }
 
-    private fun imsMsgInconnu(indicationType: Int) {
-        Rlog.d(LOG_TAG, "imsMsgInconnu indication type : " + indicationType)
-    }
 
     private fun imsCallStateChanged(indicationType: Int) {
         Rlog.d(LOG_TAG, "imsCallStateChanged")

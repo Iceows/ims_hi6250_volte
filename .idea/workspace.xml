@@ -13,8 +13,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1040c749-78a8-4074-b1a1-5b9a0376d3ca" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/tools/ims-hw.apk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsRadioIndication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwImsRadioIndication.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwMmTelFeature.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/huawei/ims/HwMmTelFeature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/master-index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build/intermediates/lint-cache/maven.google/master-index.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tools/HuaweiIMS.apk" beforeDir="false" afterPath="$PROJECT_DIR$/tools/HuaweiIMS.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/InstallVolte.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/tools/InstallVolte.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/TrebleApp.apk" beforeDir="false" afterPath="$PROJECT_DIR$/tools/TrebleApp.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/app-release-unsigned.apk" beforeDir="false" afterPath="$PROJECT_DIR$/tools/app-release-unsigned.apk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tools/app-release.apk" beforeDir="false" afterPath="$PROJECT_DIR$/tools/app-release.apk" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
