@@ -6,7 +6,7 @@ xcopy /Y TrebleApp.apk "C:\Users\MOUNIERR\Documents\Personnel\Huawei\LeaOS\VoLTE
 adb root
 adb remount rw, /system
 adb push TrebleApp.apk /system/priv-app/TrebleApp
-adb shell chmod 644 /system/priv-app/TrebleApp/TrebleApp.apk 
+adb shell chmod 755 /system/priv-app/TrebleApp/TrebleApp.apk 
 
 
 adb reboot
