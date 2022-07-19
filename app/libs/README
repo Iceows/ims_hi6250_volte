@@ -1,5 +1,5 @@
 framework.jar, ims-common.jar and telephony-common.jar are generated from my local AOSP builds. They contain code licensed under Apache v2.0 and copyright AOSP
 They are not included in the build, and used purely for linking to internal framework APIs, so use correct sdk version 
 
-vendor.huawei.hardware.radio-java.jar is generated using the build.jar.sh or build.jar.cmd script found at https://github.com/Iceows/Patch_hi6250/tree/main/src/hwims
+com.hisi.mapcon-java.jar and vendor.huawei.hardware.radio-java.jar is generated using the build.mapcon.sh and build.radio-java.sh script found at https://github.com/Iceows/apps_repacker_aosp/tree/r/VoLTE-HW
 This file is included in the build and used to communicate with the IRadio.
