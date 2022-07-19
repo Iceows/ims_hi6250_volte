@@ -21,8 +21,8 @@ import android.hardware.radio.V1_0.*
 import android.os.RemoteException
 import android.telephony.Rlog
 import android.util.Log
-import vendor.huawei.hardware.radio.V1_0.*
-import vendor.huawei.hardware.radio.V1_0.IRadioIndication
+import vendor.huawei.hardware.radio.ims.V1_0.*
+import vendor.huawei.hardware.radio.ims.V1_0.IRadioImsIndication
 import android.os.AsyncResult
 
 

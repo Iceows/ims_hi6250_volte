@@ -23,8 +23,8 @@ import android.telephony.Rlog
 import android.telephony.ims.ImsCallProfile
 import android.util.Log
 import com.android.ims.ImsManager
-import vendor.huawei.hardware.radio.V1_0.*
-import vendor.huawei.hardware.radio.V1_0.IRadioResponse
+import vendor.huawei.hardware.radio.ims.V1_0.*
+import vendor.huawei.hardware.radio.ims.V1_0.IRadioResponse
 import java.util.*
 
 class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadioResponse.Stub() {

@@ -30,10 +30,10 @@ import android.telephony.ims.ImsStreamMediaProfile
 import android.telephony.ims.stub.ImsCallSessionImplBase
 import android.util.Log
 import com.android.ims.ImsConfig
-import vendor.huawei.hardware.radio.V1_0.RILImsCall
-import vendor.huawei.hardware.radio.V1_0.RILImsCallDomain
-import vendor.huawei.hardware.radio.V1_0.RILImsCallType
-import vendor.huawei.hardware.radio.V1_0.RILImsDial
+import vendor.huawei.hardware.radio.ims.V1_0.RILImsCall
+import vendor.huawei.hardware.radio.ims.V1_0.RILImsCallDomain
+import vendor.huawei.hardware.radio.ims.V1_0.RILImsCallType
+import vendor.huawei.hardware.radio.ims.V1_0.RILImsDial
 import java.util.concurrent.ConcurrentHashMap
 
 class HwImsCallSession
