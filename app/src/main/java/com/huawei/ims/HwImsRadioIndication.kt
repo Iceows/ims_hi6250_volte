@@ -28,7 +28,7 @@ import android.os.AsyncResult
 
 
 
-class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRadioIndication.Stub() {
+class HwImsRadioIndication internal constructor(private val mSlotId: Int) : IRadioImsIndication.Stub() {
 
     private val LOG_TAG = "HwImsRadioIndication"
 

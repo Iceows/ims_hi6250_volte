@@ -18,23 +18,29 @@
 package com.huawei.ims
 
 import android.hardware.radio.V1_0.*
+import android.hardware.radio.V1_0.RadioResponseInfo
 import android.os.Bundle
 import android.telephony.Rlog
 import android.telephony.ims.ImsCallProfile
 import android.util.Log
 import com.android.ims.ImsManager
 import vendor.huawei.hardware.radio.ims.V1_0.*
-import vendor.huawei.hardware.radio.ims.V1_0.IRadioResponse
+import vendor.huawei.hardware.radio.ims.V1_0.IRadioImsResponse
 import java.util.*
 
-class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadioResponse.Stub() {
+class HwImsRadioResponse internal constructor(private val mSlotId: Int) : IRadioImsResponse.Stub() {
     private val LOG_TAG = "HwImsRadioResponse"
 
-    override fun RspMsg(radioResponseInfo: RadioResponseInfo, msgType: Int, rspMsgPayload: RspMsgPayload?) {
+    override fun RspMsg(
+        radioResponseInfo: vendor.huawei.hardware.radio.ims.V1_0.RadioResponseInfo?,
+        msgType: Int,
+        rspMsgPayload: RspMsgPayload?
+    ) {
         Log.i(LOG_TAG, "rspmsg radioresponseinfo = $radioResponseInfo,msgtype=$msgType")
-        Log.i(LOG_TAG, "serial " + radioResponseInfo.serial)
+        Log.i(LOG_TAG, "serial " + radioResponseInfo)
         Log.i(LOG_TAG, "type=" + RespCode.getName(msgType))
         Log.i(LOG_TAG, "slotID=" + mSlotId)
+
         /*switch (msgType) {
             case PASS_1:
             case PASS_2:

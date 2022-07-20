@@ -75,8 +75,8 @@ object RilHolder {
         }
 
         try {
-            radioImpls[slotId]!!.setResponseFunctionsHuawei(responseCallbacks[slotId], unsolCallbacks[slotId])
-            radioImpls[slotId]!!.setResponseFunctions(responseCallbacks[slotId], unsolCallbacks[slotId])
+            radioImpls[slotId]!!.setResponseFunctionsHuawei(responseCallbacks[slotId],
+            setResponseFunctionsHuawei(responseCallbacks[slotId], unsolCallbacks[slotId])
             Log.i(LOG_TAG, "getRadio setResponse ok")
         } catch (e: RemoteException) {
             Log.e(LOG_TAG, "Failed to update resp functions!, Err : " + e.printStackTrace())
