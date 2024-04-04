@@ -1,0 +1,53 @@
+package com.huawei.sci;
+
+/* loaded from: CrsNty.class */
+public class CrsNty {
+    public static final int EN_CRS_PARM_RECONFIG_PARA_REASON = 101;
+    public static final int EN_CRS_PARM_RECONFIG_REASON_CONF_RECONFIG_CONFIRM_ACK = 37;
+    public static final int EN_CRS_PARM_RECONFIG_REASON_CONF_RECONFIG_CONFIRM_REQUEST = 36;
+    public static final int EN_CRS_PARM_RECONFIG_REASON_CONF_RECONFIG_REQUEST = 35;
+    public static final int EN_CRS_PARM_RECONFIG_REASON_CONF_RECONFIG_REQUEST_NOTIFY = 38;
+    public static final int EN_CRS_PARM_RECONFIG_REASON_UNKNOWN = 255;
+    public static final int EN_CRS_SERVER_TEMP_UNAVAILABLE_PARA_REASON = 101;
+    public static final int EN_CRS_SERVER_TEMP_UNAVILABLE_REASON_CONF_MSISDN_INVALID = 25;
+    public static final int EN_CRS_SERVER_TEMP_UNAVILABLE_REASON_CONF_NETPWRK_AUTH_FAILED = 19;
+    public static final int EN_CRS_SERVER_TEMP_UNAVILABLE_REASON_CONF_PWD_MISSED = 20;
+    public static final int EN_CRS_SERVER_TEMP_UNAVILABLE_REASON_UNKNOWN = 255;
+    public static final int EN_CRS_SERVER_TEMP_UNAVILABLE_REASON_WAIT_USER_ACCEPT = 40;
+    public static final int EN_CRS_USER_M_STATUS_CONNECTED = 1;
+    public static final int EN_CRS_USER_M_STATUS_CONNECTING = 3;
+    public static final int EN_CRS_USER_M_STATUS_DISCONNECTED = 2;
+    public static final int EN_CRS_USER_M_STATUS_DISCONNECTING = 4;
+    public static final int EN_CRS_USER_M_STATUS_IDLE = 0;
+    public static final int EN_CRS_USER_NTY_PARA_DETAILREASON = 14;
+    public static final int EN_CRS_USER_NTY_PARA_EXPIRES = 17;
+    public static final int EN_CRS_USER_NTY_PARA_NEW_STATUS = 102;
+    public static final int EN_CRS_USER_NTY_PARA_OLD_STATUS = 101;
+    public static final int EN_CRS_USER_NTY_PARA_REASON = 103;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_ACCESSTOKEN_EXPIRED = 9;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_ACCESSTOKEN_INVALID = 8;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_ACCOUNT_EXCEPTION = 12;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_APPKEY_INVALID = 10;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_AUTH_FAILED = 3;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_CONF_ACTION_NEEDED = 34;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_CONF_DISABLED = 29;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_CONF_DORMANT = 33;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_CONF_INVALID_REQ = 16;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_CONF_RETRY_LATER = 18;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_CONF_SERVER_IN_ERR = 17;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_CONF_TMP_DISABLED = 31;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_CONNCET_ERR = 1;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_NET_UNAVAILABLE = 5;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_NULL = 0;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_OTP_INVALID = 32;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_SERVER_BUSY = 2;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_SRV_FORCE_LOGOUT = 7;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_UNKNOWN = 255;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_USER_CANCEL = 6;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_USER_SWITCHED = 11;
+    public static final int EN_CRS_USER_STATUS_CHANGE_REASON_WRONG_LOCAL_TIME = 4;
+    public static final int EN_CRS_USER_STATUS_DETAIL_REASON_LOGIN_RETRY = 503;
+    public static final String NTY_CRS_PARM_RECONFIG = "NTY_CRS_PARM_RECONFIG";
+    public static final String NTY_CRS_SERVER_TEMP_UNAVAILABLE = "NTY_CRS_SERVER_TEMP_UNAVAILABLE";
+    public static final String NTY_CRS_USER_STATUS_CHANGED = "NTY_CRS_USER_STATUS_CHANGED";
+}
