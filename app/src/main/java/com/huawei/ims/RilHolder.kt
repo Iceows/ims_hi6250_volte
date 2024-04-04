@@ -23,8 +23,9 @@ import android.app.NotificationManager
 import android.hardware.radio.V1_0.RadioResponseInfo
 import android.os.RemoteException
 import android.util.Log
-import vendor.huawei.hardware.radio.V1_0.IRadio
-import vendor.huawei.hardware.radio.V1_0.RspMsgPayload
+import vendor.huawei.hardware.radio.ims.V1_0.IRadioIms
+import vendor.huawei.hardware.radio.ims.V1_0.IRadioImsIndication
+import vendor.huawei.hardware.radio.ims.V1_0.RspMsgPayload
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -34,7 +35,7 @@ object RilHolder {
     private val serviceNames = arrayOf("rildi", "rildi2", "rildi3")
     private val responseCallbacks = arrayOfNulls<HwImsRadioResponse>(3)
     private val unsolCallbacks = arrayOfNulls<HwImsRadioIndication>(3)
-    private val radioImpls = arrayOfNulls<IRadio>(3)
+    private val radioImpls = arrayOfNulls<IRadioIms>(3)
     private var nextSerial = -1
     private val serialToSlot = ConcurrentHashMap<Int, Int>()
     private val callbacks = ConcurrentHashMap<Int, (RadioResponseInfo, RspMsgPayload?) -> Unit>()
@@ -42,12 +43,12 @@ object RilHolder {
 
 
     @Synchronized
-    fun getRadio(slotId: Int): IRadio? {
+    fun getRadio(slotId: Int): IRadioIms? {
         if (radioImpls[slotId] == null) {
             try {
                 try {
                     Log.i(LOG_TAG, "getRadio")
-                    radioImpls[slotId] = IRadio.getService(serviceNames[slotId])
+                    radioImpls[slotId] = IRadioIms.getService(serviceNames[slotId])
                     Log.i(LOG_TAG, "getRadio found IRadio service on slotid : " + slotId)
                 } catch (e: NoSuchElementException) {
                     Log.e(LOG_TAG, "Index oob in rilholder. Bail Out!!!", e)
@@ -76,7 +77,6 @@ object RilHolder {
 
         try {
             radioImpls[slotId]!!.setResponseFunctionsHuawei(responseCallbacks[slotId], unsolCallbacks[slotId])
-            radioImpls[slotId]!!.setResponseFunctions(responseCallbacks[slotId], unsolCallbacks[slotId])
             Log.i(LOG_TAG, "getRadio setResponse ok")
         } catch (e: RemoteException) {
             Log.e(LOG_TAG, "Failed to update resp functions!, Err : " + e.printStackTrace())
@@ -125,17 +125,6 @@ object RilHolder {
         return ++nextSerial
     }
 
-    fun triggerCB(serial: Int, radioResponseInfo: RadioResponseInfo, rspMsgPayload: RspMsgPayload?) {
-        Log.i(LOG_TAG, "Incoming response for slot " + serialToSlot[serial] + ", serial " + serial + ", radioResponseInfo " + radioResponseInfo + ", rspMsgPayload " + rspMsgPayload)
-        if (callbacks.containsKey(serial)) {
-            Log.i(LOG_TAG, "callbacks found")
-            callbacks[serial]!!(radioResponseInfo, rspMsgPayload)
-        }
-        else {
-            Log.i(LOG_TAG, "unable to find a valid callbacks")
-        }
-
-    }
 
     fun prepareBlock(slotId: Int): Int {
         val cb = BlockingCallback()

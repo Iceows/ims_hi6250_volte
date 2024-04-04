@@ -89,12 +89,10 @@ public class HwMmTelFeature extends MmTelFeature {
         }
     }
 
-
-
     int getImsSwitch() {
         int serial = RilHolder.INSTANCE.prepareBlock(mSlotId);
         try {
-            RilHolder.INSTANCE.getRadio(mSlotId).getImsSwitch(serial);
+            RilHolder.INSTANCE.getRadio(mSlotId).getImsSmsConfig(serial);
             RilHolder.INSTANCE.blockUntilComplete(serial);
         } catch (RemoteException e) {
             Rlog.e(LOG_TAG, "Failed to getImsSwitch!", e);
@@ -103,60 +101,18 @@ public class HwMmTelFeature extends MmTelFeature {
     }
 
     private void registerImsInner() {
-        try {
-            Log.d(LOG_TAG, "registerImsInner");
-            RilHolder.INSTANCE.getRadio(mSlotId).imsRegister(RilHolder.INSTANCE.callback((radioResponseInfo, rspMsgPayload) -> {
-                if (radioResponseInfo.error != 0) {
-                    Log.e(LOG_TAG, "radiorespinfo gives error " + radioResponseInfo.error);
-                    HwImsService.Companion.getInstance().getRegistration(mSlotId).onDeregistered(new ImsReasonInfo(ImsReasonInfo.CODE_UNSPECIFIED, radioResponseInfo.error, radioResponseInfo.toString() + rspMsgPayload.toString()));
-                } else {
-                    MmTelCapabilities capabilities = new MmTelCapabilities();
-                    capabilities.addCapabilities(MmTelCapabilities.CAPABILITY_TYPE_VOICE);
-                    notifyCapabilitiesStatusChanged(capabilities);
-                    HwImsService.Companion.getInstance().getRegistration(mSlotId).notifyRegistered(HwImsRegistration.REGISTRATION_TECH_LTE);
-                }
-                return null;
-            }, mSlotId));
-        } catch (RemoteException e) {
-            HwImsService.Companion.getInstance().getRegistration(mSlotId).notifyDeregistered(new ImsReasonInfo(), ImsRegistrationImplBase.REGISTRATION_TECH_LTE);
-            Log.e(LOG_TAG, "error registering ims", e);
-        }
+        Log.d(LOG_TAG, "registerImsInner");
     }
 
     public void registerIms() {
         Log.d(LOG_TAG, "registerIms");
-        HwImsService.Companion.getInstance().getRegistration(mSlotId).notifyRegistering(HwImsRegistration.REGISTRATION_TECH_LTE);
-        try {
-            RilHolder.INSTANCE.getRadio(mSlotId).setImsSwitch(RilHolder.INSTANCE.callback((radioResponseInfo, rspMsgPayload) -> {
-                if (radioResponseInfo.error != 0) {
-                    HwImsService.Companion.getInstance().getRegistration(mSlotId).notifyDeregistered(new ImsReasonInfo(), ImsRegistrationImplBase.REGISTRATION_TECH_LTE);
-                } else {
-                    registerImsInner();
-                }
-                return null;
-            }, mSlotId), 1);
-            mbImsRegister=true;
-        } catch (RemoteException e) {
-            HwImsService.Companion.getInstance().getRegistration(mSlotId).notifyDeregistered(new ImsReasonInfo(), ImsRegistrationImplBase.REGISTRATION_TECH_LTE);
-        }
 
 
     }
 
     public void unregisterIms() {
         Log.d(LOG_TAG, "unregisterIms");
-        try {
-            RilHolder.INSTANCE.getRadio(mSlotId).setImsSwitch(RilHolder.INSTANCE.callback((radioResponseInfo, rspMsgPayload) -> {
-                if (radioResponseInfo.error != 0) {
-                    // What can we do?
-                    Log.e(LOG_TAG, "Failed to unregister imsswitch");
-                }
-                return null;
-            }, mSlotId), 0);
-            mbImsRegister=false;
-        } catch (RemoteException e) {
-            Log.e(LOG_TAG, "Failed to setImsSwitch to unregister", e);
-        }
+
     }
 
     @Override
