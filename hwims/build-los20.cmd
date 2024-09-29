@@ -1,4 +1,5 @@
 REM extract dex file
+REM java -jar apktool_2.9.3.jar decode -f -o .\apk-out .\HwIms-LOS20\HwIms.apk
 java -jar apktool_2.9.3.jar decode -s -f -o .\apk-out .\HwIms-LOS20\HwIms.apk
 
 REM Convert dex to jar
