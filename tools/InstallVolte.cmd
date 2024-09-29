@@ -1,19 +1,23 @@
 
-xcopy /Y "C:\GitRepo\iceows\ims_hi6250_volte\app\build\outputs\apk\release\app-release.apk" .
-java.exe -jar "ApkSigner.jar" sign  --key platform.pk8 --cert platform.x509.pem  --v4-signing-enabled false --out "HuaweiIMS.apk" "app-release.apk"
-xcopy /Y HuaweiIMS.apk "C:\Users\MOUNIERR\Documents\Personnel\Huawei\LeaOS\VoLTE-FIX-A11-Altair-V1.5\system\app\HuaweiIMS"
+xcopy /Y "C:\GitHub\iceows\ims_hi6250_volte\app\build\outputs\apk\release\app-release.apk" .
 
-xcopy /Y "C:\GitRepo\iceows\treble_app\app\build\outputs\apk\release\app-release-unsigned.apk" .
-java.exe -jar "ApkSigner.jar" sign  --key platform.pk8 --cert platform.x509.pem  --v4-signing-enabled false --out "TrebleApp.apk" "app-release-unsigned.apk"
-xcopy /Y TrebleApp.apk "C:\Users\MOUNIERR\Documents\Personnel\Huawei\LeaOS\VoLTE-FIX-A11-Altair-V1.5\system\priv-app\TrebleApp"
+java.exe -jar "ApkSigner.jar" sign  --key platform.pk8 --cert platform.x509.pem  --v4-signing-enabled false --out "HuaweiIMS.apk" "app-release.apk"
+xcopy /Y HuaweiIMS.apk "C:\Users\MOUNIERR\Documents\Personnel\Huawei\LeaOS\VoLTE-FIX-A11-Altair-V1.5\system\app\HuaweiIMS\HuaweiIMS.apk"
+
+REM xcopy /Y "C:\GitRepo\iceows\treble_app\app\build\outputs\apk\release\app-release-unsigned.apk" .
+REM java.exe -jar "ApkSigner.jar" sign  --key platform.pk8 --cert platform.x509.pem  --v4-signing-enabled false --out "TrebleApp.apk" "app-release-unsigned.apk"
+REM xcopy /Y TrebleApp.apk "C:\Users\MOUNIERR\Documents\Personnel\Huawei\LeaOS\VoLTE-FIX-A11-Altair-V1.5\system\priv-app\TrebleApp"
 
 REM xcopy /Y treble-overlay-telephony-hw-ims.apk "C:\Users\MOUNIERR\Documents\Personnel\Huawei\LeaOS\VoLTE-FIX-A11-Altair-V1.5\system\app\treble-overlay-telephony-hw-ims"
 
 adb root
-adb remount rw, /system
+adb remount /system
 adb shell mkdir /system/app/HuaweiIMS
 adb push HuaweiIMS.apk /system/app/HuaweiIMS
-adb shell chmod 644 /system/app/HuaweiIMS/HuaweiIMS.apk 
+adb shell chmod 644 /system/app/HuaweiIMS/HuaweiIMS.apk
+
+REM Iceows enable volte
+REM adb shell "echo ro.hw.volte.enable=1 >>  /system/build.prop"
 
 REM adb push TrebleApp.apk /system/priv-app/TrebleApp
 REM adb shell chmod 644 /system/priv-app/TrebleApp/TrebleApp.apk 
