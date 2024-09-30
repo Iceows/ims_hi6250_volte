@@ -247,7 +247,7 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
     /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
     public final class RadioProxyDeathRecipient implements IHwBinder.DeathRecipient {
         RadioProxyDeathRecipient() {
-            ImsRIL.this = this$0;
+
         }
 
         @Override // android.os.IHwBinder.DeathRecipient

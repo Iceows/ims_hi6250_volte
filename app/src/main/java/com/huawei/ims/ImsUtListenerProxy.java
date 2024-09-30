@@ -35,9 +35,6 @@ public class ImsUtListenerProxy {
         checkAccessPermission();
         if (this.mListener != null) {
             Runnable r = new Runnable() { // from class: com.huawei.ims.ImsUtListenerProxy.2
-                {
-                    ImsUtListenerProxy.this = this;
-                }
 
                 @Override // java.lang.Runnable
                 public void run() {
