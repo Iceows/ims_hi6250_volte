@@ -31,9 +31,6 @@ public class ImsVTCallProviderImpl extends ImsVideoCallProvider implements HwIms
     private long mTotalDataUsage = 0;
     private boolean isFristConference = false;
     private ImsThinClient.GetResCallBack mVideoDimensionCB = new ImsThinClient.GetResCallBack() { // from class: com.huawei.ims.vt.ImsVTCallProviderImpl.2
-        {
-            ImsVTCallProviderImpl.this = this;
-        }
 
         @Override // com.huawei.vtproxy.ImsThinClient.GetResCallBack
         public void getCurrentDynamicRes(int width, int height) {
@@ -50,9 +47,6 @@ public class ImsVTCallProviderImpl extends ImsVideoCallProvider implements HwIms
         this.mImsCallAdapter = imsCallMod;
         ImsThinClient.setGetResCallBack(this.mVideoDimensionCB);
         this.mHandler = new Handler() { // from class: com.huawei.ims.vt.ImsVTCallProviderImpl.1
-            {
-                ImsVTCallProviderImpl.this = this;
-            }
 
             @Override // android.os.Handler
             public void handleMessage(Message msg) {
@@ -238,7 +232,7 @@ public class ImsVTCallProviderImpl extends ImsVideoCallProvider implements HwIms
     public void onUnsolCallModify(HwImsCallSessionImpl session, ImsCallAdapter.CallModify callModify) {
         Rlog.d(TAG, "onUnsolCallModify,  callModify= " + callModify);
         int newVideoState = ImsCallProviderUtils.convertCallTypeToVideoState(callModify.dest_call_details.call_type);
-        VideoProfile vcp = new VideoProfile(newVideoState, 4);
+        VideoProfile vcp = new VideoProfile(newVideoState, VideoProfile.QUALITY_DEFAULT);
         if (callModify.findError()) {
             int uiError = ImsCallProviderUtils.convertImsErrorToUiError(callModify.error);
             receiveSessionModifyResponse(uiError, vcp, null);

@@ -15,7 +15,7 @@ import com.huawei.vtproxy.ImsThinClient;
 import java.util.ArrayList;
 import java.util.List;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class ImsVTGlobals {
     private static final String ACTION_IMS_SWITCH_STATE_CHANGE = "com.huawei.ACTION_IMS_SWITCH_STATE_CHANGE";
     private static final int CALLSESSION_MAX_SIZE = 1;

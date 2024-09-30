@@ -68,9 +68,6 @@ public class CameraManager implements ImsMediaProvider.CameraListener, IImsCallL
     private int mIMSSDKResId = Integer.MIN_VALUE;
     private int mCAMERASesId = Integer.MIN_VALUE;
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() { // from class: com.huawei.ims.vt.CameraManager.1
-        {
-            CameraManager.this = this;
-        }
 
         @Override // android.content.BroadcastReceiver
         public void onReceive(Context context, Intent intent) {
@@ -241,7 +238,7 @@ public class CameraManager implements ImsMediaProvider.CameraListener, IImsCallL
 
     public VideoProfile.CameraCapabilities getCameraCapabilities() {
         Rlog.d(TAG, "getCameraCapabilities");
-        return new VideoProfile.CameraCapabilities(PREVIEW_WIDTH, PREVIEW_HEIGHT, false, 1.0f);
+        return new VideoProfile.CameraCapabilities(PREVIEW_WIDTH, PREVIEW_HEIGHT);
     }
 
     public void close(HwImsCallSessionImpl session, boolean isHangUpCall) {
@@ -552,7 +549,7 @@ public class CameraManager implements ImsMediaProvider.CameraListener, IImsCallL
         }
         setPreviewSurface(null);
         int currentVideoState = ImsCallProviderUtils.convertCallTypeToVideoState(cp.mCallType);
-        VideoProfile requestProfile = new VideoProfile(currentVideoState | 4);
+        VideoProfile requestProfile = new VideoProfile(currentVideoState | VideoProfile.STATE_PAUSED);
         VideoProfile fromProfile = new VideoProfile(currentVideoState);
         ImsVTCallProviderImpl provider = session.getImsVTCallProviderImpl();
         if (provider == null) {
@@ -662,9 +659,6 @@ public class CameraManager implements ImsMediaProvider.CameraListener, IImsCallL
 
     /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
     public class CameraManagerHandler extends Handler {
-        CameraManagerHandler() {
-            CameraManager.this = r1;
-        }
 
         @Override // android.os.Handler
         public void handleMessage(Message msg) {

@@ -4,7 +4,7 @@ import android.telephony.Rlog;
 import android.util.Log;
 import com.huawei.vtproxy.ImsThinClient;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class RTPController {
     public static final int RTP_DIRECTION_AUDIO = 0;
     public static final int RTP_DIRECTION_BIDIRECTIONAL = 3;

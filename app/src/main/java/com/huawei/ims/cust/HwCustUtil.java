@@ -4,7 +4,7 @@ import android.os.SystemProperties;
 import android.text.TextUtils;
 import java.util.Arrays;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class HwCustUtil {
     private static final String VZW_ICCID_BEGIN = "891480";
     private static final String VZW_MCCMNC = "311810;311480";
