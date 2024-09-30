@@ -52,7 +52,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class HwImsUtImpl extends ImsUtImpl {
     public static final String ACTION_MAPCON_SERVICE_FAILED = "com.hisi.mapcon.servicefailed";
     public static final int CALL_SDK_FAILED = -1;
@@ -1048,7 +1048,6 @@ public class HwImsUtImpl extends ImsUtImpl {
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public UtServiceHandler(Looper looper) {
             super(looper);
-            HwImsUtImpl.this = r1;
         }
 
         @Override // android.os.Handler

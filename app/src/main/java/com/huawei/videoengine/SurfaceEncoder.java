@@ -6,7 +6,6 @@ import java.nio.ByteBuffer;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class SurfaceEncoder {
     private Map<Integer, Surface> encSfMap;
     private long mNativeEncClass;

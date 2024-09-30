@@ -11,7 +11,6 @@ import java.util.Locale;
 import vendor.huawei.hardware.radio.ims.V1_0.LastCallFailCause;
 import vendor.huawei.hardware.radio.ims.V1_0.RilConstS32;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class VideoCaptureDeviceInfoAndroid {
     private static boolean DEBUG = false;
     private static final String TAG = "hme-video";

@@ -1,6 +1,5 @@
 package com.huawei.vtproxy;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class QosInfo {
     public String codec;
     public int delay;

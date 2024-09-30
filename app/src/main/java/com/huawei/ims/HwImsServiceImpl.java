@@ -72,7 +72,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class HwImsServiceImpl {
     private static final String ACTION_DMPROVIDER_TO_IMS = "com.android.server.dm.BROADCAST_DMSYNCSERVICE_TO_IMS";
     private static final String ACTION_IMS_TO_DMPROVIDER = "com.android.server.dm.BROADCAST_IMS_TO_DMSYNCSERVICE";
@@ -783,9 +782,6 @@ public class HwImsServiceImpl {
 
     /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
     public class HwImsServiceImplHandler extends Handler {
-        HwImsServiceImplHandler() {
-            HwImsServiceImpl.this = r1;
-        }
 
         private void createRegCallBackThread(final int registrationState) {
             Runnable r = new Runnable() { // from class: com.huawei.ims.HwImsServiceImpl.HwImsServiceImplHandler.1
@@ -868,7 +864,6 @@ public class HwImsServiceImpl {
                 tracker.handleSuppSvcUnsol(supp_svc_unsol);
             }
         }
-
         private void handleOnHoldTone(AsyncResult ar) {
             Rlog.d(HwImsServiceImpl.LOG_TAG, "handleOnHoldTone...");
             CarrierConfigManager cfgMgr = (CarrierConfigManager) HwImsServiceImpl.this.mContext.getSystemService("carrier_config");

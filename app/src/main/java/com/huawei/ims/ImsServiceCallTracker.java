@@ -174,7 +174,7 @@ public class ImsServiceCallTracker implements HwImsCallSessionImpl.Listener {
                 boolean isUnknown = false;
                 if (dc.state == DriverImsCall.State.END) {
                     continue;
-                    i = i2 + 1;
+                    // TODO Iceows
                 } else {
                     HwImsCallSessionImpl callSession2 = new HwImsCallSessionImpl(dc, this.mCi, this.mContext, this);
                     callSession2.addListener(this);
@@ -208,11 +208,6 @@ public class ImsServiceCallTracker implements HwImsCallSessionImpl.Listener {
                                 }
                                 isUnknown = isUnknown2;
                             } catch (Throwable th) {
-                                th = th;
-                            }
-                            try {
-                            } catch (Throwable th2) {
-                                th = th2;
                                 throw th;
                             }
                         }

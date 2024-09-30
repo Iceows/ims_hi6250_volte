@@ -30,7 +30,7 @@ import org.kxml2.io.KXmlParser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class HwImsConfigImpl extends ImsConfigImpl {
     public static final int CALL_WAITING_FROM_CS = 1;
     public static final int CALL_WAITING_FROM_LOCAL = 2;

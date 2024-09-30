@@ -9,7 +9,6 @@ import android.telephony.ims.ImsSsData;
 import android.telephony.ims.ImsSsInfo;
 import android.telephony.ims.ImsUtListener;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class ImsUtListenerProxy {
     private static final String LOG_TAG = "ImsUtListenerProxy";
     public ImsUtListener mListener;
@@ -18,9 +17,6 @@ public class ImsUtListenerProxy {
         checkAccessPermission();
         if (this.mListener != null) {
             Runnable r = new Runnable() { // from class: com.huawei.ims.ImsUtListenerProxy.1
-                {
-                    ImsUtListenerProxy.this = this;
-                }
 
                 @Override // java.lang.Runnable
                 public void run() {

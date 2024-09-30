@@ -3,7 +3,7 @@ package com.huawei.ims;
 import android.telephony.Rlog;
 import java.io.UnsupportedEncodingException;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public final class HexEncoder {
     private static final char[] DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
     private static final int NUM_16 = 16;

@@ -3,7 +3,6 @@ package com.huawei.videoengine;
 import android.util.Log;
 import java.nio.FloatBuffer;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class Drawable2d {
     private static final int SIZEOF_FLOAT = 4;
     private static final String TAG = "hme_engine_java";

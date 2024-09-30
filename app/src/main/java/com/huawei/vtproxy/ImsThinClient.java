@@ -12,7 +12,6 @@ import com.huawei.ims.HwImsConfigImpl;
 import com.huawei.sci.SciSys;
 import java.io.File;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class ImsThinClient {
     public static final String CAAS_EVENT_PARAM_READY = "com.huawei.caas.vtproxy.thinclient.PARAM_READY";
     public static final String CAAS_EVENT_PEER_RESOLUTION_CHANGE = "com.huawei.caas.vtproxy.thinclient.PEER_RESOLUTION_CHANGE";
@@ -425,8 +424,9 @@ public class ImsThinClient {
             Log.d("VTPROXY", "deleteHmeLogPath success");
             return true;
         } catch (Exception e2) {
-            e = e2;
+            Exception e = e2;
         }
+        return true;
     }
 
     public static void setHmeLog(boolean isWrite) {

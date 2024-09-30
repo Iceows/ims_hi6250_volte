@@ -4,7 +4,7 @@ import android.graphics.SurfaceTexture;
 import android.util.Log;
 import android.view.Surface;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class WindowSurface extends EglSurfaceBase {
     private Surface mSurface;
 

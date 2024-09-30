@@ -319,7 +319,6 @@ public class MediaCodecDecoder {
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public FrameInfoMsg(int i, long j, int i2, int i3, int i4) {
             super();
-            MediaCodecDecoder.this = r1;
             this.dataLength = i;
             this.renderTime = j;
             this.isKeyFrame = i2;
@@ -521,7 +520,6 @@ public class MediaCodecDecoder {
     /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
     class SurfaceListener implements SurfaceHolder.Callback {
         SurfaceListener() {
-            MediaCodecDecoder.this = r1;
         }
 
         @Override // android.view.SurfaceHolder.Callback
@@ -562,7 +560,6 @@ public class MediaCodecDecoder {
         private ObjExtend mSemaphore = null;
 
         public MsgBase() {
-            MediaCodecDecoder.this = r1;
         }
 
         public ObjExtend getSemaphore() {
@@ -611,7 +608,6 @@ public class MediaCodecDecoder {
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public ScaleMsg(float f, float f2, float f3) {
             super();
-            MediaCodecDecoder.this = r1;
             this.rate = f;
             this.moveX = f2;
             this.moveY = f3;
@@ -796,7 +792,6 @@ public class MediaCodecDecoder {
         /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public SurfaceInfoMsg(Surface surface) {
             super();
-            MediaCodecDecoder.this = r1;
             this.updateSf = surface;
         }
     }
@@ -970,7 +965,12 @@ public class MediaCodecDecoder {
         } else {
             z = true;
         }
-        if (this.mMirrorX == z) {
+        int z1=0;
+        if (z == true)
+            z1=1;
+        else
+            z1=0;
+        if (this.mMirrorX == z1) {
             Matrix.rotateM(fArr3, 0, 180.0f, 1.0f, 0.0f, 0.0f);
         }
         Matrix.rotateM(fArr3, 0, i, 0.0f, 0.0f, 1.0f);

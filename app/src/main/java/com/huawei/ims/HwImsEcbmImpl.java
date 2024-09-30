@@ -8,7 +8,7 @@ import android.telephony.Rlog;
 import android.telephony.ims.stub.ImsEcbmImplBase;
 import com.android.ims.internal.IImsEcbmListener;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class HwImsEcbmImpl extends ImsEcbmImplBase {
     private static final int EVENT_ENTER_EMERGENCY_CALLBACK_MODE = 1;
     private static final int EVENT_EXIT_EMERGENCY_CALLBACK_MODE = 2;
@@ -60,12 +60,7 @@ public class HwImsEcbmImpl extends ImsEcbmImplBase {
         t.start();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
     public class HwImsEcbmImplHandler extends Handler {
-        private HwImsEcbmImplHandler() {
-            HwImsEcbmImpl.this = r1;
-        }
 
         @Override // android.os.Handler
         public void handleMessage(Message msg) {

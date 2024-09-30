@@ -15,7 +15,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class FileUtils {
     private static FileUtils fileUtil = null;
     public static final String mZipPath = "/mnt/sdcard/log.zip";
@@ -109,6 +108,7 @@ public class FileUtils {
                 OutputStream out = null;
                 InputStream in = null;
                 try {
+                    IOException e;
                     try {
                         try {
                             File outFile = new File(mWorkingPath, fileName);
@@ -126,11 +126,7 @@ public class FileUtils {
                                 if (len > 0) {
                                     out2.write(buf, 0, len);
                                 } else {
-                                    try {
-                                        break;
-                                    } catch (IOException e) {
-                                        SciLog.e("FileUtils:", "output file close exception:" + e.getMessage());
-                                    }
+                                    break;
                                 }
                             }
                             out2.close();
@@ -346,7 +342,7 @@ public class FileUtils {
                         try {
                             fis.close();
                         } catch (IOException e3) {
-                            e = e3;
+                            IOException e = e3;
                             str = "FileUtils";
                             sb = new StringBuilder();
                             sb.append("getFileSize input file close exception: ");

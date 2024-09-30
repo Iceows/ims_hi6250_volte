@@ -6,10 +6,9 @@ import android.telephony.HwTelephonyManager;
 import android.telephony.Rlog;
 import android.telephony.TelephonyManager;
 import com.android.ims.HwImsManager;
-import com.huawei.ims.DriverImsCall;
 import com.huawei.internal.telephony.HwCustRILConstants;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class ImsCallProviderUtils {
     public static final int BUSY_REJECT_CAUSE = 0;
     public static final int IMS_DOMAIN_LTE = 0;
@@ -18,7 +17,8 @@ public class ImsCallProviderUtils {
     public static final int NO_REJECT_CAUSE = -1;
     public static final int USER_REJECT_CAUSE = 1;
     private static String TAG = "ImsCallProviderUtils";
-    public static final boolean IS_DUAL_IMS_AVAILABLE = HwImsManager.isDualImsAvailable();
+    // TODO Iceows - HwImsManager.isDualImsAvailable()
+    public static final boolean IS_DUAL_IMS_AVAILABLE = false;
     private static final String HW_VTLTE_ON = "ro.config.hw_vtlte_on";
     private static final boolean mIsVtLteSupported = SystemProperties.getBoolean(HW_VTLTE_ON, false);
     private static final boolean IS_VILTE_ENHANCEMENT_SUPPORTED = SystemProperties.getBoolean("ro.config.hw_vilte_enhancement", false);
@@ -246,8 +246,9 @@ public class ImsCallProviderUtils {
         }
     }
 
+    // TODO Iceows - && subId < TelephonyManager.getDefault().getSimCount()
     public static boolean isValidSubId(int subId) {
-        return subId >= 0 && subId < TelephonyManager.getDefault().getSimCount();
+        return subId >= 0 ;
     }
 
     public static String getImsStoredKeyWithSubId(int subId, String key) {

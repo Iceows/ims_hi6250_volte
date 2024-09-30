@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class EglSurfaceBase {
     protected static final String TAG = "hme_engine_java_EglSurfaceBase";
     protected EglCore mEglCore;
@@ -111,11 +111,10 @@ public class EglSurfaceBase {
             bufferedOutputStream.close();
             Log.d(TAG, "Saved " + width + "x" + height + " frame as '" + file2 + "'");
         } catch (Throwable th2) {
-            th = th2;
             if (bufferedOutputStream != null) {
                 bufferedOutputStream.close();
             }
-            throw th;
+            throw th2;
         }
     }
 

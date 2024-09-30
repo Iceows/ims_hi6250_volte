@@ -1,6 +1,6 @@
 package com.huawei.internal.telephony;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public interface HwCustRILConstants {
     public static final int DIAL_MODIFIED_TO_DIAL = 19;
     public static final int DIAL_MODIFIED_TO_SS = 18;

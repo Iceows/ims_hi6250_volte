@@ -13,7 +13,6 @@ import android.telephony.ims.ImsSuppServiceNotification;
 import android.telephony.ims.stub.ImsCallSessionImplBase;
 import com.android.ims.internal.IImsCallSession;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class ImsCallSessionListenerProxy {
     private static final String LOG_TAG = "ImsCallSessionListenerProxy";
     private Handler mCallbackHandler;
