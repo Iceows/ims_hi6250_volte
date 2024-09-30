@@ -259,7 +259,6 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
     /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
     public class ImsRilHandler extends Handler {
         ImsRilHandler() {
-            ImsRIL.this = this$0;
         }
 
         @Override // android.os.Handler
@@ -370,10 +369,11 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
         this.mRadioIndication = new ImsRadioIndication(this);
         this.imsRilHandler = new ImsRilHandler();
         this.mRadioProxyDeathRecipient = new RadioProxyDeathRecipient();
-        this.imsRILDefaultWorkSource = new WorkSource(context.getApplicationInfo().uid, context.getPackageName());
+        // TODO Iceows change WorkSource
+        this.imsRILDefaultWorkSource = new WorkSource();
         getRadioProxy(null);
         this.mPhoneType = 0;
-        PowerManager pm = (PowerManager) context.getSystemService("power");
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         this.mWakeLock = pm.newWakeLock(1, LOG_TAG);
         this.mWakeLock.setReferenceCounted(false);
         this.mAckWakeLock = pm.newWakeLock(1, RILJ_ACK_WAKELOCK_NAME);
@@ -2492,13 +2492,17 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
             if (enabled) {
                 try {
                     data = Settings.System.getString(this.mContext.getContentResolver(), "att_address_id_value");
-                } catch (RemoteException | RuntimeException e) {
+                } catch ( RuntimeException e) {
                     handleRadioProxyExceptionForRR("setWifiEmergencyAid", e, rr);
                     return;
                 }
             }
             logd("[Wifi-Call] setWifiEmergencyAid data = " + data);
-            radioProxy.setWifiEmergencyAid(rr.mSerial, convertNullToEmptyString(data));
+            try {
+                radioProxy.setWifiEmergencyAid(rr.mSerial, convertNullToEmptyString(data));
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -2703,7 +2707,7 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
     }
 
     public boolean isSupportCnap() {
-        CarrierConfigManager manager = (CarrierConfigManager) this.mContext.getSystemService("carrier_config");
+        CarrierConfigManager manager = (CarrierConfigManager) this.mContext.getSystemService(Context.CARRIER_CONFIG_SERVICE);
         if (manager == null) {
             return false;
         }
@@ -2716,7 +2720,7 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
     }
 
     public boolean isSupportVideoRingTones() {
-        CarrierConfigManager manager = (CarrierConfigManager) this.mContext.getSystemService("carrier_config");
+        CarrierConfigManager manager = (CarrierConfigManager) this.mContext.getSystemService(Context.CARRIER_CONFIG_SERVICE);
         if (manager == null) {
             return false;
         }

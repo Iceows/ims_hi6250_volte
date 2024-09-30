@@ -149,20 +149,20 @@ public class SciSSConf {
         if (Build.CPU_ABI.contains("arm64-v8a")) {
             System.loadLibrary("ut");
             System.loadLibrary("sci_ssconf");
-            return;
+        } else {
+            String str = SciSys.getLibPath();
+            if (str == null || str.length() == 0) {
+                SciSys.loadLib("ut");
+                SciSys.loadLib("sci_ssconf");
+            } else {
+                String str1 = str + "/libut.so";
+                String str2 = str + "/libsci_ssconf.so";
+                Log.e("SciSSConf", "str1=" + str1);
+                Log.e("SciSSConf", "str2=" + str2);
+                System.load(str1);
+                System.load(str2);
+            }
         }
-        String str = SciSys.getLibPath();
-        if (str == null || str.length() == 0) {
-            SciSys.loadLib("ut");
-            SciSys.loadLib("sci_ssconf");
-            return;
-        }
-        String str1 = str + "/libut.so";
-        String str2 = str + "/libsci_ssconf.so";
-        Log.e("SciSSConf", "str1=" + str1);
-        Log.e("SciSSConf", "str2=" + str2);
-        System.load(str1);
-        System.load(str2);
     }
 
     public static int querySSConf(int ssType) {

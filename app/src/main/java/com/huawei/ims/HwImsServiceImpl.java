@@ -386,7 +386,9 @@ public class HwImsServiceImpl {
         updatePhoneBaseEvent();
         if (this.mPhoneBase.get() != null) {
             this.mPhoneBase.get().mCi.registerForOn(this.mHandler, (int) EVENT_IMS_RADIO_ON, (Object) null);
-            this.mPhoneBase.get().mCi.registerForUnsolNvCfgFinished(this.mHandler, 23, (Object) null);
+            // TODO Iceows
+            //this.mPhoneBase.get().mCi.registerForUnsolNvCfgFinished(this.mHandler, 23, (Object) null);
+
         }
         onUpdateIccAvailability();
         try {
@@ -619,7 +621,8 @@ public class HwImsServiceImpl {
         Phone defPhone = getDefaultPhone();
         boolean isVolteSwitchOn = false;
         if (defPhone != null) {
-            isVolteSwitchOn = defPhone.getImsSwitch();
+            //isVolteSwitchOn = defPhone.getImsSwitch();
+            isVolteSwitchOn=true;
         }
         log("Volte Switch=" + isVolteSwitchOn);
         return isVolteSwitchOn;
@@ -866,7 +869,7 @@ public class HwImsServiceImpl {
         }
         private void handleOnHoldTone(AsyncResult ar) {
             Rlog.d(HwImsServiceImpl.LOG_TAG, "handleOnHoldTone...");
-            CarrierConfigManager cfgMgr = (CarrierConfigManager) HwImsServiceImpl.this.mContext.getSystemService("carrier_config");
+            CarrierConfigManager cfgMgr = (CarrierConfigManager) HwImsServiceImpl.this.mContext.getSystemService(Context.CARRIER_CONFIG_SERVICE);
             if (cfgMgr == null) {
                 return;
             }
@@ -1098,7 +1101,7 @@ public class HwImsServiceImpl {
                                             return;
                                         case 18:
                                             HwImsServiceImpl.this.log("EVENT_IMS_REG_FAIL_DELAY");
-                                            ImsPhone imsPhone = HwImsServiceImpl.this.getImsPhone();
+                                            ImsPhone imsPhone = (ImsPhone) HwImsServiceImpl.this.getImsPhone();
                                             if (!(imsPhone instanceof ImsPhone) || 1 == HwImsServiceImpl.this.mImsRegisterState) {
                                                 HwImsServiceImpl.this.log("get imsphone fail, can't trigger Ims Reg Fail Event ");
                                                 return;
@@ -1368,7 +1371,7 @@ public class HwImsServiceImpl {
                 component = new ComponentName(HwImsServiceImpl.DMPROVIDER_PACKAGE, HwImsServiceImpl.DMRECEIVER_CLASS);
             }
             intent.setComponent(component);
-            intent.addFlags(268435456);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(HwImsServiceImpl.DM_IMS_TYPE, 10);
             PackageManager pm = HwImsServiceImpl.this.mContext.getPackageManager();
             List<ResolveInfo> receivers = null;
@@ -1452,16 +1455,17 @@ public class HwImsServiceImpl {
             HwImsServiceImpl hwImsServiceImpl2 = HwImsServiceImpl.this;
             hwImsServiceImpl2.log("current speechInfoCodec is : " + HwImsServiceImpl.this.mSpeechInfoCodec[0]);
             Phone phone = HwImsServiceImpl.this.getDefaultPhone();
+            // TODO Iceows
             if (phone != null && phone.getImsPhone() != null) {
-                phone.setSpeechInfoCodec(speechCodec);
+                //phone.setSpeechInfoCodec(speechCodec);
                 Context context = phone.getContext();
-                String speechInfo = phone.getSpeechInfoCodec();
+                //String speechInfo = phone.getSpeechInfoCodec();
                 HwImsServiceImpl hwImsServiceImpl3 = HwImsServiceImpl.this;
-                hwImsServiceImpl3.log("setAudioParameters speechInfo = " + speechInfo);
-                if (context != null && !speechInfo.equals(HwImsConfigImpl.NULL_STRING_VALUE)) {
-                    AudioManager audioManager = (AudioManager) context.getSystemService(SciSSConf.MEDIA_AUDIO);
-                    audioManager.setParameters(speechInfo);
-                }
+                //hwImsServiceImpl3.log("setAudioParameters speechInfo = " + speechInfo);
+                //if (context != null && !speechInfo.equals(HwImsConfigImpl.NULL_STRING_VALUE)) {
+                //    AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                //    audioManager.setParameters(speechInfo);
+                //}
             }
         }
 
@@ -1482,9 +1486,10 @@ public class HwImsServiceImpl {
             AsyncResult ar = (AsyncResult) msg.obj;
             if (ar.exception != null) {
                 CommandException.Error err = null;
-                if (ar.exception instanceof CommandException) {
-                    err = ar.exception.getCommandError();
-                }
+                // TODO Iceows
+                //if (ar.exception instanceof CommandException) {
+                    //err = ar.exception.getCommandError();
+                //}
                 if (err == CommandException.Error.RADIO_NOT_AVAILABLE) {
                     HwImsServiceImpl.this.log("Radio is not available");
                     HwImsServiceImpl.this.mImsRegisterState = 0;
@@ -1531,11 +1536,12 @@ public class HwImsServiceImpl {
                 boolean optimize = HwImsServiceImpl.this.optimizeImsRegisterState();
                 if (HwImsServiceImpl.this.mImsConfigImpl != null && HwImsServiceImpl.this.mImsConfigImpl.isImsStateFollowVoiceDomain() && optimize && (defPhone = HwImsServiceImpl.this.getDefaultPhone()) != null) {
                     ServiceState serviceState = defPhone.getServiceState();
-                    int dataRegState = serviceState.getDataRegState();
-                    int rilRat = serviceState.getRilDataRadioTechnology();
-                    if (detectImsRegisterState(dataRegState, rilRat) == 0) {
-                        imsState = HwImsServiceImpl.IMS_STATE_UNREGISTERED;
-                    }
+                    // TODO Iceows
+                    //int dataRegState = serviceState.getDataRegState();
+                    //int rilRat = serviceState.getRilDataRadioTechnology();
+                    //if (detectImsRegisterState(dataRegState, rilRat) == 0) {
+                    //    imsState = HwImsServiceImpl.IMS_STATE_UNREGISTERED;
+                    //}
                 }
                 if (oldState == 0) {
                     boolean unused2 = HwImsServiceImpl.mFirstReg = false;
@@ -1562,7 +1568,7 @@ public class HwImsServiceImpl {
         }
 
         private void hangupCallsWhenNoService() {
-            ImsPhone imsPhone = HwImsServiceImpl.this.getImsPhone();
+            ImsPhone imsPhone = (ImsPhone) HwImsServiceImpl.this.getImsPhone();
             if (!(imsPhone instanceof ImsPhone)) {
                 HwImsServiceImpl.this.log("get imsphone fails.");
                 return;
@@ -1944,7 +1950,7 @@ public class HwImsServiceImpl {
 
     public void sendSimCardType() {
         int subId = ImsCallProviderUtils.getSubId(this.mSub);
-        int simState = TelephonyManager.getDefault().getSimState(subId == 0 ? 1 : 0);
+        int simState = HwTelephonyManager.getDefault().getSimState(subId == 0 ? 1 : 0);
         if (simState == 5) {
             Intent phoneTypeIntent = new Intent(IMS_SERVICE_CURRENT_PHONE_TYPE_ACTION);
             phoneTypeIntent.putExtra(String.valueOf(0), getCurrentPhoneTypeForSlot(0));
@@ -1954,7 +1960,7 @@ public class HwImsServiceImpl {
     }
 
     private int getCurrentPhoneTypeForSlot(int subId) {
-        int phoneType = TelephonyManager.getDefault().getCurrentPhoneTypeForSlot(subId);
+        int phoneType = HwTelephonyManager.getDefault().getCurrentPhoneTypeForSlot(subId);
         log("oldPhoneType = " + phoneType);
         if (HwTelephonyManager.getDefault().isCTSimCard(subId)) {
             phoneType = 2;
@@ -2074,7 +2080,7 @@ public class HwImsServiceImpl {
                 }
             };
             Intent intent = new Intent().setClassName("com.hisi.mapcon", "com.hisi.mapcon.MapconService");
-            this.mContext.bindServiceAsUser(intent, mConnection, 1, UserHandle.OWNER);
+            this.mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         }
     }
 
@@ -2158,7 +2164,7 @@ public class HwImsServiceImpl {
         PersistableBundle b;
         String mValueKeyConfig;
         int valueKeyConfig = -1;
-        CarrierConfigManager cfgMgr = (CarrierConfigManager) this.mContext.getSystemService("carrier_config");
+        CarrierConfigManager cfgMgr = (CarrierConfigManager) this.mContext.getSystemService(Context.CARRIER_CONFIG_SERVICE);
         int subId = HwTelephonyManager.getDefault().getDefault4GSlotId();
         if (cfgMgr != null && (b = cfgMgr.getConfigForSubId(subId)) != null && (mValueKeyConfig = b.getString(ImsVTConstants.CARRIERCONFIG_ENHANCED_VIDEO_FEATURE)) != null) {
             try {
@@ -2240,7 +2246,7 @@ public class HwImsServiceImpl {
         }
         Settings.System.putInt(imsphone.getContext().getContentResolver(), OPERATOR_CUSTOMER_WB_SHOW_HD, speechCodec);
         Intent intent = new Intent("com.huawei.intent.action.SPEECH_CODEC_WB");
-        intent.addFlags(536870912);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("speechCodecWb", speechCodec);
         intent.putExtra(SUBSCRIPTION_KEY, ImsCallProviderUtils.getSubId(this.mSub));
         imsphone.getContext().sendBroadcast(intent);

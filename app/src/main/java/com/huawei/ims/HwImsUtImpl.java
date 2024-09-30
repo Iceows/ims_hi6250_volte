@@ -8,6 +8,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.NetworkRequest;
 import android.net.Uri;
@@ -1018,13 +1019,15 @@ public class HwImsUtImpl extends ImsUtImpl {
     }
 
     private Message popUtMessage(int id) {
-        ImsPhone imsPhone = this.mHwImsServiceImpl.getImsPhone();
+        ImsPhone imsPhone = (ImsPhone) this.mHwImsServiceImpl.getImsPhone();
         if (imsPhone == null) {
             loge("popUtMessage imsPhone is null");
             return null;
         }
         ImsPhone imsPhone2 = imsPhone;
-        return imsPhone2.mHwImsPhoneEx.popUtMessage(id);
+        // TODO ICeows
+        //return imsPhone2.mHwImsPhoneEx.popUtMessage(id);
+        return null;
     }
 
     private void startUtServiceThread() {
@@ -1234,13 +1237,14 @@ public class HwImsUtImpl extends ImsUtImpl {
         }
         AsyncResult ar = (AsyncResult) msg.obj;
         if (ar != null && ar.exception != null && this.mHwImsServiceImpl != null) {
-            ImsPhone imsPhone = this.mHwImsServiceImpl.getImsPhone();
+            ImsPhone imsPhone = (ImsPhone) this.mHwImsServiceImpl.getImsPhone();
             if (!(imsPhone instanceof ImsPhone)) {
                 logd("get imsphone fails.");
                 return;
             }
             ImsPhone imsPhone2 = imsPhone;
-            imsPhone2.notifyECTFailed(PhoneInternalInterface.SuppService.TRANSFER);
+            // TODO Iceows
+            //imsPhone2.notifyECTFailed(PhoneInternalInterface.SuppService.TRANSFER);
         }
     }
 
@@ -1663,7 +1667,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         boolean isVoWifiRegistered = false;
         if (this.mImsConfigImpl != null && this.mImsConfigImpl.isUtPreferVowifiWhenVowifiReg()) {
             int subId = ImsCallProviderUtils.getSubId(this.mSubId);
-            isVoWifiRegistered = HwTelephonyManagerInner.getDefault().isWifiCallingAvailable(subId);
+            isVoWifiRegistered = HwTelephonyManagerInner.isWifiCallingAvailable(subId);
         }
         if (2 == utDomain || utDomain == 0 || isVoWifiRegistered) {
             return true;
@@ -1690,8 +1694,22 @@ public class HwImsUtImpl extends ImsUtImpl {
     }
 
     private Network getNetworkForType(int type) {
-        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService("connectivity");
-        return cm.getNetworkForType(type);
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null) {
+            // connected to the internet
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+                // connected to wifi
+                return cm.getActiveNetwork();
+            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+                // connected to mobile data
+                return cm.getActiveNetwork();
+            }
+        } else {
+            // not connected to the internet
+            return null;
+        }
+        return null;
     }
 
     private void initSDKServiceIpAddr(Network netWork) {
@@ -1997,10 +2015,10 @@ public class HwImsUtImpl extends ImsUtImpl {
     private int handoverUtCmd(Phone defPhone, UtCmd cmd, Message onComplete, int ret) {
         switch (cmd.mToken) {
             case CMD_GET_CALLBARRING_OPTION:
-                defPhone.getCallbarringOption(cmd.csFacility, cmd.csServiceClass, onComplete);
+                //defPhone.getCallbarringOption(cmd.csFacility, cmd.csServiceClass, onComplete);
                 return ret;
             case CMD_SET_CALLBARRING_OPTION:
-                defPhone.setCallbarringOption(cmd.csFacility, cmd.csPassword, cmd.utEnable, cmd.csServiceClass, onComplete);
+                //defPhone.setCallbarringOption(cmd.csFacility, cmd.csPassword, cmd.utEnable, cmd.csServiceClass, onComplete);
                 return ret;
             case CMD_GET_OUTGOING_CALLERID_DISPLAY:
                 defPhone.getOutgoingCallerIdDisplay(onComplete);
@@ -2019,18 +2037,19 @@ public class HwImsUtImpl extends ImsUtImpl {
                 defPhone.mCi.queryCLIP(onComplete);
                 return ret;
             case CMD_GET_CALLFORWARDING_OPTION:
-                defPhone.getCallForwardingOption(cmd.csReason, cmd.csServiceClass, onComplete);
+                //defPhone.getCallForwardingOption(cmd.csReason, cmd.csServiceClass, onComplete);
                 return ret;
             case CMD_SET_CALLFORWARDING_OPTION:
                 if (6 == cmd.csReason) {
                     logd("Set CFU due to time in cs domain, but abandon the time");
                     cmd.csReason = 0;
                 }
-                IHwGsmCdmaPhoneEx hwGsmCdmaPhoneEx = ((GsmCdmaPhone) defPhone).mHwGsmCdmaPhoneEx;
-                if (hwGsmCdmaPhoneEx != null) {
-                    hwGsmCdmaPhoneEx.setCallForwardingOption(cmd.csAction, cmd.csReason, cmd.utNumber, cmd.csServiceClass, cmd.utTimer, onComplete);
-                    return ret;
-                }
+                // TODO Iceows
+                //IHwGsmCdmaPhoneEx hwGsmCdmaPhoneEx = ((GsmCdmaPhone) defPhone).mHwGsmCdmaPhoneEx;
+                //if (hwGsmCdmaPhoneEx != null) {
+                //    hwGsmCdmaPhoneEx.setCallForwardingOption(cmd.csAction, cmd.csReason, cmd.utNumber, cmd.csServiceClass, cmd.utTimer, onComplete);
+                //    return ret;
+                //}
                 return ret;
             case CMD_GET_CALLWAITING_FOR_DETECTION:
                 logd("handoverUtCmd: this command is for detecting sim card subscription status,forbid CSFB.");
@@ -2661,7 +2680,8 @@ public class HwImsUtImpl extends ImsUtImpl {
         Phone defPhone = getDefaultPhone();
         boolean isVolteSwitchOn = false;
         if (defPhone != null) {
-            isVolteSwitchOn = defPhone.getImsSwitch();
+            //isVolteSwitchOn = defPhone.getImsSwitch();
+            isVolteSwitchOn = true;
         }
         logd("Volte Switch=" + isVolteSwitchOn);
         return isVolteSwitchOn;
@@ -2669,7 +2689,7 @@ public class HwImsUtImpl extends ImsUtImpl {
 
     private boolean isCardTypePreferToUseUT() {
         int subId = ImsCallProviderUtils.getSubId(this.mSubId);
-        int cardType = HwTelephonyManager.getDefault().getCardType(subId);
+        int cardType = HwTelephonyManager.getCardType(subId);
         return this.mImsConfigImpl.isCardTypePreferToUseUT(cardType);
     }
 
@@ -2680,7 +2700,7 @@ public class HwImsUtImpl extends ImsUtImpl {
     private String getCardMccMnc() {
         String mccMnc;
         int subId = ImsCallProviderUtils.getSubId(this.mSubId);
-        String simOperator = TelephonyManager.getDefault().getSimOperator(subId);
+        String simOperator = HwTelephonyManager.getSimOperator(subId);
         if (simOperator == null) {
             return null;
         }
@@ -3354,6 +3374,9 @@ public class HwImsUtImpl extends ImsUtImpl {
         }
         if (reason == 0) {
             Date[] date = SciSSConfHs.getCallForwardTime();
+
+            // TODO Iceows
+            /*
             if (date == null || 2 != date.length || date[0] == null || date[1] == null) {
                 infos[0].mStartHour = -1;
                 infos[0].mStartHour = -1;
@@ -3367,6 +3390,9 @@ public class HwImsUtImpl extends ImsUtImpl {
                 infos[0].mEndMinute = date[1].getMinutes();
                 logd("get CFT successfully, date=" + Arrays.toString(date) + ", mStartHour=" + infos[0].mStartHour + ", mStartMinute=" + infos[0].mStartMinute + ", mEndHour=" + infos[0].mEndHour + ", mEndMinute=" + infos[0].mEndMinute);
             }
+            */
+
+
         }
         infos[0].mToA = GENERAL_TELEPHONE_NUMBER;
         return infos;
@@ -3451,7 +3477,7 @@ public class HwImsUtImpl extends ImsUtImpl {
 
     public int beginImsConnectivity(boolean isVowifi) {
         this.mIsVowifi = isVowifi;
-        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService("connectivity");
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm == null) {
             loge("get ConnectivityManager null");
             return 3;
@@ -3459,22 +3485,23 @@ public class HwImsUtImpl extends ImsUtImpl {
         int slotId = ImsCallProviderUtils.getSubId(this.mSubId);
         this.mNetworkCallback = new UtNetworkCallback();
         if (isVowifi) {
-            NetworkRequest request = new NetworkRequest.Builder().addTransportType(1).addCapability(9).setNetworkSpecifier(String.valueOf(slotId)).build();
+            NetworkRequest request = new NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_WIFI).addCapability(NetworkCapabilities.NET_CAPABILITY_XCAP).setNetworkSpecifier(String.valueOf(slotId)).build();
             logd("handle UT data connection begin ims connectivity of vowifi");
-            cm.requestNetwork(request, this.mNetworkCallback, 0, 47, this.mUtServiceHandler);
+            cm.requestNetwork(request,this.mNetworkCallback,this.mUtServiceHandler,0);
+            //cm.requestNetwork(request, this.mNetworkCallback, 0, 47, this.mUtServiceHandler);
             this.mIsVowifiTimeOut = false;
         } else {
             int cap = getUtAPNCapabilities();
             int connectionType = getUtAPNConectionType();
-            NetworkRequest request2 = new NetworkRequest.Builder().addTransportType(0).addCapability(cap).setNetworkSpecifier(String.valueOf(slotId)).build();
+            NetworkRequest request2 = new NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR).addCapability(cap).setNetworkSpecifier(String.valueOf(slotId)).build();
             logd("handle UT data connection begin ims connectivity of volte use connectionType" + connectionType);
-            cm.requestNetwork(request2, this.mNetworkCallback, 0, connectionType, this.mUtServiceHandler);
+            cm.requestNetwork(request2, this.mNetworkCallback,  this.mUtServiceHandler, 0);
         }
         return 1;
     }
 
     public void endImsConnectivity() {
-        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService("connectivity");
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         logd("endImsConnectivity");
         this.mbReqRoutHost = false;
         this.mImsDCState = ImsDataConnectionState.IMS_DC_IDLE;
@@ -3496,7 +3523,7 @@ public class HwImsUtImpl extends ImsUtImpl {
     }
 
     private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService("connectivity");
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm == null) {
             loge("The ConnectivityManager is null");
             return false;
@@ -3522,7 +3549,7 @@ public class HwImsUtImpl extends ImsUtImpl {
                 return false;
             } else if (HwImsManager.isWfcEnabledByPlatform(context, ImsCallProviderUtils.getSubId(this.mSubId))) {
                 boolean isUtSwitchOn = this.mImsConfigImpl.getVowifiUtSwitch();
-                ConnectivityManager cm = (ConnectivityManager) context.getSystemService("connectivity");
+                ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
                 if (cm == null) {
                     loge("null == ConnectivityManager");
                     return false;
@@ -3570,7 +3597,7 @@ public class HwImsUtImpl extends ImsUtImpl {
 
     private int getUtDomain() {
         int slotId = ImsCallProviderUtils.getSubId(this.mSubId);
-        boolean isRoaming = TelephonyManager.getDefault().isNetworkRoaming(slotId);
+        boolean isRoaming = HwTelephonyManager.isNetorkRoaming(slotId);
         int utDomain = HwImsManager.getWfcMode(getContext(), isRoaming, slotId);
         logd("isUtOverWifiEnabled isRoaming = " + isRoaming + " sub = " + slotId);
         return utDomain;
@@ -3735,7 +3762,8 @@ public class HwImsUtImpl extends ImsUtImpl {
         SubscriptionManager subscriptionManager = SubscriptionManager.from(getContext());
         if (subscriptionManager != null) {
             logd("setDefaultDataSubId: subId = " + subId);
-            subscriptionManager.setDefaultDataSubId(subId);
+            // TODO Iceows
+            //subscriptionManager.setDefaultDataSubId(subId);
             return;
         }
         loge("setDefaultDataSubId failed!");
@@ -3767,10 +3795,13 @@ public class HwImsUtImpl extends ImsUtImpl {
         }
         int utAPNType = getUtAPNConectionType();
         try {
-            ConnectivityManager connMgr = (ConnectivityManager) getContext().getSystemService("connectivity");
+            ConnectivityManager connMgr = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             int addTag = 0;
+            // TODO Iceows
             for (int addTag2 = 0; addTag2 < inetAddress.length; addTag2++) {
-                if (connMgr != null && inetAddress[addTag2] != null && connMgr.requestRouteToHostAddress(utAPNType, inetAddress[addTag2])) {
+                if (connMgr != null
+                        && inetAddress[addTag2] != null )  {
+                        //&& connMgr.requestRouteToHostAddress(utAPNType, inetAddress[addTag2])) {
                     addTag++;
                 }
             }
@@ -3882,7 +3913,6 @@ public class HwImsUtImpl extends ImsUtImpl {
     /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
     public class UtNetworkCallback extends ConnectivityManager.NetworkCallback {
         private UtNetworkCallback() {
-            HwImsUtImpl.this = r1;
         }
 
         @Override // android.net.ConnectivityManager.NetworkCallback
@@ -3956,8 +3986,16 @@ public class HwImsUtImpl extends ImsUtImpl {
     }
 
     private boolean isDataSwitchOn() {
-        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService("connectivity");
-        return cm.getMobileDataEnabled();
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm.getActiveNetworkInfo() != null
+                && cm.getActiveNetworkInfo().isAvailable()
+                && cm.getActiveNetworkInfo().isConnected())
+        {
+            return true;
+        } else {
+            return false;
+        }
+        return false;
     }
 
     public void handleConnectivity(NetworkInfo networkInfo) {
@@ -4349,6 +4387,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         } else if (utBearerType == 2) {
             result = this.mHwImsServiceImpl.getImsRegisterState() == 1;
         } else if (utBearerType == 3) {
+            boolean r2=true;
             if (!isLTENetworkType() && this.mHwImsServiceImpl.getImsRegisterState() != 1) {
                 r2 = false;
             }
@@ -4360,7 +4399,7 @@ public class HwImsUtImpl extends ImsUtImpl {
 
     private boolean isLTENetworkType() {
         int subId = ImsCallProviderUtils.getSubId(this.mSubId);
-        int networkType = TelephonyManager.getDefault().getNetworkType(subId);
+        int networkType = HwTelephonyManager.getNetworkType(subId);
         logd("isLTENetworkType subId = " + subId + " networkType = " + networkType);
         return networkType == 13 || networkType == 19;
     }
@@ -4578,7 +4617,8 @@ public class HwImsUtImpl extends ImsUtImpl {
         }
         utChrBundle.putString("IMS.UT.cmdDcState", utChrData.mCmdDcState);
         logd("sendUtCHRBroadcast: sendTelephonyChrBroadcast." + utChrBundle.toString());
-        HwTelephonyFactory.getHwTelephonyChrManager().sendTelephonyChrBroadcast(utChrBundle);
+        // TODO ICeows
+        //HwTelephonyFactory.getHwTelephonyChrManager().sendTelephonyChrBroadcast(utChrBundle);
     }
 
     private UtCHRData extractParametersForChr(byte isVowifiUt, byte addressType, int failReason) {
