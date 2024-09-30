@@ -3,5 +3,4 @@
 app/debug/*
 app/release/*
 build/intermediates/*
-build/intermediates/lint-cache/maven.google/master-index.xml
-build/intermediates/lint-cache/maven.google/master-index.xml
+.idea/*
