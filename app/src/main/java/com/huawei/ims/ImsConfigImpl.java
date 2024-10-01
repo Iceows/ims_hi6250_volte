@@ -12,9 +12,8 @@ import android.os.ServiceManager;
 import android.telephony.Rlog;
 import android.telephony.ims.stub.ImsConfigImplBase;
 import com.android.ims.ImsConfigListener;
-import com.huawei.ims.HwImsConfigImpl;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class ImsConfigImpl extends ImsConfigImplBase {
     protected static final int CODE_IS_UNSUPPORT_MMI_CODE = 3001;
     private static final boolean DEBUG = false;
@@ -84,11 +83,7 @@ public class ImsConfigImpl extends ImsConfigImplBase {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
     private class ImsConfigImplHandler extends Handler {
-        private ImsConfigImplHandler() {
-            ImsConfigImpl.this = r1;
-        }
 
         @Override // android.os.Handler
         public void handleMessage(Message msg) {

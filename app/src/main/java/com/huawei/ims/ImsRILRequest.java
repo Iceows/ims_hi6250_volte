@@ -7,8 +7,7 @@ import android.os.WorkSource;
 import android.telephony.Rlog;
 import com.android.internal.telephony.CommandException;
 
-/* compiled from: ImsRIL.java */
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class ImsRILRequest {
     static final String LOG_TAG = "RILJ_IMS";
     private static final int MAX_POOL_SIZE = 4;
@@ -62,7 +61,8 @@ public class ImsRILRequest {
         ImsRILRequest rr = obtain(request, result);
         if (workSource != null) {
             rr.mWorkSource = workSource;
-            rr.mClientId = String.valueOf(workSource.get(0)) + ":" + workSource.getName(0);
+            // TODO Iceows - String.valueOf(workSource.get(0)) + ":" + workSource.getName(0);
+            rr.mClientId = "0123";
         } else {
             Rlog.e(LOG_TAG, "null workSource " + request);
         }

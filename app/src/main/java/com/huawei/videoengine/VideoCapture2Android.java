@@ -1,6 +1,8 @@
 package com.huawei.videoengine;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -19,14 +21,16 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Surface;
+
 import com.huawei.ims.HwImsConfigImpl;
 import com.huawei.videoengine.Texture2dProgram;
+
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class VideoCapture2Android {
     private static final int MSG_CAPTURE_SIZE = 1;
     private static final int MSG_DESTROY = 4;
@@ -548,7 +552,7 @@ public class VideoCapture2Android {
             return;
         }
         try {
-            this.mPreviewBuilder = this.mCameraDevice.createCaptureRequest(3);
+            this.mPreviewBuilder = this.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
             this.mReq = this.mPreviewBuilder.build();
             ArrayList arrayList = new ArrayList();
             if (this.mCameraTexture == null) {
@@ -631,27 +635,28 @@ public class VideoCapture2Android {
         return 0;
     }
 
-    public int allocateCamera(int i, Context context, String str) {
+    public int allocateCamera(int i, Context context, String str) throws CameraAccessException {
         Log.i(TAG, "#step# allocateCamera");
-        this.manager = (CameraManager) context.getSystemService("camera");
+        this.manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         if (this.manager == null) {
             Log.e(TAG, "get camera manager failed");
             return -1;
         }
         startBackgroundThread();
         try {
-        } catch (CameraAccessException e) {
-            Log.e(TAG, "CameraAccessException, maybe cameraDevice has been disconnected");
-            e.printStackTrace();
         } catch (IllegalArgumentException e2) {
             e2.printStackTrace();
         } catch (NullPointerException e3) {
             Log.e(TAG, "NULL PointerEx");
             e3.printStackTrace();
         }
-        if (i >= this.manager.getCameraIdList().length) {
-            Log.e(TAG, "the cameraId:" + i + " is beyond the cameraList length");
-            return -1;
+        try {
+            if (i >= this.manager.getCameraIdList().length) {
+                Log.e(TAG, "the cameraId:" + i + " is beyond the cameraList length");
+                return -1;
+            }
+        } catch (CameraAccessException e) {
+            throw new RuntimeException(e);
         }
         String str2 = this.manager.getCameraIdList()[i];
         for (int i2 = 0; i2 < this.manager.getCameraIdList().length; i2++) {
@@ -661,6 +666,17 @@ public class VideoCapture2Android {
         this.mMaxWidth = ((Rect) cameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE)).right;
         this.mMaxHeight = ((Rect) cameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE)).bottom;
         this.mIsFaceFront = Camera2Characteristic.isFaceFront(this.manager, str2);
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            Log.e(TAG, "Permission Camera failed to granted");
+            return -1;
+        }
         this.manager.openCamera(str2, this.mStateCallback, this.mBackgroundHandler);
         return 0;
     }

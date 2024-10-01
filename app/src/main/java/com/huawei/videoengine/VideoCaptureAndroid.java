@@ -1,5 +1,6 @@
 package com.huawei.videoengine;
 
+import android.annotation.SuppressLint;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Build;
@@ -12,7 +13,6 @@ import java.util.Locale;
 import java.util.concurrent.locks.ReentrantLock;
 import vendor.huawei.hardware.radio.ims.V1_0.LastCallFailCause;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class VideoCaptureAndroid implements Camera.PreviewCallback, SurfaceHolder.Callback {
     private static boolean DEBUG = false;
     private static final String TAG = "hme-video";
@@ -87,6 +87,7 @@ public class VideoCaptureAndroid implements Camera.PreviewCallback, SurfaceHolde
         }
     }
 
+    @SuppressLint("WrongConstant")
     public VideoCaptureAndroid(int i, long j, Camera camera, VideoCaptureDeviceInfoAndroid.AndroidVideoCaptureDevice androidVideoCaptureDevice) {
         this.camera = null;
         this.currentDevice = null;
@@ -212,10 +213,11 @@ public class VideoCaptureAndroid implements Camera.PreviewCallback, SurfaceHolde
         }
     }
 
+    @SuppressLint("WrongConstant")
     public int startCapture(int i, int i2, int i3, int i4) {
         boolean z;
         int i5;
-        int[] iArr;
+        int[] iArr = new int[0];
         if (DEBUG) {
             Log.d(TAG, "StartCapture width:" + i + " height:" + i2 + " fps:" + i3 + " previewImageType:" + i4);
         }
@@ -285,8 +287,8 @@ public class VideoCaptureAndroid implements Camera.PreviewCallback, SurfaceHolde
             PixelFormat.getPixelFormatInfo(i5, this.pixelFormat);
             if (this.pixelFormat.bitsPerPixel == -1) {
                 Log.e(TAG, String.format(Locale.US, "start capture! not support format:%d", Integer.valueOf(i5)));
-                i5 = 17;
-                PixelFormat.getPixelFormatInfo(17, this.pixelFormat);
+                i5 = PIXEL_FORMAT;
+                PixelFormat.getPixelFormatInfo(PIXEL_FORMAT, this.pixelFormat);
                 if (this.pixelFormat.bitsPerPixel == -1) {
                     Log.e(TAG, String.format(Locale.US, "start capture! not support format:NV21", new Object[0]));
                     return -1;
@@ -398,9 +400,6 @@ public class VideoCaptureAndroid implements Camera.PreviewCallback, SurfaceHolde
             }
         } catch (Exception e) {
             Log.e(TAG, "Failed to removeCallback!");
-            return -1;
-        } catch (RuntimeException e2) {
-            Log.e(TAG, "Failed to stop camera");
             return -1;
         } finally {
             captureSysLock.unlock();

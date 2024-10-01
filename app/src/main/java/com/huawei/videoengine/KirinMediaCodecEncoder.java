@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.concurrent.locks.ReentrantLock;
 import vendor.huawei.hardware.radio.ims.V1_0.LastCallFailCause;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class KirinMediaCodecEncoder {
     private static final String TAG = "hme_engine_KMC";
     private static final String VENDOR_KEY_CAPTURESTATUS = "vendor.hisi.CaptureStatus";
@@ -218,9 +218,6 @@ public class KirinMediaCodecEncoder {
     public void addAsyncCallback() {
         Log.i(TAG, "Enter addAsyncCallback.");
         this.encoder.setCallback(new MediaCodec.Callback() { // from class: com.huawei.videoengine.KirinMediaCodecEncoder.1
-            {
-                KirinMediaCodecEncoder.this = this;
-            }
 
             @Override // android.media.MediaCodec.Callback
             public void onInputBufferAvailable(MediaCodec mediaCodec, int i) {
@@ -713,7 +710,7 @@ public class KirinMediaCodecEncoder {
         this.mediaFormat.setInteger("i-frame-interval", 10800);
         Log.i(TAG, "Format:[" + this.mWidthIn + HwImsConfigImpl.SEPARATOR_TAG + this.mHeightIn + "]->[" + this.mWidthOut + HwImsConfigImpl.SEPARATOR_TAG + this.mHeightOut + "]");
         addAsyncCallback();
-        this.encoder.configure(this.mediaFormat, (Surface) null, (MediaCrypto) null, 1);
+        this.encoder.configure(this.mediaFormat, (Surface) null, (MediaCrypto) null, MediaCodec.CONFIGURE_FLAG_ENCODE);
         if (this.mMCType == MCType.eSurface) {
             this.mMCSurface = this.encoder.createInputSurface();
             if (this.mMCSurface == null) {

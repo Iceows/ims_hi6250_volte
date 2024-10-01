@@ -9,7 +9,6 @@ import android.view.SurfaceView;
 import java.nio.ByteBuffer;
 import java.util.concurrent.locks.ReentrantLock;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class H264Decoder implements SurfaceHolder.Callback {
     private int dataLength;
     private int isKeyFrame;
@@ -153,8 +152,8 @@ public class H264Decoder implements SurfaceHolder.Callback {
 
     public int onFrame() {
         int dequeueOutputBuffer;
-        ByteBuffer[] inputBuffers;
-        int dequeueInputBuffer;
+        ByteBuffer[] inputBuffers = new ByteBuffer[0];
+        int dequeueInputBuffer = 0;
         this.decoderLock.lock();
         try {
             if (this.started) {
@@ -232,9 +231,6 @@ public class H264Decoder implements SurfaceHolder.Callback {
             return 0;
         } catch (Exception e) {
             Log.e("H264JavaDecoder", "Configure : " + e.toString());
-            return -1;
-        } catch (Exception e2) {
-            Log.e("H264JavaDecoder", "Start : " + e2.toString());
             return -1;
         } finally {
             this.decoderLock.unlock();

@@ -17,7 +17,7 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class GbaAuth extends Handler {
     public static final int AUTH_RESP_FAIL = 1;
     public static final int AUTH_RESP_SUCCESS = 0;
@@ -652,7 +652,7 @@ public class GbaAuth extends Handler {
     private void handleTimeout() {
         Iterator it = this.mBtidTable.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry<String, BtidElem> entry = it.next();
+            Map.Entry<String, BtidElem> entry = (Map.Entry<String, BtidElem>) it.next();
             String key = entry.getKey();
             BtidElem value = entry.getValue();
             String nafId = getNafIdViaBtid(value.mBTid);

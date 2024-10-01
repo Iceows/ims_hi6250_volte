@@ -4,10 +4,9 @@ import android.os.AsyncResult;
 import android.os.Handler;
 import android.os.Message;
 import android.telephony.Rlog;
-import com.huawei.ims.DriverImsCall;
 import java.util.Map;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class ImsCallAdapter {
     static final int EVENT_AVP_UPGRADE_DONE = 5;
     static final int EVENT_MODIFY_CALL_CONFIRM_DONE = 8;
@@ -340,11 +339,7 @@ public class ImsCallAdapter {
         this.callModifyRequest = null;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
     public class ImsCallAdapterHandler extends Handler {
-        ImsCallAdapterHandler() {
-            ImsCallAdapter.this = this$0;
-        }
 
         @Override // android.os.Handler
         public void handleMessage(Message msg) {

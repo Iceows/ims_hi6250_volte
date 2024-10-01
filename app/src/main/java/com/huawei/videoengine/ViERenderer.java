@@ -6,10 +6,12 @@ import android.os.Build;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class ViERenderer {
     private static final int MAXNUM = 16;
     private static final String TAG = "hme-video";
@@ -32,7 +34,7 @@ public class ViERenderer {
         } else {
             surfaceView = new SurfaceView(context);
         }
-        surfaceView.setVisibility(0);
+        surfaceView.setVisibility(View.VISIBLE);
         surfaceView.setBackgroundColor(0);
         surfaceView.setDrawingCacheEnabled(false);
         surfaceView.setZOrderMediaOverlay(true);
@@ -97,7 +99,7 @@ public class ViERenderer {
 
     public static void setLocalRenderInfo(SurfaceView surfaceView) {
         Log.i(TAG, "enter ViERenderer.java! setLocalRenderInfo");
-        surfaceView.setVisibility(0);
+        surfaceView.setVisibility(View.VISIBLE);
         surfaceView.setBackgroundColor(0);
         surfaceView.setDrawingCacheEnabled(false);
         surfaceView.setZOrderMediaOverlay(true);
@@ -156,7 +158,7 @@ public class ViERenderer {
 
     public static boolean isAppOnForeground2(Context context) {
         String packageName = context.getPackageName();
-        List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = ((ActivityManager) context.getSystemService("activity")).getRunningAppProcesses();
+        List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getRunningAppProcesses();
         if (runningAppProcesses == null) {
             return false;
         }

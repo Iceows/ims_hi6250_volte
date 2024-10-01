@@ -30,7 +30,7 @@ import org.kxml2.io.KXmlParser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class HwImsConfigImpl extends ImsConfigImpl {
     public static final int CALL_WAITING_FROM_CS = 1;
     public static final int CALL_WAITING_FROM_LOCAL = 2;
@@ -457,7 +457,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         if (this.mCardTypePreferToUseUT != null && this.mCardTypePreferToUseUT.length != 0) {
             return isContainInIMSConfig(this.mCardTypePreferToUseUT, cardType);
         }
-        logw("mCardTypePreferToUseUT is null");
+        mylogw("mCardTypePreferToUseUT is null");
         return true;
     }
 
@@ -497,7 +497,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         if (this.mSSTypeUseCsOnly != null && this.mSSTypeUseCsOnly.length != 0) {
             return isContainInIMSConfig(this.mSSTypeUseCsOnly, ssType);
         }
-        logw("mSSTypeUseCsOnly is null.");
+        mylogw("mSSTypeUseCsOnly is null.");
         return false;
     }
 
@@ -507,7 +507,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         if (this.mNotSupportMMICode != null && this.mNotSupportMMICode.length != 0) {
             return isContainInIMSConfig(this.mNotSupportMMICode, MMIcode);
         }
-        logw("mNotSupportMMICode is null.");
+        mylogw("mNotSupportMMICode is null.");
         return false;
     }
 
@@ -522,7 +522,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         if (this.mSSForbidFallbackCS != null && this.mSSForbidFallbackCS.length != 0) {
             return isContainInIMSConfig(this.mSSForbidFallbackCS, ssType);
         }
-        logw("mSSForbidFallbackCS is null.");
+        mylogw("mSSForbidFallbackCS is null.");
         return false;
     }
 
@@ -742,7 +742,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         if (this.mDcFailCause != null && this.mDcFailCause.length != 0) {
             return isContainInIMSConfig(this.mDcFailCause, cause);
         }
-        logw("mDcFailCause is null.");
+        mylogw("mDcFailCause is null.");
         return false;
     }
 
@@ -750,7 +750,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         if (this.mDcFailCauseToReleaseApn != null && this.mDcFailCauseToReleaseApn.length != 0) {
             return isContainInIMSConfig(this.mDcFailCauseToReleaseApn, cause);
         }
-        logw("isDcFailCauseToReleaseApn fasle mDcFailCauseToReleaseApn is null.");
+        mylogw("isDcFailCauseToReleaseApn fasle mDcFailCauseToReleaseApn is null.");
         return false;
     }
 
@@ -1113,7 +1113,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
     public synchronized void readCarrierConfig(Context context) {
         if (FEATURE_VOLTE_DYN) {
             logd("readCarrierConfig begin");
-            CarrierConfigManager cfgMgr = (CarrierConfigManager) context.getSystemService("carrier_config");
+            CarrierConfigManager cfgMgr = (CarrierConfigManager) context.getSystemService(Context.CARRIER_CONFIG_SERVICE);
             int subId = ImsCallProviderUtils.getSubId(this.mSubId);
             PersistableBundle b = cfgMgr.getConfigForSubId(subId);
             readBoolCarrierConfig(b);
@@ -1721,7 +1721,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                             ((XmlResourceParser) parser).close();
                         }
                         if (parser instanceof KXmlParser) {
-                            ((KXmlParser) parser).close();
+                          //  ((KXmlParser) parser).close();
                         }
                     } catch (Throwable th) {
                         if (parser instanceof XmlResourceParser) {
@@ -1729,7 +1729,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                         }
                         if (parser instanceof KXmlParser) {
                             try {
-                                ((KXmlParser) parser).close();
+                               // ((KXmlParser) parser).close();
                             } catch (Exception e) {
                                 loge("Exception");
                             }
@@ -1742,7 +1742,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                         ((XmlResourceParser) parser).close();
                     }
                     if (parser instanceof KXmlParser) {
-                        ((KXmlParser) parser).close();
+                       // ((KXmlParser) parser).close();
                     }
                 }
             } catch (RuntimeException e3) {
@@ -1751,7 +1751,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                     ((XmlResourceParser) parser).close();
                 }
                 if (parser instanceof KXmlParser) {
-                    ((KXmlParser) parser).close();
+                   // ((KXmlParser) parser).close();
                 }
             }
         } catch (Exception e4) {
@@ -1761,7 +1761,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
 
     private boolean isContainInIMSConfig(int[] imsConfig, int serviceValue) {
         if (imsConfig == null || imsConfig.length == 0) {
-            logw("ims config is null.");
+            mylogw("ims config is null.");
             return true;
         }
         for (int i : imsConfig) {
@@ -1790,17 +1790,17 @@ public class HwImsConfigImpl extends ImsConfigImpl {
 
     private int[] stringToIntArray(String stringText) {
         if (stringText == null) {
-            logw("stringText is null. ");
+            mylogw("stringText is null. ");
             return new int[0];
         }
         String stringReplaceSpace = stringText.replaceAll(" ", NULL_STRING_VALUE);
         if (NULL_STRING_VALUE.equals(stringReplaceSpace)) {
-            logw("stringText is null after replace space. ");
+            mylogw("stringText is null after replace space. ");
             return new int[0];
         }
         String[] stringTextArray = stringReplaceSpace.split(SEPARATOR_TAG);
         if (stringTextArray.length == 0) {
-            logw("stringTextArray length is 0 after replace space.");
+            mylogw("stringTextArray length is 0 after replace space.");
             return new int[0];
         }
         int[] intArray = new int[stringTextArray.length];
@@ -1822,17 +1822,17 @@ public class HwImsConfigImpl extends ImsConfigImpl {
 
     private String[] stringToStringArray(String stringText) {
         if (stringText == null) {
-            logw("stringText is null.");
+            mylogw("stringText is null.");
             return new String[0];
         }
         String stringReplaceSpace = stringText.replaceAll(" ", NULL_STRING_VALUE);
         if (NULL_STRING_VALUE.equals(stringReplaceSpace)) {
-            logw("stringText is null after replace space.");
+            mylogw("stringText is null after replace space.");
             return new String[0];
         }
         String[] stringArray = stringReplaceSpace.split(SEPARATOR_TAG);
         if (stringArray.length == 0) {
-            logw("stringArray length is 0 after replace space.");
+            mylogw("stringArray length is 0 after replace space.");
             return new String[0];
         }
         for (int i = 0; i < stringArray.length; i++) {
@@ -1912,15 +1912,15 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return HiddenPrivacyInfo.putMosaic(info, type);
     }
 
-    public void logd(String s) {
+    public void mylogd(String s) {
         Rlog.d("HwImsConfigImpl[" + this.mSubId + "]", s);
     }
 
-    private void loge(String s) {
+    private void myloge(String s) {
         Rlog.e("HwImsConfigImpl[" + this.mSubId + "]", "[ERROR] " + s);
     }
 
-    private void logw(String s) {
+    private void mylogw(String s) {
         Rlog.w("HwImsConfigImpl[" + this.mSubId + "]", "[WARN] " + s);
     }
 
@@ -1994,7 +1994,8 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 }
             };
             Intent intent = new Intent().setClassName("com.hisi.mapcon", "com.hisi.mapcon.MapconService");
-            this.mContext.bindServiceAsUser(intent, mConnection, 1, UserHandle.OWNER);
+            this.mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
         }
     }
 

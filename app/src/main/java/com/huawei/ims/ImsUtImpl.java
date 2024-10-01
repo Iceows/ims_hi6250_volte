@@ -1,6 +1,7 @@
 package com.huawei.ims;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -13,7 +14,6 @@ import com.android.ims.internal.IImsUtListener;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class ImsUtImpl extends ImsUtImplBase {
     private static final int ARRAY_INDEX_ONE = 1;
     private static final boolean DEBUG = false;
@@ -273,7 +273,7 @@ public class ImsUtImpl extends ImsUtImplBase {
         if (mHwImsUtImpl != null && mHwImsUtImpl.length != 0) {
             this.mContext = mHwImsUtImpl[0].getContext();
         }
-        if (this.mContext != null && this.mContext.checkCallingPermission("android.permission.DUMP") != 0) {
+        if (this.mContext != null && this.mContext.checkCallingPermission("android.permission.DUMP") != PackageManager.PERMISSION_GRANTED) {
             pw.println("Permission Denial: can't dump ims_ut from pid=" + Binder.getCallingPid() + ", uid=" + Binder.getCallingUid());
             Rlog.e(LOG_TAG, "dump,no permission return");
         } else if (DYADIC_ARRAY != null && DYADIC_ARRAY.length != 0) {
@@ -284,7 +284,7 @@ public class ImsUtImpl extends ImsUtImplBase {
     }
 
     public IBinder getHwInnerService() {
-        return this.mHwInnerService;
+        return (IBinder) this.mHwInnerService;
     }
 
     /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
@@ -292,7 +292,6 @@ public class ImsUtImpl extends ImsUtImplBase {
         private ImsUtImpl imsUtImpl;
 
         HwInnerImsUt(ImsUtImpl imsUt) {
-            ImsUtImpl.this = this$0;
             this.imsUtImpl = imsUt;
         }
 

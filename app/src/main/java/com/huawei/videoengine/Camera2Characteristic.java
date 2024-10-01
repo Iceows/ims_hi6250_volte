@@ -13,7 +13,7 @@ import com.huawei.videoengine.VideoCaptureDeviceInfoAndroid;
 import java.util.ArrayList;
 import java.util.List;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class Camera2Characteristic {
     private static final String TAG = "hme_engine_java";
     List<VideoCaptureDeviceInfoAndroid.AndroidVideoCaptureDevice> deviceList = null;
@@ -24,13 +24,13 @@ public class Camera2Characteristic {
         this.mContext = null;
         this.mManager = null;
         this.mContext = context;
-        this.mManager = (CameraManager) this.mContext.getSystemService("camera");
+        this.mManager = (CameraManager) this.mContext.getSystemService(Context.CAMERA_SERVICE);
         init();
     }
 
     public String getDeviceUniqueName(Context context, int i) {
         String str;
-        Integer num;
+        Integer num = 0;
         String str2 = "Camera " + i + ", ";
         try {
             CameraCharacteristics cameraCharacteristics = this.mManager.getCameraCharacteristics(this.mManager.getCameraIdList()[i]);

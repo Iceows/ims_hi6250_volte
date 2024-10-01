@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class MtStatusManager {
     private static final boolean DEBUG = false;
     public static final int FAIL_CAUSE_BASE = 32768;
@@ -68,9 +67,6 @@ public class MtStatusManager {
     private HashMap<String, MtCallRecord> mMonitorMap = new HashMap<>();
     private HashMap<String, MtCallRecord> mReminderMap = new HashMap<>();
     protected BroadcastReceiver mIntentReceiver = new BroadcastReceiver() { // from class: com.huawei.ims.MtStatusManager.1
-        {
-            MtStatusManager.this = this;
-        }
 
         @Override // android.content.BroadcastReceiver
         public void onReceive(Context context, Intent intent) {
@@ -167,7 +163,7 @@ public class MtStatusManager {
                 }
                 if (keys != null) {
                     Iterator it = keys.iterator();
-                    address = it.next();
+                    address = (String) it.next();
                 }
             }
             if (isNeedNotifyImsCallEnded(address)) {
@@ -424,7 +420,10 @@ public class MtStatusManager {
             log("isCheckServiceWhenIncomingCall is false.");
         } else if (phoneId != HuaweiTelephonyManager.getDefault().getDefault4GSlotId()) {
             log("checkServiceWhenIncomingCall: this is incoming call from vsim, do not handle it");
-        } else if (this.owner != null && (defPhone = this.owner.getDefaultPhone()) != null && (serviceState = defPhone.getServiceStateTracker()) != null && serviceState.mSS.getState() != 0 && serviceState.mSS.getDataRegState() != 0) {
+        } else if (this.owner != null && (defPhone = this.owner.getDefaultPhone()) != null
+                && (serviceState = defPhone.getServiceStateTracker()) != null
+                && serviceState.mSS.getState() != 0 ) {
+            // TODO Iceows
             loge("checkServiceWhenIncomingCall: phone is out of service when incoming call");
             HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(0L, 0L, 1007, (int) FAIL_CAUSE_RING_WHEN_NO_SERVICE);
         }
@@ -541,7 +540,7 @@ public class MtStatusManager {
     }
 
     protected ImsPhone getImsPhone() {
-        ImsPhone imsPhone = this.owner.getImsPhone();
+        ImsPhone imsPhone = (ImsPhone) this.owner.getImsPhone();
         if (imsPhone == null) {
             return null;
         }
@@ -553,7 +552,8 @@ public class MtStatusManager {
         if (imsphone == null) {
             loge("setBusy: imsphone is null");
         } else {
-            imsphone.mHwImsPhoneEx.setIsBusy(isBusy);
+            // TODO Iceows
+            //imsphone.mHwImsPhoneEx.setIsBusy(isBusy);
         }
     }
 

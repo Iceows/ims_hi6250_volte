@@ -20,8 +20,6 @@ import android.util.Pair;
 import com.android.ims.internal.IImsVideoCallProvider;
 import com.android.internal.telephony.HwTelephonyFactory;
 import com.google.android.collect.Maps;
-import com.huawei.ims.DriverImsCall;
-import com.huawei.ims.ImsCallAdapter;
 import com.huawei.ims.vt.ImsVTCallProviderImpl;
 import com.huawei.ims.vt.VTUtils;
 import java.util.ArrayList;
@@ -29,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
     private static final String CALL_COMPLETED_ELSEWHERE = "Call completed elsewhere";
     private static final int CODE_HOLD_FOR_IMS = 2001;
@@ -362,7 +360,6 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
                         Rlog.d(LOG_TAG, "Call resumed skipped, conf status = " + this.mIsConfInProgress);
                         break;
                     }
-                    break;
                 case HOLDING:
                     if (this.mDc != null && this.mDc.state != DriverImsCall.State.HOLDING) {
                         Rlog.d(LOG_TAG, "Call being held.");
@@ -500,11 +497,7 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
         return hoType == 1;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
     public class HwImsCallSessionImplHandler extends Handler {
-        HwImsCallSessionImplHandler() {
-            HwImsCallSessionImpl.this = r1;
-        }
 
         @Override // android.os.Handler
         public void handleMessage(Message msg) {

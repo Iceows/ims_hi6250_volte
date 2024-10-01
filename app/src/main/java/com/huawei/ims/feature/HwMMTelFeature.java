@@ -20,9 +20,7 @@ import com.huawei.ims.HwImsCallSessionImpl;
 import com.huawei.ims.HwImsServiceImpl;
 import com.huawei.ims.ImsCallProviderUtils;
 import com.huawei.ims.ImsServiceCallTracker;
-import com.huawei.telephony.HuaweiTelephonyManager;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class HwMMTelFeature extends MmTelFeature {
     private static final int EVENT_SIM_STATE_CHANGED = 2;
     private static final int LAST_CALL_TYPE_UNKNOWN = -1;
@@ -37,9 +35,6 @@ public class HwMMTelFeature extends MmTelFeature {
 
     /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
     public class InCallListener implements ImsServiceCallTracker.InComingListener {
-        public InCallListener() {
-            HwMMTelFeature.this = this$0;
-        }
 
         @Override // com.huawei.ims.ImsServiceCallTracker.InComingListener
         public final void notifyIncomingCall(ImsCallSessionImplBase c, Bundle extras) {
@@ -58,9 +53,6 @@ public class HwMMTelFeature extends MmTelFeature {
 
     /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
     public class CapabilitiesStatusListener implements ImsServiceCallTracker.FeatureCapatilityListener {
-        private CapabilitiesStatusListener() {
-            HwMMTelFeature.this = r1;
-        }
 
         @Override // com.huawei.ims.ImsServiceCallTracker.FeatureCapatilityListener
         public final void notifyCapabilitiesStatusChanged(MmTelFeature.MmTelCapabilities c) {
@@ -68,6 +60,7 @@ public class HwMMTelFeature extends MmTelFeature {
         }
     }
 
+    // TODO Iceows
     public HwMMTelFeature(Context context, int slotId, HwImsServiceImpl hwImsServiceImpl) {
         this.mImsPhoneId = 0;
         this.mSubId = -1;
@@ -75,18 +68,11 @@ public class HwMMTelFeature extends MmTelFeature {
         this.mHwImsServiceImpl = hwImsServiceImpl;
         this.mSubId = slotId;
         logd("HwMMTelFeature constructor: mSubId = " + this.mSubId);
-        boolean isMultiSims = TelephonyManager.getDefault().isMultiSimEnabled();
+        boolean isMultiSims = false;
         logd("HwMMTelFeature constructor: isMultiSims = " + isMultiSims + ", isDualIms = " + ImsCallProviderUtils.IS_DUAL_IMS_AVAILABLE);
-        if (isMultiSims && !ImsCallProviderUtils.IS_DUAL_IMS_AVAILABLE) {
-            this.mImsPhoneId = HuaweiTelephonyManager.getDefault().getDefault4GSlotId();
-            if (this.mSubId == this.mImsPhoneId) {
-                setFeatureState(2);
-                logd("HwMMTelFeature constructor: setFeatureState ready! mImsPhoneId = " + this.mImsPhoneId);
-            }
-        } else {
-            setFeatureState(2);
-            logd("HwMMTelFeature constructor: setFeatureState ready!");
-        }
+        setFeatureState(2);
+        logd("HwMMTelFeature constructor: setFeatureState ready!");
+
         initSubscriptionStatus();
     }
 
@@ -109,40 +95,16 @@ public class HwMMTelFeature extends MmTelFeature {
     }
 
     private void initSubscriptionStatus() {
-        if (TelephonyManager.getDefault().isMultiSimEnabled() && !ImsCallProviderUtils.IS_DUAL_IMS_AVAILABLE) {
-            createHandler();
-            try {
-                this.mUiccController = UiccController.getInstance();
-                this.mUiccController.registerForIccChanged(this.mHandler, 2, (Object) null);
-            } catch (RuntimeException e) {
-                loge("UiccController getInstance Exception!");
-            }
-            logd("initSubscriptionStatus: registered for EVENT_SIM_STATE_CHANGED");
-            return;
-        }
         logd("initSubscriptionStatus: Not multi-sim...");
         this.mUiccController = null;
         this.mHandler = null;
     }
 
     private void handleSimStateChanged(Message msg) {
-        int mNumPhones = TelephonyManager.getDefault().getPhoneCount();
+
         boolean mPhoneChanged = false;
-        logd("handleSimStateChanged: NumPhones:" + mNumPhones + " Ims PhoneID:" + this.mImsPhoneId);
-        int default4GSlotId = HuaweiTelephonyManager.getDefault().getDefault4GSlotId();
-        if (this.mImsPhoneId != default4GSlotId) {
-            this.mImsPhoneId = default4GSlotId;
-            mPhoneChanged = true;
-        }
-        logd("handleSimStateChanged: mPhoneChanged = " + mPhoneChanged);
-        if (mPhoneChanged) {
-            this.mHwImsServiceImpl.registerForPhoneId(this.mImsPhoneId);
-            if (this.mSubId != this.mImsPhoneId) {
-                setFeatureState(0);
-            } else {
-                setFeatureState(2);
-            }
-        }
+        logd("handleSimStateChanged:  Ims PhoneID:" + this.mImsPhoneId);
+
     }
 
     public ImsCallProfile createCallProfile(int callSessionType, int callType) {

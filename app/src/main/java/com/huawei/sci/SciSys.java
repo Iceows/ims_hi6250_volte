@@ -247,14 +247,18 @@ public class SciSys {
 
     public static int cliCbEvnt(long zEvntId) {
         Message msg = mSdkHandler.obtainMessage(0, Long.valueOf(zEvntId));
-        boolean ret = mSdkHandler.sendMessage(msg);
-        return !ret;
+        boolean myBoolean = mSdkHandler.sendMessage(msg);
+
+        int myInt = !myBoolean ? 1 : 0;
+        return myInt;
     }
 
     public static int sysCbEvnt(long zEvntId) {
         Message msg = mSciHandler.obtainMessage(0, Long.valueOf(zEvntId));
-        boolean ret = mSciHandler.sendMessage(msg);
-        return !ret;
+        boolean myBoolean = mSciHandler.sendMessage(msg);
+
+        int myInt = !myBoolean ? 1 : 0;
+        return myInt;
     }
 
     public static void sysCbEvntX(long zEvntId) {

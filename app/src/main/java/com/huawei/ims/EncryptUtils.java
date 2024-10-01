@@ -7,7 +7,6 @@ import java.lang.reflect.Array;
 import java.security.SecureRandom;
 import java.util.Random;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class EncryptUtils {
     private static final int GROUP_SIZE = 4;
     private static final String TAG = "EncryptUtils";
@@ -18,16 +17,16 @@ public class EncryptUtils {
         byte[] output = new byte[length];
         random.nextBytes(output);
         for (int i = 0; i < length; i++) {
-            try {
-                if (output[i] < 0) {
-                    output[i] = (byte) (output[i] + 128);
-                }
-            } catch (UnsupportedEncodingException e) {
-                Rlog.e(TAG, "Unsupported utf-8 Encoding");
-                return null;
+            if (output[i] < 0) {
+                output[i] = (byte) (output[i] + 128);
             }
         }
-        String salt = new String(output, "utf-8");
+        String salt = null;
+        try {
+            salt = new String(output, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         return salt;
     }
 

@@ -55,7 +55,7 @@ import vendor.huawei.hardware.radio.ims.V1_0.RILUICCAUTH;
 import vendor.huawei.hardware.radio.ims.V1_0.RadioError;
 import vendor.huawei.hardware.radio.ims.V1_0.RadioResponseInfo;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public final class ImsRIL extends BaseCommands implements CommandsInterface {
     private static final int DEFAULT_ACK_WAKE_LOCK_TIMEOUT_MS = 200;
     private static final int DEFAULT_BLOCKING_MESSAGE_RESPONSE_TIMEOUT_MS = 2000;
@@ -247,7 +247,7 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
     /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
     public final class RadioProxyDeathRecipient implements IHwBinder.DeathRecipient {
         RadioProxyDeathRecipient() {
-            ImsRIL.this = this$0;
+
         }
 
         @Override // android.os.IHwBinder.DeathRecipient
@@ -259,7 +259,6 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
     /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
     public class ImsRilHandler extends Handler {
         ImsRilHandler() {
-            ImsRIL.this = this$0;
         }
 
         @Override // android.os.Handler
@@ -370,10 +369,11 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
         this.mRadioIndication = new ImsRadioIndication(this);
         this.imsRilHandler = new ImsRilHandler();
         this.mRadioProxyDeathRecipient = new RadioProxyDeathRecipient();
-        this.imsRILDefaultWorkSource = new WorkSource(context.getApplicationInfo().uid, context.getPackageName());
+        // TODO Iceows change WorkSource
+        this.imsRILDefaultWorkSource = new WorkSource();
         getRadioProxy(null);
         this.mPhoneType = 0;
-        PowerManager pm = (PowerManager) context.getSystemService("power");
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         this.mWakeLock = pm.newWakeLock(1, LOG_TAG);
         this.mWakeLock.setReferenceCounted(false);
         this.mAckWakeLock = pm.newWakeLock(1, RILJ_ACK_WAKELOCK_NAME);
@@ -2492,13 +2492,17 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
             if (enabled) {
                 try {
                     data = Settings.System.getString(this.mContext.getContentResolver(), "att_address_id_value");
-                } catch (RemoteException | RuntimeException e) {
+                } catch ( RuntimeException e) {
                     handleRadioProxyExceptionForRR("setWifiEmergencyAid", e, rr);
                     return;
                 }
             }
             logd("[Wifi-Call] setWifiEmergencyAid data = " + data);
-            radioProxy.setWifiEmergencyAid(rr.mSerial, convertNullToEmptyString(data));
+            try {
+                radioProxy.setWifiEmergencyAid(rr.mSerial, convertNullToEmptyString(data));
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -2566,7 +2570,8 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
 
     private String getWorkSourceClientId(WorkSource workSource) {
         if (workSource != null) {
-            return String.valueOf(workSource.get(0)) + ":" + workSource.getName(0);
+            // TODO Iceows
+            //return String.valueOf(workSource.get(0)) + ":" + workSource.getName(0);
         }
         return null;
     }
@@ -2626,9 +2631,10 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
                         String clientId = getWorkSourceClientId(rr.mWorkSource);
                         if (!this.mClientWakelockTracker.isClientActive(clientId) && this.mActiveWakelockWorkSource != null) {
                             this.mActiveWakelockWorkSource.remove(rr.mWorkSource);
-                            if (this.mActiveWakelockWorkSource.size() == 0) {
-                                this.mActiveWakelockWorkSource = null;
-                            }
+                            // TODO Iceows
+                            //if (this.mActiveWakelockWorkSource.size() == 0) {
+                            //    this.mActiveWakelockWorkSource = null;
+                            //}
                             this.mWakeLock.setWorkSource(this.mActiveWakelockWorkSource);
                         }
                         if (this.mWakeLockCount > 1) {
@@ -2703,7 +2709,7 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
     }
 
     public boolean isSupportCnap() {
-        CarrierConfigManager manager = (CarrierConfigManager) this.mContext.getSystemService("carrier_config");
+        CarrierConfigManager manager = (CarrierConfigManager) this.mContext.getSystemService(Context.CARRIER_CONFIG_SERVICE);
         if (manager == null) {
             return false;
         }
@@ -2716,7 +2722,7 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
     }
 
     public boolean isSupportVideoRingTones() {
-        CarrierConfigManager manager = (CarrierConfigManager) this.mContext.getSystemService("carrier_config");
+        CarrierConfigManager manager = (CarrierConfigManager) this.mContext.getSystemService(Context.CARRIER_CONFIG_SERVICE);
         if (manager == null) {
             return false;
         }
