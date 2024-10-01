@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="28" android:compileSdkVersionCodename="9" android:sharedUserId="android.uid.phone" coreApp="true" package="com.huawei.ims" platformBuildVersionCode="28" platformBuildVersionName="9">
+<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="28" android:compileSdkVersionCodename="9" android:sharedUserId="android.uid.phone" coreApp="true"
+    package="com.huawei.ims">
     <uses-permission android:name="com.huawei.permission.USE_LEGACY_INTERFACE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-feature android:name="android.hardware.camera"/>
@@ -29,12 +30,5 @@
                 <action android:name="android.telephony.ims.ImsService"/>
             </intent-filter>
         </service>
-        <activity android:exported="false" android:name="EmptyLicenseActivity">
-            <intent-filter>
-                <action android:name="com.huawei.lisense.HW_SHOW_LISENSE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-            <meta-data android:name="lisense_file_path" android:value="/system/etc/noticeFile/HwIms.html"/>
-        </activity>
     </application>
 </manifest>
