@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="28" android:compileSdkVersionCodename="9" android:sharedUserId="android.uid.phone" coreApp="true" package="com.huawei.ims" platformBuildVersionCode="28" platformBuildVersionName="9">
+    <uses-permission android:name="com.huawei.permission.USE_LEGACY_INTERFACE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-permission android:name="com.huawei.permission.NET_RAW"/>
+    <permission android:name="com.huawei.ims.permission.IMS_SWITCH_STATE_CHANGE" android:protectionLevel="signatureOrSystem"/>
+    <permission android:name="com.android.huawei.permission.IMS" android:protectionLevel="signatureOrSystem"/>
+    <permission android:name="com.huawei.ims.permission.AUDIO_QUALITY_GET" android:protectionLevel="signatureOrSystem"/>
+    <permission android:name="com.android.huawei.permission.mt.missing.tips" android:protectionLevel="signatureOrSystem"/>
+    <uses-permission android:name="com.android.huawei.permission.mt.missing.tips"/>
+    <permission android:name="com.huawei.ims.permission.GET_IMS_SERVICE_STATE" android:protectionLevel="signatureOrSystem"/>
+    <permission android:name="com.huawei.ims.permission.GET_IMS_SERVICE_VOWIFI_STATE" android:protectionLevel="signatureOrSystem"/>
+    <uses-permission android:name="com.huawei.ims.permission.GET_IMS_SERVICE_VOWIFI_STATE"/>
+    <uses-permission android:name="com.hisi.permission.VOWIFI_SPECIAL"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <permission android:name="com.huawei.ims.permission.RECEIVE_DMPROVIDER_BROADCAST" android:protectionLevel="signatureOrSystem"/>
+    <uses-permission android:name="com.huawei.ims.permission.RECEIVE_DMPROVIDER_BROADCAST"/>
+    <protected-broadcast android:name="huawei.intent.action.IMS_SERVICE_STATE_CHANGED"/>
+    <protected-broadcast android:name="huawei.intent.action.IMS_SERVICE_VOWIFI_STATE_CHANGED"/>
+    <protected-broadcast android:name="com.android.ims.IMS_SERVICE_UP"/>
+    <protected-broadcast android:name="com.android.ims.IMS_SERVICE_DOWN"/>
+    <uses-permission android:name="com.huawei.android.permission.GET_CHR_DATA"/>
+    <permission android:name="com.huawei.ims.permission.GET_IMS_REG_ERROR_REPORT" android:protectionLevel="signatureOrSystem"/>
+    <permission android:name="com.huawei.ims.permission.IMS_CURRENT_PHONE_TYPE" android:protectionLevel="signatureOrSystem"/>
+    <application android:allowBackup="false" android:label="@string/app_label" android:process="com.huawei.telephony.ims">
+        <service android:directBootAware="true" android:enabled="true" android:exported="false" android:name=".HwImsService" android:permission="android.permission.BIND_IMS_SERVICE" android:process="com.android.phone">
+            <meta-data android:name="android.telephony.ims.MMTEL_FEATURE" android:value="true"/>
+            <intent-filter>
+                <action android:name="android.telephony.ims.ImsService"/>
+            </intent-filter>
+        </service>
+        <activity android:exported="false" android:name="EmptyLicenseActivity">
+            <intent-filter>
+                <action android:name="com.huawei.lisense.HW_SHOW_LISENSE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <meta-data android:name="lisense_file_path" android:value="/system/etc/noticeFile/HwIms.html"/>
+        </activity>
+    </application>
+</manifest>
