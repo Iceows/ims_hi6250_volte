@@ -4,3 +4,4 @@ app/debug/*
 app/release/*
 build/intermediates/*
 .idea/*
+hwims/apk-out/*
