@@ -2,9 +2,6 @@ package com.huawei.ims;
 
 import android.os.AsyncResult;
 import android.telephony.Rlog;
-import com.huawei.ims.ImsCallAdapter;
-import com.huawei.ims.ImsServiceCallTracker;
-import com.huawei.ims.ImsServiceState;
 import com.huawei.ims.vt.VTUtils;
 import com.huawei.internal.telephony.HwCustRILConstants;
 import java.util.ArrayList;
@@ -22,7 +19,7 @@ import vendor.huawei.hardware.radio.ims.V1_0.RILImsUserData;
 import vendor.huawei.hardware.radio.ims.V1_0.RILUnsolMsgPayload;
 import vendor.huawei.hardware.radio.ims.V1_0.RILVtFlowInfoReport;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class ImsRadioIndication extends IRadioImsIndication.Stub {
     static final String LOG_TAG = "ImsRadioIndication";
     private static final int SRVSTATUS_LEN = 4;

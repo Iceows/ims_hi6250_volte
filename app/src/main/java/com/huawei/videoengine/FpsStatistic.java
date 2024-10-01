@@ -2,7 +2,6 @@ package com.huawei.videoengine;
 
 import android.util.Log;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class FpsStatistic {
     private static final String TAG = "hme_engine_java";
     private int mFrameInterval;

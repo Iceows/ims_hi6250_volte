@@ -7,7 +7,6 @@ import android.util.Log;
 import com.huawei.vtproxy.ImsCameraClient;
 import com.huawei.vtproxy.ImsThinClient;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class SDKChrReport {
     private static final int CAMERA_OPEN_FAIL_SUB_EVENT = 1;
     private static final int FAULT_IMS_SS_PERFORMANCE_EVENT = 4004;

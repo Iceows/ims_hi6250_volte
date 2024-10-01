@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.SystemProperties;
 import android.telephony.Rlog;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class ImsServiceAutoboot extends BroadcastReceiver {
     private static final String TAG = "ImsService AutoBoot";
     private static final boolean volte = SystemProperties.getBoolean("ro.config.hw_volte_on", false);

@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class GlUtil {
     private static final int SIZEOF_FLOAT = 4;
     public static final String TAG = "hme_engine_java_OpenGL";

@@ -1,11 +1,9 @@
 package com.huawei.ims;
 
-import com.huawei.ims.ImsServiceState;
 import java.util.Arrays;
 import java.util.Map;
 import vendor.huawei.hardware.radio.ims.V1_0.RILImsCallDetails;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class ImsCallProfiles {
     public static final int CALL_DOMAIN_AUTOMATIC = 3;
     public static final int CALL_DOMAIN_CS = 1;

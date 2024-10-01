@@ -7,7 +7,6 @@ import android.view.SurfaceView;
 import java.io.File;
 import vendor.huawei.hardware.radio.ims.V1_0.LastCallFailCause;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class ImsCameraClient {
     public static final int CAAS_CAMERA_ID_BACK = 0;
     public static final int CAAS_CAMERA_ID_FRONT = 1;

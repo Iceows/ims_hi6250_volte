@@ -11,7 +11,7 @@ import com.huawei.ims.vt.ImsMediaProvider;
 import com.huawei.vtproxy.ImsThinClient;
 import java.util.ArrayList;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class MediaManager implements ImsMediaProvider.IMediaListener {
     private static final String DEFAULT_CALL_ID = "-1";
     private static MediaManager sInstance;

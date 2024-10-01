@@ -2,7 +2,6 @@ package com.huawei.ims;
 
 import vendor.huawei.hardware.radio.ims.V1_0.RILImsRegErrReport;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class VoWiFiRegErrReport {
     public static final int VOWIFI_REG_ERR_DOMAIN_LTE = 0;
     public static final int VOWIFI_REG_ERR_DOMAIN_WIFI = 1;

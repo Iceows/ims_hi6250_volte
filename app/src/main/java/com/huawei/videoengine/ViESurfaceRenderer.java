@@ -13,7 +13,6 @@ import android.view.SurfaceView;
 import java.nio.ByteBuffer;
 import java.util.concurrent.locks.ReentrantLock;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class ViESurfaceRenderer implements SurfaceHolder.Callback {
     private static final int displayBorder = 0;
     private static final int displayClipping = 1;

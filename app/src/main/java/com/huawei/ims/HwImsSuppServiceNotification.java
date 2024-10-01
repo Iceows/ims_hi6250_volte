@@ -4,7 +4,6 @@ import android.telephony.PhoneNumberUtils;
 import java.util.Arrays;
 import vendor.huawei.hardware.radio.ims.V1_0.RILImsSuppSvcNotification;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class HwImsSuppServiceNotification {
     private static final String TAG = "HwImsSuppServiceNotification";
     public int callId;

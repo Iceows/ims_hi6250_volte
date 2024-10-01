@@ -10,7 +10,6 @@ import android.opengl.EGLSurface;
 import android.util.Log;
 import android.view.Surface;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public final class EglCore {
     private static final int EGL_RECORDABLE_ANDROID = 12610;
     public static final int FLAG_RECORDABLE = 1;

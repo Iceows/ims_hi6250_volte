@@ -3,7 +3,6 @@ package com.huawei.ims.vt;
 import android.telephony.Rlog;
 import android.view.Surface;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class ImsMediaProvider {
     private static final int NO_MEDIA_ID = -1;
     private static final String TAG = "ImsMediaProvider";

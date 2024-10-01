@@ -3,7 +3,6 @@ package com.huawei.ims;
 import com.huawei.ims.GbaAuth;
 import com.huawei.sci.SciSSConfAuth;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class GbaAuthUtil extends SciSSConfAuth {
     private static final boolean DEBUG = false;
     private static final String LOG_TAG = "GbaAuthUtil";

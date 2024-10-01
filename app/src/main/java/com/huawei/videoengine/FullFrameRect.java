@@ -2,7 +2,6 @@ package com.huawei.videoengine;
 
 import com.huawei.videoengine.Drawable2d;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class FullFrameRect {
     private Texture2dProgram mProgram;
     private final Drawable2d mRectDrawable = new Drawable2d(Drawable2d.Prefab.FULL_RECTANGLE);

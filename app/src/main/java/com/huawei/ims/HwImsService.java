@@ -12,7 +12,7 @@ import com.huawei.ims.feature.HwMMTelFeature;
 import com.huawei.ims.vt.ImsVTGlobals;
 import com.huawei.ims.vt.VTUtils;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+
 public class HwImsService extends ImsService {
     private static final int DUAL_IMS_MAX_SUBSCRIPTIONS = 2;
     private static final boolean HW_VOLTE_ON = SystemProperties.getBoolean("ro.config.hw_volte_on", false);

@@ -15,7 +15,6 @@ import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.opengles.GL10;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
 public class ViEAndroidGLES20 extends GLSurfaceView implements GLSurfaceView.Renderer {
     private static final String TAG = "hme_engine_java_GLES20";
     private static final String manufaturer = Build.MANUFACTURER;
