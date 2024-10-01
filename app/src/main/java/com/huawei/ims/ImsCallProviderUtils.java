@@ -1,5 +1,6 @@
 package com.huawei.ims;
 
+import android.content.Context;
 import android.os.SystemProperties;
 import android.telecom.VideoProfile;
 import android.telephony.HwTelephonyManager;
@@ -246,9 +247,9 @@ public class ImsCallProviderUtils {
         }
     }
 
-    // TODO Iceows - && subId < TelephonyManager.getDefault().getSimCount()
+    // TODO Iceows Ok - && subId < TelephonyManager.getDefault().getSimCount()
     public static boolean isValidSubId(int subId) {
-        return subId >= 0 ;
+        return ((subId >= 0) && (subId < HwTelephonyManager.getSimCount()));
     }
 
     public static String getImsStoredKeyWithSubId(int subId, String key) {

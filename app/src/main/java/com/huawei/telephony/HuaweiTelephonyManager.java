@@ -2,7 +2,7 @@ package com.huawei.telephony;
 
 import android.content.Context;
 import android.os.Message;
-import android.telephony.HwTelephonyManagerInner;
+import android.telephony.HwTelephonyManager;
 
 public class HuaweiTelephonyManager {
     public static final int CT_NATIONAL_ROAMING_CARD = 41;
@@ -19,40 +19,48 @@ public class HuaweiTelephonyManager {
         return mInstance;
     }
 
+    // TODO Iceows
     public boolean isCTCdmaCardInGsmMode() {
         return false;
     }
 
+    // TODO Iceows
     public boolean isCardPresent(int slotId) {
         return true;
     }
 
+    // TODO Iceows
     public int getSlotIdFromSubId(int subId) {
         return subId;
     }
 
+    // TODO Iceows
     public int getCardType(int slotId) {
         return -1;
     }
 
+    // TODO Iceows
     public boolean isCTNationRoamingEnable() {
         return false;
     }
 
+    // TODO Iceows
     public boolean isSubActive(int subId) {
         return true;
     }
 
+    // TODO Iceows
     public int getSubidFromSlotId(int slotId) {
         return slotId;
     }
 
+    // TODO Iceows
     public boolean setDualCardMode(int nMode) {
         return true;
     }
 
     public int getDefault4GSlotId() {
-        return HwTelephonyManagerInner.getDefault4GSlotId();
+        return HwTelephonyManager.getDefault4GSlotId();
     }
 
 

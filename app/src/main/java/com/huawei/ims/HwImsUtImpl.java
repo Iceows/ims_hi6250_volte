@@ -23,7 +23,6 @@ import android.os.SystemProperties;
 import android.provider.Settings;
 import android.provider.Telephony;
 import android.telephony.HwTelephonyManager;
-import android.telephony.HwTelephonyManagerInner;
 import android.telephony.Rlog;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
@@ -1669,7 +1668,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         boolean isVoWifiRegistered = false;
         if (this.mImsConfigImpl != null && this.mImsConfigImpl.isUtPreferVowifiWhenVowifiReg()) {
             int subId = ImsCallProviderUtils.getSubId(this.mSubId);
-            isVoWifiRegistered = HwTelephonyManagerInner.isWifiCallingAvailable(subId);
+            isVoWifiRegistered = HwTelephonyManager.isWifiCallingAvailable(subId);
         }
         if (2 == utDomain || utDomain == 0 || isVoWifiRegistered) {
             return true;

@@ -1486,10 +1486,9 @@ public class HwImsServiceImpl {
             AsyncResult ar = (AsyncResult) msg.obj;
             if (ar.exception != null) {
                 CommandException.Error err = null;
-                // TODO Iceows
-                //if (ar.exception instanceof CommandException) {
-                    //err = ar.exception.getCommandError();
-                //}
+                if (ar.exception instanceof CommandException) {
+                    err = ((CommandException) ar.exception).getCommandError();
+                }
                 if (err == CommandException.Error.RADIO_NOT_AVAILABLE) {
                     HwImsServiceImpl.this.log("Radio is not available");
                     HwImsServiceImpl.this.mImsRegisterState = 0;
