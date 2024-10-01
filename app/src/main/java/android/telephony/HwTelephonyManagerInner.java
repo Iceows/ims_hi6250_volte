@@ -37,5 +37,6 @@ public class HwTelephonyManagerInner {
     }
 
     public static boolean isWifiCallingAvailable(int subId) {
+        return true;
     }
 }

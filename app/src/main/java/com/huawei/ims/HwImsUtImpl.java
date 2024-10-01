@@ -1086,7 +1086,9 @@ public class HwImsUtImpl extends ImsUtImpl {
                     }
                     if (nafRouteAddress) {
                         this.mbReqRoutHost = true;
-                        logd("HwImsUtImpl handleUt SUB_EVENT_IMS_UT_GET_HOST_NAME_DONE and network is : " + network.netId);
+                        // TODO Iceows
+                        //logd("HwImsUtImpl handleUt SUB_EVENT_IMS_UT_GET_HOST_NAME_DONE and network is : " + network.netId);
+                        logd("HwImsUtImpl handleUt SUB_EVENT_IMS_UT_GET_HOST_NAME_DONE and network");
                         initSDKServiceIpAddr(network);
                         sendUTMessage(3);
                         if (this.mIsVowifi) {
@@ -1714,10 +1716,12 @@ public class HwImsUtImpl extends ImsUtImpl {
 
     private void initSDKServiceIpAddr(Network netWork) {
         if (netWork != null) {
-            if ((this.mNetId == netWork.netId && !this.mImsConfigImpl.isUtQueryDnsIgnoreNetId()) || this.mGbaAuth == null) {
+            //if ((this.mNetId == netWork.netId && !this.mImsConfigImpl.isUtQueryDnsIgnoreNetId()) || this.mGbaAuth == null) {
+            // TODO Iceows
+            if ((!this.mImsConfigImpl.isUtQueryDnsIgnoreNetId()) || this.mGbaAuth == null) {
                 return;
             }
-            this.mNetId = netWork.netId;
+            //this.mNetId = netWork.netId;
             if (this.mImsConfigImpl.isUtGbaLifetimeBeUsed()) {
                 logd("initSDKServiceIpAddr skip sdk.reset & gba.clear");
             } else {
@@ -1759,7 +1763,8 @@ public class HwImsUtImpl extends ImsUtImpl {
             loge("network is null.");
             return false;
         }
-        if (this.mNetId == network.netId && this.mUtAPNInetAddressMap.containsKey(serviceAddr)) {
+        //if (this.mNetId == network.netId && this.mUtAPNInetAddressMap.containsKey(serviceAddr)) {
+        if (this.mUtAPNInetAddressMap.containsKey(serviceAddr)) {
             inetAddress = this.mUtAPNInetAddressMap.get(serviceAddr);
             logd(" InetAddress get from local map.");
         } else {
@@ -1860,7 +1865,6 @@ public class HwImsUtImpl extends ImsUtImpl {
                         loge("SSCONF_SS_TYPE_CF GET not support utOpType=" + cmd.utOpType);
                         break;
                     }
-                    break;
                 case 12:
                     if (1 == cmd.utOpType) {
                         ret = SciSSConfHs.setCallDiversionNew(cmd.utReason, cmd.csAction, cmd.utNumber, cmd.startTime, cmd.endTime, 1, -1);
@@ -2313,7 +2317,6 @@ public class HwImsUtImpl extends ImsUtImpl {
                         cmd.mState = CmdState.CMD_FINISH;
                         break;
                     }
-                    break;
                 case 4:
                     if (ut.mUtOpType == 0) {
                         boolean flag4 = SciSSConfHs.getTerminatingIdentityRestrictionEnabled().booleanValue();
@@ -3858,7 +3861,7 @@ public class HwImsUtImpl extends ImsUtImpl {
 
     public void queryUtApn() {
         int subId = ImsCallProviderUtils.getSubId(this.mSubId);
-        String operator = TelephonyManager.from(getContext()).getSimOperator(subId);
+        String operator = HwTelephonyManager.getSimOperator(subId);
         String apnType = "ims";
         apnType = (this.mImsConfigImpl.getUtUseApn() == 1 || this.mImsConfigImpl.getUtUseApn() == 3) ? "xcap" : "xcap";
         String selection = "numeric = ? AND (type like '%" + apnType + "%')";
@@ -3995,7 +3998,6 @@ public class HwImsUtImpl extends ImsUtImpl {
         } else {
             return false;
         }
-        return false;
     }
 
     public void handleConnectivity(NetworkInfo networkInfo) {

@@ -2570,7 +2570,8 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
 
     private String getWorkSourceClientId(WorkSource workSource) {
         if (workSource != null) {
-            return String.valueOf(workSource.get(0)) + ":" + workSource.getName(0);
+            // TODO Iceows
+            //return String.valueOf(workSource.get(0)) + ":" + workSource.getName(0);
         }
         return null;
     }
@@ -2630,9 +2631,10 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
                         String clientId = getWorkSourceClientId(rr.mWorkSource);
                         if (!this.mClientWakelockTracker.isClientActive(clientId) && this.mActiveWakelockWorkSource != null) {
                             this.mActiveWakelockWorkSource.remove(rr.mWorkSource);
-                            if (this.mActiveWakelockWorkSource.size() == 0) {
-                                this.mActiveWakelockWorkSource = null;
-                            }
+                            // TODO Iceows
+                            //if (this.mActiveWakelockWorkSource.size() == 0) {
+                            //    this.mActiveWakelockWorkSource = null;
+                            //}
                             this.mWakeLock.setWorkSource(this.mActiveWakelockWorkSource);
                         }
                         if (this.mWakeLockCount > 1) {

@@ -1,52 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ This file is part of HwIms
-  ~ Copyright (C) 2019 Penn Mackintosh
-  ~     This program is free software: you can redistribute it and/or modify
-  ~     it under the terms of the GNU General Public License as published by
-  ~     the Free Software Foundation, either version 3 of the License, or
-  ~     (at your option) any later version.
-  ~
-  ~     This program is distributed in the hope that it will be useful,
-  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~     GNU General Public License for more details.
-  ~
-  ~     You should have received a copy of the GNU General Public License
-  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
-  -->
-
-<!--suppress AndroidUnknownAttribute coreApp -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    coreApp="true"
-    package="com.huawei.ims"
-    android:sharedUserId="android.uid.phone">
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-
-    <application
-        android:allowBackup="false"
-        android:allowClearUserData="true"
-        android:icon="@android:mipmap/sym_def_app_icon"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="28" android:compileSdkVersionCodename="9" android:sharedUserId="android.uid.phone" coreApp="true"
+    package="com.huawei.ims">
+    <uses-permission android:name="com.huawei.permission.USE_LEGACY_INTERFACE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-permission android:name="com.huawei.permission.NET_RAW"/>
+    <permission android:name="com.huawei.ims.permission.IMS_SWITCH_STATE_CHANGE" android:protectionLevel="signatureOrSystem"/>
+    <permission android:name="com.android.huawei.permission.IMS" android:protectionLevel="signatureOrSystem"/>
+    <permission android:name="com.huawei.ims.permission.AUDIO_QUALITY_GET" android:protectionLevel="signatureOrSystem"/>
+    <permission android:name="com.android.huawei.permission.mt.missing.tips" android:protectionLevel="signatureOrSystem"/>
+    <uses-permission android:name="com.android.huawei.permission.mt.missing.tips"/>
+    <permission android:name="com.huawei.ims.permission.GET_IMS_SERVICE_STATE" android:protectionLevel="signatureOrSystem"/>
+    <permission android:name="com.huawei.ims.permission.GET_IMS_SERVICE_VOWIFI_STATE" android:protectionLevel="signatureOrSystem"/>
+    <uses-permission android:name="com.huawei.ims.permission.GET_IMS_SERVICE_VOWIFI_STATE"/>
+    <uses-permission android:name="com.hisi.permission.VOWIFI_SPECIAL"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <permission android:name="com.huawei.ims.permission.RECEIVE_DMPROVIDER_BROADCAST" android:protectionLevel="signatureOrSystem"/>
+    <uses-permission android:name="com.huawei.ims.permission.RECEIVE_DMPROVIDER_BROADCAST"/>
+    <protected-broadcast android:name="huawei.intent.action.IMS_SERVICE_STATE_CHANGED"/>
+    <protected-broadcast android:name="huawei.intent.action.IMS_SERVICE_VOWIFI_STATE_CHANGED"/>
+    <protected-broadcast android:name="com.android.ims.IMS_SERVICE_UP"/>
+    <protected-broadcast android:name="com.android.ims.IMS_SERVICE_DOWN"/>
+    <uses-permission android:name="com.huawei.android.permission.GET_CHR_DATA"/>
+    <permission android:name="com.huawei.ims.permission.GET_IMS_REG_ERROR_REPORT" android:protectionLevel="signatureOrSystem"/>
+    <permission android:name="com.huawei.ims.permission.IMS_CURRENT_PHONE_TYPE" android:protectionLevel="signatureOrSystem"/>
+    <application android:allowBackup="false" android:label="@string/app_label" android:process="com.huawei.telephony.ims">
+        <service android:directBootAware="true" android:enabled="true" android:exported="false" android:name=".HwImsService" android:permission="android.permission.BIND_IMS_SERVICE" android:process="com.android.phone">
+            <meta-data android:name="android.telephony.ims.MMTEL_FEATURE" android:value="true"/>
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <service
-            android:name=".HwImsService"
-            android:directBootAware="true"
-            android:permission="android.permission.BIND_IMS_SERVICE"
-            android:persistent="true">
-            <intent-filter>
-                <action android:name="android.telephony.ims.ImsService" />
+                <action android:name="android.telephony.ims.ImsService"/>
             </intent-filter>
         </service>
     </application>
-
 </manifest>

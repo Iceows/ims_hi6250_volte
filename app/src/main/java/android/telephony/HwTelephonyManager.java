@@ -6,19 +6,19 @@ public class HwTelephonyManager {
 
 
     public static String getSimOperator(int subId) {
-         TelephonyManager.getD
-
-
-                .getDefault().getSimOperator(subId);
+        return "";
     }
 
     public static int getCardType(int subId) {
+        return 0;
     }
 
     public static int getNetworkType(int subId) {
+        return 0;
     }
 
     public static boolean isNetorkRoaming(int slotId) {
+        return false;
     }
 
     public int getDataRegisteredState(int subId) {
@@ -26,12 +26,15 @@ public class HwTelephonyManager {
     }
 
     public int getSimState(int i) {
+        return 0;
     }
 
     public int getCurrentPhoneTypeForSlot(int subId) {
+        return 0;
     }
 
     public boolean isCTSimCard(int subId) {
+        return false;
     }
 
     public enum MultiSimVariantsEx {
