@@ -22,13 +22,14 @@ import vendor.huawei.hardware.radio.ims.V1_0.RILImsUserData;
 import vendor.huawei.hardware.radio.ims.V1_0.RILUnsolMsgPayload;
 import vendor.huawei.hardware.radio.ims.V1_0.RILVtFlowInfoReport;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsRadioIndication extends IRadioImsIndication.Stub {
     static final String LOG_TAG = "ImsRadioIndication";
     private static final int SRVSTATUS_LEN = 4;
     private int START_LOCAL_HOLD_TONE = 1;
     ImsRIL mRil;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ImsRadioIndication(ImsRIL ril) {
         this.mRil = ril;
     }
@@ -262,17 +263,29 @@ public class ImsRadioIndication extends IRadioImsIndication.Stub {
         Rlog.d(LOG_TAG, "UnsolMsg:indicationType =" + indicationType + ",msgId = " + msgId);
         if (msgId == 2031) {
             imsCallStateChanged(indicationType);
-        } else if (msgId == 2033) {
+            return;
+        }
+        if (msgId == 2033) {
             imsCallRingBackTone(indicationType, payload.nDatas);
-        } else if (msgId == 2039) {
+            return;
+        }
+        if (msgId == 2039) {
             imsVoiceBandInfo(indicationType, payload.nDatas);
-        } else if (msgId == 2058) {
+            return;
+        }
+        if (msgId == 2058) {
             imsCsRedialNotify(indicationType);
-        } else if (msgId == 2072) {
+            return;
+        }
+        if (msgId == 2072) {
             imsDMCNNotify(indicationType);
-        } else if (msgId == 2074) {
+            return;
+        }
+        if (msgId == 2074) {
             imsHoldToneInd(indicationType, payload.nDatas);
-        } else if (msgId != 2083) {
+            return;
+        }
+        if (msgId != 2083) {
             switch (msgId) {
                 case 2065:
                     imsLtePdcpInfo(indicationType, payload.nDatas);
@@ -283,8 +296,7 @@ public class ImsRadioIndication extends IRadioImsIndication.Stub {
                 default:
                     return;
             }
-        } else {
-            imsRegisterModeNotify(indicationType, payload.nDatas);
         }
+        imsRegisterModeNotify(indicationType, payload.nDatas);
     }
 }

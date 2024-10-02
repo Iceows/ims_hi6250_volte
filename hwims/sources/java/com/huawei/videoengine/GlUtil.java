@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class GlUtil {
     private static final int SIZEOF_FLOAT = 4;
     public static final String TAG = "hme_engine_java_OpenGL";
@@ -55,16 +55,16 @@ public class GlUtil {
         GLES20.glCompileShader(glCreateShader);
         int[] iArr = new int[1];
         GLES20.glGetShaderiv(glCreateShader, 35713, iArr, 0);
-        if (iArr[0] == 0) {
-            Log.e(TAG, "Could not compile shader " + i + ":");
-            StringBuilder sb = new StringBuilder();
-            sb.append(" ");
-            sb.append(GLES20.glGetShaderInfoLog(glCreateShader));
-            Log.e(TAG, sb.toString());
-            GLES20.glDeleteShader(glCreateShader);
-            return 0;
+        if (iArr[0] != 0) {
+            return glCreateShader;
         }
-        return glCreateShader;
+        Log.e(TAG, "Could not compile shader " + i + ":");
+        StringBuilder sb = new StringBuilder();
+        sb.append(" ");
+        sb.append(GLES20.glGetShaderInfoLog(glCreateShader));
+        Log.e(TAG, sb.toString());
+        GLES20.glDeleteShader(glCreateShader);
+        return 0;
     }
 
     public static void checkGlError(String str) {
@@ -113,13 +113,17 @@ public class GlUtil {
         if (i == 90) {
             Matrix.rotateM(fArr, 0, 90.0f, 0.0f, 0.0f, 1.0f);
             Matrix.translateM(fArr, 0, 0.0f, -1.0f, 0.0f);
-        } else if (i == 180) {
+            return;
+        }
+        if (i == 180) {
             Matrix.rotateM(fArr, 0, 180.0f, 0.0f, 0.0f, 1.0f);
             Matrix.translateM(fArr, 0, -1.0f, -1.0f, 0.0f);
-        } else if (i == 270) {
-            Matrix.rotateM(fArr, 0, 270.0f, 0.0f, 0.0f, 1.0f);
-            Matrix.translateM(fArr, 0, -1.0f, 0.0f, 0.0f);
         } else {
+            if (i == 270) {
+                Matrix.rotateM(fArr, 0, 270.0f, 0.0f, 0.0f, 1.0f);
+                Matrix.translateM(fArr, 0, -1.0f, 0.0f, 0.0f);
+                return;
+            }
             Log.e(TAG, "Rotate a " + i + ", invaild");
         }
     }

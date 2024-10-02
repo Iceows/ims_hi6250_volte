@@ -5,7 +5,7 @@ import android.util.Log;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class Texture2dProgram {
     private static final String FRAGMENT_SHADER_2D = "precision mediump float;\nvarying vec2 vTextureCoord;\nuniform sampler2D sTexture;\nvoid main() {\n    gl_FragColor = texture2D(sTexture, vTextureCoord);\n}\n";
     private static final String FRAGMENT_SHADER_EXT = "#extension GL_OES_EGL_image_external : require\nprecision mediump float;\nvarying vec2 vTextureCoord;\nuniform samplerExternalOES sTexture;\nvoid main() {\n    gl_FragColor = texture2D(sTexture, vTextureCoord);\n}\n";
@@ -28,7 +28,7 @@ public class Texture2dProgram {
     private int muTexMatrixLoc;
     private int muTexOffsetLoc;
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum ProgramType {
         TEXTURE_2D,
         TEXTURE_EXT,
@@ -77,14 +77,14 @@ public class Texture2dProgram {
             this.muKernelLoc = -1;
             this.muTexOffsetLoc = -1;
             this.muColorAdjustLoc = -1;
-            return;
+        } else {
+            this.muTexOffsetLoc = GLES20.glGetUniformLocation(this.mProgramHandle, "uTexOffset");
+            GlUtil.checkLocation(this.muTexOffsetLoc, "uTexOffset");
+            this.muColorAdjustLoc = GLES20.glGetUniformLocation(this.mProgramHandle, "uColorAdjust");
+            GlUtil.checkLocation(this.muColorAdjustLoc, "uColorAdjust");
+            setKernel(new float[]{0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f}, 0.0f);
+            setTexSize(256, 256);
         }
-        this.muTexOffsetLoc = GLES20.glGetUniformLocation(this.mProgramHandle, "uTexOffset");
-        GlUtil.checkLocation(this.muTexOffsetLoc, "uTexOffset");
-        this.muColorAdjustLoc = GLES20.glGetUniformLocation(this.mProgramHandle, "uColorAdjust");
-        GlUtil.checkLocation(this.muColorAdjustLoc, "uColorAdjust");
-        setKernel(new float[]{0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f}, 0.0f);
-        setTexSize(256, 256);
     }
 
     public void release() {

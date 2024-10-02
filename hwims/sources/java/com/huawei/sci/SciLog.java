@@ -3,7 +3,7 @@ package com.huawei.sci;
 import android.text.format.Time;
 import android.util.Log;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class SciLog {
     private static String TAG = "HRCS";
     private static String INFO = "INFO";
@@ -31,8 +31,7 @@ public class SciLog {
             error(pcLogName, s);
             return;
         }
-        String str = TAG;
-        Log.e(str, pcLogName + ": " + ERROR + ": " + s);
+        Log.e(TAG, pcLogName + ": " + ERROR + ": " + s);
     }
 
     public static void e(String pcLogName, String pcFormat) {
@@ -40,28 +39,23 @@ public class SciLog {
             error(pcLogName, pcFormat);
             return;
         }
-        String str = TAG;
-        Log.e(str, pcLogName + ": " + ERROR + ": " + pcFormat);
+        Log.e(TAG, pcLogName + ": " + ERROR + ": " + pcFormat);
     }
 
     public static void logApi(String pcLogName, String pcFormat) {
         if (SciSys.getInitFlag() && pcLogName != null && pcFormat != null) {
-            String str = API_ID;
-            info(str, "UI->SA " + pcLogName + ": " + pcFormat);
+            info(API_ID, "UI->SA " + pcLogName + ": " + pcFormat);
             return;
         }
-        String str2 = TAG;
-        Log.i(str2, "UI->SA " + pcLogName + INFO + ": " + pcFormat);
+        Log.i(TAG, "UI->SA " + pcLogName + INFO + ": " + pcFormat);
     }
 
     public static void logNty(String pcLogName, String pcFormat) {
         if (SciSys.getInitFlag() && pcLogName != null && pcFormat != null) {
-            String str = API_ID;
-            info(str, "SA->UI " + pcLogName + ": " + pcFormat);
+            info(API_ID, "SA->UI " + pcLogName + ": " + pcFormat);
             return;
         }
-        String str2 = TAG;
-        Log.i(str2, "SA->UI " + pcLogName + INFO + ": " + pcFormat);
+        Log.i(TAG, "SA->UI " + pcLogName + INFO + ": " + pcFormat);
     }
 
     public static void i(String pcLogName, String pcFormat, Object... args) {
@@ -70,8 +64,7 @@ public class SciLog {
             info(pcLogName, s);
             return;
         }
-        String str = TAG;
-        Log.i(str, pcLogName + ": " + INFO + ": " + s);
+        Log.i(TAG, pcLogName + ": " + INFO + ": " + s);
     }
 
     public static void i(String pcLogName, String pcFormat) {
@@ -79,8 +72,7 @@ public class SciLog {
             info(pcLogName, pcFormat);
             return;
         }
-        String str = TAG;
-        Log.i(str, pcLogName + ": " + INFO + ": " + pcFormat);
+        Log.i(TAG, pcLogName + ": " + INFO + ": " + pcFormat);
     }
 
     public static void d(String pcLogName, String pcFormat, Object... args) {
@@ -89,8 +81,7 @@ public class SciLog {
             debug(pcLogName, s);
             return;
         }
-        String str = TAG;
-        Log.d(str, pcLogName + ": " + DEBUG + ": " + s);
+        Log.d(TAG, pcLogName + ": " + DEBUG + ": " + s);
     }
 
     public static void d(String pcLogName, String pcFormat) {
@@ -98,7 +89,6 @@ public class SciLog {
             debug(pcLogName, pcFormat);
             return;
         }
-        String str = TAG;
-        Log.d(str, pcLogName + ": " + DEBUG + ": " + pcFormat);
+        Log.d(TAG, pcLogName + ": " + DEBUG + ": " + pcFormat);
     }
 }

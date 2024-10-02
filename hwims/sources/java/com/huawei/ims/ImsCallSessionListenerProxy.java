@@ -13,7 +13,7 @@ import android.telephony.ims.ImsSuppServiceNotification;
 import android.telephony.ims.stub.ImsCallSessionImplBase;
 import com.android.ims.internal.IImsCallSession;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsCallSessionListenerProxy {
     private static final String LOG_TAG = "ImsCallSessionListenerProxy";
     private Handler mCallbackHandler;
@@ -409,6 +409,7 @@ public class ImsCallSessionListenerProxy {
         postRunnable(r);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void cleanup() {
         Rlog.d(LOG_TAG, "cleanup");
         if (this.mHandlerThread != null) {
@@ -425,6 +426,7 @@ public class ImsCallSessionListenerProxy {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleError(Throwable t, String message) {
         Rlog.e(LOG_TAG, t + " " + message);
     }
@@ -435,8 +437,8 @@ public class ImsCallSessionListenerProxy {
     private static void checkAccessPermission() {
         int callingUid = Binder.getCallingUid();
         if (callingUid == 1001 || callingUid == 1000) {
-            return;
+        } else {
+            throw new SecurityException("Only Phone is able to call this API");
         }
-        throw new SecurityException("Only Phone is able to call this API");
     }
 }

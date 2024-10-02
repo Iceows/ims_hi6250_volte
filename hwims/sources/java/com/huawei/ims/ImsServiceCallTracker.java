@@ -9,7 +9,6 @@ import android.telephony.ims.feature.MmTelFeature;
 import android.telephony.ims.stub.ImsCallSessionImplBase;
 import com.android.ims.internal.IImsCallSession;
 import com.android.ims.internal.IImsRegistrationListener;
-import com.android.internal.telephony.HwTelephonyFactory;
 import com.huawei.ims.DriverImsCall;
 import com.huawei.ims.HwImsCallSessionImpl;
 import com.huawei.ims.ImsCallAdapter;
@@ -24,7 +23,7 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import vendor.huawei.hardware.radio.ims.V1_0.RILImsHandover;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsServiceCallTracker implements HwImsCallSessionImpl.Listener {
     private static final String ACTION_IMS_INCOMING_CALL = "com.android.ims.volte.incoming_call";
     public static final String CONF_URI_DC_NUMBER = "Conference Call";
@@ -45,12 +44,12 @@ public class ImsServiceCallTracker implements HwImsCallSessionImpl.Listener {
     private ArrayList<HwImsCallSessionImpl> mPendingSessionList = new ArrayList<>();
     private List<IImsCallListListener> mImsCallListListeners = new CopyOnWriteArrayList();
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public interface FeatureCapatilityListener {
         void notifyCapabilitiesStatusChanged(MmTelFeature.MmTelCapabilities mmTelCapabilities);
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public interface InComingListener {
         void notifyIncomingCall(ImsCallSessionImplBase imsCallSessionImplBase, Bundle bundle);
 
@@ -69,8 +68,8 @@ public class ImsServiceCallTracker implements HwImsCallSessionImpl.Listener {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
-    public static class HandoverInfo {
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
+    protected static class HandoverInfo {
         protected String mErrorCode;
         protected String mErrorMessage;
         protected byte[] mExtraInfo;
@@ -79,6 +78,7 @@ public class ImsServiceCallTracker implements HwImsCallSessionImpl.Listener {
         protected int mTargetTech;
         protected int mType;
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         public HandoverInfo(RILImsHandover handoverInfo) {
             this.mType = 0;
             this.mSrcTech = 0;
@@ -132,151 +132,18 @@ public class ImsServiceCallTracker implements HwImsCallSessionImpl.Listener {
         }
     }
 
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:403:0x0183 -> B:404:0x0184). Please submit an issue!!! */
-    public void handleCalls(ArrayList<DriverImsCall> dcList) {
-        HwImsCallSessionImpl callSession;
-        Map<String, DriverImsCall> dcMap = new HashMap<>();
-        int dcListSize = 0;
-        if (dcList != null) {
-            dcListSize = dcList.size();
-        }
-        int dcListSize2 = dcListSize;
-        int i = 0;
-        while (true) {
-            int i2 = i;
-            if (i2 >= dcListSize2) {
-                break;
-            }
-            DriverImsCall dc = dcList.get(i2);
-            if (this.mCi != null && dc.isMT && dc.state == DriverImsCall.State.ACTIVE) {
-                HwTelephonyFactory.getHwChrServiceManager().reportCallException("HwIms", this.mCi.getCHRReportPhoneId(), 2, "ImsRadioResponse");
-            }
-            if (this.mPendingSessionList != null) {
-                synchronized (this.mPendingSessionList) {
-                    Iterator<HwImsCallSessionImpl> it = this.mPendingSessionList.iterator();
-                    while (it.hasNext()) {
-                        HwImsCallSessionImpl s = it.next();
-                        if (dc.state == DriverImsCall.State.DIALING) {
-                            Rlog.d(LOG_TAG, "Found match dialing call session in temp list, s = " + s);
-                            Rlog.d(LOG_TAG, "Index in call list is " + dc.index);
-                            addCall(Integer.valueOf(dc.index), s);
-                            it.remove();
-                        }
-                    }
-                }
-            }
-            synchronized (this.mCallList) {
-                callSession = this.mCallList.get(Integer.toString(dc.index));
-            }
-            if (callSession != null) {
-                callSession.updateCall(dc);
-            } else {
-                boolean isUnknown = false;
-                if (dc.state == DriverImsCall.State.END) {
-                    continue;
-                    i = i2 + 1;
-                } else {
-                    HwImsCallSessionImpl callSession2 = new HwImsCallSessionImpl(dc, this.mCi, this.mContext, this);
-                    callSession2.addListener(this);
-                    callSession2.updateVtGlobalCapability(this.mIsVtSupportedGlobally);
-                    if (dc.isMT) {
-                        if (dc.state == DriverImsCall.State.INCOMING || dc.state == DriverImsCall.State.WAITING) {
-                            if (this.mCi != null) {
-                                HwTelephonyFactory.getHwChrServiceManager().reportCallException("HwIms", this.mCi.getCHRReportPhoneId(), 1, LOG_TAG);
-                            }
-                            Rlog.d(LOG_TAG, "MT Call creating a new call session");
-                            sendIncomingCallIntent(callSession2, dc.index, false, dc.state, dc.number);
-                        }
-                    } else if (dc.isMpty && dc.state == DriverImsCall.State.DIALING) {
-                        Rlog.d(LOG_TAG, "Conference Call creating a new call session");
-                        boolean isUnknown2 = true;
-                        synchronized (this.mCallList) {
-                            try {
-                                Iterator<Map.Entry<String, HwImsCallSessionImpl>> it2 = this.mCallList.entrySet().iterator();
-                                while (true) {
-                                    if (!it2.hasNext()) {
-                                        break;
-                                    }
-                                    HwImsCallSessionImpl oldSession = it2.next().getValue();
-                                    if (oldSession.isConfInProgress()) {
-                                        Rlog.d(LOG_TAG, "Set New Session as Id " + callSession2.getCallId());
-                                        oldSession.setNewSession(callSession2);
-                                        oldSession.reportNewConferenceCallSession(callSession2);
-                                        isUnknown2 = false;
-                                        break;
-                                    }
-                                }
-                                isUnknown = isUnknown2;
-                            } catch (Throwable th) {
-                                th = th;
-                            }
-                            try {
-                            } catch (Throwable th2) {
-                                th = th2;
-                                throw th;
-                            }
-                        }
-                        addCall(Integer.valueOf(dc.index), callSession2);
-                        callSession2.updateConfSession(dc);
-                        if (isUnknown) {
-                            Rlog.d(LOG_TAG, "Phantom conference call Scenario");
-                        }
-                    } else if (dc.state != DriverImsCall.State.END) {
-                        Rlog.d(LOG_TAG, "MO phantom Call Scenario. State = " + dc.state);
-                        if (this.mPendingSessionList != null && this.mPendingSessionList.size() > 0) {
-                            synchronized (this.mPendingSessionList) {
-                                Iterator<HwImsCallSessionImpl> it3 = this.mPendingSessionList.iterator();
-                                addCall(Integer.valueOf(dc.index), it3.next());
-                                it3.remove();
-                            }
-                            synchronized (this.mCallList) {
-                                callSession2 = this.mCallList.get(Integer.toString(dc.index));
-                            }
-                            if (callSession2 != null) {
-                                callSession2.updateCall(dc);
-                            }
-                            Rlog.d(LOG_TAG, "MO phantom Call matched.");
-                        } else {
-                            isUnknown = true;
-                        }
-                    }
-                    if (isUnknown) {
-                        sendIncomingCallIntent(callSession2, dc.index, true, dc.state, dc.number);
-                    }
-                }
-            }
-            if (dc.state != DriverImsCall.State.END) {
-                dcMap.put(Integer.toString(dc.index), dc);
-            }
-            i = i2 + 1;
-        }
-        if (this.mPendingSessionList != null && dcList != null && dcList.size() == 0) {
-            synchronized (this.mPendingSessionList) {
-                Iterator<HwImsCallSessionImpl> it4 = this.mPendingSessionList.iterator();
-                while (it4.hasNext()) {
-                    HwImsCallSessionImpl s2 = it4.next();
-                    Rlog.d(LOG_TAG, "Found match end call session in temp list, s = " + s2);
-                    Rlog.d(LOG_TAG, "Index in call list is " + s2.getCallId());
-                    addCall(Integer.valueOf(s2.getCallId()), s2);
-                    it4.remove();
-                }
-            }
-        }
-        processDialingAndIncomingConflict(dcList);
-        synchronized (this.mCallList) {
-            Rlog.d(LOG_TAG, "handleCalls ,mCallList = " + this.mCallList);
-            Iterator<Map.Entry<String, HwImsCallSessionImpl>> it5 = this.mCallList.entrySet().iterator();
-            while (it5.hasNext()) {
-                Map.Entry<String, HwImsCallSessionImpl> e = it5.next();
-                Rlog.d(LOG_TAG, "dcMap.get(e.getValue().getCallId() =  " + dcMap.get(e.getValue().getCallId()));
-                if (dcMap.get(e.getValue().getCallId()) == null) {
-                    Rlog.d(LOG_TAG, "end call handle");
-                    endCallSession(this.mCallList.get(e.getValue().getCallId()));
-                    it5.remove();
-                    notifyCallRemoved(e.getValue());
-                }
-            }
-        }
+    /*  JADX ERROR: JadxRuntimeException in pass: RegionMakerVisitor
+        jadx.core.utils.exceptions.JadxRuntimeException: Can't find top splitter block for handler:B:90:0x0183
+        	at jadx.core.utils.BlockUtils.getTopSplitterForHandler(BlockUtils.java:1166)
+        	at jadx.core.dex.visitors.regions.RegionMaker.processTryCatchBlocks(RegionMaker.java:1022)
+        	at jadx.core.dex.visitors.regions.RegionMakerVisitor.visit(RegionMakerVisitor.java:55)
+        */
+    public void handleCalls(java.util.ArrayList<com.huawei.ims.DriverImsCall> r16) {
+        /*
+            Method dump skipped, instructions count: 786
+            To view this dump change 'Code comments level' option to 'DEBUG'
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.huawei.ims.ImsServiceCallTracker.handleCalls(java.util.ArrayList):void");
     }
 
     private void processDialingAndIncomingConflict(ArrayList<DriverImsCall> dcList) {
@@ -446,21 +313,23 @@ public class ImsServiceCallTracker implements HwImsCallSessionImpl.Listener {
         }
         if (callSession == null) {
             Rlog.e(LOG_TAG, "handleModifyCallResult error: callsession is null");
-        } else if (-1 == callSession.getState()) {
+            return;
+        }
+        if (-1 == callSession.getState()) {
             Rlog.e(LOG_TAG, "handleModifyCallResult error: callsession State.INVALID");
-        } else {
-            DriverImsCall.State currentCallState = callSession.getInternalState();
-            if (modifyResult[1] != 0) {
-                Rlog.d(LOG_TAG, "modify failed!");
-                callSession.getImsCallAdapter().clearPendingModify();
-            } else if (this.mCi != null && this.mCi.isSupportVideoRingTones() && (DriverImsCall.State.DIALING == currentCallState || DriverImsCall.State.ALERTING == currentCallState)) {
-                Rlog.d(LOG_TAG, "ims video ring tones, clear pendingModify!");
-                callSession.getImsCallAdapter().clearPendingModify();
-            }
-            ImsVTCallProviderImpl imsVTCallProviderImpl = callSession.getImsVTCallProviderImpl();
-            if (imsVTCallProviderImpl != null) {
-                imsVTCallProviderImpl.handleModifyCallResult(modifyResult[1]);
-            }
+            return;
+        }
+        DriverImsCall.State currentCallState = callSession.getInternalState();
+        if (modifyResult[1] != 0) {
+            Rlog.d(LOG_TAG, "modify failed!");
+            callSession.getImsCallAdapter().clearPendingModify();
+        } else if (this.mCi != null && this.mCi.isSupportVideoRingTones() && (DriverImsCall.State.DIALING == currentCallState || DriverImsCall.State.ALERTING == currentCallState)) {
+            Rlog.d(LOG_TAG, "ims video ring tones, clear pendingModify!");
+            callSession.getImsCallAdapter().clearPendingModify();
+        }
+        ImsVTCallProviderImpl imsVTCallProviderImpl = callSession.getImsVTCallProviderImpl();
+        if (imsVTCallProviderImpl != null) {
+            imsVTCallProviderImpl.handleModifyCallResult(modifyResult[1]);
         }
     }
 
@@ -503,6 +372,7 @@ public class ImsServiceCallTracker implements HwImsCallSessionImpl.Listener {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public List<HwImsCallSessionImpl> getCallSessionByState(DriverImsCall.State state) {
         List<HwImsCallSessionImpl> sessionList = new ArrayList<>();
         if (state == null) {
@@ -608,6 +478,7 @@ public class ImsServiceCallTracker implements HwImsCallSessionImpl.Listener {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void addListener(IImsCallListListener listener) {
         if (listener == null) {
             throw new IllegalArgumentException("addListener error: listener is null.");
@@ -619,6 +490,7 @@ public class ImsServiceCallTracker implements HwImsCallSessionImpl.Listener {
         loge("addListener error: Duplicate listener, " + listener);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void removeListener(IImsCallListListener listener) {
         if (listener == null) {
             throw new IllegalArgumentException("removeListener error: listener is null.");

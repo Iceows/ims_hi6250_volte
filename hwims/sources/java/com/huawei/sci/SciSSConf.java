@@ -4,7 +4,7 @@ import android.os.Build;
 import android.util.Log;
 import com.huawei.ims.HwImsConfigImpl;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class SciSSConf {
     public static final String CF_ACTION_ACTIVE = "active";
     public static final String CF_ACTION_DEACTIVE = "deactive";
@@ -16,7 +16,7 @@ public class SciSSConf {
     public static final String OIR_DEFAULT_BEHAVIOR_NOT_RESTRICTED = "presentation-not-restricted";
     public static final String OIR_DEFAULT_BEHAVIOR_RESTRICTED = "presentation-restricted";
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum SSCONFParamType {
         SSCONF_PARAM_TYPE_ATTR_ACTIVE,
         SSCONF_PARAM_TYPE_FORWARD_TO_TARGET,
@@ -28,14 +28,14 @@ public class SciSSConf {
         SSCONF_PARAM_TYPE_OIR_DEFALT_BEHAVIOR
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum SSCONFResetLevel {
         EN_CAAS_SSCONF_RESET_LEVEL_BASE,
         EN_CAAS_SSCONF_RESET_LEVEL_ALL,
         EN_CAAS_SSCONF_RESET_LEVEL_INVALID
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum SSConfIpAddrHostType {
         IP_ADDR_HOST_TYPE_NAF,
         IP_ADDR_HOST_TYPE_BSF,
@@ -43,13 +43,13 @@ public class SciSSConf {
         IP_ADDR_HOST_TYPE_BUTT
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum SSConfOpType {
         SSCONF_OP_TYPE_GET,
         SSCONF_OP_TYPE_PUT
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum SSConfSSType {
         SSCONF_SS_TYPE_ALL,
         SSCONF_SS_TYPE_OIP,

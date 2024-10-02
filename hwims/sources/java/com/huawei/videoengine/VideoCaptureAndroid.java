@@ -12,7 +12,7 @@ import java.util.Locale;
 import java.util.concurrent.locks.ReentrantLock;
 import vendor.huawei.hardware.radio.ims.V1_0.LastCallFailCause;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class VideoCaptureAndroid implements Camera.PreviewCallback, SurfaceHolder.Callback {
     private static boolean DEBUG = false;
     private static final String TAG = "hme-video";
@@ -215,7 +215,6 @@ public class VideoCaptureAndroid implements Camera.PreviewCallback, SurfaceHolde
     public int startCapture(int i, int i2, int i3, int i4) {
         boolean z;
         int i5;
-        int[] iArr;
         if (DEBUG) {
             Log.d(TAG, "StartCapture width:" + i + " height:" + i2 + " fps:" + i3 + " previewImageType:" + i4);
         }
@@ -234,10 +233,11 @@ public class VideoCaptureAndroid implements Camera.PreviewCallback, SurfaceHolde
             }
             if (98 != i4) {
                 z = false;
-            } else if (!model.equals("M310")) {
-                Log.e(TAG, "StartCapture input rawType is: " + i4 + "  modle: " + model + " is not supported");
-                return -1;
             } else {
+                if (!model.equals("M310")) {
+                    Log.e(TAG, "StartCapture input rawType is: " + i4 + "  modle: " + model + " is not supported");
+                    return -1;
+                }
                 i4 = supportedPreviewFormats.get(0).intValue();
                 Log.e(TAG, "StartCapture change previewImageType from 98(just for M310) to " + i4);
                 z = true;
@@ -303,7 +303,8 @@ public class VideoCaptureAndroid implements Camera.PreviewCallback, SurfaceHolde
             while (true) {
                 if (!it.hasNext()) {
                     break;
-                } else if (i3 == it.next().intValue()) {
+                }
+                if (i3 == it.next().intValue()) {
                     valueOf = Integer.valueOf(i3);
                     break;
                 }
@@ -311,7 +312,8 @@ public class VideoCaptureAndroid implements Camera.PreviewCallback, SurfaceHolde
             Log.d(TAG, "iLocalConfigFrame:" + valueOf + ", InputFrameFps:" + i3);
             parameters.setPreviewFrameRate(valueOf.intValue());
             if (Build.VERSION.SDK_INT > 8) {
-                parameters.getPreviewFpsRange(new int[2]);
+                int[] iArr = new int[2];
+                parameters.getPreviewFpsRange(iArr);
                 Log.d(TAG, "minFps:" + iArr[0] + " maxFps:" + iArr[1] + " model:" + model);
                 if (model.equals("XT910") || model.equals("XT928")) {
                     parameters.setPreviewFpsRange(5000, 20000);
@@ -352,8 +354,9 @@ public class VideoCaptureAndroid implements Camera.PreviewCallback, SurfaceHolde
             } else {
                 Log.e(TAG, "localPreview null!!");
             }
+            int i7 = ((i * i2) * this.pixelFormat.bitsPerPixel) / 8;
             this.isStartPreviewFlag = false;
-            this.expectedFrameSize = ((i * i2) * this.pixelFormat.bitsPerPixel) / 8;
+            this.expectedFrameSize = i7;
             this.config_PIXEL_FORMAT = i5;
             return 0;
         } catch (RuntimeException e) {
@@ -385,17 +388,17 @@ public class VideoCaptureAndroid implements Camera.PreviewCallback, SurfaceHolde
                 captureSysLock.unlock();
                 Log.d(TAG, "leave java StopCapture! isRunning:" + this.isRunning);
                 return 0;
-            } else if (this.camera == null) {
+            }
+            if (this.camera == null) {
                 Log.e(TAG, "camera==null or camera flag not true in StopCapture! flag: " + this.isRunning);
                 return -1;
-            } else {
-                if (this.localPreview != null) {
-                    this.localPreview.removeCallback(this);
-                }
-                captureSysLock.unlock();
-                Log.d(TAG, "leave java StopCapture! isRunning:" + this.isRunning);
-                return 0;
             }
+            if (this.localPreview != null) {
+                this.localPreview.removeCallback(this);
+            }
+            captureSysLock.unlock();
+            Log.d(TAG, "leave java StopCapture! isRunning:" + this.isRunning);
+            return 0;
         } catch (Exception e) {
             Log.e(TAG, "Failed to removeCallback!");
             return -1;
@@ -541,11 +544,9 @@ public class VideoCaptureAndroid implements Camera.PreviewCallback, SurfaceHolde
                 this.camera.setPreviewDisplay(surfaceHolder);
             }
         } catch (Throwable th) {
-            try {
-                Log.e(TAG, "Exception in surfaceCreated()", th);
-            } finally {
-                captureSysLock.unlock();
-            }
+            Log.e(TAG, "Exception in surfaceCreated()", th);
+        } finally {
+            captureSysLock.unlock();
         }
     }
 

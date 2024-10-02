@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class MtStatusManager {
     private static final boolean DEBUG = false;
     public static final int FAIL_CAUSE_BASE = 32768;
@@ -68,10 +68,6 @@ public class MtStatusManager {
     private HashMap<String, MtCallRecord> mMonitorMap = new HashMap<>();
     private HashMap<String, MtCallRecord> mReminderMap = new HashMap<>();
     protected BroadcastReceiver mIntentReceiver = new BroadcastReceiver() { // from class: com.huawei.ims.MtStatusManager.1
-        {
-            MtStatusManager.this = this;
-        }
-
         @Override // android.content.BroadcastReceiver
         public void onReceive(Context context, Intent intent) {
             if (intent == null) {
@@ -79,8 +75,7 @@ public class MtStatusManager {
                 return;
             }
             String action = intent.getAction();
-            MtStatusManager mtStatusManager = MtStatusManager.this;
-            mtStatusManager.logv("onReceive: action=" + action);
+            MtStatusManager.this.logv("onReceive: action=" + action);
             if (MtStatusManager.INTENT_CALL_MONITOR_ALARM.equals(action)) {
                 MtStatusManager.this.log("onReceive: monitor timer expires");
                 MtStatusManager.this.handleMonitorTimeOut();
@@ -140,58 +135,62 @@ public class MtStatusManager {
         String address = rp.call_number;
         if (address == null || HwImsConfigImpl.NULL_STRING_VALUE.equals(address)) {
             loge("addCancelMsg: invalid number");
-        } else if (isIgnoreThisCall(address)) {
+            return;
+        }
+        if (isIgnoreThisCall(address)) {
             decreaseAnonymousCallCount(true);
             logw("Ignore call while cancel: " + HiddenPrivacyInfo.putMosaic(address, 0));
             reportAnonymousCallFailEvent(rp.fail_cause);
-        } else {
-            HwTelephonyFactory.getHwVolteChrManager().updateMtCallLog(9);
-            delayMonitorFailCall(rp);
+            return;
         }
+        HwTelephonyFactory.getHwVolteChrManager().updateMtCallLog(9);
+        delayMonitorFailCall(rp);
     }
 
     public void notifyRingCall(String address, int phoneId) {
         checkServiceWhenIncomingCall(phoneId);
         if (this.mImsConfigImpl == null || !this.mImsConfigImpl.isMissedCallTipsInternal()) {
             log("isMissedCallTipsInternal is false.");
-        } else if (address == null) {
-            loge("notifyRingCall: invalid number");
-        } else {
-            if (HwImsConfigImpl.NULL_STRING_VALUE.equals(address)) {
-                logw("notifyRingCall address is empty when only one mt");
-                Set keys = null;
-                if (1 == this.mMonitorMap.size()) {
-                    keys = this.mMonitorMap.keySet();
-                } else if (1 == this.mReminderMap.size()) {
-                    keys = this.mReminderMap.keySet();
-                }
-                if (keys != null) {
-                    Iterator it = keys.iterator();
-                    address = it.next();
-                }
-            }
-            if (isNeedNotifyImsCallEnded(address)) {
-                log("open do-recovery");
-                setIsBusy(false);
-            }
-            if (isIgnoreThisCall(address)) {
-                decreaseAnonymousCallCount(false);
-                logw("Ignore call while ring: " + HiddenPrivacyInfo.putMosaic(address, 0));
-                return;
-            }
-            String strIndex = getIndexByCallNumber(address);
-            reportExceptionWhenRingCall(strIndex);
-            if (isOnlyOneMonitorCall(strIndex)) {
-                stopMonitorTimer();
-            }
-            this.mMonitorMap.remove(strIndex);
-            log("MonitorMap size: " + this.mMonitorMap.size());
-            if (isOnlyOneReminderCall(strIndex)) {
-                stopReminderTimer();
-            }
-            this.mReminderMap.remove(strIndex);
-            log("ReminderMap size: " + this.mReminderMap.size());
+            return;
         }
+        if (address == null) {
+            loge("notifyRingCall: invalid number");
+            return;
+        }
+        if (HwImsConfigImpl.NULL_STRING_VALUE.equals(address)) {
+            logw("notifyRingCall address is empty when only one mt");
+            Set keys = null;
+            if (1 == this.mMonitorMap.size()) {
+                keys = this.mMonitorMap.keySet();
+            } else if (1 == this.mReminderMap.size()) {
+                keys = this.mReminderMap.keySet();
+            }
+            if (keys != null) {
+                Iterator it = keys.iterator();
+                address = it.next();
+            }
+        }
+        if (isNeedNotifyImsCallEnded(address)) {
+            log("open do-recovery");
+            setIsBusy(false);
+        }
+        if (isIgnoreThisCall(address)) {
+            decreaseAnonymousCallCount(false);
+            logw("Ignore call while ring: " + HiddenPrivacyInfo.putMosaic(address, 0));
+            return;
+        }
+        String strIndex = getIndexByCallNumber(address);
+        reportExceptionWhenRingCall(strIndex);
+        if (isOnlyOneMonitorCall(strIndex)) {
+            stopMonitorTimer();
+        }
+        this.mMonitorMap.remove(strIndex);
+        log("MonitorMap size: " + this.mMonitorMap.size());
+        if (isOnlyOneReminderCall(strIndex)) {
+            stopReminderTimer();
+        }
+        this.mReminderMap.remove(strIndex);
+        log("ReminderMap size: " + this.mReminderMap.size());
     }
 
     public boolean isNeedNotifyImsCallStarted(String address) {
@@ -203,7 +202,8 @@ public class MtStatusManager {
         return isOnlyOneMonitorCall(strIndex) || (isIgnoreThisCall(address) && this.anonymousCallCount == 1);
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class MtCallRecord {
         public static final int STATE_CANCELLED = 4;
         public static final int STATE_IDLE = 1;
@@ -304,12 +304,12 @@ public class MtStatusManager {
         if (rawCallNumber.startsWith("+86")) {
             String strResult = rawCallNumber.substring(3);
             return strResult;
-        } else if (!rawCallNumber.startsWith("86")) {
-            return rawCallNumber;
-        } else {
-            String strResult2 = rawCallNumber.substring(2);
-            return strResult2;
         }
+        if (!rawCallNumber.startsWith("86")) {
+            return rawCallNumber;
+        }
+        String strResult2 = rawCallNumber.substring(2);
+        return strResult2;
     }
 
     private int getReminderId() {
@@ -362,7 +362,7 @@ public class MtStatusManager {
             long now = System.currentTimeMillis();
             MtCallRecord rc = this.mReminderMap.get(strIndex);
             rc.setRing(now);
-            HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1004, (int) FAIL_CAUSE_RING_WHEN_MONITOR_EXPIRES);
+            HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1004, FAIL_CAUSE_RING_WHEN_MONITOR_EXPIRES);
         }
     }
 
@@ -375,15 +375,17 @@ public class MtStatusManager {
             MtCallRecord rc2 = this.mMonitorMap.get(strIndex);
             rc2.setHang(now);
             HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc2.mRingOrHangTime, rc2.mInviteTime, 1002, 32768);
-        } else if (isMonitorTimeOut() && this.mReminderMap.containsKey(strIndex)) {
+            return;
+        }
+        if (isMonitorTimeOut() && this.mReminderMap.containsKey(strIndex)) {
             logw("received cancel when monitor timer out.");
             MtCallRecord rc3 = this.mReminderMap.get(strIndex);
             rc3.setHang(now);
-            HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc3.mRingOrHangTime, rc3.mInviteTime, 1005, (int) FAIL_CAUSE_HUNG_WHEN_MONITOR_EXPIRES);
-        } else {
-            loge("abnormal cancel event: cause " + rp.fail_cause);
-            HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1003, (int) FAIL_CAUSE_CANCEL_CALL_NOT_FOUND);
+            HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc3.mRingOrHangTime, rc3.mInviteTime, 1005, FAIL_CAUSE_HUNG_WHEN_MONITOR_EXPIRES);
+            return;
         }
+        loge("abnormal cancel event: cause " + rp.fail_cause);
+        HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1003, FAIL_CAUSE_CANCEL_CALL_NOT_FOUND);
     }
 
     private void reportExceptionWhenInvite(String strIndex) {
@@ -393,24 +395,24 @@ public class MtStatusManager {
             case 1:
                 logw("duplicate invite while previous state IDLE.");
                 rc.mRingOrHangTime = now;
-                HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1003, (int) FAIL_CAUSE_DUPLICATE_INVITE_IDLE);
+                HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1003, FAIL_CAUSE_DUPLICATE_INVITE_IDLE);
                 break;
             case 2:
                 logw("duplicate invite while previous state INVITED.");
                 rc.mRingOrHangTime = now;
-                HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1003, (int) FAIL_CAUSE_DUPLICATE_INVITE_INVITED);
+                HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1003, FAIL_CAUSE_DUPLICATE_INVITE_INVITED);
                 break;
             case 3:
                 logw("duplicate invite while previous state RANG.");
-                HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1003, (int) FAIL_CAUSE_DUPLICATE_INVITE_RANG);
+                HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1003, FAIL_CAUSE_DUPLICATE_INVITE_RANG);
                 break;
             case 4:
                 logw("duplicate invite while previous state CANCELLED.");
-                HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1003, (int) FAIL_CAUSE_DUPLICATE_INVITE_CANCELLED);
+                HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1003, FAIL_CAUSE_DUPLICATE_INVITE_CANCELLED);
                 break;
             default:
                 loge("invalid state while invite: " + rc.mState);
-                HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1003, (int) FAIL_CAUSE_DUPLICATE_INVITE_UNKOWN);
+                HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1003, FAIL_CAUSE_DUPLICATE_INVITE_UNKOWN);
                 break;
         }
         rc.mInviteTime = now;
@@ -422,11 +424,15 @@ public class MtStatusManager {
         log("enter checkServiceWhenIncomingCall");
         if (this.mImsConfigImpl == null || !this.mImsConfigImpl.isCheckServiceWhenIncomingCall()) {
             log("isCheckServiceWhenIncomingCall is false.");
-        } else if (phoneId != HuaweiTelephonyManager.getDefault().getDefault4GSlotId()) {
+            return;
+        }
+        if (phoneId != HuaweiTelephonyManager.getDefault().getDefault4GSlotId()) {
             log("checkServiceWhenIncomingCall: this is incoming call from vsim, do not handle it");
-        } else if (this.owner != null && (defPhone = this.owner.getDefaultPhone()) != null && (serviceState = defPhone.getServiceStateTracker()) != null && serviceState.mSS.getState() != 0 && serviceState.mSS.getDataRegState() != 0) {
+            return;
+        }
+        if (this.owner != null && (defPhone = this.owner.getDefaultPhone()) != null && (serviceState = defPhone.getServiceStateTracker()) != null && serviceState.mSS.getState() != 0 && serviceState.mSS.getDataRegState() != 0) {
             loge("checkServiceWhenIncomingCall: phone is out of service when incoming call");
-            HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(0L, 0L, 1007, (int) FAIL_CAUSE_RING_WHEN_NO_SERVICE);
+            HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(0L, 0L, 1007, FAIL_CAUSE_RING_WHEN_NO_SERVICE);
         }
     }
 
@@ -448,7 +454,7 @@ public class MtStatusManager {
     private void reportAnonymousCallFailEvent(int fail_cause) {
         MtCallRecord rc = new MtCallRecord();
         log("Anonymous call fail reason code " + fail_cause);
-        HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1006, (int) FAIL_CAUSE_MT_FAIL_CALLER_UNKNOWN);
+        HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1006, FAIL_CAUSE_MT_FAIL_CALLER_UNKNOWN);
     }
 
     private void reportExceptionNoRingCall(int onlyInvitedCallCount) {
@@ -457,13 +463,13 @@ public class MtStatusManager {
             for (int i = 0; i < onlyInvitedCallCount; i++) {
                 HwTelephonyFactory.getHwVolteChrManager().updateMtCallLog(9);
             }
-            HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1002, (int) FAIL_CAUSE_NO_RING_OR_CANCEL_CALL);
+            HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1002, FAIL_CAUSE_NO_RING_OR_CANCEL_CALL);
         }
         if (this.anonymousCallCount > 0) {
             for (int i2 = 0; i2 < this.anonymousCallCount; i2++) {
                 HwTelephonyFactory.getHwVolteChrManager().updateMtCallLog(9);
             }
-            HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1002, (int) FAIL_CAUSE_NO_RING_OR_CANCEL_ANMS);
+            HwTelephonyFactory.getHwVolteChrManager().triggerMtCallFailEvent(rc.mRingOrHangTime, rc.mInviteTime, 1002, FAIL_CAUSE_NO_RING_OR_CANCEL_ANMS);
         }
     }
 
@@ -475,6 +481,7 @@ public class MtStatusManager {
         return 1 == this.mReminderMap.size() && this.mReminderMap.containsKey(callNumber);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleMonitorTimeOut() {
         if (this.mMtReportIntentMonitor == null) {
             log("INTENT_CALL_MONITOR_ALARM is null");
@@ -495,6 +502,7 @@ public class MtStatusManager {
         setIsBusy(false);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleReminderTimeOut() {
         if (this.mMtReportIntentReminder == null) {
             log("INTENT_CALL_REMINDER_ALARM is null");
@@ -518,7 +526,7 @@ public class MtStatusManager {
                 Intent intent1 = new Intent("android.intent.action.VIEW", Uri.parse("tel:" + address));
                 intent1.setPackage(PACKAGE_NAME);
                 PendingIntent pi = PendingIntent.getActivity(this.mContext, 0, intent1, 0);
-                Notification notification = new Notification.Builder(this.mContext).setSmallIcon(17301631).setWhen(System.currentTimeMillis()).setContentTitle("Missed Call Reminder   v1.1").setContentText(address).setContentIntent(pi).setChannelId("missedCallReminder").setShowWhen(true).setAutoCancel(true).build();
+                Notification notification = new Notification.Builder(this.mContext).setSmallIcon(android.R.drawable.stat_notify_missed_call).setWhen(System.currentTimeMillis()).setContentTitle("Missed Call Reminder   v1.1").setContentText(address).setContentIntent(pi).setChannelId("missedCallReminder").setShowWhen(true).setAutoCancel(true).build();
                 this.nm.notify(getReminderId(), notification);
             }
         }
@@ -557,9 +565,11 @@ public class MtStatusManager {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void log(String s) {
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void logv(String s) {
     }
 

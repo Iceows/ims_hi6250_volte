@@ -14,7 +14,7 @@ import android.telephony.ims.stub.ImsConfigImplBase;
 import com.android.ims.ImsConfigListener;
 import com.huawei.ims.HwImsConfigImpl;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsConfigImpl extends ImsConfigImplBase {
     protected static final int CODE_IS_UNSUPPORT_MMI_CODE = 3001;
     private static final boolean DEBUG = false;
@@ -28,10 +28,12 @@ public class ImsConfigImpl extends ImsConfigImplBase {
     private static volatile ImsConfigImpl instance = null;
     private static HwImsConfigImpl[] mHwImsConfigImpl = null;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public ImsConfigImpl() {
         Rlog.i(LOG_TAG, "ImsConfigImpl::ImsConfigImpl()");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ImsConfigImpl getInstance() {
         checkAccessPermission();
         if (instance == null) {
@@ -54,22 +56,25 @@ public class ImsConfigImpl extends ImsConfigImplBase {
         if (hwImsServiceImpl == null || hwImsServiceImpl.mContext == null) {
             Rlog.e(LOG_TAG, "getConfigInterface - hwImsServiceImpl or context is null");
             return null;
-        } else if (!ImsCallProviderUtils.isValidServiceSubIndex(subId)) {
+        }
+        if (!ImsCallProviderUtils.isValidServiceSubIndex(subId)) {
             Rlog.e(LOG_TAG, "getConfigInterface - subId is invalid");
             return null;
-        } else if (mHwImsConfigImpl == null) {
+        }
+        if (mHwImsConfigImpl == null) {
             Rlog.e(LOG_TAG, "getConfigInterface - mHwImsConfigImpl is null");
             return null;
-        } else if (mHwImsConfigImpl[subId] != null) {
+        }
+        if (mHwImsConfigImpl[subId] != null) {
             Rlog.d(LOG_TAG, "getConfigInterface - mHwImsConfigImpl [ " + subId + "] is already exist!");
             return mHwImsConfigImpl[subId];
-        } else {
-            mHwImsConfigImpl[subId] = new HwImsConfigImpl(hwImsServiceImpl, subId);
-            return mHwImsConfigImpl[subId];
         }
+        mHwImsConfigImpl[subId] = new HwImsConfigImpl(hwImsServiceImpl, subId);
+        return mHwImsConfigImpl[subId];
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static final class FeatureAccessWrapper {
         private int feature;
         public ImsConfigListener listener;
@@ -84,10 +89,9 @@ public class ImsConfigImpl extends ImsConfigImplBase {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     private class ImsConfigImplHandler extends Handler {
         private ImsConfigImplHandler() {
-            ImsConfigImpl.this = r1;
         }
 
         @Override // android.os.Handler
@@ -111,6 +115,7 @@ public class ImsConfigImpl extends ImsConfigImplBase {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onGetVideoCallQualityDone(ImsConfigListener imsConfigListener, AsyncResult ar) {
         int result;
         if (imsConfigListener != null) {
@@ -131,6 +136,7 @@ public class ImsConfigImpl extends ImsConfigImplBase {
         loge("onGetVideoCallQualityDone listener is not valid !!!");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onSetVideoCallQualityDone(ImsConfigListener imsConfigListener, AsyncResult ar) {
         if (imsConfigListener != null) {
             try {
@@ -145,6 +151,7 @@ public class ImsConfigImpl extends ImsConfigImplBase {
         loge("onSetVideoCallQualityDone listener is not valid !!!");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onSetFeatureResponseDone(ImsConfigListener imsConfigListener, AsyncResult ar) {
         if (imsConfigListener != null) {
             try {
@@ -164,12 +171,14 @@ public class ImsConfigImpl extends ImsConfigImplBase {
         return status ? 0 : 1;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public ImsConfigListener getImsConfigListener(AsyncResult ar) {
         if (ar == null) {
             loge("AsyncResult is null.");
-        } else if (ar.userObj instanceof ImsConfigListener) {
-            return (ImsConfigListener) ar.userObj;
         } else {
+            if (ar.userObj instanceof ImsConfigListener) {
+                return (ImsConfigListener) ar.userObj;
+            }
             if ((ar.userObj instanceof FeatureAccessWrapper) && (((FeatureAccessWrapper) ar.userObj).listener instanceof ImsConfigListener)) {
                 return ((FeatureAccessWrapper) ar.userObj).listener;
             }
@@ -511,19 +520,21 @@ public class ImsConfigImpl extends ImsConfigImplBase {
     protected static void checkAccessPermission() {
         int callingUid = Binder.getCallingUid();
         if (callingUid == 1001 || callingUid == 1000) {
-            return;
+        } else {
+            throw new SecurityException("Only Phone is able to call this API");
         }
-        throw new SecurityException("Only Phone is able to call this API");
     }
 
     private static void logUnexpectedMethodCall(String name) {
         loge("Error! " + name + "() is not supported");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void logd(String s) {
         Rlog.d(LOG_TAG, s);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void loge(String s) {
         Rlog.e(LOG_TAG, "[ERROR] " + s);
     }

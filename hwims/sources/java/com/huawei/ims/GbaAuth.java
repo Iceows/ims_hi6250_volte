@@ -17,7 +17,7 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class GbaAuth extends Handler {
     public static final int AUTH_RESP_FAIL = 1;
     public static final int AUTH_RESP_SUCCESS = 0;
@@ -54,31 +54,36 @@ public class GbaAuth extends Handler {
     private GbaStatus mGbaStatus = GbaStatus.GBA_NULL;
     private String mNafIdHexString = null;
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class AuthResp {
         Object mResp;
         int mStatus;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class AuthRespChallenge {
         DataValue mCk;
         DataValue mIk;
         DataValue mRes;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class AuthSyncfail {
         DataValue mAuts;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class DataValue {
         int mPresent;
         byte[] mValue;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum GbaStatus {
         GBA_NULL,
         GBA_BOOTSTRAP,
@@ -87,13 +92,14 @@ public class GbaAuth extends Handler {
         GBA_DONE
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     enum UiccGbaType {
         USIM_GBA,
         ISIM_GBA
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class BtidElem {
         byte[] mBTid;
         byte[] mKs;
@@ -106,7 +112,8 @@ public class GbaAuth extends Handler {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class KsNafElem {
         byte[] mBTid;
         byte[] mKsNaf;
@@ -117,12 +124,13 @@ public class GbaAuth extends Handler {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum AKA_ALGORITHM_STATUS {
         AKA_ALGORITHM_SUCCESS(0),
         AKA_ALGORITHM_SYNC_FAILURE(1),
         AKA_ALGORITHM_FAILURE(2);
-        
+
         final int native_int;
 
         AKA_ALGORITHM_STATUS(int value) {
@@ -134,13 +142,14 @@ public class GbaAuth extends Handler {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum KSNAF_STATE {
         KSNAF_VALID(0),
         KSNAF_INVALID_AND_NEED_DERIVATION(1),
         KSNAF_INVALID_AND_NEED_BOOTSTRAP(2),
         KSNAF_INVALID_AND_IS_COMPUTING(3);
-        
+
         final int native_int;
 
         KSNAF_STATE(int value) {
@@ -152,7 +161,8 @@ public class GbaAuth extends Handler {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class AkaResult {
         DataValue mAkaData;
         AKA_ALGORITHM_STATUS mStatus;
@@ -161,7 +171,8 @@ public class GbaAuth extends Handler {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class GbaResult {
         String btid;
         byte[] ksnaf;
@@ -171,6 +182,7 @@ public class GbaAuth extends Handler {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public GbaAuth(ImsRIL cm, HwImsConfigImpl imsConfigImpl, int subId) {
         this.mCm = null;
         this.mGbaAuthUtil = null;
@@ -184,10 +196,12 @@ public class GbaAuth extends Handler {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized GbaAuthUtil getGbaAuthUtil() {
         return this.mGbaAuthUtil;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized byte[] stringUtf8ToBytes(String str) {
         byte[] ret = null;
         if (str == null) {
@@ -239,6 +253,7 @@ public class GbaAuth extends Handler {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int triggerGBABootstrap(int gbaType, byte[] rand, byte[] auth, Object asyncSign) {
         logd("enter triggerGBABootstrap gbaType=" + gbaType + ", asyncSign=" + asyncSign + ", rand=" + hiddenPrivacyByteInfo(rand) + ", auth=" + hiddenPrivacyByteInfo(auth));
         this.mGbaStatus = GbaStatus.GBA_BOOTSTRAP;
@@ -255,6 +270,7 @@ public class GbaAuth extends Handler {
         return 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int triggerGBABpUpdate(int gbaType, byte[] rand, byte[] btid, String lifetime, Object asyncSign) {
         logd("enter triggerGBABpUpdate, gbaType=" + gbaType + ", lifetime=" + lifetime + ", asyncSign=" + asyncSign + ", rand=" + hiddenPrivacyByteInfo(rand) + ", btid=" + hiddenPrivacyByteInfo(btid));
         this.mGbaStatus = GbaStatus.GBA_BP_UPDATE;
@@ -293,6 +309,7 @@ public class GbaAuth extends Handler {
         return 1;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int triggerGBAKsNAF(int gbaType, byte[] nafId, byte[] impi, Object asyncSign) {
         logd("enter triggerGBAKsNAF, gbaType=" + gbaType + ", asyncSign=" + asyncSign + ", nafId=" + hiddenPrivacyByteInfo(nafId) + ", impi=" + hiddenPrivacyByteInfo(impi));
         String nafIdHexString = transByteArrayToHexString(nafId);
@@ -339,6 +356,7 @@ public class GbaAuth extends Handler {
         return 1;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized GbaResult getGBAKsnaf(int gbaType, byte[] nafId) {
         logd("enter getGBAKsnaf, gbaType=" + gbaType + ", nafId=" + hiddenPrivacyByteInfo(nafId));
         KsNafElem ksNaf = null;
@@ -382,7 +400,8 @@ public class GbaAuth extends Handler {
             gabRet.btid = sbtid;
             logd("ksnaf=" + hiddenPrivacyByteInfo(ksNaf.mKsNaf) + ", btid=" + hiddenPrivacyByteInfo(ksNaf.mBTid) + ", nafid=" + hiddenPrivacyByteInfo(ksNaf.mNafId));
             return gabRet;
-        } else if (btid != null && btid.mKs != null) {
+        }
+        if (btid != null && btid.mKs != null) {
             if (btid.mType != gbaType) {
                 loge("gba type is not equal in btid, ingored");
             }
@@ -395,17 +414,18 @@ public class GbaAuth extends Handler {
             }
             gabRet.btid = sbtid2;
             return gabRet;
-        } else {
-            gabRet.status = KSNAF_STATE.KSNAF_INVALID_AND_NEED_BOOTSTRAP.getValue();
-            return gabRet;
         }
+        gabRet.status = KSNAF_STATE.KSNAF_INVALID_AND_NEED_BOOTSTRAP.getValue();
+        return gabRet;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void reset() {
         logd("reset GBA to null, previous GBA status is " + this.mGbaStatus);
         this.mGbaStatus = GbaStatus.GBA_NULL;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void clear() {
         logd("enter clear");
         reset();
@@ -707,6 +727,7 @@ public class GbaAuth extends Handler {
         Rlog.e("GbaAuth[" + this.mSubId + "]", "[error] " + s);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int deleteGBAKsnaf(int gbaType, byte[] nafId) {
         logd("enter deleteGBAKsnaf, gbaType=" + gbaType + ", nafId=" + hiddenPrivacyByteInfo(nafId));
         String nafIdHexString = transByteArrayToHexString(nafId);
@@ -718,18 +739,18 @@ public class GbaAuth extends Handler {
         if (ksNaf == null) {
             logd("nafId is not in mKsNafTable, deleteGBAKsnaf fail");
             return 1;
-        } else if (ksNaf.mKsNaf == null) {
-            return 1;
-        } else {
-            if (ksNaf.mType != gbaType) {
-                loge("gba type is not equal in ksnaf, ingored");
-            }
-            resetAuthCounts(nafIdHexString);
-            removeKsNaf(nafIdHexString);
-            removeBtid(nafIdHexString);
-            resetBootstrapCounts(nafIdHexString);
-            reset();
-            return 0;
         }
+        if (ksNaf.mKsNaf == null) {
+            return 1;
+        }
+        if (ksNaf.mType != gbaType) {
+            loge("gba type is not equal in ksnaf, ingored");
+        }
+        resetAuthCounts(nafIdHexString);
+        removeKsNaf(nafIdHexString);
+        removeBtid(nafIdHexString);
+        resetBootstrapCounts(nafIdHexString);
+        reset();
+        return 0;
     }
 }

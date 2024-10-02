@@ -15,7 +15,7 @@ import com.huawei.ims.ImsCallProfiles;
 import com.huawei.ims.ImsCallProviderUtils;
 import com.huawei.vtproxy.ImsThinClient;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsVTCallProviderImpl extends ImsVideoCallProvider implements HwImsCallSessionImpl.Listener {
     private static final int EVENT_SEND_SESSION_MODIFY_REQUEST_DONE = 0;
     private static final int ORIENTATION_0 = 0;
@@ -31,10 +31,6 @@ public class ImsVTCallProviderImpl extends ImsVideoCallProvider implements HwIms
     private long mTotalDataUsage = 0;
     private boolean isFristConference = false;
     private ImsThinClient.GetResCallBack mVideoDimensionCB = new ImsThinClient.GetResCallBack() { // from class: com.huawei.ims.vt.ImsVTCallProviderImpl.2
-        {
-            ImsVTCallProviderImpl.this = this;
-        }
-
         @Override // com.huawei.vtproxy.ImsThinClient.GetResCallBack
         public void getCurrentDynamicRes(int width, int height) {
             Rlog.d(ImsVTCallProviderImpl.TAG, "video dimension change CallBack,width =" + width + ",height =" + height);
@@ -50,10 +46,6 @@ public class ImsVTCallProviderImpl extends ImsVideoCallProvider implements HwIms
         this.mImsCallAdapter = imsCallMod;
         ImsThinClient.setGetResCallBack(this.mVideoDimensionCB);
         this.mHandler = new Handler() { // from class: com.huawei.ims.vt.ImsVTCallProviderImpl.1
-            {
-                ImsVTCallProviderImpl.this = this;
-            }
-
             @Override // android.os.Handler
             public void handleMessage(Message msg) {
                 Rlog.d(ImsVTCallProviderImpl.TAG, "Message received: what = " + msg.what);
@@ -66,6 +58,7 @@ public class ImsVTCallProviderImpl extends ImsVideoCallProvider implements HwIms
         };
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleSessionModifyRequestDone(Message msg) {
         Rlog.d(TAG, "handleSessionModifyRequestDone msg.what=" + msg.what + ",msg.arg1=" + msg.arg1);
         AsyncResult ar = (AsyncResult) msg.obj;
@@ -116,8 +109,11 @@ public class ImsVTCallProviderImpl extends ImsVideoCallProvider implements HwIms
             if (!this.mIsVideoPaused) {
                 ImsThinClient.pauseVideo();
                 this.mIsVideoPaused = true;
+                return;
             }
-        } else if (this.mIsVideoPaused) {
+            return;
+        }
+        if (this.mIsVideoPaused) {
             Rlog.d(TAG, "onSendSessionModifyRequest resume start");
             ImsThinClient.resumeVideo();
             this.mIsVideoPaused = false;
@@ -126,17 +122,18 @@ public class ImsVTCallProviderImpl extends ImsVideoCallProvider implements HwIms
                 int direction = RTPController.convertCallTypeToDirection(callType);
                 int result = RTPController.resumeRTPStream(direction);
                 Rlog.d(TAG, "onSendSessionModifyRequest resumeRTP " + result);
-            }
-        } else {
-            Rlog.d(TAG, "onSendSessionModifyRequest changeConnection start");
-            if (fromProfile.getVideoState() == requestProfile.getVideoState()) {
-                Rlog.e(TAG, "onSendSessionModifyRequest source video state is the same with destination!");
                 return;
             }
-            Message newMsg = this.mHandler.obtainMessage(0);
-            int callType2 = ImsCallProviderUtils.convertVideoStateToCallType(requestProfile.getVideoState());
-            this.mImsCallAdapter.changeConnectionType(newMsg, callType2, null);
+            return;
         }
+        Rlog.d(TAG, "onSendSessionModifyRequest changeConnection start");
+        if (fromProfile.getVideoState() == requestProfile.getVideoState()) {
+            Rlog.e(TAG, "onSendSessionModifyRequest source video state is the same with destination!");
+            return;
+        }
+        Message newMsg = this.mHandler.obtainMessage(0);
+        int callType2 = ImsCallProviderUtils.convertVideoStateToCallType(requestProfile.getVideoState());
+        this.mImsCallAdapter.changeConnectionType(newMsg, callType2, null);
     }
 
     private boolean isVideoPauseRequested(VideoProfile requestProfile) {
@@ -155,10 +152,10 @@ public class ImsVTCallProviderImpl extends ImsVideoCallProvider implements HwIms
         if (this.mCallSession.getImsCallProfile().call_type == callType) {
             Rlog.d(TAG, "rejectConnectionTypeChange");
             this.mImsCallAdapter.rejectConnectionTypeChange();
-            return;
+        } else {
+            Rlog.d(TAG, "acceptConnectionTypeChange");
+            this.mImsCallAdapter.acceptConnectionTypeChange(callType, null);
         }
-        Rlog.d(TAG, "acceptConnectionTypeChange");
-        this.mImsCallAdapter.acceptConnectionTypeChange(callType, null);
     }
 
     public void onSetCamera(String cameraId) {
@@ -201,6 +198,7 @@ public class ImsVTCallProviderImpl extends ImsVideoCallProvider implements HwIms
         this.mMediaManager.setDeviceOrientation(rotation);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public HwImsCallSessionImpl getCallSession() {
         return this.mCallSession;
     }
@@ -242,17 +240,19 @@ public class ImsVTCallProviderImpl extends ImsVideoCallProvider implements HwIms
         if (callModify.findError()) {
             int uiError = ImsCallProviderUtils.convertImsErrorToUiError(callModify.error);
             receiveSessionModifyResponse(uiError, vcp, null);
-        } else if (callModify.modifyByTimeOut()) {
+            return;
+        }
+        if (callModify.modifyByTimeOut()) {
             Rlog.d(TAG, "modifyByTimeOut , modify_reason is " + callModify.modify_reason);
             int uiError2 = ImsCallProviderUtils.convertImsErrorToUiError(callModify.modify_reason);
             receiveSessionModifyResponse(uiError2, vcp, null);
-        } else {
-            this.mRequestProfile = vcp;
-            receiveSessionModifyRequest(vcp);
-            if (VideoProfile.isAudioOnly(newVideoState)) {
-                Rlog.d(TAG, "onUnsolCallModify, videostate=audio");
-                this.mIsVideoPaused = false;
-            }
+            return;
+        }
+        this.mRequestProfile = vcp;
+        receiveSessionModifyRequest(vcp);
+        if (VideoProfile.isAudioOnly(newVideoState)) {
+            Rlog.d(TAG, "onUnsolCallModify, videostate=audio");
+            this.mIsVideoPaused = false;
         }
     }
 
@@ -264,10 +264,13 @@ public class ImsVTCallProviderImpl extends ImsVideoCallProvider implements HwIms
             if (this.mResponseProfile == null) {
                 Rlog.e(TAG, "illegal process! mResponseProfile is null.");
                 return;
+            } else {
+                modifyRTPStreamForTwoWayAndOneWaySwap();
+                receiveSessionModifyResponse(1, this.mRequestProfile, this.mResponseProfile);
+                return;
             }
-            modifyRTPStreamForTwoWayAndOneWaySwap();
-            receiveSessionModifyResponse(1, this.mRequestProfile, this.mResponseProfile);
-        } else if (18919 == result) {
+        }
+        if (18919 == result) {
             Rlog.d(TAG, "receiveSessionModifyResponse modify time out");
             this.mResponseProfile = ImsCallProviderUtils.convertToVideoProfile(this.mImsCallAdapter.mHwImsCallSessionImpl.getInternalCallType(), 4);
             receiveSessionModifyResponse(4, this.mRequestProfile, this.mResponseProfile);

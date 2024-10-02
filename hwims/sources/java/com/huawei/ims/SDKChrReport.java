@@ -7,7 +7,7 @@ import android.util.Log;
 import com.huawei.vtproxy.ImsCameraClient;
 import com.huawei.vtproxy.ImsThinClient;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class SDKChrReport {
     private static final int CAMERA_OPEN_FAIL_SUB_EVENT = 1;
     private static final int FAULT_IMS_SS_PERFORMANCE_EVENT = 4004;
@@ -92,6 +92,7 @@ public class SDKChrReport {
         this.mContext.sendBroadcast(mI, "com.huawei.android.permission.GET_CHR_DATA");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void reportSDKCHRParas(int[] iCHRPara, String[] strCHRPara) {
         if (iCHRPara == null || iCHRPara.length == 0) {
             Log.e(LOG_TAG, "iCHRPara is null");

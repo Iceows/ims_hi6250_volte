@@ -11,7 +11,7 @@ import com.huawei.ims.vt.ImsMediaProvider;
 import com.huawei.vtproxy.ImsThinClient;
 import java.util.ArrayList;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class MediaManager implements ImsMediaProvider.IMediaListener {
     private static final String DEFAULT_CALL_ID = "-1";
     private static MediaManager sInstance;
@@ -40,8 +40,7 @@ public class MediaManager implements ImsMediaProvider.IMediaListener {
     public void cleanPreStatus() {
         this.mPreSetSurface = null;
         if (CameraManager.getInstance() != null && CameraManager.getInstance().isCurrentHaveVideoCall()) {
-            String str = TAG;
-            Rlog.i(str, "There is still a video call, do not clean mSurface : " + this.mSurface);
+            Rlog.i(TAG, "There is still a video call, do not clean mSurface : " + this.mSurface);
             return;
         }
         this.mSurface = null;
@@ -98,16 +97,16 @@ public class MediaManager implements ImsMediaProvider.IMediaListener {
         if (this.mSurface == null) {
             Rlog.d(TAG, "mSurface is null when setDisplaySurface after params ready");
             return false;
-        } else if (this.mSurface != this.mPreSetSurface) {
-            Rlog.d(TAG, "start to setFarEndSurface and startRemotePreview");
-            this.mPreSetSurface = this.mSurface;
-            ImsThinClient.setFarEndSurface(this.mSurface);
-            setInitBitRate();
-            ImsThinClient.showRmtVideo();
-            return true;
-        } else {
+        }
+        if (this.mSurface == this.mPreSetSurface) {
             return false;
         }
+        Rlog.d(TAG, "start to setFarEndSurface and startRemotePreview");
+        this.mPreSetSurface = this.mSurface;
+        ImsThinClient.setFarEndSurface(this.mSurface);
+        setInitBitRate();
+        ImsThinClient.showRmtVideo();
+        return true;
     }
 
     public void setDeviceOrientation(int orientation) {
@@ -134,10 +133,10 @@ public class MediaManager implements ImsMediaProvider.IMediaListener {
         if (mIsCmccIOT) {
             Rlog.d(TAG, "setInitMaxBitRate true");
             ImsThinClient.setInitMaxBitRate(true);
-            return;
+        } else {
+            Rlog.d(TAG, "setInitMaxBitRate false");
+            ImsThinClient.setInitMaxBitRate(false);
         }
-        Rlog.d(TAG, "setInitMaxBitRate false");
-        ImsThinClient.setInitMaxBitRate(false);
     }
 
     @Override // com.huawei.ims.vt.ImsMediaProvider.IMediaListener
@@ -171,7 +170,8 @@ public class MediaManager implements ImsMediaProvider.IMediaListener {
             while (true) {
                 if (i2 >= callNum) {
                     break;
-                } else if (videoProviderList.get(i2) == null || !videoProviderList.get(i2).getCallSession().getCallId().equals(this.mCallId)) {
+                }
+                if (videoProviderList.get(i2) == null || !videoProviderList.get(i2).getCallSession().getCallId().equals(this.mCallId)) {
                     i2++;
                 } else {
                     videoProviderList.get(i2).onCallDataUsageChanged(uplink);

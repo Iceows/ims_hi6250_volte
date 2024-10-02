@@ -9,7 +9,7 @@ import android.view.SurfaceView;
 import java.nio.ByteBuffer;
 import java.util.concurrent.locks.ReentrantLock;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class H264Decoder implements SurfaceHolder.Callback {
     private int dataLength;
     private int isKeyFrame;
@@ -120,30 +120,30 @@ public class H264Decoder implements SurfaceHolder.Callback {
         int dequeueOutputBuffer;
         this.decoderLock.lock();
         try {
-            if (this.started) {
-                if (!this.inited && init() != 0) {
-                    return -1;
-                }
-                try {
-                    MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
-                    while (true) {
-                        dequeueOutputBuffer = this.h264Decoder.dequeueOutputBuffer(bufferInfo, 0L);
-                        if (dequeueOutputBuffer < 0) {
-                            break;
-                        }
-                        this.h264Decoder.releaseOutputBuffer(dequeueOutputBuffer, true);
-                    }
-                    if (dequeueOutputBuffer == -2) {
-                        MediaFormat outputFormat = this.h264Decoder.getOutputFormat();
-                        int integer = outputFormat.getInteger("width");
-                        int integer2 = outputFormat.getInteger("height");
-                        Log.e("H264JavaDecoder", "dec resolution change to: width " + integer + " height " + integer2);
-                        setDecodedSize(this.lnativeObject, integer, integer2);
-                    }
-                } catch (Exception e) {
-                    Log.e("H264JavaDecoder", "decodeAndrander : " + e.getMessage());
-                }
+            if (!this.started) {
                 return 0;
+            }
+            if (!this.inited && init() != 0) {
+                return -1;
+            }
+            try {
+                MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
+                while (true) {
+                    dequeueOutputBuffer = this.h264Decoder.dequeueOutputBuffer(bufferInfo, 0L);
+                    if (dequeueOutputBuffer < 0) {
+                        break;
+                    }
+                    this.h264Decoder.releaseOutputBuffer(dequeueOutputBuffer, true);
+                }
+                if (dequeueOutputBuffer == -2) {
+                    MediaFormat outputFormat = this.h264Decoder.getOutputFormat();
+                    int integer = outputFormat.getInteger("width");
+                    int integer2 = outputFormat.getInteger("height");
+                    Log.e("H264JavaDecoder", "dec resolution change to: width " + integer + " height " + integer2);
+                    setDecodedSize(this.lnativeObject, integer, integer2);
+                }
+            } catch (Exception e) {
+                Log.e("H264JavaDecoder", "decodeAndrander : " + e.getMessage());
             }
             return 0;
         } finally {
@@ -157,53 +157,53 @@ public class H264Decoder implements SurfaceHolder.Callback {
         int dequeueInputBuffer;
         this.decoderLock.lock();
         try {
-            if (this.started) {
-                if (this.needKeyFrame) {
-                    if (this.isKeyFrame == 0) {
-                        Log.e("H264JavaDecoder", "request i, but not");
-                        return -100;
-                    }
-                    this.needKeyFrame = false;
-                }
-                if (!this.inited && init() != 0) {
-                    Log.e("H264JavaDecoder", "inited failed");
-                    return 0;
-                }
-                this.playBuffer.get(this.tempBufPlay, 0, this.dataLength);
-                this.playBuffer.rewind();
-                try {
-                    MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
-                    while (true) {
-                        dequeueOutputBuffer = this.h264Decoder.dequeueOutputBuffer(bufferInfo, 0L);
-                        if (dequeueOutputBuffer < 0) {
-                            break;
-                        }
-                        this.h264Decoder.releaseOutputBuffer(dequeueOutputBuffer, true);
-                    }
-                    if (dequeueOutputBuffer == -2) {
-                        MediaFormat outputFormat = this.h264Decoder.getOutputFormat();
-                        int integer = outputFormat.getInteger("width");
-                        int integer2 = outputFormat.getInteger("height");
-                        Log.e("H264JavaDecoder", "dec resolution change to: width " + integer + " height " + integer2);
-                        setDecodedSize(this.lnativeObject, integer, integer2);
-                    }
-                    inputBuffers = this.h264Decoder.getInputBuffers();
-                    dequeueInputBuffer = this.h264Decoder.dequeueInputBuffer(20000L);
-                } catch (Exception e) {
-                    Log.e("H264JavaDecoder", "onFrame : " + e.getMessage());
-                }
-                if (dequeueInputBuffer < 0) {
-                    Log.e("H264JavaDecoder", "inputBufferIndex < 0");
-                    this.h264Decoder.flush();
-                    this.needKeyFrame = true;
-                    return -100;
-                }
-                ByteBuffer byteBuffer = inputBuffers[dequeueInputBuffer];
-                byteBuffer.clear();
-                byteBuffer.put(this.tempBufPlay, 0, this.dataLength);
-                this.h264Decoder.queueInputBuffer(dequeueInputBuffer, 0, this.dataLength, this.renderTime, 0);
+            if (!this.started) {
                 return 0;
             }
+            if (this.needKeyFrame) {
+                if (this.isKeyFrame == 0) {
+                    Log.e("H264JavaDecoder", "request i, but not");
+                    return -100;
+                }
+                this.needKeyFrame = false;
+            }
+            if (!this.inited && init() != 0) {
+                Log.e("H264JavaDecoder", "inited failed");
+                return 0;
+            }
+            this.playBuffer.get(this.tempBufPlay, 0, this.dataLength);
+            this.playBuffer.rewind();
+            try {
+                MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
+                while (true) {
+                    dequeueOutputBuffer = this.h264Decoder.dequeueOutputBuffer(bufferInfo, 0L);
+                    if (dequeueOutputBuffer < 0) {
+                        break;
+                    }
+                    this.h264Decoder.releaseOutputBuffer(dequeueOutputBuffer, true);
+                }
+                if (dequeueOutputBuffer == -2) {
+                    MediaFormat outputFormat = this.h264Decoder.getOutputFormat();
+                    int integer = outputFormat.getInteger("width");
+                    int integer2 = outputFormat.getInteger("height");
+                    Log.e("H264JavaDecoder", "dec resolution change to: width " + integer + " height " + integer2);
+                    setDecodedSize(this.lnativeObject, integer, integer2);
+                }
+                inputBuffers = this.h264Decoder.getInputBuffers();
+                dequeueInputBuffer = this.h264Decoder.dequeueInputBuffer(20000L);
+            } catch (Exception e) {
+                Log.e("H264JavaDecoder", "onFrame : " + e.getMessage());
+            }
+            if (dequeueInputBuffer < 0) {
+                Log.e("H264JavaDecoder", "inputBufferIndex < 0");
+                this.h264Decoder.flush();
+                this.needKeyFrame = true;
+                return -100;
+            }
+            ByteBuffer byteBuffer = inputBuffers[dequeueInputBuffer];
+            byteBuffer.clear();
+            byteBuffer.put(this.tempBufPlay, 0, this.dataLength);
+            this.h264Decoder.queueInputBuffer(dequeueInputBuffer, 0, this.dataLength, this.renderTime, 0);
             return 0;
         } finally {
             this.decoderLock.unlock();

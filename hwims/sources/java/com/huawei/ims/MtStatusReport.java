@@ -2,7 +2,7 @@ package com.huawei.ims;
 
 import vendor.huawei.hardware.radio.ims.V1_0.RILImsMtStatusReport;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class MtStatusReport {
     public static final int IMS_MT_STATUS_HUNG_UP_RECEIVED = 1;
     public static final int IMS_MT_STATUS_INVITE_RECEIVED = 0;

@@ -10,7 +10,7 @@ import android.opengl.EGLSurface;
 import android.util.Log;
 import android.view.Surface;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public final class EglCore {
     private static final int EGL_RECORDABLE_ANDROID = 12610;
     public static final int FLAG_RECORDABLE = 1;
@@ -204,10 +204,7 @@ public final class EglCore {
     }
 
     public static void logCurrent(String str) {
-        EGLDisplay eglGetCurrentDisplay = EGL14.eglGetCurrentDisplay();
-        EGLContext eglGetCurrentContext = EGL14.eglGetCurrentContext();
-        EGLSurface eglGetCurrentSurface = EGL14.eglGetCurrentSurface(12377);
-        Log.i(TAG, "Current EGL (" + str + "): display=" + eglGetCurrentDisplay + ", context=" + eglGetCurrentContext + ", surface=" + eglGetCurrentSurface);
+        Log.i(TAG, "Current EGL (" + str + "): display=" + EGL14.eglGetCurrentDisplay() + ", context=" + EGL14.eglGetCurrentContext() + ", surface=" + EGL14.eglGetCurrentSurface(12377));
     }
 
     private void checkEglError(String str) {

@@ -55,7 +55,7 @@ import vendor.huawei.hardware.radio.ims.V1_0.RILUICCAUTH;
 import vendor.huawei.hardware.radio.ims.V1_0.RadioError;
 import vendor.huawei.hardware.radio.ims.V1_0.RadioResponseInfo;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public final class ImsRIL extends BaseCommands implements CommandsInterface {
     private static final int DEFAULT_ACK_WAKE_LOCK_TIMEOUT_MS = 200;
     private static final int DEFAULT_BLOCKING_MESSAGE_RESPONSE_TIMEOUT_MS = 2000;
@@ -244,10 +244,10 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
         this.mImsRegModeRegistrants.remove(h);
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public final class RadioProxyDeathRecipient implements IHwBinder.DeathRecipient {
         RadioProxyDeathRecipient() {
-            ImsRIL.this = this$0;
         }
 
         @Override // android.os.IHwBinder.DeathRecipient
@@ -256,10 +256,10 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public class ImsRilHandler extends Handler {
         ImsRilHandler() {
-            ImsRIL.this = this$0;
         }
 
         @Override // android.os.Handler
@@ -267,8 +267,7 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
             int i = msg.what;
             if (i != 2) {
                 if (i == 6) {
-                    ImsRIL imsRIL = ImsRIL.this;
-                    imsRIL.logd("handleMessage: EVENT_RADIO_PROXY_DEAD cookie = " + msg.obj + " mRadioProxyCookie = " + ImsRIL.this.mRadioProxyCookie.get());
+                    ImsRIL.this.logd("handleMessage: EVENT_RADIO_PROXY_DEAD cookie = " + msg.obj + " mRadioProxyCookie = " + ImsRIL.this.mRadioProxyCookie.get());
                     if (((Long) msg.obj).longValue() == ImsRIL.this.mRadioProxyCookie.get()) {
                         ImsRIL.this.resetProxyAndRequestList();
                         ImsRIL.this.getRadioProxy(null);
@@ -282,12 +281,10 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
                 if (msg.arg1 == ImsRIL.this.mWlSequenceNum) {
                     if (ImsRIL.this.clearWakeLock(0)) {
                         int count = ImsRIL.this.mRequestsList.size();
-                        ImsRIL imsRIL2 = ImsRIL.this;
-                        imsRIL2.log("WAKE_LOCK_TIMEOUT  mRequestsList=" + count);
+                        ImsRIL.this.log("WAKE_LOCK_TIMEOUT  mRequestsList=" + count);
                         for (int i2 = 0; i2 < count; i2++) {
                             ImsRILRequest rr = ImsRIL.this.mRequestsList.get(i2);
-                            ImsRIL imsRIL3 = ImsRIL.this;
-                            imsRIL3.log(i2 + ": [" + rr.mSerial + "] " + ImsRIL.requestToString(rr.mRequest));
+                            ImsRIL.this.log(i2 + ": [" + rr.mSerial + "] " + ImsRIL.requestToString(rr.mRequest));
                         }
                     }
                 }
@@ -295,6 +292,7 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void resetProxyAndRequestList() {
         this.mRadioProxy = null;
         ImsRILRequest.resetSerial();
@@ -306,6 +304,7 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
         resetProxyAndRequestList();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public IRadioIms getRadioProxy(Message result) {
         if (this.mRadioProxy != null) {
             return this.mRadioProxy;
@@ -378,8 +377,8 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
         this.mWakeLock.setReferenceCounted(false);
         this.mAckWakeLock = pm.newWakeLock(1, RILJ_ACK_WAKELOCK_NAME);
         this.mAckWakeLock.setReferenceCounted(false);
-        this.mWakeLockTimeout = SystemProperties.getInt("ro.ril.wake_lock_timeout", (int) DEFAULT_WAKE_LOCK_TIMEOUT);
-        this.mAckWakeLockTimeout = SystemProperties.getInt("ro.ril.wake_lock_timeout", (int) DEFAULT_ACK_WAKE_LOCK_TIMEOUT_MS);
+        this.mWakeLockTimeout = SystemProperties.getInt("ro.ril.wake_lock_timeout", DEFAULT_WAKE_LOCK_TIMEOUT);
+        this.mAckWakeLockTimeout = SystemProperties.getInt("ro.ril.wake_lock_timeout", DEFAULT_ACK_WAKE_LOCK_TIMEOUT_MS);
         this.mRequestMessagesPending = 0;
         this.mRequestMessagesWaiting = 0;
         IntentFilter filter = new IntentFilter();
@@ -415,7 +414,8 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
             sb.append("}");
             String s = sb.toString();
             return s;
-        } else if (ret instanceof String[]) {
+        }
+        if (ret instanceof String[]) {
             String[] strings = (String[]) ret;
             int length2 = strings.length;
             StringBuilder sb2 = new StringBuilder("{");
@@ -429,7 +429,8 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
             sb2.append("}");
             String s2 = sb2.toString();
             return s2;
-        } else if (req == 2044) {
+        }
+        if (req == 2044) {
             ArrayList<DriverImsCall> calls = (ArrayList) ret;
             StringBuilder sb3 = new StringBuilder(" ");
             int callListSize = calls.size();
@@ -440,12 +441,12 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
             }
             String s3 = sb3.toString();
             return s3;
-        } else {
-            String s4 = ret.toString();
-            return s4;
         }
+        String s4 = ret.toString();
+        return s4;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static String requestToString(int request) {
         switch (request) {
             case 12:
@@ -1484,6 +1485,7 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public ImsRILRequest processResponse(RadioResponseInfo responseInfo) {
         int serial = responseInfo.serial;
         int type = responseInfo.type;
@@ -1499,6 +1501,7 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
         return rr;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void processResponseDone(ImsRILRequest rr, RadioResponseInfo responseInfo, Object ret) {
         if (responseInfo.error == 0) {
             if (2069 == rr.mRequest) {
@@ -1516,6 +1519,7 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
         rr.release();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void processIndication(int indicationType) {
         if (indicationType == 1) {
             sendAck();
@@ -1539,6 +1543,7 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
         rr.release();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void processRequestAck(int serial) {
         ImsRILRequest rr;
         ImsRILRequest rr2;
@@ -1567,6 +1572,7 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
         return ret;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static int[] convertHalImsEndCause(RILImsModifyEndCause imsEndCause, ImsRIL ril) {
         int imsCallIndex = imsEndCause.callIndex;
         int imsErr = imsEndCause.err;
@@ -2571,6 +2577,7 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
         return null;
     }
 
+    /* JADX WARN: Failed to find 'out' block for switch in B:9:0x0020. Please report as an issue. */
     private void acquireWakeLock(ImsRILRequest rr, int wakeLockType) {
         synchronized (rr) {
             if (rr.mWakeLockType != -1) {
@@ -2596,8 +2603,9 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
                         Message msg = this.imsRilHandler.obtainMessage(2);
                         msg.arg1 = this.mWlSequenceNum;
                         this.imsRilHandler.sendMessageDelayed(msg, this.mWakeLockTimeout);
-                        break;
                     }
+                    rr.mWakeLockType = wakeLockType;
+                    return;
                 case 1:
                     synchronized (this.mAckWakeLock) {
                         this.mAckWakeLock.acquire();
@@ -2606,19 +2614,21 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
                         msg2.arg1 = this.mAckWlSequenceNum;
                         this.imsRilHandler.sendMessageDelayed(msg2, this.mAckWakeLockTimeout);
                     }
-                    break;
+                    rr.mWakeLockType = wakeLockType;
+                    return;
                 default:
                     log("Acquiring Invalid Wakelock type " + wakeLockType);
                     return;
             }
-            rr.mWakeLockType = wakeLockType;
         }
     }
 
+    /* JADX WARN: Failed to find 'out' block for switch in B:4:0x0003. Please report as an issue. */
     private void decrementWakeLock(ImsRILRequest rr) {
         synchronized (rr) {
             switch (rr.mWakeLockType) {
                 case -1:
+                    rr.mWakeLockType = -1;
                     break;
                 case 0:
                     synchronized (this.mWakeLock) {
@@ -2638,37 +2648,40 @@ public final class ImsRIL extends BaseCommands implements CommandsInterface {
                             this.mWakeLock.release();
                         }
                     }
+                    rr.mWakeLockType = -1;
                     break;
                 case 1:
+                    rr.mWakeLockType = -1;
                     break;
                 default:
                     logw("Decrementing Invalid Wakelock type " + rr.mWakeLockType);
+                    rr.mWakeLockType = -1;
                     break;
             }
-            rr.mWakeLockType = -1;
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean clearWakeLock(int wakeLockType) {
         if (wakeLockType == 0) {
             synchronized (this.mWakeLock) {
-                if (this.mWakeLockCount != 0 || this.mWakeLock.isHeld()) {
-                    log("NOTE: mWakeLockCount is " + this.mWakeLockCount + "at time of clearing");
-                    this.mWakeLockCount = 0;
-                    this.mWakeLock.release();
-                    this.mClientWakelockTracker.stopTrackingAll();
-                    this.mActiveWakelockWorkSource = null;
-                    return true;
+                if (this.mWakeLockCount == 0 && !this.mWakeLock.isHeld()) {
+                    return false;
                 }
-                return false;
+                log("NOTE: mWakeLockCount is " + this.mWakeLockCount + "at time of clearing");
+                this.mWakeLockCount = 0;
+                this.mWakeLock.release();
+                this.mClientWakelockTracker.stopTrackingAll();
+                this.mActiveWakelockWorkSource = null;
+                return true;
             }
         }
         synchronized (this.mAckWakeLock) {
-            if (this.mAckWakeLock.isHeld()) {
-                this.mAckWakeLock.release();
-                return true;
+            if (!this.mAckWakeLock.isHeld()) {
+                return false;
             }
-            return false;
+            this.mAckWakeLock.release();
+            return true;
         }
     }
 

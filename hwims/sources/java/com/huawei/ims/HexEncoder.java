@@ -3,7 +3,7 @@ package com.huawei.ims;
 import android.telephony.Rlog;
 import java.io.UnsupportedEncodingException;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public final class HexEncoder {
     private static final char[] DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
     private static final int NUM_16 = 16;
@@ -37,8 +37,9 @@ public final class HexEncoder {
         while (j < len) {
             int f = toDigit(data[j], j) << 4;
             int j2 = j + 1;
+            int f2 = f | toDigit(data[j2], j2);
             j = j2 + 1;
-            out[i] = (byte) ((f | toDigit(data[j2], j2)) & 255);
+            out[i] = (byte) (f2 & 255);
             i++;
         }
         return out;
@@ -52,6 +53,7 @@ public final class HexEncoder {
         return digit;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public byte[] encode(byte[] array) {
         String string = new String(encodeHex(array));
         try {
@@ -63,6 +65,7 @@ public final class HexEncoder {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public byte[] decode(byte[] array) throws COMException {
         try {
             String string = new String(array, "UTF-8");

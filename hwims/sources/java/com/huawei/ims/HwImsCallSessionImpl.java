@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
     private static final String CALL_COMPLETED_ELSEWHERE = "Call completed elsewhere";
     private static final int CODE_HOLD_FOR_IMS = 2001;
@@ -90,7 +90,7 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
     private int mState;
     private ImsServiceCallTracker mTracker;
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public interface Listener {
         void onCallSessionHold(HwImsCallSessionImpl hwImsCallSessionImpl, boolean z);
 
@@ -270,6 +270,7 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void notifyCallSessionMerged() {
         checkAccessPermission();
         if (isSessionValid()) {
@@ -424,6 +425,7 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public void invokeCallResume(HwImsCallSessionImpl callSession, ImsCallProfile profile) {
         Rlog.d(LOG_TAG, "invokeCallResume");
         this.mListenerProxy.callSessionResumed(profile);
@@ -479,9 +481,9 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
                 if (isHandleHandoveSuccess(hoType)) {
                     this.mListenerProxy.callSessionHandover(srcTech, targetTech, reasonInfo);
                     this.mListenerProxy.callSessionUpdated(this.mCallProfile);
-                    return;
+                } else {
+                    this.mListenerProxy.callSessionHandoverFailed(srcTech, targetTech, reasonInfo);
                 }
-                this.mListenerProxy.callSessionHandoverFailed(srcTech, targetTech, reasonInfo);
             }
         }
     }
@@ -500,10 +502,9 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
         return hoType == 1;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
-    public class HwImsCallSessionImplHandler extends Handler {
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
+    private class HwImsCallSessionImplHandler extends Handler {
         HwImsCallSessionImplHandler() {
-            HwImsCallSessionImpl.this = r1;
         }
 
         @Override // android.os.Handler
@@ -588,23 +589,25 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
                             Rlog.d(HwImsCallSessionImpl.LOG_TAG, "Deflect error");
                             HwImsCallSessionImpl.this.mListenerProxy.callSessionDeflectFailed(new ImsReasonInfo(0, 0, "Deflect Failed"));
                             return;
-                        }
-                        Rlog.d(HwImsCallSessionImpl.LOG_TAG, "Deflect success");
-                        if (ar7 != null) {
-                            HwImsCallSessionImpl.this.mListenerProxy.callSessionDeflected();
+                        } else {
+                            Rlog.d(HwImsCallSessionImpl.LOG_TAG, "Deflect success");
+                            if (ar7 != null) {
+                                HwImsCallSessionImpl.this.mListenerProxy.callSessionDeflected();
+                                return;
+                            }
                             return;
                         }
-                        return;
                     case 9:
                         AsyncResult ar8 = (AsyncResult) msg.obj;
                         if (ar8 != null && ar8.exception != null) {
                             Rlog.d(HwImsCallSessionImpl.LOG_TAG, "Add Participant error");
                             HwImsCallSessionImpl.this.mListenerProxy.callSessionInviteParticipantsRequestFailed(new ImsReasonInfo(0, 0, "Add Participant Failed"));
                             return;
-                        } else if (ar8 != null) {
-                            HwImsCallSessionImpl.this.mListenerProxy.callSessionInviteParticipantsRequestDelivered();
-                            return;
                         } else {
+                            if (ar8 != null) {
+                                HwImsCallSessionImpl.this.mListenerProxy.callSessionInviteParticipantsRequestDelivered();
+                                return;
+                            }
                             return;
                         }
                     case 10:
@@ -653,8 +656,7 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
                             }
                         }
                         HwTelephonyFactory.getHwVolteChrManager().setRemoteCauseCode(causeCode2);
-                        HwImsCallSessionImpl hwImsCallSessionImpl = HwImsCallSessionImpl.this;
-                        hwImsCallSessionImpl.log("before Fail Cause = " + causeCode2);
+                        HwImsCallSessionImpl.this.log("before Fail Cause = " + causeCode2);
                         if ((causeCode2 == 18543 || causeCode2 == 18632) && HwImsCallSessionImpl.CALL_COMPLETED_ELSEWHERE.equals(message)) {
                             causeCode = 1014;
                         } else if (causeCode2 == 19035 && HwImsCallSessionImpl.REMOTE_CALL_DECLINED.equals(message)) {
@@ -663,8 +665,7 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
                             causeCode = ImsCallProviderUtils.convertRilCauseCodeToImsCode(causeCode2);
                         }
                         String message2 = HwImsCallSessionImpl.this.convertMessageFromCauseCode(causeCode, message);
-                        HwImsCallSessionImpl hwImsCallSessionImpl2 = HwImsCallSessionImpl.this;
-                        hwImsCallSessionImpl2.log("Last IMS Call Fail Cause = " + causeCode + "Message = " + message2);
+                        HwImsCallSessionImpl.this.log("Last IMS Call Fail Cause = " + causeCode + "Message = " + message2);
                         ImsReasonInfo reasonInfo = new ImsReasonInfo(causeCode, 0, message2);
                         HwImsCallSessionImpl.this.mListenerProxy.callSessionTerminated(reasonInfo);
                         return;
@@ -676,17 +677,19 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public String convertMessageFromCauseCode(int causeCode, String originMessage) {
-        if (causeCode != 1100) {
-            if (causeCode == 3001) {
-                return WIFI_CALL_DROP_BACKHAUL_CONGESTED;
-            }
-            Rlog.d(LOG_TAG, "just use origin message.");
-            return originMessage;
+        if (causeCode == 1100) {
+            return WIFI_CALL_DROP_SIGNAL_DEGRADED;
         }
-        return WIFI_CALL_DROP_SIGNAL_DEGRADED;
+        if (causeCode == 3001) {
+            return WIFI_CALL_DROP_BACKHAUL_CONGESTED;
+        }
+        Rlog.d(LOG_TAG, "just use origin message.");
+        return originMessage;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean isSessionValid() {
         boolean isValid = this.mState != -1;
         if (!isValid) {
@@ -699,6 +702,7 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
         return (this.mState == 8 || this.mState == 7 || this.mState == 0 || this.mState == -1) ? false : true;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void doClose() {
         Rlog.d(LOG_TAG, "doClose!");
         if (isImsCallSessionAlive()) {
@@ -785,14 +789,14 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
 
     public String getProperty(String name) {
         checkAccessPermission();
-        if (isSessionValid()) {
-            if (this.mCallProfile != null) {
-                String value = this.mCallProfile.getCallExtra(name);
-                return value;
-            }
-            Rlog.e(LOG_TAG, "Call Profile null! ");
+        if (!isSessionValid()) {
             return null;
         }
+        if (this.mCallProfile != null) {
+            String value = this.mCallProfile.getCallExtra(name);
+            return value;
+        }
+        Rlog.e(LOG_TAG, "Call Profile null! ");
         return null;
     }
 
@@ -809,35 +813,36 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
         return this.mDc;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public DriverImsCall.State getInternalState() {
-        if (isSessionValid()) {
-            if (this.mDc != null) {
-                DriverImsCall.State state = this.mDc.state;
-                return state;
-            } else if (this.mState != 1) {
-                return null;
-            } else {
-                DriverImsCall.State state2 = DriverImsCall.State.DIALING;
-                return state2;
-            }
+        if (!isSessionValid()) {
+            return DriverImsCall.State.END;
         }
-        return DriverImsCall.State.END;
+        if (this.mDc != null) {
+            DriverImsCall.State state = this.mDc.state;
+            return state;
+        }
+        if (this.mState != 1) {
+            return null;
+        }
+        DriverImsCall.State state2 = DriverImsCall.State.DIALING;
+        return state2;
     }
 
     public int getInternalCallType() {
         checkAccessPermission();
-        if (isSessionValid()) {
-            if (this.mDc != null && this.mDc.imsCallProfile != null) {
-                int callType = this.mDc.imsCallProfile.call_type;
-                return callType;
-            } else if (this.mState != 1 || this.mCallProfile == null) {
-                return 10;
-            } else {
-                int callType2 = ImsCallProviderUtils.convertToInternalCallType(this.mCallProfile.mCallType);
-                return callType2;
-            }
+        if (!isSessionValid()) {
+            return 10;
         }
-        return 10;
+        if (this.mDc != null && this.mDc.imsCallProfile != null) {
+            int callType = this.mDc.imsCallProfile.call_type;
+            return callType;
+        }
+        if (this.mState != 1 || this.mCallProfile == null) {
+            return 10;
+        }
+        int callType2 = ImsCallProviderUtils.convertToInternalCallType(this.mCallProfile.mCallType);
+        return callType2;
     }
 
     public int getCallDomain() {
@@ -889,20 +894,20 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
 
     public boolean isInCall() {
         checkAccessPermission();
-        if (isSessionValid()) {
-            switch (this.mDc.state) {
-                case ACTIVE:
-                case HOLDING:
-                case DIALING:
-                case ALERTING:
-                case INCOMING:
-                case WAITING:
-                    return true;
-                default:
-                    return false;
-            }
+        if (!isSessionValid()) {
+            return false;
         }
-        return false;
+        switch (this.mDc.state) {
+            case ACTIVE:
+            case HOLDING:
+            case DIALING:
+            case ALERTING:
+            case INCOMING:
+            case WAITING:
+                return true;
+            default:
+                return false;
+        }
     }
 
     public final void setListener(ImsCallSessionListener listener) {
@@ -963,8 +968,9 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:133:0x0053, code lost:
-        if (r4.equals("QCELP13K") != false) goto L10;
+    /* JADX WARN: Code restructure failed: missing block: B:40:0x0053, code lost:
+    
+        if (r4.equals("QCELP13K") != false) goto L39;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1273,10 +1279,10 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
         if (isSessionValid()) {
             if (this.mAcceptPending) {
                 Rlog.d(LOG_TAG, "this call is being accepted...");
-                return;
+            } else {
+                this.mAcceptPending = true;
+                this.mCi.acceptCall(this.mHandler.obtainMessage(2), mapCallTypeFromProfile(callType));
             }
-            this.mAcceptPending = true;
-            this.mCi.acceptCall(this.mHandler.obtainMessage(2), mapCallTypeFromProfile(callType));
         }
     }
 
@@ -1490,6 +1496,7 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
         return this.mDc.imsCallProfile;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void initCallLists() {
         log("initCallLists");
         ArrayList<DriverImsCall> mmTelList = new ArrayList<>();
@@ -1498,12 +1505,15 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void updateSuppServiceInfo(ImsSuppServiceNotification suppSvcNotification, boolean startOnHoldLocalTone) {
         log("updateSuppSvcInfo: suppSvcNotification= " + suppSvcNotification + " startOnHoldLocalTone = " + startOnHoldLocalTone);
         if (isSessionValid()) {
             if (suppSvcNotification.notificationType == 0) {
                 this.mListenerProxy.callSessionSuppServiceReceived(suppSvcNotification);
-            } else if (suppSvcNotification.notificationType == 1) {
+                return;
+            }
+            if (suppSvcNotification.notificationType == 1) {
                 switch (suppSvcNotification.code) {
                     case 2:
                         log("updateSuppServiceInfo SUPP_SVC_CODE_MT_HOLD");
@@ -1532,7 +1542,9 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
         if (isSessionValid() && this.mCallProfile != null) {
             if (getInternalState() != DriverImsCall.State.ACTIVE && getInternalState() != DriverImsCall.State.HOLDING) {
                 log("onHoldTone: current call state is not active or holding, ignore");
-            } else if (startOnHoldLocalTone) {
+                return;
+            }
+            if (startOnHoldLocalTone) {
                 this.mCallProfile.mMediaProfile.mAudioDirection = 0;
                 this.mListenerProxy.callSessionHoldReceived(this.mCallProfile);
             } else if (this.mCallProfile.mMediaProfile.mAudioDirection == 0) {
@@ -1552,10 +1564,12 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
         return super/*java.lang.Object*/.toString();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void log(String msg) {
         Rlog.d(LOG_TAG, msg);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void loge(String msg) {
         Rlog.e(LOG_TAG, msg);
     }
@@ -1563,9 +1577,9 @@ public class HwImsCallSessionImpl extends ImsCallSessionImplBase {
     private static void checkAccessPermission() {
         int callingUid = Binder.getCallingUid();
         if (callingUid == 1001 || callingUid == 1000) {
-            return;
+        } else {
+            throw new SecurityException("Only Phone is able to call this API");
         }
-        throw new SecurityException("Only Phone is able to call this API");
     }
 
     public boolean isMT() {

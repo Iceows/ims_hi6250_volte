@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class SciSSConfHs {
     public static final int CHR_UT_ERROR_MOUDLE_NULL = 0;
     public static final int CHR_UT_ERROR_MOUDLE_UT = 1;
@@ -94,7 +94,7 @@ public class SciSSConfHs {
     private static boolean isInitSystem = false;
     private static boolean isInitLibPath = false;
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static final class CallBarringCondition {
         public static final int SSCONF_CB_CONDITION_BAIC = 0;
         public static final int SSCONF_CB_CONDITION_BAICr = 4;
@@ -104,7 +104,7 @@ public class SciSSConfHs {
         public static final int SSCONF_CB_CONDITION_BAOICxH = 3;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static final class CallDiversionActionType {
         public static final int CF_ACTION_TYPE_ACTIVE = 1;
         public static final int CF_ACTION_TYPE_DEACTIVE = 0;
@@ -112,7 +112,7 @@ public class SciSSConfHs {
         public static final int CF_ACTION_TYPE_REGISTRATION = 3;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static final class CallForwardReason {
         public static final int SSCONF_CDIV_REASON_ALL = 6;
         public static final int SSCONF_CDIV_REASON_ALL_CONDITIONAL = 7;
@@ -124,12 +124,12 @@ public class SciSSConfHs {
         public static final int SSCONF_CDIV_REASON_CFU = 0;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public interface ChrUtCallBack {
         void chrUtCbGetErrReport(int[] iArr, String[] strArr);
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static final class GbaType {
         public static final int SSCONF_GBA_NOT_SUPPORT = 2;
         public static final int SSCONF_GBA_SUPPORT_ME = 0;
@@ -137,7 +137,7 @@ public class SciSSConfHs {
         public static final int SSCONF_GBA_SUPPORT_U = 1;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static final class OIRDefaultBehaviorType {
         private static final int OIR_DEFAULT_BEHAVIOR_TYPE_DEFAULT = 0;
         private static final int OIR_DEFAULT_BEHAVIOR_TYPE_NOT_RESTRICTED = 1;
@@ -145,7 +145,7 @@ public class SciSSConfHs {
         private static final int OIR_DEFAULT_BEHAVIOR_TYPE_RESTRICTED = 2;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static final class ParamCfgType {
         public static final int SSCONF_PARAM_CFG_BSF_ACCEPT_ENCODING_XML = 2;
         public static final int SSCONF_PARAM_CFG_DELETE_NAF_ACCEPT_ENCODING = 3;
@@ -566,14 +566,14 @@ public class SciSSConfHs {
             activeValue = "false";
         }
         String defaultBehaviorValue = getOIRDefaulBehaviorType(defaultBehaviorType);
-        if (SciSSConf.setSSConfParam(ssType, opType, SciSSConf.SSCONFParamType.SSCONF_PARAM_TYPE_ATTR_ACTIVE.ordinal(), activeValue) == 0) {
-            if (defaultBehaviorValue.length() > 0 && SciSSConf.setSSConfParam(ssType, opType, SciSSConf.SSCONFParamType.SSCONF_PARAM_TYPE_OIR_DEFALT_BEHAVIOR.ordinal(), defaultBehaviorValue) != 0) {
-                Log.e("SciSSConfHs", "setOriginatingIdentityRestriction OIR_DEFALT_BEHAVIOR fail.");
-                return 1;
-            }
-            return SciSSConf.startConf(ssType, opType);
+        if (SciSSConf.setSSConfParam(ssType, opType, SciSSConf.SSCONFParamType.SSCONF_PARAM_TYPE_ATTR_ACTIVE.ordinal(), activeValue) != 0) {
+            return 1;
         }
-        return 1;
+        if (defaultBehaviorValue.length() > 0 && SciSSConf.setSSConfParam(ssType, opType, SciSSConf.SSCONFParamType.SSCONF_PARAM_TYPE_OIR_DEFALT_BEHAVIOR.ordinal(), defaultBehaviorValue) != 0) {
+            Log.e("SciSSConfHs", "setOriginatingIdentityRestriction OIR_DEFALT_BEHAVIOR fail.");
+            return 1;
+        }
+        return SciSSConf.startConf(ssType, opType);
     }
 
     public static int queryTerminatingIdentityRestriction() {
@@ -710,16 +710,16 @@ public class SciSSConfHs {
 
     public static int getMediaType(int ssType) {
         String mediaType;
-        if ((ssType == SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CFU.ordinal() || ssType == SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CFNL.ordinal() || ssType == SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CFB.ordinal() || ssType == SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CFNR.ordinal() || ssType == SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CFNRc.ordinal() || ssType == SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CFT.ordinal() || ssType == SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CDIV_ALL.ordinal() || ssType == SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CDIV_ALL_CONDITIONAL.ordinal() || ssType == SciSSConf.SSConfSSType.SSCONF_SS_TYPE_BAIC.ordinal() || ssType == SciSSConf.SSConfSSType.SSCONF_SS_TYPE_BAOC.ordinal() || ssType == SciSSConf.SSConfSSType.SSCONF_SS_TYPE_BAOIC.ordinal() || ssType == SciSSConf.SSConfSSType.SSCONF_SS_TYPE_BAOICxH.ordinal() || ssType == SciSSConf.SSConfSSType.SSCONF_SS_TYPE_BAICr.ordinal() || ssType == SciSSConf.SSConfSSType.SSCONF_SS_TYPE_BAOCr.ordinal()) && (mediaType = SciSSConf.getSSConfParam(ssType, SciSSConf.SSCONFParamType.SSCONF_PARAM_TYPE_MEDIATYPE.ordinal())) != null) {
-            if (SciSSConf.MEDIA_AUDIO.equals(mediaType)) {
-                return 1;
-            }
-            if (SciSSConf.MEDIA_VIDEO.equals(mediaType)) {
-                return 2;
-            }
-            Log.i("MEDIA_TYPE is ", mediaType);
+        if ((ssType != SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CFU.ordinal() && ssType != SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CFNL.ordinal() && ssType != SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CFB.ordinal() && ssType != SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CFNR.ordinal() && ssType != SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CFNRc.ordinal() && ssType != SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CFT.ordinal() && ssType != SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CDIV_ALL.ordinal() && ssType != SciSSConf.SSConfSSType.SSCONF_SS_TYPE_CDIV_ALL_CONDITIONAL.ordinal() && ssType != SciSSConf.SSConfSSType.SSCONF_SS_TYPE_BAIC.ordinal() && ssType != SciSSConf.SSConfSSType.SSCONF_SS_TYPE_BAOC.ordinal() && ssType != SciSSConf.SSConfSSType.SSCONF_SS_TYPE_BAOIC.ordinal() && ssType != SciSSConf.SSConfSSType.SSCONF_SS_TYPE_BAOICxH.ordinal() && ssType != SciSSConf.SSConfSSType.SSCONF_SS_TYPE_BAICr.ordinal() && ssType != SciSSConf.SSConfSSType.SSCONF_SS_TYPE_BAOCr.ordinal()) || (mediaType = SciSSConf.getSSConfParam(ssType, SciSSConf.SSCONFParamType.SSCONF_PARAM_TYPE_MEDIATYPE.ordinal())) == null) {
             return 0;
         }
+        if (SciSSConf.MEDIA_AUDIO.equals(mediaType)) {
+            return 1;
+        }
+        if (SciSSConf.MEDIA_VIDEO.equals(mediaType)) {
+            return 2;
+        }
+        Log.i("MEDIA_TYPE is ", mediaType);
         return 0;
     }
 

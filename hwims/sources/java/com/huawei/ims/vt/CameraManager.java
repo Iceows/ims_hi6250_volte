@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class CameraManager implements ImsMediaProvider.CameraListener, IImsCallListListener {
     public static final String CAAS_EVENT_PARAM_READY = "com.huawei.caas.vtproxy.thinclient.PARAM_READY";
     private static final int CALL_TYPE_MO = 1;
@@ -68,10 +68,6 @@ public class CameraManager implements ImsMediaProvider.CameraListener, IImsCallL
     private int mIMSSDKResId = Integer.MIN_VALUE;
     private int mCAMERASesId = Integer.MIN_VALUE;
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() { // from class: com.huawei.ims.vt.CameraManager.1
-        {
-            CameraManager.this = this;
-        }
-
         @Override // android.content.BroadcastReceiver
         public void onReceive(Context context, Intent intent) {
             if (intent == null) {
@@ -197,7 +193,9 @@ public class CameraManager implements ImsMediaProvider.CameraListener, IImsCallL
                 this.mFristToMergeCall = false;
             }
             noticeCameraFailed(session, false);
-        } else if (this.mCAMERASesId == OPEN_CAMERA_FAIL_RETRY) {
+            return;
+        }
+        if (this.mCAMERASesId == OPEN_CAMERA_FAIL_RETRY) {
             Rlog.i(TAG, "open the camera failed, wrong call type");
             this.mSDKCameraOpen = true;
             this.mTryOpenCameraCallSession = session;
@@ -206,12 +204,12 @@ public class CameraManager implements ImsMediaProvider.CameraListener, IImsCallL
             msg.arg1 = Integer.parseInt(cameraId);
             msg.obj = session;
             this.mHandler.sendMessageDelayed(msg, 100L);
-        } else {
-            Rlog.d(TAG, "open the camera failed, the cameraId is: " + cameraId);
-            noticeCameraFailed(session, true);
-            if (ImsVTGlobals.mChrReporter != null) {
-                ImsVTGlobals.mChrReporter.getCameraOpenFailedReason();
-            }
+            return;
+        }
+        Rlog.d(TAG, "open the camera failed, the cameraId is: " + cameraId);
+        noticeCameraFailed(session, true);
+        if (ImsVTGlobals.mChrReporter != null) {
+            ImsVTGlobals.mChrReporter.getCameraOpenFailedReason();
         }
     }
 
@@ -239,6 +237,7 @@ public class CameraManager implements ImsMediaProvider.CameraListener, IImsCallL
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public VideoProfile.CameraCapabilities getCameraCapabilities() {
         Rlog.d(TAG, "getCameraCapabilities");
         return new VideoProfile.CameraCapabilities(PREVIEW_WIDTH, PREVIEW_HEIGHT, false, 1.0f);
@@ -417,35 +416,37 @@ public class CameraManager implements ImsMediaProvider.CameraListener, IImsCallL
         Rlog.d(TAG, "setCallSessionHold session" + session + ", mCurrentCallSession:" + this.mCurrentCallSession);
         if (!mSessionMap.containsKey(session)) {
             Rlog.d(TAG, "setCallSessionHold map don't contains key retrun");
-        } else if (mSessionMap.get(session).intValue() == -1) {
+            return;
+        }
+        if (mSessionMap.get(session).intValue() == -1) {
             Rlog.d(TAG, "setCallSessionHold have default session return");
-        } else {
-            ImsCallProfile cp = session.getCallProfile();
-            int currentCallType = ImsCallProviderUtils.convertToInternalCallType(cp.mCallType);
-            boolean isVideoCallType = ImsCallProviderUtils.isVideoCall(currentCallType);
-            if (isVideoCallType) {
-                mCallSessionState.put(session, 0);
-                if (!session.equals(this.mCurrentCallSession)) {
-                    int sessionId = mSessionMap.get(session).intValue();
-                    ImsThinClient.setImsCurrentSession(sessionId);
-                }
-                if (this.mHoldMap.containsKey(session)) {
-                    Set<Boolean> key = this.mHoldMap.get(session);
-                    key.add(Boolean.valueOf(mtHold));
-                    this.mHoldMap.put(session, key);
-                } else {
-                    Set<Boolean> keys = new HashSet<>();
-                    keys.add(Boolean.valueOf(mtHold));
-                    this.mHoldMap.put(session, keys);
-                }
-                if (session.equals(this.mCurrentCallSession) && mtHold && this.mPreSetSurface == null) {
-                    this.mBgVideoCallShouldResume = false;
-                }
-                pauseImsRTPStream(currentCallType);
-                recoverToSetCurrentSessionId(session);
-                if (isCurrentHaveMoreThanOneVideoCall() && session.equals(this.mCurrentCallSession) && !mtHold) {
-                    pauseVideoAndStopPreview(session, cp);
-                }
+            return;
+        }
+        ImsCallProfile cp = session.getCallProfile();
+        int currentCallType = ImsCallProviderUtils.convertToInternalCallType(cp.mCallType);
+        boolean isVideoCallType = ImsCallProviderUtils.isVideoCall(currentCallType);
+        if (isVideoCallType) {
+            mCallSessionState.put(session, 0);
+            if (!session.equals(this.mCurrentCallSession)) {
+                int sessionId = mSessionMap.get(session).intValue();
+                ImsThinClient.setImsCurrentSession(sessionId);
+            }
+            if (this.mHoldMap.containsKey(session)) {
+                Set<Boolean> key = this.mHoldMap.get(session);
+                key.add(Boolean.valueOf(mtHold));
+                this.mHoldMap.put(session, key);
+            } else {
+                Set<Boolean> keys = new HashSet<>();
+                keys.add(Boolean.valueOf(mtHold));
+                this.mHoldMap.put(session, keys);
+            }
+            if (session.equals(this.mCurrentCallSession) && mtHold && this.mPreSetSurface == null) {
+                this.mBgVideoCallShouldResume = false;
+            }
+            pauseImsRTPStream(currentCallType);
+            recoverToSetCurrentSessionId(session);
+            if (isCurrentHaveMoreThanOneVideoCall() && session.equals(this.mCurrentCallSession) && !mtHold) {
+                pauseVideoAndStopPreview(session, cp);
             }
         }
     }
@@ -504,8 +505,11 @@ public class CameraManager implements ImsMediaProvider.CameraListener, IImsCallL
         if (isVideoCallType && isCurrentHaveVideoCall() && !isCurrentSession) {
             if (!isCurrentHaveMoreThanOneVideoCall() && getOtherCallSessionImp() != null) {
                 pauseVideoAndStopPreview(getOtherCallSessionImp(), cp);
+                return;
             }
-        } else if (!isVideoCallType && isCurrentSession && isCurrentHaveMoreThanOneVideoCall()) {
+            return;
+        }
+        if (!isVideoCallType && isCurrentSession && isCurrentHaveMoreThanOneVideoCall()) {
             close(session, false);
         }
     }
@@ -574,6 +578,7 @@ public class CameraManager implements ImsMediaProvider.CameraListener, IImsCallL
         Rlog.d(TAG, sb.toString());
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void resumeImsRTPStream(int currentCallType) {
         int direction = RTPController.convertCallTypeToDirection(currentCallType);
         int result = RTPController.resumeRTPStream(direction);
@@ -660,10 +665,9 @@ public class CameraManager implements ImsMediaProvider.CameraListener, IImsCallL
         this.mBgVideoCallShouldResume = false;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
-    public class CameraManagerHandler extends Handler {
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
+    private class CameraManagerHandler extends Handler {
         CameraManagerHandler() {
-            CameraManager.this = r1;
         }
 
         @Override // android.os.Handler

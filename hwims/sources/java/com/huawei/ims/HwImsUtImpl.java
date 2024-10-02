@@ -41,7 +41,6 @@ import com.android.internal.telephony.PhoneInternalInterface;
 import com.android.internal.telephony.dataconnection.DcFailCause;
 import com.android.internal.telephony.imsphone.ImsPhone;
 import com.huawei.ims.HwImsConfigImpl;
-import com.huawei.sci.SciSSConf;
 import com.huawei.sci.SciSSConfCb;
 import com.huawei.sci.SciSSConfHs;
 import java.net.InetAddress;
@@ -52,7 +51,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class HwImsUtImpl extends ImsUtImpl {
     public static final String ACTION_MAPCON_SERVICE_FAILED = "com.hisi.mapcon.servicefailed";
     public static final int CALL_SDK_FAILED = -1;
@@ -272,18 +271,15 @@ public class HwImsUtImpl extends ImsUtImpl {
                 return;
             }
             String action = intent.getAction();
-            HwImsUtImpl hwImsUtImpl = HwImsUtImpl.this;
-            hwImsUtImpl.logd("onReceive: action=" + action);
+            HwImsUtImpl.this.logd("onReceive: action=" + action);
             if (HwImsUtImpl.ACTION_MAPCON_SERVICE_FAILED.equals(action)) {
                 if (HwImsUtImpl.this.mSubId != HwImsUtImpl.mCurrentSubId) {
-                    HwImsUtImpl hwImsUtImpl2 = HwImsUtImpl.this;
-                    hwImsUtImpl2.logd("receive com.hisi.mapcon.servicefailed, but not for this sub " + HwImsUtImpl.this.mSubId + ", current SubId is " + HwImsUtImpl.mCurrentSubId + ", return.");
+                    HwImsUtImpl.this.logd("receive com.hisi.mapcon.servicefailed, but not for this sub " + HwImsUtImpl.this.mSubId + ", current SubId is " + HwImsUtImpl.mCurrentSubId + ", return.");
                     return;
                 }
                 int serviceType = intent.getIntExtra(HwImsUtImpl.MAPCON_TYPE, 1);
                 UtCmd cmd = HwImsUtImpl.this.getFirstUtCmd();
-                HwImsUtImpl hwImsUtImpl3 = HwImsUtImpl.this;
-                hwImsUtImpl3.logd("handle UT data connection vowifi conntion begin fail and serviceType = " + serviceType);
+                HwImsUtImpl.this.logd("handle UT data connection vowifi conntion begin fail and serviceType = " + serviceType);
                 if (!HwImsUtImpl.IS_VOWIFI_PROP_ON || 1 != serviceType || cmd == null || ImsDataConnectionState.IMS_DC_CONNECTING != cmd.dcState || HwImsUtImpl.this.mIsVowifiTimeOut) {
                     return;
                 }
@@ -313,31 +309,34 @@ public class HwImsUtImpl extends ImsUtImpl {
                 HwImsUtImpl.this.stopWifiTunnelSetupAlarm();
                 HwImsUtImpl.this.changeDcStateWhenTunnelSetupFail();
                 HwImsUtImpl.this.sendUTMessage(6);
-            } else if ("android.net.conn.CONNECTIVITY_CHANGE".equals(action)) {
+                return;
+            }
+            if ("android.net.conn.CONNECTIVITY_CHANGE".equals(action)) {
                 NetworkInfo networkInfo = (NetworkInfo) intent.getParcelableExtra("networkInfo");
                 HwImsUtImpl.this.handleConnectivity(networkInfo);
-            } else if (!"android.intent.action.AIRPLANE_MODE".equals(action)) {
+                return;
+            }
+            if (!"android.intent.action.AIRPLANE_MODE".equals(action)) {
                 if ("android.intent.action.PRECISE_DATA_CONNECTION_STATE_CHANGED".equals(action)) {
                     HwImsUtImpl.this.handleUtApnConnection(intent);
+                    return;
                 } else {
                     HwImsUtImpl.this.loge("intent not support");
+                    return;
                 }
-            } else {
-                HwImsUtImpl.this.mIsAirModeResetCWInModem = true;
-                boolean isAirplaneModeOn = intent.getBooleanExtra("state", false);
-                HwImsUtImpl hwImsUtImpl4 = HwImsUtImpl.this;
-                hwImsUtImpl4.logd("isAirModeOn=" + isAirplaneModeOn);
-                if (isAirplaneModeOn) {
-                    HwImsUtImpl.this.handleClear(0);
-                }
+            }
+            HwImsUtImpl.this.mIsAirModeResetCWInModem = true;
+            boolean isAirplaneModeOn = intent.getBooleanExtra("state", false);
+            HwImsUtImpl.this.logd("isAirModeOn=" + isAirplaneModeOn);
+            if (isAirplaneModeOn) {
+                HwImsUtImpl.this.handleClear(0);
             }
         }
     };
     private SciSSConfCb.Callback mSciSSCB = new SciSSConfCb.Callback() { // from class: com.huawei.ims.HwImsUtImpl.4
         @Override // com.huawei.sci.SciSSConfCb.Callback
         public void sciSSConfCbPostResult(int ssType, int opType, int status) {
-            HwImsUtImpl hwImsUtImpl = HwImsUtImpl.this;
-            hwImsUtImpl.logd("sciSSConfCbPostResult ssType = " + ssType + ", opType = " + opType + ", status = " + status);
+            HwImsUtImpl.this.logd("sciSSConfCbPostResult ssType = " + ssType + ", opType = " + opType + ", status = " + status);
             UTData ut = new UTData(ssType, opType, status);
             if (HwImsUtImpl.this.mGbaAuth != null) {
                 HwImsUtImpl.this.mGbaAuth.clearAuthCounts();
@@ -352,7 +351,7 @@ public class HwImsUtImpl extends ImsUtImpl {
     private boolean mIsUtSubscribed = true;
     private boolean mIsDataReg = false;
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum CmdState {
         CMD_INIT,
         CMD_HANDLE_UT,
@@ -361,7 +360,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         CMD_FINISH
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum CmdToken {
         CMD_GET_CALLBARRING_OPTION,
         CMD_SET_CALLBARRING_OPTION,
@@ -381,7 +380,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         CMD_GET_CALLWAITING_FOR_DETECTION
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum DomainSelectType {
         SS_SELECT_CS_DOMAIN_ONLY,
         SS_SELECT_UT_DOMAIN_ONLY,
@@ -389,7 +388,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         SS_SELECT_INVALID_DOMAIN
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum ImsDataConnectionState {
         IMS_DC_INIT,
         IMS_DC_CONNECTION_ACT,
@@ -432,12 +431,12 @@ public class HwImsUtImpl extends ImsUtImpl {
         FLAG_DEFAULT_VOLTE_VALUE = -1;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum CALL_WAITING_SYNC_STATE {
         CALL_WAITING_SYNC_UNKNOWN(0),
         CALL_WAITING_SYNC_TO_IMS_SDK(1),
         CALL_WAITING_SYNC_TO_CS(2);
-        
+
         final int native_int;
 
         CALL_WAITING_SYNC_STATE(int value) {
@@ -449,7 +448,8 @@ public class HwImsUtImpl extends ImsUtImpl {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class UtCmd {
         Date endTime;
         CmdToken mToken;
@@ -484,7 +484,8 @@ public class HwImsUtImpl extends ImsUtImpl {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class UTData {
         int mStatus;
         int mUtOpType;
@@ -768,10 +769,12 @@ public class HwImsUtImpl extends ImsUtImpl {
         return checkUTDomain(domainSelect(DomainSelectType.SS_SELECT_UT_PREFER_CS_SECONDARY, 12, false));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public boolean isUtEnable() {
         return this.mIsUtEnable;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Context getContext() {
         return this.mHwImsServiceImpl.mContext;
     }
@@ -789,6 +792,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         return this.mUtServiceHandler.sendMessage(msg);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsUtImpl
     public synchronized void queryAndSyncCallWaitingToCs() {
         logd("[UTCMD]enter queryAndSyncCallWaitingToCs");
@@ -813,6 +817,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsUtImpl
     public void queryAndSyncCallWaitingToImsSdk() {
         logd("[UTCMD]enter queryAndSyncCallWaitingToImsSdk");
@@ -823,11 +828,13 @@ public class HwImsUtImpl extends ImsUtImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsUtImpl
     public void handleSimRecordsLoaded(String newImsi) {
         sendUTMessage(9, newImsi);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsUtImpl
     public void handleImsGetImpuDone(String impu) {
         sendUTMessage(11, impu);
@@ -851,6 +858,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         return ret;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public int setImsSdkImpi() {
         int ret = -1;
         String impi = this.mImsConfigImpl.getUtIMPI();
@@ -945,13 +953,14 @@ public class HwImsUtImpl extends ImsUtImpl {
             return true;
         }
         Date currDate = new Date();
-        if (currDate.compareTo(this.mNextGetCallWaitingTime) < 0) {
-            loge("forbid call waiting request, currDate=" + currDate + ", mNextGetCallWaitingTime" + this.mNextGetCallWaitingTime);
-            return false;
+        if (currDate.compareTo(this.mNextGetCallWaitingTime) >= 0) {
+            return true;
         }
-        return true;
+        loge("forbid call waiting request, currDate=" + currDate + ", mNextGetCallWaitingTime" + this.mNextGetCallWaitingTime);
+        return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsUtImpl
     public boolean isAirModeResetCWInModem() {
         return this.mIsAirModeResetCWInModem;
@@ -961,10 +970,10 @@ public class HwImsUtImpl extends ImsUtImpl {
         logd("responseMessage with obj=" + obj);
         if (msg == null) {
             loge("responseMessage msg is null");
-            return;
+        } else {
+            AsyncResult.forMessage(msg, obj, ex);
+            msg.sendToTarget();
         }
-        AsyncResult.forMessage(msg, obj, ex);
-        msg.sendToTarget();
     }
 
     void responseMessage(Message msg, CommandException.Error err) {
@@ -972,6 +981,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         responseMessage(msg, null, new CommandException(err));
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsUtImpl
     public void handleSimCardAbsent() {
         sendUTMessage(10);
@@ -1043,12 +1053,10 @@ public class HwImsUtImpl extends ImsUtImpl {
         return this.mHwImsServiceImpl.getDefaultPhone();
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     private class UtServiceHandler extends Handler {
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public UtServiceHandler(Looper looper) {
             super(looper);
-            HwImsUtImpl.this = r1;
         }
 
         @Override // android.os.Handler
@@ -1057,6 +1065,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleMessage(Message msg) {
         boolean bsfRouteAddress;
         boolean isUtRetryCmdEmpty;
@@ -1238,10 +1247,10 @@ public class HwImsUtImpl extends ImsUtImpl {
             ImsPhone imsPhone = this.mHwImsServiceImpl.getImsPhone();
             if (!(imsPhone instanceof ImsPhone)) {
                 logd("get imsphone fails.");
-                return;
+            } else {
+                ImsPhone imsPhone2 = imsPhone;
+                imsPhone2.notifyECTFailed(PhoneInternalInterface.SuppService.TRANSFER);
             }
-            ImsPhone imsPhone2 = imsPhone;
-            imsPhone2.notifyECTFailed(PhoneInternalInterface.SuppService.TRANSFER);
         }
     }
 
@@ -1256,7 +1265,9 @@ public class HwImsUtImpl extends ImsUtImpl {
         if (ar.exception != null) {
             loge("handleGetCWResponseFromCs: ar.exception=" + ar.exception);
             responseMessage(onComplete, null, ar.exception);
-        } else if (ar.result instanceof int[]) {
+            return;
+        }
+        if (ar.result instanceof int[]) {
             int[] cwArray = (int[]) ar.result;
             try {
                 if (cwArray == null) {
@@ -1267,14 +1278,15 @@ public class HwImsUtImpl extends ImsUtImpl {
                 logd("handleGetCBResponseFromCs, cwArray[0]=" + cwArray[0] + ", cwArray[1]=" + cwArray[1]);
                 boolean enable = isEnableCallWaiting(cwArray[0]);
                 handleGetCallWaitingDone(enable, cwArray[1], onComplete);
+                return;
             } catch (ArrayIndexOutOfBoundsException e) {
                 loge("handleGetCWResponseFromCs: improper failed");
                 responseMessage(onComplete, CommandException.Error.GENERIC_FAILURE);
+                return;
             }
-        } else {
-            loge("ar.result is not int[]");
-            responseMessage(onComplete, CommandException.Error.GENERIC_FAILURE);
         }
+        loge("ar.result is not int[]");
+        responseMessage(onComplete, CommandException.Error.GENERIC_FAILURE);
     }
 
     private void handleSetCWFromCs(Message msg) {
@@ -1303,6 +1315,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public UtCmd getFirstUtCmd() {
         synchronized (this.mUtCmdQueue) {
             if (this.mUtCmdQueue.isEmpty()) {
@@ -1365,26 +1378,26 @@ public class HwImsUtImpl extends ImsUtImpl {
     }
 
     private boolean performUtPreprocessingForFirstTime() {
-        if (ImsCallProviderUtils.IS_DUAL_IMS_AVAILABLE && isCurrentSubChange()) {
-            if (!isOtherSubUtIdle()) {
-                if (mCurrentSubId == -1) {
-                    logd("performUtPreprocessingForFirstTime: ut for other sub is not idle, but mCurrentSubId is -1, should set mCurrentSubId as " + this.mSubId);
-                    setCurrentSubId(this.mSubId);
-                    regetIMSIFromPhone();
-                    initSciSSConfHs();
-                    return false;
-                }
-                logd("performUtPreprocessingForFirstTime: ut for other sub is not idle, waiting");
-                return true;
-            }
-            logd("performUtPreprocessingForFirstTime: reset Ut SDK");
-            setCurrentSubId(this.mSubId);
-            SciSSConfHs.reset(1);
-            regetIMSIFromPhone();
-            initSciSSConfHs();
-            this.mUtDataExpireTime.clear();
+        if (!ImsCallProviderUtils.IS_DUAL_IMS_AVAILABLE || !isCurrentSubChange()) {
             return false;
         }
+        if (!isOtherSubUtIdle()) {
+            if (mCurrentSubId == -1) {
+                logd("performUtPreprocessingForFirstTime: ut for other sub is not idle, but mCurrentSubId is -1, should set mCurrentSubId as " + this.mSubId);
+                setCurrentSubId(this.mSubId);
+                regetIMSIFromPhone();
+                initSciSSConfHs();
+                return false;
+            }
+            logd("performUtPreprocessingForFirstTime: ut for other sub is not idle, waiting");
+            return true;
+        }
+        logd("performUtPreprocessingForFirstTime: reset Ut SDK");
+        setCurrentSubId(this.mSubId);
+        SciSSConfHs.reset(1);
+        regetIMSIFromPhone();
+        initSciSSConfHs();
+        this.mUtDataExpireTime.clear();
         return false;
     }
 
@@ -1432,7 +1445,8 @@ public class HwImsUtImpl extends ImsUtImpl {
                     logd("Airplane mode is turned on and ss not surrport vowifi ut. no longer trying volte ut and cs");
                     responseFailureAndEndUt(cmd);
                     return;
-                } else if (isUtNotUseDefaultAPN()) {
+                }
+                if (isUtNotUseDefaultAPN()) {
                     if (handleUtNotUseDefaultAPN(cmd)) {
                         return;
                     }
@@ -1510,10 +1524,11 @@ public class HwImsUtImpl extends ImsUtImpl {
                     initSDKServiceIpAddr(network3);
                     cmd.dcState = ImsDataConnectionState.IMS_DC_CONNECTED;
                     break;
-                } else if (canUseDefaultBearForWifiConnected()) {
-                    startDefaultBearForWifiConnected(cmd);
-                    return;
                 } else {
+                    if (canUseDefaultBearForWifiConnected()) {
+                        startDefaultBearForWifiConnected(cmd);
+                        return;
+                    }
                     logd("handle UT data connection ut use default apn and data is not connected");
                     cmd.dcState = ImsDataConnectionState.IMS_DC_CONNECTING;
                     startDCAlarm();
@@ -1599,10 +1614,10 @@ public class HwImsUtImpl extends ImsUtImpl {
             logd("handle UT data connection state IMS_DC_WIFI_ONLY_TUNNEL_FAIL,will fall back to cs,startDCAlarm.");
             cmd.dcState = ImsDataConnectionState.IMS_DC_CONNECTING;
             startDCAlarm();
-            return;
+        } else {
+            logd("handle UT data connection state IMS_DC_WIFI_ONLY_TUNNEL_FAIL,send GENERIC_FAILURE to user.");
+            responseFailureAndEndUt(cmd);
         }
-        logd("handle UT data connection state IMS_DC_WIFI_ONLY_TUNNEL_FAIL,send GENERIC_FAILURE to user.");
-        responseFailureAndEndUt(cmd);
     }
 
     private boolean handleUtNotUseDefaultAPN(UtCmd cmd) {
@@ -1624,13 +1639,15 @@ public class HwImsUtImpl extends ImsUtImpl {
     private void handleTempDcConnectionACT(UtCmd cmd) {
         if (cmd == null) {
             loge("handleTempDcConnectionACT - ut cmd is null");
-        } else if (!processTemporarilyDcConnection()) {
+            return;
+        }
+        if (!processTemporarilyDcConnection()) {
             if (canUseDefaultBearForWifiConnected()) {
                 startDefaultBearForWifiConnected(cmd);
-                return;
+            } else {
+                cmd.dcState = ImsDataConnectionState.IMS_DC_CONNECTING;
+                startTemporaryDCAlarm();
             }
-            cmd.dcState = ImsDataConnectionState.IMS_DC_CONNECTING;
-            startTemporaryDCAlarm();
         }
     }
 
@@ -1964,32 +1981,33 @@ public class HwImsUtImpl extends ImsUtImpl {
                 logd("handoverSS: Airplane mode is turned on, forbid CSFB, return failure!");
                 responseFailure(cmd.utId, 0);
                 return 1;
-            } else if (!checkCSDomain(cmd)) {
+            }
+            if (!checkCSDomain(cmd)) {
                 loge("Can't start SS wiht CS domain.");
                 responseFailure(cmd.utId, 0);
                 return 1;
-            } else if (isCardMccMncPreferToUseUT() && !this.mImsConfigImpl.isUtCSBeUsed()) {
+            }
+            if (isCardMccMncPreferToUseUT() && !this.mImsConfigImpl.isUtCSBeUsed()) {
                 loge("handleOverSS cannot use CS");
                 responseFailure(cmd.utId, 0);
                 return 1;
-            } else {
-                Phone defPhone = getDefaultPhone();
-                if (defPhone == null) {
-                    loge("handoverSS cannot get default phone");
-                    responseFailure(cmd.utId, 0);
-                    return 1;
-                }
-                Message onComplete = popUtMessage(cmd.utId);
-                this.mIsUtEnable = false;
-                logd("set Ut disable");
-                int ret = handoverUtCmd(defPhone, cmd, onComplete, 0);
-                if (1 == ret) {
-                    responseMessage(onComplete, CommandException.Error.GENERIC_FAILURE);
-                }
-                this.mIsUtEnable = true;
-                logd("set ut enable");
-                return ret;
             }
+            Phone defPhone = getDefaultPhone();
+            if (defPhone == null) {
+                loge("handoverSS cannot get default phone");
+                responseFailure(cmd.utId, 0);
+                return 1;
+            }
+            Message onComplete = popUtMessage(cmd.utId);
+            this.mIsUtEnable = false;
+            logd("set Ut disable");
+            int ret = handoverUtCmd(defPhone, cmd, onComplete, 0);
+            if (1 == ret) {
+                responseMessage(onComplete, CommandException.Error.GENERIC_FAILURE);
+            }
+            this.mIsUtEnable = true;
+            logd("set ut enable");
+            return ret;
         }
         loge("handoverSS,utCmd null");
         return 1;
@@ -2143,7 +2161,9 @@ public class HwImsUtImpl extends ImsUtImpl {
         int i = ut.mStatus;
         if (i == 0) {
             handleSciSSConfCbSuccessfully(cmd, ut);
-        } else if (i == 3 || i == 403) {
+            return;
+        }
+        if (i == 3 || i == 403) {
             handle403Error(cmd, ut);
         } else if (i != 409 || !this.mImsConfigImpl.getUt409ShowPhrase() || !handle409Error(cmd, ut)) {
             handleSciSSConfCbUndefinedError(cmd, ut);
@@ -2176,46 +2196,94 @@ public class HwImsUtImpl extends ImsUtImpl {
         sendUTMessage(6);
     }
 
-    private boolean handle409Error(UtCmd cmd, UTData ut) {
-        if (cmd == null || ut == null) {
-            loge("handle409Error: cmd or ut is null, return");
-            return false;
-        }
-        processReportChrException((byte) -1, (byte) -1, ut.mStatus);
-        int i = ut.mUtType;
-        if (i != 20) {
-            switch (i) {
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                case 11:
-                case 12:
-                    break;
-                default:
-                    switch (i) {
-                        case 22:
-                        case 23:
-                            break;
-                        default:
-                            loge("handle409Error: not support ut type " + ut.mUtType);
-                            return false;
-                    }
+    /* JADX WARN: Failed to find 'out' block for switch in B:6:0x0013. Please report as an issue. */
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0035  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct code enable 'Show inconsistent code' option in preferences
+    */
+    private boolean handle409Error(com.huawei.ims.HwImsUtImpl.UtCmd r6, com.huawei.ims.HwImsUtImpl.UTData r7) {
+        /*
+            r5 = this;
+            r0 = 0
+            if (r6 == 0) goto L82
+            if (r7 != 0) goto L7
+            goto L82
+        L7:
+            int r1 = r7.mStatus
+            r2 = -1
+            r5.processReportChrException(r2, r2, r1)
+            int r1 = r7.mUtType
+            r2 = 20
+            if (r1 == r2) goto L30
+            switch(r1) {
+                case 7: goto L30;
+                case 8: goto L30;
+                case 9: goto L30;
+                case 10: goto L30;
+                case 11: goto L30;
+                case 12: goto L30;
+                default: goto L16;
             }
-        }
-        if (1 == cmd.utOpType) {
-            String phraseText = SciSSConf.getSSConflictPhraseText();
-            logd("handle409Error: phraseText = " + phraseText);
-            if (phraseText != null && !phraseText.isEmpty()) {
-                ImsReasonInfo error = new ImsReasonInfo(804, 0);
-                error.mExtraMessage = phraseText + CONNECT_INFO_ERRORCODE;
-                this.mListenerProxy.utConfigurationUpdateFailed(cmd.utId, error);
-                cmd.mState = CmdState.CMD_FINISH;
-                sendUTMessage(6);
-                return true;
+        L16:
+            switch(r1) {
+                case 22: goto L30;
+                case 23: goto L30;
+                default: goto L19;
             }
-        }
-        return false;
+        L19:
+            java.lang.StringBuilder r1 = new java.lang.StringBuilder
+            r1.<init>()
+            java.lang.String r2 = "handle409Error: not support ut type "
+            r1.append(r2)
+            int r2 = r7.mUtType
+            r1.append(r2)
+            java.lang.String r1 = r1.toString()
+            r5.loge(r1)
+            goto L81
+        L30:
+            int r1 = r6.utOpType
+            r2 = 1
+            if (r2 != r1) goto L81
+            java.lang.String r1 = com.huawei.sci.SciSSConf.getSSConflictPhraseText()
+            java.lang.StringBuilder r3 = new java.lang.StringBuilder
+            r3.<init>()
+            java.lang.String r4 = "handle409Error: phraseText = "
+            r3.append(r4)
+            r3.append(r1)
+            java.lang.String r3 = r3.toString()
+            r5.logd(r3)
+            if (r1 == 0) goto L80
+            boolean r3 = r1.isEmpty()
+            if (r3 != 0) goto L80
+            android.telephony.ims.ImsReasonInfo r3 = new android.telephony.ims.ImsReasonInfo
+            r4 = 804(0x324, float:1.127E-42)
+            r3.<init>(r4, r0)
+            r0 = r3
+            java.lang.StringBuilder r3 = new java.lang.StringBuilder
+            r3.<init>()
+            r3.append(r1)
+            java.lang.String r4 = "ut409perfix"
+            r3.append(r4)
+            java.lang.String r1 = r3.toString()
+            r0.mExtraMessage = r1
+            com.huawei.ims.ImsUtListenerProxy r3 = r5.mListenerProxy
+            int r4 = r6.utId
+            r3.utConfigurationUpdateFailed(r4, r0)
+            com.huawei.ims.HwImsUtImpl$CmdState r3 = com.huawei.ims.HwImsUtImpl.CmdState.CMD_FINISH
+            r6.mState = r3
+            r3 = 6
+            r5.sendUTMessage(r3)
+            return r2
+        L80:
+        L81:
+            return r0
+        L82:
+            java.lang.String r1 = "handle409Error: cmd or ut is null, return"
+            r5.loge(r1)
+            return r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.huawei.ims.HwImsUtImpl.handle409Error(com.huawei.ims.HwImsUtImpl$UtCmd, com.huawei.ims.HwImsUtImpl$UTData):boolean");
     }
 
     private void handleSciSSConfCbUndefinedError(UtCmd cmd, UTData ut) {
@@ -2499,24 +2567,24 @@ public class HwImsUtImpl extends ImsUtImpl {
         if (DomainSelectType.SS_SELECT_UT_PREFER_CS_SECONDARY == oldDomain) {
             DomainSelectType newDomain = DomainSelectType.SS_SELECT_CS_DOMAIN_ONLY;
             return newDomain;
-        } else if (DomainSelectType.SS_SELECT_UT_DOMAIN_ONLY != oldDomain) {
-            return oldDomain;
-        } else {
-            DomainSelectType newDomain2 = DomainSelectType.SS_SELECT_INVALID_DOMAIN;
-            return newDomain2;
         }
+        if (DomainSelectType.SS_SELECT_UT_DOMAIN_ONLY != oldDomain) {
+            return oldDomain;
+        }
+        DomainSelectType newDomain2 = DomainSelectType.SS_SELECT_INVALID_DOMAIN;
+        return newDomain2;
     }
 
     private DomainSelectType domainIntersectUT(DomainSelectType oldDomain) {
         if (DomainSelectType.SS_SELECT_UT_PREFER_CS_SECONDARY == oldDomain) {
             DomainSelectType newDomain = DomainSelectType.SS_SELECT_UT_DOMAIN_ONLY;
             return newDomain;
-        } else if (DomainSelectType.SS_SELECT_CS_DOMAIN_ONLY != oldDomain) {
-            return oldDomain;
-        } else {
-            DomainSelectType newDomain2 = DomainSelectType.SS_SELECT_INVALID_DOMAIN;
-            return newDomain2;
         }
+        if (DomainSelectType.SS_SELECT_CS_DOMAIN_ONLY != oldDomain) {
+            return oldDomain;
+        }
+        DomainSelectType newDomain2 = DomainSelectType.SS_SELECT_INVALID_DOMAIN;
+        return newDomain2;
     }
 
     private DomainSelectType domainSelect(DomainSelectType prevDomain, int utType, boolean showDcDialog) {
@@ -2591,7 +2659,8 @@ public class HwImsUtImpl extends ImsUtImpl {
         if (isUtCanUseWifi && isWifiConnected) {
             logd("wifi has connected, Ut will use wifi link");
             return ds;
-        } else if (!isUtCanUseWifi && isWifiConnected && isSsUseUtInterface(utType)) {
+        }
+        if (!isUtCanUseWifi && isWifiConnected && isSsUseUtInterface(utType)) {
             if (checkUTDomain(ds) && !isUtNotUseDefaultAPN()) {
                 if (showDcDialog && !isDataSwitchOn()) {
                     DomainSelectType ds2 = DomainSelectType.SS_SELECT_INVALID_DOMAIN;
@@ -2599,13 +2668,14 @@ public class HwImsUtImpl extends ImsUtImpl {
                     return ds2;
                 }
                 return ds;
-            } else if (checkUTDomain(ds) && showDcDialog) {
+            }
+            if (checkUTDomain(ds) && showDcDialog) {
                 logd("tip user to diconnect wifi");
                 return ds;
-            } else {
-                return domainIntersectCS(ds);
             }
-        } else if (!isDataSwitchOn() && isSsUseUtInterface(utType) && !isUtNotUseDefaultAPN()) {
+            return domainIntersectCS(ds);
+        }
+        if (!isDataSwitchOn() && isSsUseUtInterface(utType) && !isUtNotUseDefaultAPN()) {
             if (checkUTDomain(ds) && showDcDialog) {
                 logd("Show a dialog to notice user to turn data switch on");
                 DomainSelectType ds3 = DomainSelectType.SS_SELECT_INVALID_DOMAIN;
@@ -2613,9 +2683,8 @@ public class HwImsUtImpl extends ImsUtImpl {
                 return ds3;
             }
             return domainIntersectCS(ds);
-        } else {
-            return ds;
         }
+        return ds;
     }
 
     private DomainSelectType domainSelect(UtCmd cmd) {
@@ -2846,9 +2915,10 @@ public class HwImsUtImpl extends ImsUtImpl {
                 logd("ims not registered, set impu from network as null.");
                 this.mImsConfigImpl.setSharedPreferences(HwImsConfigImpl.IMPU_FROM_NETWORK_KEY[this.mSubId], null, getContext());
                 return;
+            } else {
+                logd("ims is registered.");
+                return;
             }
-            logd("ims is registered.");
-            return;
         }
         logd("imsphone is null");
     }
@@ -3450,6 +3520,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         return bundle;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int beginImsConnectivity(boolean isVowifi) {
         this.mIsVowifi = isVowifi;
         ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService("connectivity");
@@ -3474,6 +3545,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         return 1;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void endImsConnectivity() {
         ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService("connectivity");
         logd("endImsConnectivity");
@@ -3513,36 +3585,37 @@ public class HwImsUtImpl extends ImsUtImpl {
         return info.isConnected();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean isUtOverWifiEnabled() {
         boolean ret = false;
         Boolean isUtOverWifiEnabled = Boolean.valueOf(SystemProperties.getBoolean("ro.config.hw_vowifi_mmsut", false));
-        if (IS_VOWIFI_PROP_ON) {
-            Context context = getContext();
-            if (context == null) {
-                loge("null == context");
-                return false;
-            } else if (HwImsManager.isWfcEnabledByPlatform(context, ImsCallProviderUtils.getSubId(this.mSubId))) {
-                boolean isUtSwitchOn = this.mImsConfigImpl.getVowifiUtSwitch();
-                ConnectivityManager cm = (ConnectivityManager) context.getSystemService("connectivity");
-                if (cm == null) {
-                    loge("null == ConnectivityManager");
-                    return false;
-                }
-                NetworkInfo wifiNetinfo = cm.getNetworkInfo(1);
-                Boolean isWifiConnected = false;
-                if (wifiNetinfo != null && wifiNetinfo.isConnected()) {
-                    isWifiConnected = true;
-                }
-                if (isWifiConnected.booleanValue() && isUtOverWifiEnabled.booleanValue() && isUtSwitchOn) {
-                    ret = true;
-                }
-                logd("isUtOverWifiEnabled return " + ret);
-                return ret;
-            } else {
-                return false;
-            }
+        if (!IS_VOWIFI_PROP_ON) {
+            return false;
         }
-        return false;
+        Context context = getContext();
+        if (context == null) {
+            loge("null == context");
+            return false;
+        }
+        if (!HwImsManager.isWfcEnabledByPlatform(context, ImsCallProviderUtils.getSubId(this.mSubId))) {
+            return false;
+        }
+        boolean isUtSwitchOn = this.mImsConfigImpl.getVowifiUtSwitch();
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService("connectivity");
+        if (cm == null) {
+            loge("null == ConnectivityManager");
+            return false;
+        }
+        NetworkInfo wifiNetinfo = cm.getNetworkInfo(1);
+        Boolean isWifiConnected = false;
+        if (wifiNetinfo != null && wifiNetinfo.isConnected()) {
+            isWifiConnected = true;
+        }
+        if (isWifiConnected.booleanValue() && isUtOverWifiEnabled.booleanValue() && isUtSwitchOn) {
+            ret = true;
+        }
+        logd("isUtOverWifiEnabled return " + ret);
+        return ret;
     }
 
     private void changeDcStateWhenImsActFail() {
@@ -3577,29 +3650,32 @@ public class HwImsUtImpl extends ImsUtImpl {
         return utDomain;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void changeDcStateWhenTunnelSetupFail() {
         UtCmd cmd = getFirstUtCmd();
         if (IS_VOWIFI_PROP_ON && cmd != null) {
             if (isAirplaneModeOn() && (isUtNotUseDefaultAPN() || !this.mImsConfigImpl.isUtCanUseWifi())) {
                 cmd.dcState = ImsDataConnectionState.IMS_DC_AIRPLANE_ON_TUNNEL_FAIL;
-            } else if (this.mImsConfigImpl != null && this.mImsConfigImpl.getUtPreferOption() == 1) {
+                return;
+            }
+            if (this.mImsConfigImpl != null && this.mImsConfigImpl.getUtPreferOption() == 1) {
                 logd("process ut prefer use volte fail,retry vowifi fail,csfb");
                 cmd.dcState = ImsDataConnectionState.IMS_DC_ACT_EXECUTE_LTE_FAIL;
-            } else {
-                int utDomain = getUtDomain();
-                if (2 == utDomain) {
-                    cmd.dcState = ImsDataConnectionState.IMS_DC_WIFI_PREF_TUNNEL_FAIL;
-                } else if (utDomain == 0) {
-                    cmd.dcState = ImsDataConnectionState.IMS_DC_WIFI_ONLY_TUNNEL_FAIL;
-                } else if (1 == utDomain) {
-                    cmd.dcState = ImsDataConnectionState.IMS_DC_LTE_PREF_TUNNEL_FAIL;
-                } else if (3 == utDomain) {
-                    cmd.dcState = ImsDataConnectionState.IMS_DC_CELLULAR_PREF_TUNNEL_FAIL;
-                } else {
-                    loge("changeDcStateWhenTunnelSetupFail,utDomain is an undefined type! utDomain=" + utDomain);
-                }
-                logd("changeDcStateWhenTunnelSetupFail,cmd.dcState=" + cmd.dcState);
+                return;
             }
+            int utDomain = getUtDomain();
+            if (2 == utDomain) {
+                cmd.dcState = ImsDataConnectionState.IMS_DC_WIFI_PREF_TUNNEL_FAIL;
+            } else if (utDomain == 0) {
+                cmd.dcState = ImsDataConnectionState.IMS_DC_WIFI_ONLY_TUNNEL_FAIL;
+            } else if (1 == utDomain) {
+                cmd.dcState = ImsDataConnectionState.IMS_DC_LTE_PREF_TUNNEL_FAIL;
+            } else if (3 == utDomain) {
+                cmd.dcState = ImsDataConnectionState.IMS_DC_CELLULAR_PREF_TUNNEL_FAIL;
+            } else {
+                loge("changeDcStateWhenTunnelSetupFail,utDomain is an undefined type! utDomain=" + utDomain);
+            }
+            logd("changeDcStateWhenTunnelSetupFail,cmd.dcState=" + cmd.dcState);
         }
     }
 
@@ -3627,19 +3703,21 @@ public class HwImsUtImpl extends ImsUtImpl {
             logd("restart wifi tunnel lifetime alarm.");
             stopWifiTunnelConnectionAlarm();
             startWifiTunnelConnectionAlarm();
-            return;
+        } else {
+            logd("tunnel lifetime is out, endImsConnectivity.");
+            endImsConnectivity();
+            stopWifiTunnelSetupAlarm();
         }
-        logd("tunnel lifetime is out, endImsConnectivity.");
-        endImsConnectivity();
-        stopWifiTunnelSetupAlarm();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void startWifiTunnelSetupAlarm() {
         if (IS_VOWIFI_PROP_ON) {
             startAlarm(45, 10000);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void stopWifiTunnelSetupAlarm() {
         if (!IS_VOWIFI_PROP_ON) {
             loge("already stop tunnel connection Alarm, no need do again");
@@ -3673,6 +3751,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         return this.mIsWifiTunnnelUp;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setUtOverWifiTunnelUpFlag(boolean flag) {
         logd("setUtOverWifiTunnelUpFlag, flag = " + flag);
         this.mIsWifiTunnnelUp = flag;
@@ -3683,36 +3762,38 @@ public class HwImsUtImpl extends ImsUtImpl {
         if (ImsDataConnectionState.IMS_DC_CONNECTING == this.mImsDCState) {
             logd("processImsConnectivity, wait for ims connecting");
             return false;
-        } else if (ImsDataConnectionState.IMS_DC_CONNECTED == this.mImsDCState) {
+        }
+        if (ImsDataConnectionState.IMS_DC_CONNECTED == this.mImsDCState) {
             logd("processImsConnectivity, ims is connected, mbReqRoutHost=" + this.mbReqRoutHost);
             if (true == this.mbReqRoutHost) {
                 return true;
             }
             sendUTMessage(2);
             return false;
-        } else {
-            int ret = beginImsConnectivity(false);
-            logd("processImsConnectivity, begin ims result=" + ret + ",  mImsDCState=" + this.mImsDCState);
-            if (ret != 1) {
-                if (ret != 3) {
-                    return false;
-                }
-                sendUTMessage(4);
-                return false;
-            } else if (ImsDataConnectionState.IMS_DC_IDLE == this.mImsDCState) {
-                this.mImsDCState = ImsDataConnectionState.IMS_DC_CONNECTING;
-                startImsDataConnectionAlarm();
-                return false;
-            } else if (ImsDataConnectionState.IMS_DC_CONNECTING == this.mImsDCState || ImsDataConnectionState.IMS_DC_CONNECTED != this.mImsDCState) {
-                return false;
-            } else {
-                this.mImsDCState = ImsDataConnectionState.IMS_DC_CONNECTING;
-                startImsDataConnectionAlarm();
+        }
+        int ret = beginImsConnectivity(false);
+        logd("processImsConnectivity, begin ims result=" + ret + ",  mImsDCState=" + this.mImsDCState);
+        if (ret != 1) {
+            if (ret != 3) {
                 return false;
             }
+            sendUTMessage(4);
+            return false;
         }
+        if (ImsDataConnectionState.IMS_DC_IDLE == this.mImsDCState) {
+            this.mImsDCState = ImsDataConnectionState.IMS_DC_CONNECTING;
+            startImsDataConnectionAlarm();
+            return false;
+        }
+        if (ImsDataConnectionState.IMS_DC_CONNECTING == this.mImsDCState || ImsDataConnectionState.IMS_DC_CONNECTED != this.mImsDCState) {
+            return false;
+        }
+        this.mImsDCState = ImsDataConnectionState.IMS_DC_CONNECTING;
+        startImsDataConnectionAlarm();
+        return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void keepAliveImsConnectivity() {
         this.mUtServiceHandler.sendMessageDelayed(this.mUtServiceHandler.obtainMessage(5), 30000L);
     }
@@ -3722,14 +3803,14 @@ public class HwImsUtImpl extends ImsUtImpl {
         if (ImsDataConnectionState.IMS_DC_CONNECTING == this.mImsDCState) {
             logd("processTemporarilyDcConnection, wait for ims connecting");
             return true;
-        } else if (ImsDataConnectionState.IMS_DC_CONNECTED == this.mImsDCState) {
+        }
+        if (ImsDataConnectionState.IMS_DC_CONNECTED == this.mImsDCState) {
             logd("processTemporarilyDcConnection, ims is connected, return true");
             return true;
-        } else {
-            setDefaultDataSubId(this.mSubId);
-            this.mHasChangedDefaultDataSub = true;
-            return false;
         }
+        setDefaultDataSubId(this.mSubId);
+        this.mHasChangedDefaultDataSub = true;
+        return false;
     }
 
     private void setDefaultDataSubId(int subId) {
@@ -3790,6 +3871,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         startAlarm(44, 10000);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void stopImsDataConnectionAlarm() {
         stopAlarm(44);
     }
@@ -3799,6 +3881,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         handleImsConnectionFailure();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean isUtNotUseDefaultAPN() {
         return this.mImsConfigImpl.getUtUseApn() != 0;
     }
@@ -3826,11 +3909,11 @@ public class HwImsUtImpl extends ImsUtImpl {
         return 11;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void queryUtApn() {
         int subId = ImsCallProviderUtils.getSubId(this.mSubId);
         String operator = TelephonyManager.from(getContext()).getSimOperator(subId);
-        String apnType = "ims";
-        apnType = (this.mImsConfigImpl.getUtUseApn() == 1 || this.mImsConfigImpl.getUtUseApn() == 3) ? "xcap" : "xcap";
+        String apnType = (this.mImsConfigImpl.getUtUseApn() == 1 || this.mImsConfigImpl.getUtUseApn() == 3) ? "xcap" : "ims";
         String selection = "numeric = ? AND (type like '%" + apnType + "%')";
         Cursor cursor = null;
         Uri uri = Uri.withAppendedPath(Uri.parse("content://telephony/carriers/subId"), Integer.toString(subId));
@@ -3880,16 +3963,15 @@ public class HwImsUtImpl extends ImsUtImpl {
         return network != null;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public class UtNetworkCallback extends ConnectivityManager.NetworkCallback {
         private UtNetworkCallback() {
-            HwImsUtImpl.this = r1;
         }
 
         @Override // android.net.ConnectivityManager.NetworkCallback
         public void onAvailable(Network network) {
-            HwImsUtImpl hwImsUtImpl = HwImsUtImpl.this;
-            hwImsUtImpl.logd("UtNetworkCallback got Network:" + network);
+            HwImsUtImpl.this.logd("UtNetworkCallback got Network:" + network);
             if (!HwImsUtImpl.this.mUtAPNInetAddressMap.containsKey(HwImsUtImpl.this.mImsConfigImpl.getUtNafSrvAddr())) {
                 HwImsUtImpl.this.logd("UtNetworkCallback bindProcessToNetwork");
                 ConnectivityManager cm = (ConnectivityManager) HwImsUtImpl.this.getContext().getSystemService("connectivity");
@@ -3919,8 +4001,7 @@ public class HwImsUtImpl extends ImsUtImpl {
 
         @Override // android.net.ConnectivityManager.NetworkCallback
         public void onLost(Network network) {
-            HwImsUtImpl hwImsUtImpl = HwImsUtImpl.this;
-            hwImsUtImpl.logd("UtNetworkCallback lost Network:" + network);
+            HwImsUtImpl.this.logd("UtNetworkCallback lost Network:" + network);
             HwImsUtImpl.this.endImsConnectivity();
         }
     }
@@ -3929,13 +4010,13 @@ public class HwImsUtImpl extends ImsUtImpl {
         if (this.mImsConfigImpl.isUtCanUseWifi() && isWifiConnected()) {
             logd("handle UT data connection ut can use wifi and wifi is connected");
             return true;
-        } else if (isDefaultConnected()) {
+        }
+        if (isDefaultConnected()) {
             loge("handle UT data connection ut can not use wifi and mobile data is connected");
             return true;
-        } else {
-            loge("data is not Connected");
-            return false;
         }
+        loge("data is not Connected");
+        return false;
     }
 
     private boolean isDefaultConnected() {
@@ -3961,6 +4042,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         return cm.getMobileDataEnabled();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleConnectivity(NetworkInfo networkInfo) {
         logd("handleConnectivity mImsDCState=" + this.mImsDCState + ", networkInfo=" + networkInfo);
         if (networkInfo == null || !networkInfo.isAvailable()) {
@@ -3975,9 +4057,13 @@ public class HwImsUtImpl extends ImsUtImpl {
         if (networkInfo.isConnected() && networkInfo.getType() == 0) {
             if (ImsCallProviderUtils.IS_DUAL_IMS_AVAILABLE && getDefaultDataSubId() != this.mSubId) {
                 logd("Data has connected, but not for this sub, return");
-            } else if (ImsDataConnectionState.IMS_DC_IDLE != this.mImsDCState) {
+                return;
+            }
+            if (ImsDataConnectionState.IMS_DC_IDLE != this.mImsDCState) {
                 logd("handleConnectivity: Ims connection is being established, do not use default data connection.");
-            } else if (cmd != null && ImsDataConnectionState.IMS_DC_CONNECTING == cmd.dcState) {
+                return;
+            }
+            if (cmd != null && ImsDataConnectionState.IMS_DC_CONNECTING == cmd.dcState) {
                 logd("Data has connected, the SS can go UT interface");
                 Network network = getNetworkForDefaultApn();
                 initSDKServiceIpAddr(network);
@@ -4143,6 +4229,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         return date;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleClear(int iLevel) {
         endImsConnectivity();
         this.mLastSS = 1;
@@ -4187,14 +4274,15 @@ public class HwImsUtImpl extends ImsUtImpl {
     }
 
     private void handleGetCallWaitingDone(boolean enable, int type, Message onComplete) {
-        boolean z = true;
-        boolean isEnable = (enable && 1 == (type & 1)) ? false : false;
+        boolean isEnable = enable && 1 == (type & 1);
         logd("get call waiting success, isEnable=" + isEnable);
         if (this.mImsConfigImpl.isCallWaitingSyncToImsSdk()) {
             syncCallWaitingToImsSdk(isEnable, onComplete);
-        } else if (this.mImsConfigImpl.isCallWaitingSyncToCs()) {
-            syncCallWaitingToCS(isEnable, onComplete);
         } else {
+            if (this.mImsConfigImpl.isCallWaitingSyncToCs()) {
+                syncCallWaitingToCS(isEnable, onComplete);
+                return;
+            }
             logd("call waiting does not sync to modem, response to target");
             Object ret = responseCWInts(Boolean.valueOf(isEnable));
             responseMessage(onComplete, ret, null);
@@ -4251,12 +4339,12 @@ public class HwImsUtImpl extends ImsUtImpl {
         if (arSyncCW.exception != null) {
             loge("SyncCallWaitingToCs FAIL");
             responseMessage(onComplete, CommandException.Error.GENERIC_FAILURE);
-            return;
+        } else {
+            logd("sync call waiting to IMS SDK successfully");
+            int callWaitingAction = msg.arg1;
+            boolean enable = isEnableCallWaiting(callWaitingAction);
+            handleSyncCallWaitingDone(enable, msg);
         }
-        logd("sync call waiting to IMS SDK successfully");
-        int callWaitingAction = msg.arg1;
-        boolean enable = isEnableCallWaiting(callWaitingAction);
-        handleSyncCallWaitingDone(enable, msg);
     }
 
     private void handleSyncCallWaitingDone(boolean enable, Message msg) {
@@ -4302,11 +4390,11 @@ public class HwImsUtImpl extends ImsUtImpl {
             return true;
         }
         Date currDate = new Date();
-        if (currDate.compareTo(utDataExpireTime) < 0) {
-            logd("Ut data is not expire, currDate=" + currDate + ", mNextUtDataUpdateTime" + utDataExpireTime);
-            return false;
+        if (currDate.compareTo(utDataExpireTime) >= 0) {
+            return true;
         }
-        return true;
+        logd("Ut data is not expire, currDate=" + currDate + ", mNextUtDataUpdateTime" + utDataExpireTime);
+        return false;
     }
 
     private void setUtDataExpireTime(int type) {
@@ -4336,10 +4424,10 @@ public class HwImsUtImpl extends ImsUtImpl {
         if (arSyncCLIR.exception != null) {
             loge("SyncCLIRModeToImsSdk FAIL");
             responseMessage(onComplete, CommandException.Error.GENERIC_FAILURE);
-            return;
+        } else {
+            Bundle ret = msg.getData();
+            responseMessage(onComplete, ret, arSyncCLIR.exception);
         }
-        Bundle ret = msg.getData();
-        responseMessage(onComplete, ret, arSyncCLIR.exception);
     }
 
     private boolean isUtSupportedByCurrentBearer() {
@@ -4366,6 +4454,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         return networkType == 13 || networkType == 19;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleUtApnConnection(Intent intent) {
         if (intent == null) {
             return;
@@ -4406,17 +4495,19 @@ public class HwImsUtImpl extends ImsUtImpl {
             logd("handle UT data connectionreceived INTENT_IMS_CONNECTION_TIMEOUT,isUtOverWifiEnabled return true.");
             changeDcStateWhenImsActFail();
             sendUTMessage(6);
-            return;
+        } else {
+            logd("handle UT data connection received INTENT_IMS_CONNECTION_TIMEOUT,isUtOverWifiEnabled return false,handoverSSTick.");
+            this.mImsDCState = ImsDataConnectionState.IMS_DC_IDLE;
+            handoverSSTick();
         }
-        logd("handle UT data connection received INTENT_IMS_CONNECTION_TIMEOUT,isUtOverWifiEnabled return false,handoverSSTick.");
-        this.mImsDCState = ImsDataConnectionState.IMS_DC_IDLE;
-        handoverSSTick();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void logd(String s) {
         Rlog.d("HwImsUtImpl[" + this.mSubId + "]", s);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void loge(String s) {
         Rlog.e("HwImsUtImpl[" + this.mSubId + "]", "[ERROR] " + s);
     }
@@ -4582,25 +4673,20 @@ public class HwImsUtImpl extends ImsUtImpl {
         HwTelephonyFactory.getHwTelephonyChrManager().sendTelephonyChrBroadcast(utChrBundle);
     }
 
-    private UtCHRData extractParametersForChr(byte isVowifiUt, byte addressType, int failReason) {
-        UtCmd cmd = getFirstUtCmd();
-        if (cmd == null) {
+    private UtCHRData extractParametersForChr(byte b, byte b2, int i) {
+        UtCmd firstUtCmd = getFirstUtCmd();
+        if (firstUtCmd == null) {
             return null;
         }
         logd("extractParametersForChr");
-        byte operationType = (byte) cmd.utType;
-        byte apnType = (byte) this.mImsConfigImpl.getUtUseApn();
+        byte b3 = (byte) firstUtCmd.utType;
+        byte utUseApn = (byte) this.mImsConfigImpl.getUtUseApn();
         boolean isUtCanUseWifi = this.mImsConfigImpl.isUtCanUseWifi();
         boolean isDefaultConnected = isDefaultConnected();
         boolean isWifiConnected = isWifiConnected();
         byte utDomain = (byte) getUtDomain();
-        String dcState = cmd.dcState.toString();
-        byte subId = (byte) ImsCallProviderUtils.getSubId(this.mSubId);
-        byte canUseWifi = isUtCanUseWifi ? (byte) 1 : (byte) 0;
-        byte mobileDataConneted = isDefaultConnected ? (byte) 1 : (byte) 0;
-        byte wifiConnected = isWifiConnected ? (byte) 1 : (byte) 0;
-        UtCHRData utChrData = new UtCHRData(operationType, apnType, canUseWifi, mobileDataConneted, wifiConnected, isVowifiUt, addressType, subId, (byte) mCurrentSubId, utDomain, failReason, dcState);
-        return utChrData;
+        String imsDataConnectionState = firstUtCmd.dcState.toString();
+        return new UtCHRData(b3, utUseApn, isUtCanUseWifi ? (byte) 1 : (byte) 0, isDefaultConnected ? (byte) 1 : (byte) 0, isWifiConnected ? (byte) 1 : (byte) 0, b, b2, (byte) ImsCallProviderUtils.getSubId(this.mSubId), (byte) mCurrentSubId, utDomain, i, imsDataConnectionState);
     }
 
     private void processReportChrException(byte isVowifiUt, byte addressType, int failReason) {

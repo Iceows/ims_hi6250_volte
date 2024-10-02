@@ -2,7 +2,7 @@ package com.huawei.sci;
 
 import android.os.Build;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class SciDefaultTls {
     public static native int load();
 

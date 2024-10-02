@@ -4,7 +4,7 @@ import android.util.Log;
 import com.huawei.ims.HwImsConfigImpl;
 import com.huawei.sci.SciSSConfAuth;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class SciSSConfCb {
     private static Callback callBack = null;
     private static SciSSConfAuth sciSSConfAuth = null;
@@ -16,7 +16,7 @@ public class SciSSConfCb {
         }
     };
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public interface Callback {
         void sciBsfCbPostResult(String str, String str2);
 
@@ -57,45 +57,45 @@ public class SciSSConfCb {
         }
     }
 
-    public static boolean sciGetKsNaf(int gbaType, byte[] naf_id, int times) {
+    public static boolean sciGetKsNaf(int i, byte[] bArr, int i2) {
         Log.i("SciSSConfCb", "sciGetKsNaf enter.");
         if (sciSSConfAuth == null) {
             Log.e("SciSSConfCb", "sciGetKsNaf the call back interface is null.");
             return false;
         }
-        SciSSConfAuth.GbaResult gbaResult = sciSSConfAuth.getGBAKsnaf(gbaType, naf_id);
-        if (gbaResult == null) {
+        SciSSConfAuth.GbaResult gBAKsnaf = sciSSConfAuth.getGBAKsnaf(i, bArr);
+        if (gBAKsnaf == null) {
             Log.e("SciSSConfCb", "sciGetKsNaf the gbaResult is null.");
             return false;
         }
-        int iStatus = gbaResult.getStatus();
-        int iResult = 0;
-        if (gbaResult.getKsnaf() == null) {
+        int status = gBAKsnaf.getStatus();
+        int i3 = 0;
+        if (gBAKsnaf.getKsnaf() == null) {
             Log.i("SciSSConfCb", "sciGetKsNaf the ks_naf is null.");
-            gbaResult.setKsnaf(new byte[0]);
+            gBAKsnaf.setKsnaf(new byte[0]);
         }
-        switch (iStatus) {
+        switch (status) {
             case 0:
                 Log.i("SciSSConfCb", "continueSSConfService with success.");
-                iResult = SciSSConf.continueSSConfService(0, 0, iStatus, gbaResult.getBtid(), gbaResult.getKsnaf());
+                i3 = SciSSConf.continueSSConfService(0, 0, status, gBAKsnaf.getBtid(), gBAKsnaf.getKsnaf());
                 break;
             case 1:
-                iResult = !sciTriggerGBAKsNAF(gbaType, naf_id) ? 1 : 0;
+                i3 = !sciTriggerGBAKsNAF(i, bArr) ? 1 : 0;
                 break;
             case 2:
                 startThread(bsfThread, "bsfthread");
                 break;
             case 3:
-                if (times > 10) {
-                    Log.e("SciSSConfCb", "sciGetKsNaf iResult=" + iStatus);
+                if (i2 > 10) {
+                    Log.e("SciSSConfCb", "sciGetKsNaf iResult=" + status);
                     return false;
                 }
-                return waitToGetGBAKsnaf(gbaType, naf_id, times);
+                return waitToGetGBAKsnaf(i, bArr, i2);
             default:
-                Log.e("SciSSConfCb", "sciGetKsNaf iResult=" + iStatus);
+                Log.e("SciSSConfCb", "sciGetKsNaf iResult=" + status);
                 return false;
         }
-        return iResult == 0;
+        return i3 == 0;
     }
 
     public static boolean sciTriggerGBAKsNAF(int gbaType, byte[] naf_id) {

@@ -1,6 +1,6 @@
 package com.huawei.ims;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class UtCHRData {
     public static final byte CHR_DEFAULT_VALUE = -1;
     public static final int CHR_EVENT_FAIL_CAUSE_UT = 1;

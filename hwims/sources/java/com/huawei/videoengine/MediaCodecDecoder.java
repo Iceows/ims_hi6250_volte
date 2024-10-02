@@ -23,7 +23,7 @@ import java.util.Map;
 import vendor.huawei.hardware.radio.ims.V1_0.RilConstS32;
 
 @SuppressLint({"NewApi"})
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class MediaCodecDecoder {
     private static final int MSG_BASE = 0;
     private static final int MSG_INIT_EGL = 1;
@@ -94,7 +94,7 @@ public class MediaCodecDecoder {
     int defualt_width = 1920;
     int defualt_height = 1080;
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum EAspectRatio {
         none,
         encapsulate,
@@ -126,6 +126,7 @@ public class MediaCodecDecoder {
     }
 
     public int postMessage(int i, int i2, int i3, MsgBase msgBase) {
+        int res;
         if (this.mBackgroundHandler == null) {
             Log.e(TAG, "wwmax backThreadHandler is null");
             return -1;
@@ -134,17 +135,21 @@ public class MediaCodecDecoder {
         msgBase.setSemaphore(objExtend);
         Message obtain = Message.obtain(this.mBackgroundHandler, i, i2, i3, msgBase);
         synchronized (objExtend) {
-            if (this.mBackgroundHandler.sendMessage(obtain)) {
-                for (boolean z = true; z; z = false) {
+            if (!this.mBackgroundHandler.sendMessage(obtain)) {
+                return -1;
+            }
+            for (boolean z = true; z; z = false) {
+                try {
                     try {
                         objExtend.wait(3000L);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                } finally {
+                    objExtend.getRes();
                 }
-                return objExtend.getRes();
             }
-            return -1;
+            return res;
         }
     }
 
@@ -308,7 +313,7 @@ public class MediaCodecDecoder {
         });
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     private class FrameInfoMsg extends MsgBase {
         public int dataLength;
         public int height;
@@ -316,10 +321,8 @@ public class MediaCodecDecoder {
         public long renderTime;
         public int width;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public FrameInfoMsg(int i, long j, int i2, int i3, int i4) {
             super();
-            MediaCodecDecoder.this = r1;
             this.dataLength = i;
             this.renderTime = j;
             this.isKeyFrame = i2;
@@ -353,58 +356,58 @@ public class MediaCodecDecoder {
     }
 
     public int handleProcessFunc_putFrame() {
-        if (this.started) {
-            if (this.dataLength <= 0) {
-                Log.e(TAG, "dataLength=" + this.dataLength);
-                if (this.needKeyFrame) {
+        if (!this.started) {
+            return 0;
+        }
+        if (this.dataLength <= 0) {
+            Log.e(TAG, "dataLength=" + this.dataLength);
+            if (this.needKeyFrame) {
+                return -100;
+            }
+            this.needKeyFrame = true;
+            return -1;
+        }
+        if (this.inputWidth == 0 || this.inputHeight == 0) {
+            Log.e(TAG, "wrong frameSize width=" + this.inputWidth + ", height = " + this.inputHeight);
+            if (this.needKeyFrame) {
+                return -100;
+            }
+            this.needKeyFrame = true;
+            return -1;
+        }
+        synchronized (this.listLock) {
+            if (this.indexList.size() == 0) {
+                Log.e(TAG, "indexList is empty");
+                this.needKeyFrame = true;
+                return -1;
+            }
+            if (this.needKeyFrame) {
+                if (this.isKeyFrame == 0) {
+                    Log.e(TAG, "onFrame Request i, but not");
+                    return -100;
+                }
+                this.needKeyFrame = false;
+            }
+            int intValue = this.indexList.remove().intValue();
+            try {
+                this.playBuffer.get(this.tempBufPlay, 0, this.dataLength);
+                this.playBuffer.rewind();
+                ByteBuffer inputBuffer = this.decoder.getInputBuffer(intValue);
+                inputBuffer.clear();
+                inputBuffer.put(this.tempBufPlay, 0, this.dataLength);
+                this.decoder.queueInputBuffer(intValue, 0, this.dataLength, this.renderTime, 0);
+                return 0;
+            } catch (Exception e) {
+                Log.e(TAG, "decode onFrame failed exception = " + e.getMessage());
+                e.printStackTrace();
+                resetDecoder();
+                if (this.isKeyFrame == 0 && this.needKeyFrame) {
                     return -100;
                 }
                 this.needKeyFrame = true;
                 return -1;
-            } else if (this.inputWidth == 0 || this.inputHeight == 0) {
-                Log.e(TAG, "wrong frameSize width=" + this.inputWidth + ", height = " + this.inputHeight);
-                if (this.needKeyFrame) {
-                    return -100;
-                }
-                this.needKeyFrame = true;
-                return -1;
-            } else {
-                synchronized (this.listLock) {
-                    if (this.indexList.size() == 0) {
-                        Log.e(TAG, "indexList is empty");
-                        this.needKeyFrame = true;
-                        return -1;
-                    }
-                    if (this.needKeyFrame) {
-                        if (this.isKeyFrame == 0) {
-                            Log.e(TAG, "onFrame Request i, but not");
-                            return -100;
-                        }
-                        this.needKeyFrame = false;
-                    }
-                    int intValue = this.indexList.remove().intValue();
-                    try {
-                        this.playBuffer.get(this.tempBufPlay, 0, this.dataLength);
-                        this.playBuffer.rewind();
-                        ByteBuffer inputBuffer = this.decoder.getInputBuffer(intValue);
-                        inputBuffer.clear();
-                        inputBuffer.put(this.tempBufPlay, 0, this.dataLength);
-                        this.decoder.queueInputBuffer(intValue, 0, this.dataLength, this.renderTime, 0);
-                        return 0;
-                    } catch (Exception e) {
-                        Log.e(TAG, "decode onFrame failed exception = " + e.getMessage());
-                        e.printStackTrace();
-                        resetDecoder();
-                        if (this.isKeyFrame == 0 && this.needKeyFrame) {
-                            return -100;
-                        }
-                        this.needKeyFrame = true;
-                        return -1;
-                    }
-                }
             }
         }
-        return 0;
     }
 
     public void registerNativeObject(long j) {
@@ -422,46 +425,48 @@ public class MediaCodecDecoder {
         if (!this.mDecoderSurface.isValid()) {
             Log.e(TAG, "process startDecoder failed mDecoderSurface is invalid,mDecoderSurface:" + this.mDecoderSurface);
             return -1;
-        } else if (this.started) {
+        }
+        if (this.started) {
             Log.w(TAG, "decoder is started");
             return 0;
-        } else if (handleProcessFunc_InitEGL(this.mDecoderSurface) != 0) {
+        }
+        if (handleProcessFunc_InitEGL(this.mDecoderSurface) != 0) {
             Log.e(TAG, "initegl failed");
             return -1;
-        } else if (this.mDecoderTexture == null) {
+        }
+        if (this.mDecoderTexture == null) {
             Log.e(TAG, "decodertexture is null");
             return -1;
-        } else {
-            this.glSurfaceView = new Surface(this.mDecoderTexture);
-            if (this.codecType == 0) {
-                try {
-                    this.decoder = MediaCodec.createDecoderByType("video/avc");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return -1;
-                }
-            } else if (this.codecType == 1) {
-                try {
-                    this.decoder = MediaCodec.createDecoderByType("video/hevc");
-                } catch (IOException e2) {
-                    e2.printStackTrace();
-                    return -1;
-                }
-            }
-            addAsyncCallback();
+        }
+        this.glSurfaceView = new Surface(this.mDecoderTexture);
+        if (this.codecType == 0) {
             try {
-                Log.i(TAG, "Use valid surface to init decoder");
-                this.decoder.configure(this.mediaFormat, this.glSurfaceView, (MediaCrypto) null, 0);
-                this.playBuffer.rewind();
-                this.decoder.start();
-                this.started = true;
-                this.needKeyFrame = true;
-                Log.i(TAG, "startDecoder leave");
-                return 0;
-            } catch (Exception e3) {
-                e3.printStackTrace();
+                this.decoder = MediaCodec.createDecoderByType("video/avc");
+            } catch (IOException e) {
+                e.printStackTrace();
                 return -1;
             }
+        } else if (this.codecType == 1) {
+            try {
+                this.decoder = MediaCodec.createDecoderByType("video/hevc");
+            } catch (IOException e2) {
+                e2.printStackTrace();
+                return -1;
+            }
+        }
+        addAsyncCallback();
+        try {
+            Log.i(TAG, "Use valid surface to init decoder");
+            this.decoder.configure(this.mediaFormat, this.glSurfaceView, (MediaCrypto) null, 0);
+            this.playBuffer.rewind();
+            this.decoder.start();
+            this.started = true;
+            this.needKeyFrame = true;
+            Log.i(TAG, "startDecoder leave");
+            return 0;
+        } catch (Exception e3) {
+            e3.printStackTrace();
+            return -1;
         }
     }
 
@@ -483,11 +488,11 @@ public class MediaCodecDecoder {
             return handleProcessFunc_stopDecoder;
         }
         int handleProcessFunc_startDecoder = handleProcessFunc_startDecoder();
-        if (handleProcessFunc_startDecoder != 0) {
-            Log.e(TAG, "resetDecoder failed in start decoder");
-            return handleProcessFunc_startDecoder;
+        if (handleProcessFunc_startDecoder == 0) {
+            return 0;
         }
-        return 0;
+        Log.e(TAG, "resetDecoder failed in start decoder");
+        return handleProcessFunc_startDecoder;
     }
 
     public void stopDecoder() {
@@ -518,10 +523,9 @@ public class MediaCodecDecoder {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     class SurfaceListener implements SurfaceHolder.Callback {
         SurfaceListener() {
-            MediaCodecDecoder.this = r1;
         }
 
         @Override // android.view.SurfaceHolder.Callback
@@ -544,7 +548,7 @@ public class MediaCodecDecoder {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class ObjExtend {
         private int mRes = -1;
 
@@ -557,12 +561,12 @@ public class MediaCodecDecoder {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public class MsgBase {
         private ObjExtend mSemaphore = null;
 
         public MsgBase() {
-            MediaCodecDecoder.this = r1;
         }
 
         public ObjExtend getSemaphore() {
@@ -574,6 +578,7 @@ public class MediaCodecDecoder {
         }
     }
 
+    /* JADX WARN: Failed to find 'out' block for switch in B:2:0x0018. Please report as an issue. */
     public int setDisplayMode(int i) {
         EAspectRatio eAspectRatio;
         Log.i(TAG, "setDisplayMode mode = " + i);
@@ -581,20 +586,22 @@ public class MediaCodecDecoder {
         switch (i) {
             case 0:
                 eAspectRatio = EAspectRatio.none;
-                break;
+                handleProcessFunc_SetDspMode(eAspectRatio);
+                return 0;
             case 1:
                 eAspectRatio = EAspectRatio.encapsulate;
-                break;
+                handleProcessFunc_SetDspMode(eAspectRatio);
+                return 0;
             case 2:
                 eAspectRatio = EAspectRatio.crop;
-                break;
+                handleProcessFunc_SetDspMode(eAspectRatio);
+                return 0;
             default:
                 return -1;
         }
-        handleProcessFunc_SetDspMode(eAspectRatio);
-        return 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int handleProcessFunc_SetDspMode(EAspectRatio eAspectRatio) {
         synchronized (this.configLock) {
             this.mAspectModeView = eAspectRatio;
@@ -602,16 +609,14 @@ public class MediaCodecDecoder {
         return 0;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     private class ScaleMsg extends MsgBase {
         public float moveX;
         public float moveY;
         public float rate;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public ScaleMsg(float f, float f2, float f3) {
             super();
-            MediaCodecDecoder.this = r1;
             this.rate = f;
             this.moveX = f2;
             this.moveY = f3;
@@ -659,73 +664,73 @@ public class MediaCodecDecoder {
         if (looper == null) {
             stopBackgroundThread();
             Log.e(TAG, "startBackgroudThread getLooper err!");
-            return;
-        }
-        this.mBackgroundHandler = new Handler(looper) { // from class: com.huawei.videoengine.MediaCodecDecoder.2
-            @Override // android.os.Handler
-            public void handleMessage(Message message) {
-                super.handleMessage(message);
-                int i = 0;
-                switch (message.what) {
-                    case 3:
-                        i = MediaCodecDecoder.this.handleProcessFunc_startDecoder();
-                        break;
-                    case 4:
-                        i = MediaCodecDecoder.this.handleProcessFunc_stopDecoder();
-                        break;
-                    case 5:
-                        ScaleMsg scaleMsg = (ScaleMsg) message.obj;
-                        i = MediaCodecDecoder.this.handleProcessFunc_SetScaleRate(scaleMsg.rate, scaleMsg.moveX, scaleMsg.moveY);
-                        break;
-                    case 6:
-                    default:
-                        Log.w(MediaCodecDecoder.TAG, "handle message unknow msgid = " + message.what);
-                        break;
-                    case 7:
-                        int i2 = message.arg1;
-                        EAspectRatio eAspectRatio = EAspectRatio.none;
-                        switch (i2) {
-                            case 0:
-                                eAspectRatio = EAspectRatio.none;
-                                break;
-                            case 1:
-                                eAspectRatio = EAspectRatio.encapsulate;
-                                break;
-                            case 2:
-                                eAspectRatio = EAspectRatio.crop;
-                                break;
-                            default:
-                                i = -1;
-                                break;
-                        }
-                        if (i == 0) {
-                            i = MediaCodecDecoder.this.handleProcessFunc_SetDspMode(eAspectRatio);
+        } else {
+            this.mBackgroundHandler = new Handler(looper) { // from class: com.huawei.videoengine.MediaCodecDecoder.2
+                @Override // android.os.Handler
+                public void handleMessage(Message message) {
+                    super.handleMessage(message);
+                    int i = 0;
+                    switch (message.what) {
+                        case 3:
+                            i = MediaCodecDecoder.this.handleProcessFunc_startDecoder();
                             break;
+                        case 4:
+                            i = MediaCodecDecoder.this.handleProcessFunc_stopDecoder();
+                            break;
+                        case 5:
+                            ScaleMsg scaleMsg = (ScaleMsg) message.obj;
+                            i = MediaCodecDecoder.this.handleProcessFunc_SetScaleRate(scaleMsg.rate, scaleMsg.moveX, scaleMsg.moveY);
+                            break;
+                        case 6:
+                        default:
+                            Log.w(MediaCodecDecoder.TAG, "handle message unknow msgid = " + message.what);
+                            break;
+                        case 7:
+                            int i2 = message.arg1;
+                            EAspectRatio eAspectRatio = EAspectRatio.none;
+                            switch (i2) {
+                                case 0:
+                                    eAspectRatio = EAspectRatio.none;
+                                    break;
+                                case 1:
+                                    eAspectRatio = EAspectRatio.encapsulate;
+                                    break;
+                                case 2:
+                                    eAspectRatio = EAspectRatio.crop;
+                                    break;
+                                default:
+                                    i = -1;
+                                    break;
+                            }
+                            if (i == 0) {
+                                i = MediaCodecDecoder.this.handleProcessFunc_SetDspMode(eAspectRatio);
+                                break;
+                            }
+                            break;
+                        case 8:
+                            i = MediaCodecDecoder.this.handleProcessFunc_putFrame();
+                            break;
+                        case 9:
+                            FrameInfoMsg frameInfoMsg = (FrameInfoMsg) message.obj;
+                            i = MediaCodecDecoder.this.handleProcessFunc_setFrameInfo(frameInfoMsg.dataLength, frameInfoMsg.renderTime, frameInfoMsg.isKeyFrame, frameInfoMsg.width, frameInfoMsg.height);
+                            break;
+                        case 10:
+                            i = MediaCodecDecoder.this.handleProcessFunc_ResetDecoder();
+                            break;
+                        case 11:
+                            i = MediaCodecDecoder.this.backupdateWinowSurface(((SurfaceInfoMsg) message.obj).updateSf);
+                            break;
+                    }
+                    ObjExtend semaphore = ((MsgBase) message.obj).getSemaphore();
+                    if (semaphore != null) {
+                        synchronized (semaphore) {
+                            semaphore.setRes(i);
+                            semaphore.notifyAll();
                         }
-                        break;
-                    case 8:
-                        i = MediaCodecDecoder.this.handleProcessFunc_putFrame();
-                        break;
-                    case 9:
-                        FrameInfoMsg frameInfoMsg = (FrameInfoMsg) message.obj;
-                        i = MediaCodecDecoder.this.handleProcessFunc_setFrameInfo(frameInfoMsg.dataLength, frameInfoMsg.renderTime, frameInfoMsg.isKeyFrame, frameInfoMsg.width, frameInfoMsg.height);
-                        break;
-                    case 10:
-                        i = MediaCodecDecoder.this.handleProcessFunc_ResetDecoder();
-                        break;
-                    case 11:
-                        i = MediaCodecDecoder.this.backupdateWinowSurface(((SurfaceInfoMsg) message.obj).updateSf);
-                        break;
-                }
-                ObjExtend semaphore = ((MsgBase) message.obj).getSemaphore();
-                if (semaphore != null) {
-                    synchronized (semaphore) {
-                        semaphore.setRes(i);
-                        semaphore.notifyAll();
                     }
                 }
-            }
-        };
+            };
+        }
     }
 
     private void stopBackgroundThread() {
@@ -789,14 +794,12 @@ public class MediaCodecDecoder {
         return 0;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     private class SurfaceInfoMsg extends MsgBase {
         public Surface updateSf;
 
-        /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
         public SurfaceInfoMsg(Surface surface) {
             super();
-            MediaCodecDecoder.this = r1;
             this.updateSf = surface;
         }
     }
@@ -806,8 +809,9 @@ public class MediaCodecDecoder {
         return 0;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:48:0x005b A[Catch: all -> 0x00bc, TryCatch #0 {, blocks: (B:34:0x0004, B:36:0x0028, B:38:0x0030, B:39:0x003c, B:48:0x005b, B:49:0x0076, B:51:0x0078, B:53:0x0091, B:54:0x00ba, B:43:0x0051), top: B:59:0x0004 }] */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0078 A[Catch: all -> 0x00bc, TryCatch #0 {, blocks: (B:34:0x0004, B:36:0x0028, B:38:0x0030, B:39:0x003c, B:48:0x005b, B:49:0x0076, B:51:0x0078, B:53:0x0091, B:54:0x00ba, B:43:0x0051), top: B:59:0x0004 }] */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x005b A[Catch: all -> 0x00bc, TryCatch #0 {, blocks: (B:4:0x0004, B:6:0x0028, B:8:0x0030, B:9:0x003c, B:14:0x005b, B:15:0x0076, B:18:0x0078, B:20:0x0091, B:21:0x00ba, B:23:0x0051), top: B:3:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x0078 A[Catch: all -> 0x00bc, TryCatch #0 {, blocks: (B:4:0x0004, B:6:0x0028, B:8:0x0030, B:9:0x003c, B:14:0x005b, B:15:0x0076, B:18:0x0078, B:20:0x0091, B:21:0x00ba, B:23:0x0051), top: B:3:0x0004 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
         To view partially-correct code enable 'Show inconsistent code' option in preferences
@@ -950,8 +954,9 @@ public class MediaCodecDecoder {
         return 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void getMVPP(float[] fArr, int i, EAspectRatio eAspectRatio, int i2, int i3) {
-        boolean z;
+        int i4;
         float f;
         float[] fArr2 = new float[16];
         float[] fArr3 = new float[16];
@@ -965,12 +970,12 @@ public class MediaCodecDecoder {
         Matrix.translateM(fArr3, 0, f2 / 2.0f, f4 / 2.0f, 0.0f);
         Matrix.rotateM(fArr3, 0, 180.0f, 1.0f, 0.0f, 0.0f);
         if (this.mMirrorY == 1) {
-            z = true;
+            i4 = 1;
             Matrix.rotateM(fArr3, 0, 180.0f, 0.0f, 1.0f, 0.0f);
         } else {
-            z = true;
+            i4 = 1;
         }
-        if (this.mMirrorX == z) {
+        if (this.mMirrorX == i4) {
             Matrix.rotateM(fArr3, 0, 180.0f, 1.0f, 0.0f, 0.0f);
         }
         Matrix.rotateM(fArr3, 0, i, 0.0f, 0.0f, 1.0f);
@@ -978,8 +983,8 @@ public class MediaCodecDecoder {
             Log.w(TAG, "getMVPP mDecoderWidth or mDecoderHeight is zero");
             return;
         }
-        int i4 = this.mDecoderWidth;
-        int i5 = this.mDecoderHeight;
+        int i5 = this.mDecoderWidth;
+        int i6 = this.mDecoderHeight;
         if (i == 90 || i == 270) {
             f = f4;
             f4 = f2;
@@ -988,21 +993,21 @@ public class MediaCodecDecoder {
         }
         float f5 = this.origlWidth - this.mDecoderWidth;
         float f6 = this.origlHeight - this.mDecoderHeight;
-        float f7 = i4;
-        float f8 = i5;
+        float f7 = i5;
+        float f8 = i6;
         float f9 = (f4 * f7) / f8;
         float f10 = (f8 * f) / f7;
         if (eAspectRatio == EAspectRatio.crop) {
             if (f9 - f2 > 0.0f) {
-                Matrix.scaleM(fArr3, 0, ((f9 / 2.0f) + (this.needAlign == z ? (f5 * f4) / (this.origlHeight * 2) : 0.0f)) * this.scaleRatio, this.scaleRatio * ((f4 / 2.0f) + (this.needAlign == z ? (f6 * f4) / (this.origlHeight * 2) : 0.0f)), 1.0f);
+                Matrix.scaleM(fArr3, 0, ((f9 / 2.0f) + (this.needAlign == i4 ? (f5 * f4) / (this.origlHeight * 2) : 0.0f)) * this.scaleRatio, this.scaleRatio * ((f4 / 2.0f) + (this.needAlign == i4 ? (f6 * f4) / (this.origlHeight * 2) : 0.0f)), 1.0f);
             } else {
-                Matrix.scaleM(fArr3, 0, ((f / 2.0f) + (this.needAlign == z ? (f5 * f) / (this.origlWidth * 2) : 0.0f)) * this.scaleRatio, ((f10 / 2.0f) + (this.needAlign == z ? (f6 * f) / (this.origlWidth * 2) : 0.0f)) * this.scaleRatio, 1.0f);
+                Matrix.scaleM(fArr3, 0, ((f / 2.0f) + (this.needAlign == i4 ? (f5 * f) / (this.origlWidth * 2) : 0.0f)) * this.scaleRatio, ((f10 / 2.0f) + (this.needAlign == i4 ? (f6 * f) / (this.origlWidth * 2) : 0.0f)) * this.scaleRatio, 1.0f);
             }
         } else if (eAspectRatio == EAspectRatio.encapsulate) {
             if (f9 - f2 > 0.0f) {
-                Matrix.scaleM(fArr3, 0, ((f / 2.0f) + (this.needAlign == z ? (f5 * f) / (this.origlWidth * 2) : 0.0f)) * this.scaleRatio, ((f10 / 2.0f) + (this.needAlign == z ? (f6 * f) / (this.origlWidth * 2) : 0.0f)) * this.scaleRatio, 1.0f);
+                Matrix.scaleM(fArr3, 0, ((f / 2.0f) + (this.needAlign == i4 ? (f5 * f) / (this.origlWidth * 2) : 0.0f)) * this.scaleRatio, ((f10 / 2.0f) + (this.needAlign == i4 ? (f6 * f) / (this.origlWidth * 2) : 0.0f)) * this.scaleRatio, 1.0f);
             } else {
-                Matrix.scaleM(fArr3, 0, ((f9 / 2.0f) + (this.needAlign == z ? (f5 * f4) / (this.origlHeight * 2) : 0.0f)) * this.scaleRatio, this.scaleRatio * ((f4 / 2.0f) + (this.needAlign == z ? (f6 * f4) / (this.origlHeight * 2) : 0.0f)), 1.0f);
+                Matrix.scaleM(fArr3, 0, ((f9 / 2.0f) + (this.needAlign == i4 ? (f5 * f4) / (this.origlHeight * 2) : 0.0f)) * this.scaleRatio, this.scaleRatio * ((f4 / 2.0f) + (this.needAlign == i4 ? (f6 * f4) / (this.origlHeight * 2) : 0.0f)), 1.0f);
             }
         } else if (this.needAlign) {
             Matrix.scaleM(fArr3, 0, ((f / 2.0f) + ((f5 * f) / (this.origlWidth * 2))) * this.scaleRatio, ((f4 / 2.0f) + ((f6 * f4) / (this.origlHeight * 2))) * this.scaleRatio, 1.0f);

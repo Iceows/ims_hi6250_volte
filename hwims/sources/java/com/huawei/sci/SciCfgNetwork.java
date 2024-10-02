@@ -1,6 +1,6 @@
 package com.huawei.sci;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class SciCfgNetwork {
     public static final int DM_MODE_HTTP = 2;
     public static final int DM_MODE_OFF = 0;

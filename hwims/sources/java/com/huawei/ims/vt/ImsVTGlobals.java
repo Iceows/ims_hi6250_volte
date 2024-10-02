@@ -15,7 +15,7 @@ import com.huawei.vtproxy.ImsThinClient;
 import java.util.ArrayList;
 import java.util.List;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsVTGlobals {
     private static final String ACTION_IMS_SWITCH_STATE_CHANGE = "com.huawei.ACTION_IMS_SWITCH_STATE_CHANGE";
     private static final int CALLSESSION_MAX_SIZE = 1;
@@ -37,7 +37,9 @@ public class ImsVTGlobals {
             Rlog.d(ImsVTGlobals.TAG, "onReceive: action=" + action);
             if (ImsVTGlobals.ACTION_IMS_SWITCH_STATE_CHANGE.equals(action) || "android.intent.action.RADIO_TECHNOLOGY".equals(action)) {
                 ImsVTGlobals.reInitVtSdk(VTUtils.isImsSwitchOn(ImsVTGlobals.mContext));
-            } else if ("android.intent.action.BOOT_COMPLETED".equals(action)) {
+                return;
+            }
+            if ("android.intent.action.BOOT_COMPLETED".equals(action)) {
                 Rlog.d(ImsVTGlobals.TAG, "intent.getAction is ACTION_BOOT_COMPLETED,mIsSdkInited = " + ImsVTGlobals.mIsSdkInited);
                 ImsThinClient.imsProcBootCompleted();
                 if (ImsVTGlobals.mIsSdkInited) {
@@ -45,7 +47,9 @@ public class ImsVTGlobals {
                     ImsThinClient.createHmeLogFolder();
                 }
                 boolean unused = ImsVTGlobals.mIsBootCompleted = true;
-            } else if ("android.intent.action.ACTION_SHUTDOWN".equals(action)) {
+                return;
+            }
+            if ("android.intent.action.ACTION_SHUTDOWN".equals(action)) {
                 Rlog.d(ImsVTGlobals.TAG, "intent.getAction is ACTION_SHUTDOWN,mIsSdkInited = " + ImsVTGlobals.mIsSdkInited);
                 if (ImsVTGlobals.mIsSdkInited && VTUtils.isVTSupported()) {
                     ImsVTGlobals.deInit();
@@ -56,7 +60,7 @@ public class ImsVTGlobals {
     private static ArrayList<HwImsCallSessionImpl> imsCallSessionArrayList = new ArrayList<>();
     private static ArrayList<ImsVTCallProviderImpl> imsVideoCallProviderList = new ArrayList<>();
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum HME_V_CAMERA_TYPE {
         HME_V_CAMERA1_SURFACEVIEW(101),
         HME_V_CAMERA1_SURFACETEXTURE(102),
@@ -64,7 +68,7 @@ public class ImsVTGlobals {
         HME_V_CAMERA1_NATIVECAMERA(301),
         HME_V_CAMERA1_SCREENCAPTURE(401),
         HME_V_CAMERA_DEFAULT(0);
-        
+
         private int value;
 
         HME_V_CAMERA_TYPE(int value) {
@@ -76,11 +80,11 @@ public class ImsVTGlobals {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum HME_V_ENCODER_USE_TYPE {
         HME_V_Encoder_DEFAULT(0),
         HME_V_Encoder_SURFACE(101);
-        
+
         private int value;
 
         HME_V_ENCODER_USE_TYPE(int value) {
@@ -144,7 +148,9 @@ public class ImsVTGlobals {
         Rlog.d(TAG, "initVTSdk: mIsSdkInited is: " + mIsSdkInited + ", needInitSdk : " + needInitSdk);
         if (mContext == null) {
             Rlog.d(TAG, "mContext == null, do not support VT,so do not initVTSdk");
-        } else if (!mIsSdkInited && needInitSdk) {
+            return;
+        }
+        if (!mIsSdkInited && needInitSdk) {
             Rlog.d(TAG, "initVTSdk start to initImsThinClient");
             ImsThinClient.initImsThinClient(mContext);
             mIsSdkInited = true;

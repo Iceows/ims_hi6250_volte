@@ -15,7 +15,7 @@ import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.opengles.GL10;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ViEAndroidGLES20 extends GLSurfaceView implements GLSurfaceView.Renderer {
     private static final String TAG = "hme_engine_java_GLES20";
     private static final String manufaturer = Build.MANUFACTURER;
@@ -83,8 +83,9 @@ public class ViEAndroidGLES20 extends GLSurfaceView implements GLSurfaceView.Ren
                     if (!this.openGLCreated) {
                         if (createOpenGLNative(this.lnativeObject, this.viewWidth, this.viewHeight) != 0) {
                             return;
+                        } else {
+                            this.openGLCreated = true;
                         }
-                        this.openGLCreated = true;
                     }
                     drawNative(this.lnativeObject);
                 }
@@ -216,8 +217,8 @@ public class ViEAndroidGLES20 extends GLSurfaceView implements GLSurfaceView.Ren
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
-    public static class ContextFactory implements GLSurfaceView.EGLContextFactory {
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
+    private static class ContextFactory implements GLSurfaceView.EGLContextFactory {
         private static int EGL_CONTEXT_CLIENT_VERSION = 12440;
 
         private ContextFactory() {
@@ -236,6 +237,7 @@ public class ViEAndroidGLES20 extends GLSurfaceView implements GLSurfaceView.Ren
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static void checkEglError(String str, EGL10 egl10) {
         while (true) {
             int eglGetError = egl10.eglGetError();
@@ -247,8 +249,8 @@ public class ViEAndroidGLES20 extends GLSurfaceView implements GLSurfaceView.Ren
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
-    public static class ConfigChooser implements GLSurfaceView.EGLConfigChooser {
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
+    private static class ConfigChooser implements GLSurfaceView.EGLConfigChooser {
         private static int EGL_OPENGL_ES2_BIT = 4;
         private static int[] s_configAttribs2 = {12324, 4, 12323, 4, 12322, 4, 12352, EGL_OPENGL_ES2_BIT, 12344};
         protected int mAlphaSize;

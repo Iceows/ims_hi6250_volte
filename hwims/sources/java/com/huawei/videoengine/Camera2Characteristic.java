@@ -13,7 +13,7 @@ import com.huawei.videoengine.VideoCaptureDeviceInfoAndroid;
 import java.util.ArrayList;
 import java.util.List;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class Camera2Characteristic {
     private static final String TAG = "hme_engine_java";
     List<VideoCaptureDeviceInfoAndroid.AndroidVideoCaptureDevice> deviceList = null;
@@ -30,27 +30,27 @@ public class Camera2Characteristic {
 
     public String getDeviceUniqueName(Context context, int i) {
         String str;
-        Integer num;
         String str2 = "Camera " + i + ", ";
         try {
             CameraCharacteristics cameraCharacteristics = this.mManager.getCameraCharacteristics(this.mManager.getCameraIdList()[i]);
-            Integer num2 = (Integer) cameraCharacteristics.get(CameraCharacteristics.LENS_FACING);
-            if (num2 == null) {
+            Integer num = (Integer) cameraCharacteristics.get(CameraCharacteristics.LENS_FACING);
+            if (num == null) {
                 Log.e(TAG, "i is null");
                 return null;
             }
-            if (num2.intValue() == 0) {
+            if (num.intValue() == 0) {
                 str = str2 + "Facing front, ";
-            } else if (num2.intValue() == 1) {
+            } else if (num.intValue() == 1) {
                 str = str2 + "Facing back, ";
             } else {
                 str = str2 + "Facing external, ";
             }
-            if (((Integer) cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION)) == null) {
+            Integer num2 = (Integer) cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+            if (num2 == null) {
                 Log.e(TAG, "ori is null");
                 return null;
             }
-            return str + "Orientation " + num.toString();
+            return str + "Orientation " + num2.toString();
         } catch (CameraAccessException e) {
             e.printStackTrace();
             return null;
@@ -132,7 +132,6 @@ public class Camera2Characteristic {
 
     public int addDeviceInfo(VideoCaptureDeviceInfoAndroid.AndroidVideoCaptureDevice androidVideoCaptureDevice, int i) {
         CameraCharacteristics cameraCharacteristics;
-        Range[] rangeArr;
         try {
             cameraCharacteristics = this.mManager.getCameraCharacteristics(this.mManager.getCameraIdList()[i]);
         } catch (CameraAccessException e) {

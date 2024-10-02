@@ -7,11 +7,12 @@ import java.lang.reflect.Array;
 import java.security.SecureRandom;
 import java.util.Random;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class EncryptUtils {
     private static final int GROUP_SIZE = 4;
     private static final String TAG = "EncryptUtils";
 
+    /* JADX INFO: Access modifiers changed from: protected */
     @SuppressLint({"TrulyRandom"})
     public static String generateRandomString(int length) {
         Random random = new SecureRandom();
@@ -31,6 +32,7 @@ public class EncryptUtils {
         return salt;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static String encodeAESKey(String str, int length) {
         if (str == null || str.length() != length) {
             Rlog.e(TAG, "scatterAESKey error !");
@@ -50,6 +52,7 @@ public class EncryptUtils {
         return encodeString(strBuilder.toString());
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static String encodeAESParam(String sKey, String sParam) {
         if (sKey == null || sParam == null || 256 != sKey.length() || 16 != sParam.length()) {
             Rlog.e(TAG, "scatterAESParam error !");
@@ -64,6 +67,7 @@ public class EncryptUtils {
         return param;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static String decodeAESKey(String str, int length) {
         String str2 = decodeString(str);
         if (str2 == null || length != str2.length()) {
@@ -71,7 +75,7 @@ public class EncryptUtils {
             return null;
         }
         int groupLength = length / 4;
-        char[][] charArray = (char[][]) Array.newInstance(char.class, 4, groupLength);
+        char[][] charArray = (char[][]) Array.newInstance((Class<?>) char.class, 4, groupLength);
         for (int i = 0; i < 4; i++) {
             charArray[i] = str2.substring(i * groupLength, (i + 1) * groupLength).toCharArray();
         }

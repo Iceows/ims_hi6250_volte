@@ -1,9 +1,9 @@
 package com.huawei.ims;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public final class Manifest {
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static final class permission {
         public static final String AUDIO_QUALITY_GET = "com.huawei.ims.permission.AUDIO_QUALITY_GET";
         public static final String GET_IMS_REG_ERROR_REPORT = "com.huawei.ims.permission.GET_IMS_REG_ERROR_REPORT";

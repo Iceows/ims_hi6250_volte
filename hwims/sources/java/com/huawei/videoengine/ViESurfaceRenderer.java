@@ -13,7 +13,7 @@ import android.view.SurfaceView;
 import java.nio.ByteBuffer;
 import java.util.concurrent.locks.ReentrantLock;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ViESurfaceRenderer implements SurfaceHolder.Callback {
     private static final int displayBorder = 0;
     private static final int displayClipping = 1;
@@ -95,32 +95,34 @@ public class ViESurfaceRenderer implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         Log.i("hme-video", "VieSurfaceRenderer.java! enter surfaceCreated  this:" + this + " holder:" + surfaceHolder);
         this.remoteSurface = surfaceHolder.getSurface();
-        if (Build.VERSION.SDK_INT >= 14 && manufaturer.equals("HUAWEI")) {
-            if (0 != this.lnativeObject) {
-                Log.d("hme-video", "VieSurfaceRenderer.java! lnativeObject is registerd!");
-                setSurface(this.lnativeObject, this.remoteSurface);
-                this.remoteSurface = null;
-                return;
-            }
-            Log.d("hme-video", "VieSurfaceRenderer.java! not registered,save remote surface!!");
+        if (Build.VERSION.SDK_INT < 14 || !manufaturer.equals("HUAWEI")) {
+            return;
         }
+        if (0 != this.lnativeObject) {
+            Log.d("hme-video", "VieSurfaceRenderer.java! lnativeObject is registerd!");
+            setSurface(this.lnativeObject, this.remoteSurface);
+            this.remoteSurface = null;
+            return;
+        }
+        Log.d("hme-video", "VieSurfaceRenderer.java! not registered,save remote surface!!");
     }
 
     public void getRemoteSurface() {
         Log.d("hme-video", "VieSurfaceRenderer.java! getRemoteSurface!!");
-        if (Build.VERSION.SDK_INT >= 14 && manufaturer.equals("HUAWEI")) {
-            if (0 != this.lnativeObject) {
-                if (this.remoteSurface != null) {
-                    Log.d("hme-video", "VieSurfaceRenderer.java! set remote surface to native channel!!");
-                    setSurface(this.lnativeObject, this.remoteSurface);
-                    this.remoteSurface = null;
-                    return;
-                }
-                Log.e("hme-video", "VieSurfaceRenderer.java! remoteSurface is null!!");
+        if (Build.VERSION.SDK_INT < 14 || !manufaturer.equals("HUAWEI")) {
+            return;
+        }
+        if (0 != this.lnativeObject) {
+            if (this.remoteSurface != null) {
+                Log.d("hme-video", "VieSurfaceRenderer.java! set remote surface to native channel!!");
+                setSurface(this.lnativeObject, this.remoteSurface);
+                this.remoteSurface = null;
                 return;
             }
-            Log.e("hme-video", "VieSurfaceRenderer.java! getRemoteSurface but not registered!!");
+            Log.e("hme-video", "VieSurfaceRenderer.java! remoteSurface is null!!");
+            return;
         }
+        Log.e("hme-video", "VieSurfaceRenderer.java! getRemoteSurface but not registered!!");
     }
 
     @Override // android.view.SurfaceHolder.Callback
@@ -216,7 +218,8 @@ public class ViESurfaceRenderer implements SurfaceHolder.Callback {
                     this.srcRect.bottom = this.srcRect.top + i;
                     Log.i("hme-video", "createByteBuffer + top" + this.srcRect.top + " bottom:" + this.srcRect.bottom);
                     return;
-                } else if (this.dstWidth / this.dstHeight < this.dataWidth / this.dataHeight) {
+                }
+                if (this.dstWidth / this.dstHeight < this.dataWidth / this.dataHeight) {
                     int i2 = (int) ((this.dstWidth * this.dataHeight) / this.dstHeight);
                     this.srcRect.top = 0;
                     this.srcRect.bottom = this.dataHeight;
@@ -224,9 +227,8 @@ public class ViESurfaceRenderer implements SurfaceHolder.Callback {
                     this.srcRect.right = this.srcRect.left + i2;
                     Log.i("hme-video", "createByteBuffer + left" + this.srcRect.left + " right:" + this.srcRect.right);
                     return;
-                } else {
-                    return;
                 }
+                return;
             case 2:
                 this.srcRect.left = 0;
                 this.srcRect.top = 0;

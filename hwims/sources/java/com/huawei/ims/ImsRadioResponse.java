@@ -27,7 +27,7 @@ import vendor.huawei.hardware.radio.ims.V1_0.RadioResponseInfo;
 import vendor.huawei.hardware.radio.ims.V1_0.RilConstS32;
 import vendor.huawei.hardware.radio.ims.V1_0.RspMsgPayload;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsRadioResponse extends IRadioImsResponse.Stub {
     static final String LOG_TAG = "ImsRadioResponse";
     ImsRIL mRil;
@@ -581,8 +581,8 @@ public class ImsRadioResponse extends IRadioImsResponse.Stub {
     }
 
     @Override // vendor.huawei.hardware.radio.ims.V1_0.IRadioImsResponse
-    public void getImsRegistrationStateResponse(RadioResponseInfo responseInfo, boolean isRegistered, int ratFamily) {
-        responseInts(responseInfo, isRegistered ? 1 : 0, ratFamily);
+    public void getImsRegistrationStateResponse(RadioResponseInfo radioResponseInfo, boolean z, int i) {
+        responseInts(radioResponseInfo, z ? 1 : 0, i);
     }
 
     @Override // vendor.huawei.hardware.radio.ims.V1_0.IRadioImsResponse

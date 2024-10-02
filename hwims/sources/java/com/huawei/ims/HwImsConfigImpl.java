@@ -30,7 +30,7 @@ import org.kxml2.io.KXmlParser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class HwImsConfigImpl extends ImsConfigImpl {
     public static final int CALL_WAITING_FROM_CS = 1;
     public static final int CALL_WAITING_FROM_LOCAL = 2;
@@ -342,22 +342,21 @@ public class HwImsConfigImpl extends ImsConfigImpl {
     private BroadcastReceiver mBroadCastReceiver = new BroadcastReceiver() { // from class: com.huawei.ims.HwImsConfigImpl.1
         @Override // android.content.BroadcastReceiver
         public void onReceive(Context context, Intent intent) {
-            HwImsConfigImpl hwImsConfigImpl = HwImsConfigImpl.this;
-            hwImsConfigImpl.logd("mBroadCastReceiver: action " + intent.getAction());
+            HwImsConfigImpl.this.logd("mBroadCastReceiver: action " + intent.getAction());
             if (HwImsConfigImpl.MAPCON_SERVICE_STARTED.equals(intent.getAction()) && HwImsConfigImpl.this.mMapconService == null) {
                 HwImsConfigImpl.this.bindMapconService();
             }
         }
     };
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum CALL_WAITING_SOURCE {
         CALL_WAITING_FROM_UT,
         CALL_WAITING_FROM_CS,
         CALL_WAITING_FROM_LOCAL
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum CONFIG_TYPE {
         CONFIG_TYPE_BOOL,
         CONFIG_TYPE_INT,
@@ -390,42 +389,47 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         logd("HwImsConfigImpl construtor");
         if (!ImsCallProviderUtils.isValidServiceSubIndex(this.mSubId)) {
             loge("subId is invalid");
-        } else if (hwImsServiceImpl == null || hwImsServiceImpl.mCi == null) {
+            return;
+        }
+        if (hwImsServiceImpl == null || hwImsServiceImpl.mCi == null) {
             loge("hwImsServiceImpl or imsRIL is null");
-        } else if (hwImsServiceImpl.mContext == null) {
+            return;
+        }
+        if (hwImsServiceImpl.mContext == null) {
             loge("context is null");
-        } else {
-            this.mHwImsServiceImpl = hwImsServiceImpl;
-            this.mContext = hwImsServiceImpl.mContext;
-            init(this.mContext);
-            this.mCi = hwImsServiceImpl.mCi;
-            if (IS_VOWIFI_PROP_ON) {
-                bindMapconService();
-                IntentFilter filter = new IntentFilter();
-                filter.addAction(MAPCON_SERVICE_STARTED);
-                this.mContext.registerReceiver(this.mBroadCastReceiver, filter, MAPCON_BROADCAST_PERMISSION, null);
-            }
+            return;
+        }
+        this.mHwImsServiceImpl = hwImsServiceImpl;
+        this.mContext = hwImsServiceImpl.mContext;
+        init(this.mContext);
+        this.mCi = hwImsServiceImpl.mCi;
+        if (IS_VOWIFI_PROP_ON) {
+            bindMapconService();
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(MAPCON_SERVICE_STARTED);
+            this.mContext.registerReceiver(this.mBroadCastReceiver, filter, MAPCON_BROADCAST_PERMISSION, null);
         }
     }
 
-    public boolean processOnTransact(int code, Parcel data, Parcel reply, int flags) {
-        logd("processOnTransact , code = " + code);
-        if (code == 3001) {
-            String mmiCode = data.readString();
-            boolean isUnSupportMMICode = isUnSupportMMICode(mmiCode);
+    public boolean processOnTransact(int i, Parcel parcel, Parcel parcel2, int i2) {
+        logd("processOnTransact , code = " + i);
+        if (i == 3001) {
+            boolean isUnSupportMMICode = isUnSupportMMICode(parcel.readString());
             logd("isUnSupportMMICode = " + isUnSupportMMICode);
-            reply.writeNoException();
-            reply.writeInt(isUnSupportMMICode ? 1 : 0);
+            parcel2.writeNoException();
+            parcel2.writeInt(isUnSupportMMICode ? 1 : 0);
             return true;
         }
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isImsSsBeUsed() {
         return this.mImsSsBeUsed;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtForbiddenWhenVolteSwitchOff() {
         String utForbiddenWhenVolteSwitchOff;
@@ -434,23 +438,28 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return !NULL_STRING_VALUE.equals(utForbiddenWhenVolteSwitchOff) ? Boolean.parseBoolean(utForbiddenWhenVolteSwitchOff) : this.mUtForbiddenWhenVolteSwitchOff;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getUtUseApn() {
         return this.mUtUseApn;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isUse403ForLocalCW() {
         return this.mUse403ForLocalCW;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isCarrierSupportVolte() {
         return this.mCarrierSupportVolte;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isUtCanUseWifi() {
         return this.mUtCanUseWifi;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isCardTypePreferToUseUT(int cardType) {
         logd("isCardTypePreferToUseUT, Card type is " + cardType);
@@ -461,6 +470,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isCardMccMncPreferToUseUT(String cardMccMnc) {
         String preferToUseUt = SystemProperties.get(UT_PREFER_TO_USE_UT_PROP_KEY, NULL_STRING_VALUE);
@@ -484,10 +494,12 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return this.mCarrierSupportVoWifi;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean getIsUseMultCondition() {
         return this.mIsUseMultCondition;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isSSUseCsOnly(int ssType) {
         logd("isSSUseCsOnly, ss type is " + ssType);
@@ -511,11 +523,13 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtCSBeUsed() {
         return isConfigInProp(UT_CS_BE_USED_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_CS_BE_USED : this.mUtCSBeUsed;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isSSForbidFallbackCS(int ssType) {
         logd("isSSForbidFallbackCS, ss type is " + ssType);
@@ -526,25 +540,30 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isCFNRcChangeWithCFNL() {
         return this.mCFNRcChangeWithCFNL;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getDefaultNoReplyTimer() {
         return this.mDefaultNoReplyTimer;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getDefaultNeedNoReplyTimer() {
         return this.mDefaultNeedNoReplyTimer;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getContentTypeMode() {
         return this.mContentTypeMode;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isImsStateFollowVoiceDomain() {
         return this.mImsStateFollowVoiceDomain;
@@ -565,46 +584,52 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return !NULL_STRING_VALUE.equals(callWaitingMode) ? callWaitingModeInt : this.mCallWaitingMode;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isCallWaitingSyncToImsSdk() {
         return this.mIsCallWaitingSyncToImsSdk;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isCallWaitingSyncToCs() {
         return this.mIsCallWaitingSyncToCs;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized CALL_WAITING_SOURCE getCallWaitingSource() {
         return this.mCallWaitingSource;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtOpenHrsLog() {
         return isConfigInProp(UT_HRS_LOG_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_HRS_LOG : this.mUtHrsLog;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getUtNafSrvAddr() {
         String utNafSrvAddr = SystemProperties.get(UT_NAF_SRV_ADDR_PROP_KEY, NULL_STRING_VALUE);
         if (!NULL_STRING_VALUE.equals(utNafSrvAddr)) {
             logd("use naf addr from prop");
             return utNafSrvAddr;
-        } else if (!NULL_STRING_VALUE.equals(this.mUtNafSrvAddr)) {
+        }
+        if (!NULL_STRING_VALUE.equals(this.mUtNafSrvAddr)) {
             logd("use naf addr from xml, naf ");
             return this.mUtNafSrvAddr;
-        } else {
-            String nafAddr = getRootUriFromSim();
-            if (nafAddr != null) {
-                logd("use naf addr from sim, naf ");
-                return nafAddr;
-            }
-            loge("pick naf addr fail.");
-            return null;
         }
+        String nafAddr = getRootUriFromSim();
+        if (nafAddr != null) {
+            logd("use naf addr from sim, naf ");
+            return nafAddr;
+        }
+        loge("pick naf addr fail.");
+        return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getUtNafPort() {
         String utNafPort;
@@ -620,39 +645,44 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return !NULL_STRING_VALUE.equals(utNafPort) ? utNafPortInt : this.mUtNafPort;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtNafUseHttps() {
         return isConfigInProp(UT_NAF_USE_HTTPS_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_NAF_USE_HTTPS : this.mUtNafUseHttps;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getUtBsfSrvAddr() {
         String utBsfSrvAddr = SystemProperties.get(UT_BSF_SRV_ADDR_PROP_KEY, NULL_STRING_VALUE);
         if (!NULL_STRING_VALUE.equals(utBsfSrvAddr)) {
             logd("use bsf addr from prop, bsf");
             return utBsfSrvAddr;
-        } else if (!NULL_STRING_VALUE.equals(this.mUtBsfSrvAddr)) {
+        }
+        if (!NULL_STRING_VALUE.equals(this.mUtBsfSrvAddr)) {
             logd("use bsf addr from xml, bsf addr");
             return this.mUtBsfSrvAddr;
-        } else {
-            String bsfAddr = getBsfAddrFromSIM();
-            if (bsfAddr != null) {
-                logd("use bsf addr from sim, bsf");
-                return bsfAddr;
-            }
-            loge("pick bsf addr fail.");
-            return null;
         }
+        String bsfAddr = getBsfAddrFromSIM();
+        if (bsfAddr != null) {
+            logd("use bsf addr from sim, bsf");
+            return bsfAddr;
+        }
+        loge("pick bsf addr fail.");
+        return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isUtPreferVowifiWhenVowifiReg() {
         return this.mUtPreferVowifiWhenVowifiReg;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean getVowifiUtSwitch() {
         return this.mVowifiUtSwitch;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getUtXcapRootUri() {
         String utXcapRootUri;
@@ -660,6 +690,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return !NULL_STRING_VALUE.equals(utXcapRootUri) ? utXcapRootUri : this.mUtXcapRootUri;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getUtBsfPort() {
         String utBsfPort;
@@ -674,35 +705,42 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return !NULL_STRING_VALUE.equals(utBsfPort) ? utBsfPortInt : this.mUtBsfPort;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtBsfUseHttps() {
         return isConfigInProp(UT_BSF_USE_HTTPS_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_BSF_USE_HTTPS : this.mUtBsfUseHttps;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtUseNodeSelector() {
         return isConfigInProp(UT_USE_NODE_SELECTOR_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_USE_NODE_SELECTOR : this.mUtUseNodeSelector;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtUseXcapNameSpace() {
         return isConfigInProp(UT_USE_XCAP_NAMESPACE_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_USE_XCAP_NAMESPACE : this.mUtUseXcapNamespace;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtKsnafEncodedByBase64() {
         return isConfigInProp(UT_KSNAF_USE_BASE64_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_KSNAF_USE_BASE64 : this.mUtKsnafUseBase64;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getUtPreferOption() {
         return this.mUtPreferOption;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getUtGbaType() {
         return isConfigInProp(UT_GBA_TYPE_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_INT) ? UT_GBA_TYPE : this.mUtGbaType;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getUtBearerType() {
         String utBearerType;
         int utBearerTypeInt;
@@ -728,16 +766,16 @@ public class HwImsConfigImpl extends ImsConfigImpl {
             while (i2 < length) {
                 int code = codes[i2];
                 String cause = DcFailCause.fromInt(code).toString();
-                int i3 = i + 1;
                 failCauses[i] = cause;
                 logd("initDcFailCause code:" + code + " cause : " + cause);
                 i2++;
-                i = i3;
+                i++;
             }
         }
         return failCauses;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isDcFailCauseForNonVolteSim(String cause) {
         if (this.mDcFailCause != null && this.mDcFailCause.length != 0) {
             return isContainInIMSConfig(this.mDcFailCause, cause);
@@ -746,6 +784,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isDcFailCauseToReleaseApn(String cause) {
         if (this.mDcFailCauseToReleaseApn != null && this.mDcFailCauseToReleaseApn.length != 0) {
             return isContainInIMSConfig(this.mDcFailCauseToReleaseApn, cause);
@@ -754,6 +793,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtUseTmpi() {
         return isConfigInProp(UT_USE_TMPI_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_USE_TMPI : this.mUtUseTmpi;
@@ -764,48 +804,54 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return isConfigInProp(UT_X_3GPP_INTEND_ID_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_STRING) ? UT_X_3GPP_INTEND_ID : this.mUtX3gppIntendId;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getUtIMPUFromNetwork() {
         return getSharedPreferences(IMPU_FROM_NETWORK_KEY[this.mSubId], this.mContext);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getUtIMPU(Context context) {
         if (isConfigInProp(UT_IMPU_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_STRING)) {
             logd("use impu from prop, impu=" + hiddenPrivacyInfo(UT_IMPU, 2));
             return UT_IMPU;
-        } else if (!NULL_STRING_VALUE.equals(this.mUtIMPU)) {
+        }
+        if (!NULL_STRING_VALUE.equals(this.mUtIMPU)) {
             logd("use impu from xml, impu=" + hiddenPrivacyInfo(this.mUtIMPU, 2));
             return this.mUtIMPU;
-        } else {
-            String impu = getSharedPreferences(IMPU_FROM_NETWORK_KEY[this.mSubId], context);
-            if (impu != null) {
-                logd("use impu from network, impu=" + hiddenPrivacyInfo(impu, 2));
-                return impu;
-            }
-            String impu2 = getSharedPreferences(IMPU_FROM_SIM_IMSI_KEY[this.mSubId], context);
-            if (impu2 != null) {
-                logd("use impu from imsi, impu=" + hiddenPrivacyInfo(impu2, 2));
-                return impu2;
-            }
-            loge("pick impu fail.");
-            return null;
         }
+        String impu = getSharedPreferences(IMPU_FROM_NETWORK_KEY[this.mSubId], context);
+        if (impu != null) {
+            logd("use impu from network, impu=" + hiddenPrivacyInfo(impu, 2));
+            return impu;
+        }
+        String impu2 = getSharedPreferences(IMPU_FROM_SIM_IMSI_KEY[this.mSubId], context);
+        if (impu2 != null) {
+            logd("use impu from imsi, impu=" + hiddenPrivacyInfo(impu2, 2));
+            return impu2;
+        }
+        loge("pick impu fail.");
+        return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getUtIMPI() {
         String sImpi;
         if (isConfigInProp(UT_IMPI_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_STRING)) {
             logd("use impi from prop, impi=" + hiddenPrivacyInfo(UT_IMPI, 2));
             return UT_IMPI;
-        } else if (!NULL_STRING_VALUE.equals(this.mUtIMPI)) {
+        }
+        if (!NULL_STRING_VALUE.equals(this.mUtIMPI)) {
             logd("use impi from xml, impi=" + hiddenPrivacyInfo(this.mUtIMPI, 2));
             return this.mUtIMPI;
-        } else if (NULL_STRING_VALUE.equals(this.mImpiDomain) && this.mImpiFromSim != null) {
+        }
+        if (NULL_STRING_VALUE.equals(this.mImpiDomain) && this.mImpiFromSim != null) {
             logd("impi from sim already exist, impi=" + hiddenPrivacyInfo(this.mImpiFromSim, 2));
             return this.mImpiFromSim;
-        } else if (this.mSpliceMncMcc != null && this.mCurrentIMSI != null) {
+        }
+        if (this.mSpliceMncMcc != null && this.mCurrentIMSI != null) {
             logd("begin to assemble impi from imsi, mSpliceMncMcc=" + this.mSpliceMncMcc);
             if (!NULL_STRING_VALUE.equals(this.mImpiDomain)) {
                 sImpi = this.mCurrentIMSI + "@" + this.mImpiDomain;
@@ -815,16 +861,17 @@ public class HwImsConfigImpl extends ImsConfigImpl {
             this.mImpiFromSim = sImpi;
             logd("after assemble, impi=" + hiddenPrivacyInfo(sImpi, 2));
             return sImpi;
-        } else {
-            loge("getImpiFromSIM error: Cannot splice sim MCC MNC or can't get imsi from sim.");
-            return null;
         }
+        loge("getImpiFromSIM error: Cannot splice sim MCC MNC or can't get imsi from sim.");
+        return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized String getDomainName() {
         return this.mDomainNameFromSim;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getUtRetryMaxCounts() {
         if (this.mUtRetryInterval == null) {
@@ -833,6 +880,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return this.mUtRetryInterval.length;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getUtRetryInterval(int index) {
         if (index < 0) {
@@ -849,11 +897,13 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return isMissedCallTipsInternal();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isMissedCallTipsInternal() {
         return this.mMissedCallTips;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isMissedCallDisplay() {
         return this.mMissedCallDisplay;
@@ -864,31 +914,37 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return this.mMissedCallTipsDelay;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getMissedCallTipsRingTimer() {
         return this.mMissedCallTipsRingTimer;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getMissedCallTipsDelayTimer() {
         return this.mMissedCallTipsDelayTimer;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isCheckServiceWhenIncomingCall() {
         return this.mCheckServiceWhenIncomingCall;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getIMSI() {
         return this.mCurrentIMSI;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setIMSI(String imsi) {
         this.mCurrentIMSI = imsi;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isIMPUConfigured() {
         if (!isConfigInProp(UT_IMPU_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_STRING)) {
@@ -899,35 +955,42 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setCurrentImsi(String imsi) {
         this.mCurrentIMSI = imsi;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setSpliceMncMcc(String spliceMncMcc) {
         this.mSpliceMncMcc = spliceMncMcc;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setImpiFromSIM(String impi) {
         this.mImpiFromSim = impi;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void setDomainNameFromSIM(String domainName) {
         this.mDomainNameFromSim = domainName;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setBsfAddrFromSIM(String bsfAddr) {
         this.mBsfAddrFromSim = bsfAddr;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setNafAddrFromSIM(String nsfAddr) {
         this.mXcapRootURIFromSim = nsfAddr;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String spliceMncMcc() {
         String spMncMcc;
@@ -950,6 +1013,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized String getSimOperator() {
         IccRecords r;
         int phoneId = ImsCallProviderUtils.getSubId(this.mSubId);
@@ -957,6 +1021,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return r != null ? r.getOperatorNumeric() : null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized String getIccId() {
         IccRecords r;
         int phoneId = ImsCallProviderUtils.getSubId(this.mSubId);
@@ -964,6 +1029,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return r != null ? r.getIccId() : null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getImpuFromSIM() {
         if (this.mSpliceMncMcc != null && this.mCurrentIMSI != null) {
@@ -979,76 +1045,88 @@ public class HwImsConfigImpl extends ImsConfigImpl {
     synchronized String getImpiFromSIM() {
         if (this.mImpiFromSim != null) {
             return this.mImpiFromSim;
-        } else if (this.mSpliceMncMcc != null && this.mCurrentIMSI != null) {
+        }
+        if (this.mSpliceMncMcc != null && this.mCurrentIMSI != null) {
             String sImpi = this.mCurrentIMSI + "@ims." + this.mSpliceMncMcc + ".3gppnetwork.org";
             this.mImpiFromSim = sImpi;
             logd("sImpi = " + hiddenPrivacyInfo(sImpi, 2));
             return sImpi;
-        } else {
-            loge("getImpiFromSIM error: Cannot splice sim MCC MNC or can't get imsi from sim.");
-            return null;
         }
+        loge("getImpiFromSIM error: Cannot splice sim MCC MNC or can't get imsi from sim.");
+        return null;
     }
 
     @Override // com.huawei.ims.ImsConfigImpl
     synchronized String getBsfAddrFromSIM() {
         if (this.mBsfAddrFromSim != null) {
             return this.mBsfAddrFromSim;
-        } else if (this.mSpliceMncMcc != null) {
+        }
+        if (this.mSpliceMncMcc != null) {
             String sBsf = "bsf." + this.mSpliceMncMcc + ".pub.3gppnetwork.org";
             this.mBsfAddrFromSim = sBsf;
             return sBsf;
-        } else {
-            loge("getBsfAddrFromSIM error: Cannot splice sim MCC MNC or can't get imsi from sim.");
-            return null;
         }
+        loge("getBsfAddrFromSIM error: Cannot splice sim MCC MNC or can't get imsi from sim.");
+        return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isHangUpWhenLostNet() {
         return this.mHangUpWhenLostNet;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized String[] getUtParamsCfg() {
         return this.mUtParamsCfg;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isUtBsfAuthBeUsed() {
         return this.mUtBsfAuthBeUsed;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getOIRSourceMode() {
         return this.mUtOIRSourceMode;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getOIRDefaultMode() {
         return this.mUtOIRDefaultMode;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getUtImsDataDelayEndTime() {
         return this.mUtImsDataDelayEndTime;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getDefUtImsDataDelayEndTime() {
         return this.mDefUtImsDataDelayEndTime;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean getUt409ShowPhrase() {
         return this.mUt409ShowPhrase;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isUtGbaLifetimeBeUsed() {
         return this.mUtGbaLifetimeBeUsed;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getUtVoWifiDelayEndTime() {
         return this.mUtVoWifiDelayEndTime;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isUtQueryDnsIgnoreNetId() {
         return this.mUtQueryDnsIgnoreNetId;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getSharedPreferences(String spKey, Context context) {
         logd("enter getSharedPreferences, spKey=" + spKey);
@@ -1066,6 +1144,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return valueInSp;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setSharedPreferences(String spKey, String spValue, Context context) {
         logd("enter setSharedPreferences, spKey=" + spKey);
@@ -1082,6 +1161,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         editor.apply();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean getBoolFromSP(String spKey, Context context, boolean defValue) {
         SharedPreferences sp;
@@ -1089,6 +1169,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return sp.getBoolean(spKey, defValue);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setBoolToSP(String spKey, boolean spValue, Context context) {
         SharedPreferences sp = SharePreferenceUtil.getDefaultSharedPreferencesDE(context);
@@ -1097,12 +1178,14 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         editor.apply();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getIntFromSP(String spKey, Context context, int defValue) {
         SharedPreferences sp;
         sp = SharePreferenceUtil.getDefaultSharedPreferencesDE(context);
         return sp.getInt(spKey, defValue);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void setIntToSP(String spKey, int spValue, Context context) {
         SharedPreferences sp = SharePreferenceUtil.getDefaultSharedPreferencesDE(context);
         SharedPreferences.Editor editor = sp.edit();
@@ -1110,6 +1193,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         editor.apply();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void readCarrierConfig(Context context) {
         if (FEATURE_VOLTE_DYN) {
             logd("readCarrierConfig begin");
@@ -1255,11 +1339,13 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         this.mUtPreferVowifiWhenVowifiReg = b.get(UT_PREFER_VOWIFI_WHEN_VOWIFI_REG_KEY) != null ? b.getBoolean(UT_PREFER_VOWIFI_WHEN_VOWIFI_REG_KEY) : this.mDefUtPreferVowifiWhenVowifiReg;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:181:0x0088, code lost:
-        if (r3 != null) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0088, code lost:
+    
+        if (r3 != null) goto L36;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:187:0x0094, code lost:
-        if (r3 == null) goto L32;
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x0094, code lost:
+    
+        if (r3 == null) goto L64;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1912,6 +1998,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return HiddenPrivacyInfo.putMosaic(info, type);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void logd(String s) {
         Rlog.d("HwImsConfigImpl[" + this.mSubId + "]", s);
     }
@@ -1979,6 +2066,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void bindMapconService() {
         if (IS_VOWIFI_PROP_ON) {
             ServiceConnection mConnection = new ServiceConnection() { // from class: com.huawei.ims.HwImsConfigImpl.2
@@ -2143,10 +2231,12 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         editor.apply();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isVolteLowbatteryEndcall() {
         return this.mVolteLowbatteryEndcall;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean getIsEmergencyUnderWifi() {
         return this.mIsEmergencyUnderWifi;
     }

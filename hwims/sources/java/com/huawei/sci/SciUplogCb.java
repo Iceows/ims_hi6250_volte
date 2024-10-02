@@ -1,16 +1,16 @@
 package com.huawei.sci;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class SciUplogCb {
     static Callback mCallback = null;
     static AnalysisLogCallback mAnalysisCallback = null;
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public interface AnalysisLogCallback {
         void sciUplogCbPrintStatic(String str, String str2, String str3, String str4, boolean z);
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public interface Callback {
         void sciUplogCbLogErrorCode(String str, String str2, String str3);
 

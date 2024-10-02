@@ -9,7 +9,7 @@ import android.view.SurfaceView;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ViERenderer {
     private static final int MAXNUM = 16;
     private static final String TAG = "hme-video";
@@ -48,7 +48,8 @@ public class ViERenderer {
             if (g_remoteRender[i] == null) {
                 g_remoteRender[i] = surfaceView;
                 return i;
-            } else if (g_remoteRender[i] == surfaceView) {
+            }
+            if (g_remoteRender[i] == surfaceView) {
                 return i;
             }
         }
@@ -168,7 +169,7 @@ public class ViERenderer {
         return false;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     static class ListenThread extends Thread {
         Context icontext;
         boolean isFrontlast = false;

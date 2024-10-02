@@ -5,7 +5,7 @@ import android.os.SystemProperties;
 import android.telephony.Rlog;
 import com.android.ims.HwImsManager;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class VTUtils {
     private static final String TAG = "VTUtils";
     private static final String HW_VTLTE_ON = "ro.config.hw_vtlte_on";
@@ -49,11 +49,7 @@ public class VTUtils {
             Rlog.e(TAG, "isImsSwitchOn : context is null, return false.");
             return false;
         }
-        boolean z = false;
-        if (HwImsManager.isEnhanced4gLteModeSettingEnabledByUser(context, 0) || HwImsManager.isEnhanced4gLteModeSettingEnabledByUser(context, 1)) {
-            z = true;
-        }
-        boolean result = z;
+        boolean result = HwImsManager.isEnhanced4gLteModeSettingEnabledByUser(context, 0) || HwImsManager.isEnhanced4gLteModeSettingEnabledByUser(context, 1);
         Rlog.d(TAG, "isImsSwitchOn: result = " + result);
         return result;
     }

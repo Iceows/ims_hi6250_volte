@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class EglSurfaceBase {
     protected static final String TAG = "hme_engine_java_EglSurfaceBase";
     protected EglCore mEglCore;
@@ -20,6 +20,7 @@ public class EglSurfaceBase {
     private int mWidth = -1;
     private int mHeight = -1;
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public EglSurfaceBase(EglCore eglCore) {
         this.mEglCore = eglCore;
     }

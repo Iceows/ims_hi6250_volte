@@ -1,6 +1,6 @@
 package com.huawei.sci;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class SciProvisionCb {
     public static final int PROV_OP_AUTH_FAILED = 213;
     public static final int PROV_OP_FAILED_RESET_PWD = 210;
@@ -42,7 +42,7 @@ public class SciProvisionCb {
     public static final int PROV_OP_TYPE_RESETPWD = 1;
     static Callback mCallback;
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public interface Callback {
         void sciProvCbPostProvisionResult(int i, int i2, String str);
     }

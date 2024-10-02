@@ -5,7 +5,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class SciSys {
     public static final int EVENT_WHAT = 0;
     public static final String LOG_DIR = "hrslog";
@@ -105,7 +105,7 @@ public class SciSys {
     private static String mLibPathX = null;
     private static boolean mExistLibInLibPath = false;
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class SYS_TIME {
         public int iTimeZone;
         public byte ucDay;
@@ -125,6 +125,7 @@ public class SciSys {
 
     private static native int driveSci(long j);
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static native int driveSdk(long j);
 
     public static native String encryptData(String str);
@@ -163,8 +164,10 @@ public class SciSys {
 
     public static native int transferTime2SysTime(long j, SYS_TIME[] sys_timeArr);
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static native void zpandModDriveMsg();
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static native void zpandTimerActive();
 
     public static void setLibPath(String libPath) {
@@ -192,13 +195,17 @@ public class SciSys {
         SciLog.d(TAG, "mExistLibInLibPath:" + mExistLibInLibPath + " mLibPath:" + mLibPath + " libName" + libName);
         if (Build.CPU_ABI.contains("arm64-v8a")) {
             System.loadLibrary(libName);
-        } else if (mExistLibInLibPath) {
-            System.load(mLibPathX + "/lib" + libName + ".so");
-        } else if (mLibPath != null) {
-            System.load(mLibPath + "/lib" + libName + ".so");
-        } else {
-            System.loadLibrary(libName);
+            return;
         }
+        if (mExistLibInLibPath) {
+            System.load(mLibPathX + "/lib" + libName + ".so");
+            return;
+        }
+        if (mLibPath != null) {
+            System.load(mLibPath + "/lib" + libName + ".so");
+            return;
+        }
+        System.loadLibrary(libName);
     }
 
     public static int init(Context ctx, String pcCurVersion, SciLogCfg logCfg, long dwCompMask) {
@@ -245,16 +252,12 @@ public class SciSys {
         bInitFlag = false;
     }
 
-    public static int cliCbEvnt(long zEvntId) {
-        Message msg = mSdkHandler.obtainMessage(0, Long.valueOf(zEvntId));
-        boolean ret = mSdkHandler.sendMessage(msg);
-        return !ret;
+    public static int cliCbEvnt(long j) {
+        return !mSdkHandler.sendMessage(mSdkHandler.obtainMessage(0, Long.valueOf(j))) ? 1 : 0;
     }
 
-    public static int sysCbEvnt(long zEvntId) {
-        Message msg = mSciHandler.obtainMessage(0, Long.valueOf(zEvntId));
-        boolean ret = mSciHandler.sendMessage(msg);
-        return !ret;
+    public static int sysCbEvnt(long j) {
+        return !mSciHandler.sendMessage(mSciHandler.obtainMessage(0, Long.valueOf(j))) ? 1 : 0;
     }
 
     public static void sysCbEvntX(long zEvntId) {

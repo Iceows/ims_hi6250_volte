@@ -7,8 +7,9 @@ import android.os.WorkSource;
 import android.telephony.Rlog;
 import com.android.internal.telephony.CommandException;
 
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: ImsRIL.java */
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsRILRequest {
     static final String LOG_TAG = "RILJ_IMS";
     private static final int MAX_POOL_SIZE = 4;
@@ -26,6 +27,7 @@ public class ImsRILRequest {
     private static ImsRILRequest sPool = null;
     private static int sPoolSize = 0;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ImsRILRequest obtain(int request, Message result) {
         ImsRILRequest rr = null;
         synchronized (sPoolSync) {
@@ -58,6 +60,7 @@ public class ImsRILRequest {
         return rr2;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ImsRILRequest obtain(int request, Message result, WorkSource workSource) {
         ImsRILRequest rr = obtain(request, result);
         if (workSource != null) {
@@ -69,6 +72,7 @@ public class ImsRILRequest {
         return rr;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void release() {
         synchronized (sPoolSync) {
             if (sPoolSize < 4) {
@@ -83,12 +87,14 @@ public class ImsRILRequest {
     private ImsRILRequest() {
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void resetSerial() {
         synchronized (sSerialMonitor) {
             sNextSerial = 0;
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public String serialString() {
         StringBuilder sb = new StringBuilder(8);
         String sn = Integer.toString(this.mSerial);
@@ -102,6 +108,7 @@ public class ImsRILRequest {
         return sb.toString();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public void onError(int error, Object ret) {
         CommandException ex = CommandException.fromRilErrno(error);
         Rlog.d(LOG_TAG, serialString() + "< " + ImsRIL.requestToString(this.mRequest) + " error: " + ex);

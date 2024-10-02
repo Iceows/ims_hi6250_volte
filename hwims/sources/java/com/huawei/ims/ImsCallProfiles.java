@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Map;
 import vendor.huawei.hardware.radio.ims.V1_0.RILImsCallDetails;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsCallProfiles {
     public static final int CALL_DOMAIN_AUTOMATIC = 3;
     public static final int CALL_DOMAIN_CS = 1;
@@ -200,11 +200,6 @@ public class ImsCallProfiles {
     }
 
     public String toString() {
-        ImsServiceState[] imsServiceStateArr;
-        ImsServiceState.StatusForAccessTech[] statusForAccessTechArr;
-        ImsServiceState[] imsServiceStateArr2;
-        ImsServiceState.StatusForAccessTech[] statusForAccessTechArr2;
-        String[] strArr;
         String extrasResult = HwImsConfigImpl.NULL_STRING_VALUE;
         String localSrvAbility = HwImsConfigImpl.NULL_STRING_VALUE;
         String peerSrvAbility = HwImsConfigImpl.NULL_STRING_VALUE;

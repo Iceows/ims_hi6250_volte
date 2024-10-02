@@ -9,7 +9,7 @@ import android.telephony.ims.ImsSsData;
 import android.telephony.ims.ImsSsInfo;
 import android.telephony.ims.ImsUtListener;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsUtListenerProxy {
     private static final String LOG_TAG = "ImsUtListenerProxy";
     public ImsUtListener mListener;
@@ -18,10 +18,6 @@ public class ImsUtListenerProxy {
         checkAccessPermission();
         if (this.mListener != null) {
             Runnable r = new Runnable() { // from class: com.huawei.ims.ImsUtListenerProxy.1
-                {
-                    ImsUtListenerProxy.this = this;
-                }
-
                 @Override // java.lang.Runnable
                 public void run() {
                     try {
@@ -39,10 +35,6 @@ public class ImsUtListenerProxy {
         checkAccessPermission();
         if (this.mListener != null) {
             Runnable r = new Runnable() { // from class: com.huawei.ims.ImsUtListenerProxy.2
-                {
-                    ImsUtListenerProxy.this = this;
-                }
-
                 @Override // java.lang.Runnable
                 public void run() {
                     try {
@@ -60,10 +52,6 @@ public class ImsUtListenerProxy {
         checkAccessPermission();
         if (this.mListener != null) {
             Runnable r = new Runnable() { // from class: com.huawei.ims.ImsUtListenerProxy.3
-                {
-                    ImsUtListenerProxy.this = this;
-                }
-
                 @Override // java.lang.Runnable
                 public void run() {
                     try {
@@ -81,10 +69,6 @@ public class ImsUtListenerProxy {
         checkAccessPermission();
         if (this.mListener != null) {
             Runnable r = new Runnable() { // from class: com.huawei.ims.ImsUtListenerProxy.4
-                {
-                    ImsUtListenerProxy.this = this;
-                }
-
                 @Override // java.lang.Runnable
                 public void run() {
                     try {
@@ -102,10 +86,6 @@ public class ImsUtListenerProxy {
         checkAccessPermission();
         if (this.mListener != null) {
             Runnable r = new Runnable() { // from class: com.huawei.ims.ImsUtListenerProxy.5
-                {
-                    ImsUtListenerProxy.this = this;
-                }
-
                 @Override // java.lang.Runnable
                 public void run() {
                     try {
@@ -123,10 +103,6 @@ public class ImsUtListenerProxy {
         checkAccessPermission();
         if (this.mListener != null) {
             Runnable r = new Runnable() { // from class: com.huawei.ims.ImsUtListenerProxy.6
-                {
-                    ImsUtListenerProxy.this = this;
-                }
-
                 @Override // java.lang.Runnable
                 public void run() {
                     try {
@@ -144,10 +120,6 @@ public class ImsUtListenerProxy {
         checkAccessPermission();
         if (this.mListener != null) {
             Runnable r = new Runnable() { // from class: com.huawei.ims.ImsUtListenerProxy.7
-                {
-                    ImsUtListenerProxy.this = this;
-                }
-
                 @Override // java.lang.Runnable
                 public void run() {
                     try {
@@ -165,10 +137,6 @@ public class ImsUtListenerProxy {
         checkAccessPermission();
         if (this.mListener != null) {
             Runnable r = new Runnable() { // from class: com.huawei.ims.ImsUtListenerProxy.8
-                {
-                    ImsUtListenerProxy.this = this;
-                }
-
                 @Override // java.lang.Runnable
                 public void run() {
                     try {
@@ -187,6 +155,7 @@ public class ImsUtListenerProxy {
         t.start();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleError(Throwable t, String message) {
         Rlog.e(LOG_TAG, t + " " + message);
     }
@@ -194,8 +163,8 @@ public class ImsUtListenerProxy {
     private static void checkAccessPermission() {
         int callingUid = Binder.getCallingUid();
         if (callingUid == 1001 || callingUid == 1000) {
-            return;
+        } else {
+            throw new SecurityException("Only Phone is able to call this API");
         }
-        throw new SecurityException("Only Phone is able to call this API");
     }
 }

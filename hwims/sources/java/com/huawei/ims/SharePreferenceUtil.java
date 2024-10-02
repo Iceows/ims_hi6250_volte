@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class SharePreferenceUtil {
     public static SharedPreferences getDefaultSharedPreferencesDE(Context context) {
         if (context == null) {

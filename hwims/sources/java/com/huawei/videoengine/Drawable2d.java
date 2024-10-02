@@ -3,7 +3,7 @@ package com.huawei.videoengine;
 import android.util.Log;
 import java.nio.FloatBuffer;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class Drawable2d {
     private static final int SIZEOF_FLOAT = 4;
     private static final String TAG = "hme_engine_java";
@@ -27,7 +27,7 @@ public class Drawable2d {
     private static final FloatBuffer FULL_RECTANGLE_BUF = GlUtil.createFloatBuffer(FULL_RECTANGLE_COORDS);
     private static final FloatBuffer FULL_RECTANGLE_TEX_BUF = GlUtil.createFloatBuffer(FULL_RECTANGLE_TEX_COORDS);
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum Prefab {
         TRIANGLE,
         RECTANGLE,

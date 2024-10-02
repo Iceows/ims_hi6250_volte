@@ -7,7 +7,7 @@ import android.telephony.Rlog;
 import com.huawei.ims.DriverImsCall;
 import java.util.Map;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsCallAdapter {
     static final int EVENT_AVP_UPGRADE_DONE = 5;
     static final int EVENT_MODIFY_CALL_CONFIRM_DONE = 8;
@@ -31,7 +31,8 @@ public class ImsCallAdapter {
     private PauseState mPendingVTMultitask = PauseState.NONE;
     private boolean mIsLocallyPaused = false;
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum PauseState {
         NONE,
         PAUSE,
@@ -68,6 +69,7 @@ public class ImsCallAdapter {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void createAndSendMultiTaskRequest(int rilCallType) {
         this.mHandler.removeMessages(9);
         Message message = this.mHandler.obtainMessage(7);
@@ -187,6 +189,7 @@ public class ImsCallAdapter {
         return ret;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void processPendingVTMultitask() {
         log("processPendingVTMultitask mPendingVTMultitask=" + this.mPendingVTMultitask);
         if (isOldAndNewPauseRequestSame()) {
@@ -196,9 +199,9 @@ public class ImsCallAdapter {
             if (this.callModifyRequest == null) {
                 createAndSendMultiTaskRequest(pendingPauseStatetoRilCallType());
                 this.mPendingVTMultitask = PauseState.NONE;
-                return;
+            } else {
+                loge("processPendingVTMultitask callModifyRequest not null");
             }
-            loge("processPendingVTMultitask callModifyRequest not null");
         }
     }
 
@@ -298,7 +301,9 @@ public class ImsCallAdapter {
         log("modifyCallUpgradeCancel,newCallType=" + newCallType);
         if (!ImsCallProviderUtils.isValidRilModifyCallType(newCallType)) {
             loge("modifyCallUpgradeCancel not a Valid RilCallType" + newCallType);
-        } else if (this.mCi != null) {
+            return;
+        }
+        if (this.mCi != null) {
             this.mCi.modifyCallUpgradeCancel(newMsg, this.mIndex);
         }
     }
@@ -307,11 +312,11 @@ public class ImsCallAdapter {
         if (this.callModifyRequest == null) {
             loge("callModifyRequest is null");
             return false;
-        } else if (!ImsCallProviderUtils.isVTUpgradeCallType(this.mHwImsCallSessionImpl.getInternalCallType(), this.callModifyRequest.dest_call_details.call_type, callType) && callType != this.callModifyRequest.dest_call_details.call_type) {
-            return false;
-        } else {
-            return true;
         }
+        if (!ImsCallProviderUtils.isVTUpgradeCallType(this.mHwImsCallSessionImpl.getInternalCallType(), this.callModifyRequest.dest_call_details.call_type, callType) && callType != this.callModifyRequest.dest_call_details.call_type) {
+            return false;
+        }
+        return true;
     }
 
     public void acceptConnectionTypeChange(int callType, Map<String, String> newExtras) {
@@ -319,7 +324,9 @@ public class ImsCallAdapter {
         if (!isValidCallModifyConfirmRequest(callType)) {
             loge("acceptConnectionTypeChange: MODIFY_CALL_CONFIRM called with invalid calltype " + callType);
             rejectConnectionTypeChange();
-        } else if (this.callModifyRequest != null) {
+            return;
+        }
+        if (this.callModifyRequest != null) {
             this.callModifyRequest.dest_call_details.call_type = callType;
             if (newExtras != null) {
                 this.callModifyRequest.dest_call_details.setExtrasFromMap(newExtras);
@@ -340,10 +347,9 @@ public class ImsCallAdapter {
         this.callModifyRequest = null;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
-    public class ImsCallAdapterHandler extends Handler {
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
+    class ImsCallAdapterHandler extends Handler {
         ImsCallAdapterHandler() {
-            ImsCallAdapter.this = this$0;
         }
 
         @Override // android.os.Handler
@@ -393,7 +399,9 @@ public class ImsCallAdapter {
                 ImsCallAdapter.this.clearPendingModify();
                 clearMultiTaskRetryCount();
                 ImsCallAdapter.this.processPendingVTMultitask();
-            } else if (ImsCallAdapter.this.mMultiTaskRetryCount <= 1) {
+                return;
+            }
+            if (ImsCallAdapter.this.mMultiTaskRetryCount <= 1) {
                 ImsCallAdapter.this.loge("Error during video pause so retry");
                 ImsCallAdapter.this.mHandler.sendMessageDelayed(ImsCallAdapter.this.mHandler.obtainMessage(9), 3000L);
                 ImsCallAdapter.access$408(ImsCallAdapter.this);
@@ -406,8 +414,7 @@ public class ImsCallAdapter {
         }
 
         private void onVideoPauseRetry() {
-            ImsCallAdapter imsCallAdapter = ImsCallAdapter.this;
-            imsCallAdapter.log("EVENT_VIDEO_PAUSE_RETRY received mMultiTaskRetryCount=" + ImsCallAdapter.this.mMultiTaskRetryCount);
+            ImsCallAdapter.this.log("EVENT_VIDEO_PAUSE_RETRY received mMultiTaskRetryCount=" + ImsCallAdapter.this.mMultiTaskRetryCount);
             if (ImsCallAdapter.this.mPendingVTMultitask == PauseState.NONE) {
                 ImsCallAdapter.this.createAndSendMultiTaskRequest(ImsCallAdapter.this.callModifyRequest.dest_call_details.call_type);
                 return;
@@ -434,8 +441,7 @@ public class ImsCallAdapter {
         }
 
         private int clearMultiTaskRetryCount() {
-            ImsCallAdapter imsCallAdapter = ImsCallAdapter.this;
-            imsCallAdapter.log("Clearing MultiTaskRetryCount from " + ImsCallAdapter.this.mMultiTaskRetryCount + " to 0");
+            ImsCallAdapter.this.log("Clearing MultiTaskRetryCount from " + ImsCallAdapter.this.mMultiTaskRetryCount + " to 0");
             return ImsCallAdapter.this.mMultiTaskRetryCount = 0;
         }
 
@@ -468,15 +474,17 @@ public class ImsCallAdapter {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void log(String msg) {
         Rlog.d(LOG_TAG, HwImsConfigImpl.NULL_STRING_VALUE + msg);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void loge(String msg) {
         Rlog.e(LOG_TAG, HwImsConfigImpl.NULL_STRING_VALUE + msg);
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class CallModify {
         public static final int E_CANCELLED = 7;
         public static final int E_SUCCESS = 0;

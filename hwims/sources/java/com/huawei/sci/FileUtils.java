@@ -15,7 +15,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class FileUtils {
     private static FileUtils fileUtil = null;
     public static final String mZipPath = "/mnt/sdcard/log.zip";
@@ -190,25 +190,10 @@ public class FileUtils {
                             }
                         }
                     }
-                } catch (Throwable th) {
-                    if (0 != 0) {
-                        try {
-                            out.close();
-                        } catch (IOException e9) {
-                            SciLog.e("FileUtils:", "output file close exception:" + e9.getMessage());
-                        }
-                    }
-                    if (0 != 0) {
-                        try {
-                            in.close();
-                        } catch (IOException e10) {
-                            SciLog.e("FileUtils:", "input file close exception:" + e10.getMessage());
-                        }
-                    }
-                    throw th;
+                } finally {
                 }
             }
-        } catch (IOException e11) {
+        } catch (IOException e9) {
         }
     }
 
@@ -280,21 +265,21 @@ public class FileUtils {
         if (mcontext == null) {
             SciLog.e("FileUtils", "null == mcontext");
             return null;
-        } else if (mcontext.getFilesDir() == null) {
+        }
+        if (mcontext.getFilesDir() == null) {
             SciLog.e("FileUtils", "null == mcontext.getFilesDir()");
             return null;
-        } else {
-            String fileDir = mcontext.getFilesDir().getAbsolutePath();
-            if (fileDir == null) {
-                SciLog.e("FileUtils", "getgetAppPath null == fileDir");
-                return null;
-            }
-            SciLog.d("FileUtils", "getgetAppPath fileDir = " + fileDir);
-            if (fileDir.lastIndexOf("/") > 0) {
-                return fileDir.substring(0, fileDir.lastIndexOf("/"));
-            }
-            return fileDir;
         }
+        String fileDir = mcontext.getFilesDir().getAbsolutePath();
+        if (fileDir == null) {
+            SciLog.e("FileUtils", "getgetAppPath null == fileDir");
+            return null;
+        }
+        SciLog.d("FileUtils", "getgetAppPath fileDir = " + fileDir);
+        if (fileDir.lastIndexOf("/") > 0) {
+            return fileDir.substring(0, fileDir.lastIndexOf("/"));
+        }
+        return fileDir;
     }
 
     public static List<String> getLoginedUserList(Context mcontext) {

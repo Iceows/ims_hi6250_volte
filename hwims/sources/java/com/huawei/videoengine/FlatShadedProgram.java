@@ -5,7 +5,7 @@ import android.util.Log;
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class FlatShadedProgram {
     private static final String FRAGMENT_SHADER = "precision mediump float;uniform vec4 uColor;void main() {    gl_FragColor = uColor;}";
     private static final String TAG = "hme_engine_java_OpenGL";

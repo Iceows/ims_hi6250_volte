@@ -12,7 +12,7 @@ import com.huawei.ims.feature.HwMMTelFeature;
 import com.huawei.ims.vt.ImsVTGlobals;
 import com.huawei.ims.vt.VTUtils;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class HwImsService extends ImsService {
     private static final int DUAL_IMS_MAX_SUBSCRIPTIONS = 2;
     private static final boolean HW_VOLTE_ON = SystemProperties.getBoolean("ro.config.hw_volte_on", false);
@@ -61,12 +61,12 @@ public class HwImsService extends ImsService {
         if (!HW_VOLTE_ON) {
             Rlog.i(LOG_TAG, "onBind: not support VoLTE, renturn null");
             return null;
-        } else if ("android.telephony.ims.ImsService".equals(intent.getAction())) {
-            Rlog.i(LOG_TAG, "HwImsService Bound.");
-            return this.mImsServiceController;
-        } else {
+        }
+        if (!"android.telephony.ims.ImsService".equals(intent.getAction())) {
             return null;
         }
+        Rlog.i(LOG_TAG, "HwImsService Bound.");
+        return this.mImsServiceController;
     }
 
     /* JADX WARN: Multi-variable type inference failed */

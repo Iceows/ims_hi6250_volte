@@ -22,7 +22,7 @@ import com.huawei.ims.ImsCallProviderUtils;
 import com.huawei.ims.ImsServiceCallTracker;
 import com.huawei.telephony.HuaweiTelephonyManager;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class HwMMTelFeature extends MmTelFeature {
     private static final int EVENT_SIM_STATE_CHANGED = 2;
     private static final int LAST_CALL_TYPE_UNKNOWN = -1;
@@ -35,10 +35,9 @@ public class HwMMTelFeature extends MmTelFeature {
     private InCallListener incomingListener = new InCallListener();
     private CapabilitiesStatusListener featureCapabilitesChangedListener = new CapabilitiesStatusListener();
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public class InCallListener implements ImsServiceCallTracker.InComingListener {
         public InCallListener() {
-            HwMMTelFeature.this = this$0;
         }
 
         @Override // com.huawei.ims.ImsServiceCallTracker.InComingListener
@@ -56,10 +55,9 @@ public class HwMMTelFeature extends MmTelFeature {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
-    public class CapabilitiesStatusListener implements ImsServiceCallTracker.FeatureCapatilityListener {
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
+    private class CapabilitiesStatusListener implements ImsServiceCallTracker.FeatureCapatilityListener {
         private CapabilitiesStatusListener() {
-            HwMMTelFeature.this = r1;
         }
 
         @Override // com.huawei.ims.ImsServiceCallTracker.FeatureCapatilityListener
@@ -103,9 +101,9 @@ public class HwMMTelFeature extends MmTelFeature {
         if (msg.what == 2) {
             logd("Received event: EVENT_SIM_STATE_CHANGED");
             handleSimStateChanged(msg);
-            return;
+        } else {
+            logd("Unknown msg!");
         }
-        logd("Unknown msg!");
     }
 
     private void initSubscriptionStatus() {
@@ -164,10 +162,10 @@ public class HwMMTelFeature extends MmTelFeature {
     public void setUiTtyMode(int uiTtyMode, Message onComplete) {
         if (this.mHwImsServiceImpl == null) {
             loge("SetUiTTYMode:: mHwImsServiceImpl is null.");
-            return;
+        } else {
+            logd("setUiTTYMode");
+            this.mHwImsServiceImpl.setUiTTYMode(0, uiTtyMode, onComplete);
         }
-        logd("setUiTTYMode");
-        this.mHwImsServiceImpl.setUiTTYMode(0, uiTtyMode, onComplete);
     }
 
     public void changeEnabledCapabilities(CapabilityChangeRequest request, ImsFeature.CapabilityCallbackProxy c) {
@@ -210,12 +208,12 @@ public class HwMMTelFeature extends MmTelFeature {
         if (this.mHwImsServiceImpl == null) {
             loge("GetLastCallType:: mHwImsServiceImpl is null.");
             return -1;
-        } else if (slotId != this.mSubId) {
+        }
+        if (slotId != this.mSubId) {
             logd("getLastCallType:: slotId does not equal to mSubId.");
             return -1;
-        } else {
-            return this.mHwImsServiceImpl.getLastCallType();
         }
+        return this.mHwImsServiceImpl.getLastCallType();
     }
 
     private void logd(String s) {

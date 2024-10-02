@@ -12,7 +12,7 @@ import com.huawei.ims.HwImsConfigImpl;
 import com.huawei.sci.SciSys;
 import java.io.File;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsThinClient {
     public static final String CAAS_EVENT_PARAM_READY = "com.huawei.caas.vtproxy.thinclient.PARAM_READY";
     public static final String CAAS_EVENT_PEER_RESOLUTION_CHANGE = "com.huawei.caas.vtproxy.thinclient.PEER_RESOLUTION_CHANGE";
@@ -56,12 +56,12 @@ public class ImsThinClient {
         }
     };
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public interface ChrHmeCallBack {
         void chrHmeCbGetErrReport(int[] iArr);
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public interface GetResCallBack {
         void getCurrentDynamicRes(int i, int i2);
     }
@@ -104,8 +104,10 @@ public class ImsThinClient {
 
     private static native int stopRmtVideo();
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static native void zpandModDriveMsg();
 
+    /* JADX INFO: Access modifiers changed from: private */
     public static native void zpandTimerActive();
 
     public static int zpandModPostDrv() {
@@ -368,10 +370,10 @@ public class ImsThinClient {
     private static void imsSetLocalAddrCb(String strIP) {
         if (strIP == null) {
             Log.e("VTPROXY", "######JniVsImsSetLocalAddrCb: Input is NULL########");
-            return;
+        } else {
+            Log.d("VTPROXY", "########JniVsImsSetLocalAddrCb");
+            SystemProperties.set("net.lte.vt.local_ip", strIP);
         }
-        Log.d("VTPROXY", "########JniVsImsSetLocalAddrCb");
-        SystemProperties.set("net.lte.vt.local_ip", strIP);
     }
 
     private static String imsGetLocalAddrCb() {
@@ -396,6 +398,7 @@ public class ImsThinClient {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean deleteHmeLogPath(File filePath) {
         try {
             if (!filePath.exists()) {
@@ -429,6 +432,7 @@ public class ImsThinClient {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static void setHmeLog(boolean isWrite) {
         enableHmeLog(isWrite);
     }

@@ -9,7 +9,7 @@ import com.android.ims.HwImsManager;
 import com.huawei.ims.DriverImsCall;
 import com.huawei.internal.telephony.HwCustRILConstants;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsCallProviderUtils {
     public static final int BUSY_REJECT_CAUSE = 0;
     public static final int IMS_DOMAIN_LTE = 0;
@@ -144,8 +144,7 @@ public class ImsCallProviderUtils {
             case 7:
                 return 4;
             default:
-                String str = TAG;
-                Rlog.e(str, "convertToInternalCallType invalid calltype " + imsCallProfileCallType);
+                Rlog.e(TAG, "convertToInternalCallType invalid calltype " + imsCallProfileCallType);
                 return 10;
         }
     }
@@ -236,14 +235,13 @@ public class ImsCallProviderUtils {
     public static int getSubId(int currentSubId) {
         int subId = HwTelephonyManager.getDefault().getDefault4GSlotId();
         if (!isValidSubId(currentSubId)) {
-            String str = TAG;
-            Rlog.e(str, "getSubId: invalid subId, subId = " + currentSubId);
-            return subId;
-        } else if (IS_DUAL_IMS_AVAILABLE) {
-            return currentSubId;
-        } else {
+            Rlog.e(TAG, "getSubId: invalid subId, subId = " + currentSubId);
             return subId;
         }
+        if (IS_DUAL_IMS_AVAILABLE) {
+            return currentSubId;
+        }
+        return subId;
     }
 
     public static boolean isValidSubId(int subId) {

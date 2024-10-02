@@ -1,6 +1,6 @@
 package com.huawei.sci;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class CrsNty {
     public static final int EN_CRS_PARM_RECONFIG_PARA_REASON = 101;
     public static final int EN_CRS_PARM_RECONFIG_REASON_CONF_RECONFIG_CONFIRM_ACK = 37;

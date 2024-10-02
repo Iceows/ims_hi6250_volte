@@ -3,7 +3,7 @@ package com.huawei.ims.vt;
 import android.telephony.Rlog;
 import android.view.Surface;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsMediaProvider {
     private static final int NO_MEDIA_ID = -1;
     private static final String TAG = "ImsMediaProvider";
@@ -12,7 +12,7 @@ public class ImsMediaProvider {
     private CameraListener mCameraListener;
     private IMediaListener mMediaListener;
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public interface CameraListener {
         void onCameraConfigChanged(int i, int i2, short s, Surface surface);
 
@@ -23,7 +23,7 @@ public class ImsMediaProvider {
         void onRecordingEnabled();
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public interface IMediaListener {
         void onDataUsageChanged(int i, int i2, long j, long j2);
 

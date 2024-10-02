@@ -3,7 +3,7 @@ package com.huawei.sci;
 import android.util.Log;
 import com.huawei.ims.HwImsConfigImpl;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public abstract class SciSSConfAuth {
     private static final int AKA_ALGORITHM_SUCCESS = 0;
     private static final int AKA_ALGORITHM_SYNC_FAILURE = 1;
@@ -26,29 +26,31 @@ public abstract class SciSSConfAuth {
         Log.i("SciSSConfAuth", "callBack enter.");
         if (callBackData == null) {
             Log.e("SciSSConfAuth", "callBackData is null.");
-        } else if (!(callBackData.getAsyncSign() instanceof Integer)) {
+            return;
+        }
+        if (!(callBackData.getAsyncSign() instanceof Integer)) {
             Log.e("SciSSConfAuth", "callBackData the asyncSign is error.");
-        } else {
-            int gbaType = SciSSConfAuthInfo.getInstance().getGbaType();
-            byte[] naf_id = SciSSConfAuthInfo.getInstance().getNaf_id();
-            switch (((Integer) callBackData.getAsyncSign()).intValue()) {
-                case 1:
-                    isSuccess = procAkaResult(callBackData);
-                    break;
-                case 2:
-                    isSuccess = SciSSConfCb.sciTriggerGBAKsNAF(gbaType, naf_id);
-                    break;
-                case 3:
-                    isSuccess = SciSSConfCb.sciGetKsNaf(gbaType, naf_id, 1);
-                    break;
-                default:
-                    Log.e("SciSSConfAuth", "callBackData the asyncSign is error.");
-                    return;
-            }
-            if (!isSuccess) {
-                Log.e("SciSSConfAuth", "continueSSConfService with failed.");
-                SciSSConf.continueSSConfService(0, 0, 1, HwImsConfigImpl.NULL_STRING_VALUE, new byte[0]);
-            }
+            return;
+        }
+        int gbaType = SciSSConfAuthInfo.getInstance().getGbaType();
+        byte[] naf_id = SciSSConfAuthInfo.getInstance().getNaf_id();
+        switch (((Integer) callBackData.getAsyncSign()).intValue()) {
+            case 1:
+                isSuccess = procAkaResult(callBackData);
+                break;
+            case 2:
+                isSuccess = SciSSConfCb.sciTriggerGBAKsNAF(gbaType, naf_id);
+                break;
+            case 3:
+                isSuccess = SciSSConfCb.sciGetKsNaf(gbaType, naf_id, 1);
+                break;
+            default:
+                Log.e("SciSSConfAuth", "callBackData the asyncSign is error.");
+                return;
+        }
+        if (!isSuccess) {
+            Log.e("SciSSConfAuth", "continueSSConfService with failed.");
+            SciSSConf.continueSSConfService(0, 0, 1, HwImsConfigImpl.NULL_STRING_VALUE, new byte[0]);
         }
     }
 
@@ -82,7 +84,7 @@ public abstract class SciSSConfAuth {
         return SciSSConf.continueConfWithAuth(0, 0, iResult, res, auts) == 0;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class AkaAuthParams {
         private byte[] auth;
         private byte[] rand;
@@ -104,7 +106,7 @@ public abstract class SciSSConfAuth {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class AkaResult {
         private byte[] akaData;
         private int status;
@@ -126,7 +128,7 @@ public abstract class SciSSConfAuth {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class GbaBpParams {
         private String btid;
         private String lifeTime;
@@ -157,7 +159,7 @@ public abstract class SciSSConfAuth {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class GbaResult {
         private String btid = null;
         private byte[] ksnaf;
@@ -188,7 +190,7 @@ public abstract class SciSSConfAuth {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class CallBackData {
         private Object asyncSign;
         private Object resultData;

@@ -7,7 +7,7 @@ import android.view.SurfaceView;
 import java.io.File;
 import vendor.huawei.hardware.radio.ims.V1_0.LastCallFailCause;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsCameraClient {
     public static final int CAAS_CAMERA_ID_BACK = 0;
     public static final int CAAS_CAMERA_ID_FRONT = 1;
@@ -34,7 +34,7 @@ public class ImsCameraClient {
     private static ChrVtCallBack chrVtCallBack = null;
     private static String hmeLogPath = "/storage/emulated/0/Android/data/com.huawei.ims/files";
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public interface ChrVtCallBack {
         void chrVtCbGetErrReport(int[] iArr, String[] strArr);
     }

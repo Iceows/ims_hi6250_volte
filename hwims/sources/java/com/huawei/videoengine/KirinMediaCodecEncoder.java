@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.concurrent.locks.ReentrantLock;
 import vendor.huawei.hardware.radio.ims.V1_0.LastCallFailCause;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class KirinMediaCodecEncoder {
     private static final String TAG = "hme_engine_KMC";
     private static final String VENDOR_KEY_CAPTURESTATUS = "vendor.hisi.CaptureStatus";
@@ -79,13 +79,15 @@ public class KirinMediaCodecEncoder {
     private ByteBuffer streamBuffer;
     private ByteBuffer yuvBuffer;
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum EncType {
         eH264,
         eH265
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum MCType {
         eData,
         eSurface
@@ -218,10 +220,6 @@ public class KirinMediaCodecEncoder {
     public void addAsyncCallback() {
         Log.i(TAG, "Enter addAsyncCallback.");
         this.encoder.setCallback(new MediaCodec.Callback() { // from class: com.huawei.videoengine.KirinMediaCodecEncoder.1
-            {
-                KirinMediaCodecEncoder.this = this;
-            }
-
             @Override // android.media.MediaCodec.Callback
             public void onInputBufferAvailable(MediaCodec mediaCodec, int i) {
                 KirinMediaCodecEncoder.this.listLock.lock();
@@ -267,10 +265,10 @@ public class KirinMediaCodecEncoder {
                     if (currentTimeMillis - KirinMediaCodecEncoder.this.mLastTimeForKeyFrame > KirinMediaCodecEncoder.this.mKeyFrameInterval * 1000) {
                         if (KirinMediaCodecEncoder.this.mLastTimeForKeyFrame == 0) {
                             KirinMediaCodecEncoder.this.mLastTimeForKeyFrame = System.currentTimeMillis();
-                            return;
+                        } else {
+                            KirinMediaCodecEncoder.this.mLastTimeForKeyFrame = currentTimeMillis;
+                            KirinMediaCodecEncoder.this.requestIDRFrame();
                         }
-                        KirinMediaCodecEncoder.this.mLastTimeForKeyFrame = currentTimeMillis;
-                        KirinMediaCodecEncoder.this.requestIDRFrame();
                     }
                 } catch (Exception e) {
                     Log.e(KirinMediaCodecEncoder.TAG, "getOutputBuffer err");
@@ -498,10 +496,10 @@ public class KirinMediaCodecEncoder {
         if (i < i2) {
             this.mWidthOut = i;
             this.mHeightOut = i2;
-            return;
+        } else {
+            this.mWidthOut = i2;
+            this.mHeightOut = i;
         }
-        this.mWidthOut = i2;
-        this.mHeightOut = i;
     }
 
     public int setResolutionOut(int i, int i2) {
@@ -515,78 +513,78 @@ public class KirinMediaCodecEncoder {
             this.mWidthOut = i;
             this.mHeightOut = i2;
             return 0;
-        } else if (this.mWidthOut == i && this.mHeightOut == i2) {
+        }
+        if (this.mWidthOut == i && this.mHeightOut == i2) {
             return 0;
-        } else {
-            updateEncoderSize(i, i2);
-            int i9 = this.mWidthOut;
-            int i10 = this.mHeightOut;
-            int i11 = (int) ((this.mHeightIn / this.mHeightOut) * this.mWidthOut);
-            int i12 = (this.mWidthIn - i11) / 2;
-            if (this.mHeightIn > 0 && this.mWidthIn > 0) {
-                if (i12 >= 0) {
-                    if (i12 % 2 != 0) {
-                        i5 = i12 + 1;
-                    } else {
-                        i5 = i12;
-                    }
-                    i6 = this.mWidthIn - i5;
-                    if (i6 % 2 == 0) {
-                        i6--;
-                    }
-                    i7 = this.mHeightIn % 2 == 0 ? this.mHeightIn - 1 : this.mHeightIn;
-                    Log.i(TAG, "#resolution# ui16CropLeft: " + i5 + " ui16CropRight:" + i6 + " ui16CropTop:0 ui16CropBottom:" + i7 + " cropW:" + i11 + " diff:" + i12 + " iIsEnableScaling:1 iIsEnableCropping:1");
-                    i3 = 0;
-                } else if (i12 < 0) {
-                    int i13 = (int) ((this.mWidthIn / this.mWidthOut) * this.mHeightOut);
-                    int i14 = (this.mHeightIn - i13) / 2;
-                    if (i14 % 2 != 0) {
-                        i8 = i14 + 1;
-                    } else {
-                        i8 = i14;
-                    }
-                    i6 = this.mWidthIn % 2 == 0 ? this.mWidthIn - 1 : this.mWidthIn;
-                    i7 = this.mHeightIn - i8;
-                    if (i7 % 2 == 0) {
-                        i7--;
-                    }
-                    Log.i(TAG, "#resolution# ui16CropLeft: 0 ui16CropRight:" + i6 + " ui16CropTop:" + i8 + " ui16CropBottom:" + i7 + " cropH:" + i13 + " diff:" + i14 + " iIsEnableScaling:1 iIsEnableCropping:1");
-                    i3 = i8;
-                    i4 = 1;
-                    i5 = 0;
+        }
+        updateEncoderSize(i, i2);
+        int i9 = this.mWidthOut;
+        int i10 = this.mHeightOut;
+        int i11 = (int) ((this.mHeightIn / this.mHeightOut) * this.mWidthOut);
+        int i12 = (this.mWidthIn - i11) / 2;
+        if (this.mHeightIn > 0 && this.mWidthIn > 0) {
+            if (i12 >= 0) {
+                if (i12 % 2 != 0) {
+                    i5 = i12 + 1;
                 } else {
-                    i3 = 0;
-                    i5 = 0;
-                    i6 = 0;
-                    i7 = 0;
+                    i5 = i12;
                 }
-                i4 = 1;
-            } else {
-                Log.i(TAG, "unenable crop,mHeightIn:" + this.mHeightIn + " mWidthIn:" + this.mWidthIn);
+                i6 = this.mWidthIn - i5;
+                if (i6 % 2 == 0) {
+                    i6--;
+                }
+                i7 = this.mHeightIn % 2 == 0 ? this.mHeightIn - 1 : this.mHeightIn;
+                Log.i(TAG, "#resolution# ui16CropLeft: " + i5 + " ui16CropRight:" + i6 + " ui16CropTop:0 ui16CropBottom:" + i7 + " cropW:" + i11 + " diff:" + i12 + " iIsEnableScaling:1 iIsEnableCropping:1");
                 i3 = 0;
-                i4 = 0;
+            } else if (i12 < 0) {
+                int i13 = (int) ((this.mWidthIn / this.mWidthOut) * this.mHeightOut);
+                int i14 = (this.mHeightIn - i13) / 2;
+                if (i14 % 2 != 0) {
+                    i8 = i14 + 1;
+                } else {
+                    i8 = i14;
+                }
+                i6 = this.mWidthIn % 2 == 0 ? this.mWidthIn - 1 : this.mWidthIn;
+                i7 = this.mHeightIn - i8;
+                if (i7 % 2 == 0) {
+                    i7--;
+                }
+                Log.i(TAG, "#resolution# ui16CropLeft: 0 ui16CropRight:" + i6 + " ui16CropTop:" + i8 + " ui16CropBottom:" + i7 + " cropH:" + i13 + " diff:" + i14 + " iIsEnableScaling:1 iIsEnableCropping:1");
+                i3 = i8;
+                i4 = 1;
+                i5 = 0;
+            } else {
+                i3 = 0;
                 i5 = 0;
                 i6 = 0;
                 i7 = 0;
             }
-            Bundle bundle = new Bundle();
-            bundle.putInt(VENDOR_KEY_CROPLFT, i5);
-            bundle.putInt(VENDOR_KEY_CROPRIGHT, i6);
-            bundle.putInt(VENDOR_KEY_CROPTOP, i3);
-            bundle.putInt(VENDOR_KEY_CROPBOTTOM, i7);
-            bundle.putInt(VENDOR_KEY_SCALEWIDTH, i9);
-            bundle.putInt(VENDOR_KEY_SCALEHEIGHT, i10);
-            bundle.putInt(VENDOR_KEY_ENABLESCALING, 1);
-            bundle.putInt(VENDOR_KEY_ENABLECROPPING, i4);
-            this.encoderLock.lock();
-            try {
-                if (this.encoder != null) {
-                    this.encoder.setParameters(bundle);
-                }
-                return 0;
-            } finally {
-                this.encoderLock.unlock();
+            i4 = 1;
+        } else {
+            Log.i(TAG, "unenable crop,mHeightIn:" + this.mHeightIn + " mWidthIn:" + this.mWidthIn);
+            i3 = 0;
+            i4 = 0;
+            i5 = 0;
+            i6 = 0;
+            i7 = 0;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putInt(VENDOR_KEY_CROPLFT, i5);
+        bundle.putInt(VENDOR_KEY_CROPRIGHT, i6);
+        bundle.putInt(VENDOR_KEY_CROPTOP, i3);
+        bundle.putInt(VENDOR_KEY_CROPBOTTOM, i7);
+        bundle.putInt(VENDOR_KEY_SCALEWIDTH, i9);
+        bundle.putInt(VENDOR_KEY_SCALEHEIGHT, i10);
+        bundle.putInt(VENDOR_KEY_ENABLESCALING, 1);
+        bundle.putInt(VENDOR_KEY_ENABLECROPPING, i4);
+        this.encoderLock.lock();
+        try {
+            if (this.encoder != null) {
+                this.encoder.setParameters(bundle);
             }
+            return 0;
+        } finally {
+            this.encoderLock.unlock();
         }
     }
 
@@ -750,12 +748,12 @@ public class KirinMediaCodecEncoder {
         if (i == 0) {
             this.mEncType = EncType.eH264;
             return 0;
-        } else if (i == 1) {
+        }
+        if (i == 1) {
             this.mEncType = EncType.eH265;
             return 0;
-        } else {
-            Log.e(TAG, "the codec type is invailed");
-            return -1;
         }
+        Log.e(TAG, "the codec type is invailed");
+        return -1;
     }
 }

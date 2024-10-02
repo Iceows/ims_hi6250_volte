@@ -17,51 +17,53 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public final class AESEncrypter {
     private static final int ITERATION_COUNT = 1024;
     public static final int KEY_LENGTH = 256;
     public static final int SALT_LENGTH = 16;
     private static final String TAG = "AESEncrypter";
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static String encrypt(String sSrc, String sKey, String sParam) {
         char[] password = sKey.toCharArray();
         if (password.length != 256) {
             Rlog.e(TAG, "encrypt key length error!");
             return null;
-        } else if (sParam == null) {
+        }
+        if (sParam == null) {
             Rlog.e(TAG, "encrypt param error!");
             return null;
-        } else {
-            try {
-                byte[] salt = sParam.getBytes("UTF-8");
-                if (salt.length != 16) {
-                    Rlog.e(TAG, "encrypt salt length error!");
-                    return null;
-                }
-                SecretKey secretKey = generateSecretKey(password, salt);
-                if (secretKey == null) {
-                    return null;
-                }
-                try {
-                    byte[] source = sSrc.getBytes("UTF-8");
-                    byte[] dst = crypt(1, secretKey, salt, source);
-                    if (dst.length == 0) {
-                        return null;
-                    }
-                    byte[] dst2 = new HexEncoder().encode(dst);
-                    return new String(dst2, "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    Rlog.e(TAG, "encrypt error1!");
-                    return null;
-                }
-            } catch (UnsupportedEncodingException e2) {
-                Rlog.e(TAG, "getBytes error in encrypt");
+        }
+        try {
+            byte[] salt = sParam.getBytes("UTF-8");
+            if (salt.length != 16) {
+                Rlog.e(TAG, "encrypt salt length error!");
                 return null;
             }
+            SecretKey secretKey = generateSecretKey(password, salt);
+            if (secretKey == null) {
+                return null;
+            }
+            try {
+                byte[] source = sSrc.getBytes("UTF-8");
+                byte[] dst = crypt(1, secretKey, salt, source);
+                if (dst.length == 0) {
+                    return null;
+                }
+                byte[] dst2 = new HexEncoder().encode(dst);
+                return new String(dst2, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                Rlog.e(TAG, "encrypt error1!");
+                return null;
+            }
+        } catch (UnsupportedEncodingException e2) {
+            Rlog.e(TAG, "getBytes error in encrypt");
+            return null;
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static String decrypt(String sSrc, String sKey, String sParam) {
         char[] password = sKey.toCharArray();
         if (password.length != 256) {

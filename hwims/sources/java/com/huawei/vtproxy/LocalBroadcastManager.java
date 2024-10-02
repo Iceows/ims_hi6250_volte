@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class LocalBroadcastManager {
     private static final boolean DEBUG = false;
     static final int MSG_EXEC_PENDING_BROADCASTS = 1;
@@ -25,7 +25,8 @@ public class LocalBroadcastManager {
     private final HashMap<String, ArrayList<ReceiverRecord>> mActions = new HashMap<>();
     private final ArrayList<BroadcastRecord> mPendingBroadcasts = new ArrayList<>();
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class ReceiverRecord {
         boolean broadcasting;
         final IntentFilter filter;
@@ -47,7 +48,8 @@ public class LocalBroadcastManager {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class BroadcastRecord {
         final Intent intent;
         final ArrayList<ReceiverRecord> receivers;
@@ -239,6 +241,7 @@ public class LocalBroadcastManager {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void executePendingBroadcasts() {
         BroadcastRecord[] brs;
         while (true) {

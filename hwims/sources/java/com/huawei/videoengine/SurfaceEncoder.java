@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class SurfaceEncoder {
     private Map<Integer, Surface> encSfMap;
     private long mNativeEncClass;
@@ -39,8 +39,7 @@ public class SurfaceEncoder {
             e.printStackTrace();
         }
         if (this.encSfMap != null && (surface = this.encSfMap.get(Integer.valueOf(i))) != null) {
-            String str = this.TAG;
-            Log.e(str, " freeEncSurface() _encSf is " + surface + ":channelId");
+            Log.e(this.TAG, " freeEncSurface() _encSf is " + surface + ":channelId");
             surface.release();
             this.encSfMap.remove(Integer.valueOf(i));
         }

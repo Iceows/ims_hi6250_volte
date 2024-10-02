@@ -4,7 +4,7 @@ import android.telephony.Rlog;
 import android.util.Log;
 import com.huawei.vtproxy.ImsThinClient;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class RTPController {
     public static final int RTP_DIRECTION_AUDIO = 0;
     public static final int RTP_DIRECTION_BIDIRECTIONAL = 3;
@@ -40,13 +40,13 @@ public class RTPController {
         if (change == 0) {
             Rlog.e(TAG, "direction didn't change, just return");
             return -1;
-        } else if (change < 0) {
+        }
+        if (change < 0) {
             int result = ImsThinClient.pauseImsRTPStream(Math.abs(change));
             return result;
-        } else {
-            int result2 = ImsThinClient.resumeImsRTPStream(change);
-            return result2;
         }
+        int result2 = ImsThinClient.resumeImsRTPStream(change);
+        return result2;
     }
 
     public static int convertCallTypeToDirection(int callType) {

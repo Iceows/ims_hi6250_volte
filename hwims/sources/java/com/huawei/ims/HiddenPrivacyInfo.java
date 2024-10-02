@@ -2,7 +2,7 @@ package com.huawei.ims;
 
 import com.android.internal.util.HexDump;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class HiddenPrivacyInfo {
     private static final boolean DEBUG = false;
     private static final int GBA_INFO_HIDDEN_BEGIN = 4;
@@ -25,25 +25,25 @@ public class HiddenPrivacyInfo {
         if (info == null) {
             logd("info is null, please check it");
             return null;
-        } else if (type == 0) {
+        }
+        if (type == 0) {
             String key = putMosaicOnTelephoneNumber(info);
             return key;
-        } else {
-            switch (type) {
-                case 2:
-                case 3:
-                    String key2 = putMosaicOnImpu_i(info);
-                    return key2;
-                case 4:
-                    String key3 = putMosaicOnGbaParameter(info);
-                    return key3;
-                case 5:
-                    String key4 = putMosaicOnMmi(info);
-                    return key4;
-                default:
-                    String key5 = transToMosaic(info);
-                    return key5;
-            }
+        }
+        switch (type) {
+            case 2:
+            case 3:
+                String key2 = putMosaicOnImpu_i(info);
+                return key2;
+            case 4:
+                String key3 = putMosaicOnGbaParameter(info);
+                return key3;
+            case 5:
+                String key4 = putMosaicOnMmi(info);
+                return key4;
+            default:
+                String key5 = transToMosaic(info);
+                return key5;
         }
     }
 

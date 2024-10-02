@@ -2,7 +2,7 @@ package com.huawei.videoengine;
 
 import android.util.Log;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class FpsStatistic {
     private static final String TAG = "hme_engine_java";
     private int mFrameInterval;
@@ -18,10 +18,10 @@ public class FpsStatistic {
         this.mPos = str;
         if (i < 1) {
             Log.w(TAG, "frameInterval < 1");
-            return;
+        } else {
+            this.mFrameInterval = i;
+            this.mThreshold = i2;
         }
-        this.mFrameInterval = i;
-        this.mThreshold = i2;
     }
 
     public FpsStatistic(String str, int i) {
@@ -29,10 +29,10 @@ public class FpsStatistic {
         this.mPos = str;
         if (i < 1) {
             Log.w(TAG, "frameInterval < 1");
-            return;
+        } else {
+            this.mFrameInterval = i;
+            this.mThreshold = 100;
         }
-        this.mFrameInterval = i;
-        this.mThreshold = 100;
     }
 
     public void setThreshold(int i) {

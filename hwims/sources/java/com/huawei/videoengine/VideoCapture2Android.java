@@ -26,7 +26,7 @@ import com.huawei.videoengine.Texture2dProgram;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class VideoCapture2Android {
     private static final int MSG_CAPTURE_SIZE = 1;
     private static final int MSG_DESTROY = 4;
@@ -104,7 +104,7 @@ public class VideoCapture2Android {
     private Semaphore semInitEGL;
     private long time_stamp;
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum EAspectRatio {
         none,
         crop,
@@ -492,35 +492,35 @@ public class VideoCapture2Android {
         if (looper == null) {
             stopBackgroundThread();
             Log.e(TAG, "startBackgroudThread getLooper err!");
-            return;
-        }
-        this.mBackgroundHandler = new Handler(looper) { // from class: com.huawei.videoengine.VideoCapture2Android.3
-            @Override // android.os.Handler
-            public void handleMessage(Message message) {
-                super.handleMessage(message);
-                switch (message.what) {
-                    case 0:
-                        TranObj tranObj = (TranObj) message.obj;
-                        VideoCapture2Android.this.backInitEGl(tranObj.getViewSf(), tranObj.getEncSf(), tranObj.getWidth(), tranObj.getHeigth());
-                        return;
-                    case 1:
-                        VideoCapture2Android.this.mCapW = message.arg1;
-                        VideoCapture2Android.this.mCapH = message.arg2;
-                        return;
-                    case 2:
-                        VideoCapture2Android.this.backUpdatePreViewSf((Surface) message.obj, message.arg1, message.arg2);
-                        return;
-                    case 3:
-                        VideoCapture2Android.this.backUpdateEncSf((Surface) message.obj);
-                        return;
-                    case 4:
-                        VideoCapture2Android.this.backDestroy();
-                        return;
-                    default:
-                        return;
+        } else {
+            this.mBackgroundHandler = new Handler(looper) { // from class: com.huawei.videoengine.VideoCapture2Android.3
+                @Override // android.os.Handler
+                public void handleMessage(Message message) {
+                    super.handleMessage(message);
+                    switch (message.what) {
+                        case 0:
+                            TranObj tranObj = (TranObj) message.obj;
+                            VideoCapture2Android.this.backInitEGl(tranObj.getViewSf(), tranObj.getEncSf(), tranObj.getWidth(), tranObj.getHeigth());
+                            return;
+                        case 1:
+                            VideoCapture2Android.this.mCapW = message.arg1;
+                            VideoCapture2Android.this.mCapH = message.arg2;
+                            return;
+                        case 2:
+                            VideoCapture2Android.this.backUpdatePreViewSf((Surface) message.obj, message.arg1, message.arg2);
+                            return;
+                        case 3:
+                            VideoCapture2Android.this.backUpdateEncSf((Surface) message.obj);
+                            return;
+                        case 4:
+                            VideoCapture2Android.this.backDestroy();
+                            return;
+                        default:
+                            return;
+                    }
                 }
-            }
-        };
+            };
+        }
     }
 
     private void stopBackgroundThread() {
@@ -665,9 +665,9 @@ public class VideoCapture2Android {
         return 0;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0036 A[Catch: all -> 0x002d, TryCatch #2 {all -> 0x002d, blocks: (B:49:0x0005, B:51:0x000b, B:62:0x003f, B:63:0x0062, B:65:0x0064, B:67:0x006c, B:78:0x00cf, B:80:0x00d3, B:81:0x00fc, B:68:0x0082, B:70:0x008a, B:77:0x00b4, B:73:0x00a1, B:76:0x00a6, B:58:0x0036, B:52:0x0029), top: B:85:0x0005, inners: #3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x003f A[Catch: all -> 0x002d, TryCatch #2 {all -> 0x002d, blocks: (B:49:0x0005, B:51:0x000b, B:62:0x003f, B:63:0x0062, B:65:0x0064, B:67:0x006c, B:78:0x00cf, B:80:0x00d3, B:81:0x00fc, B:68:0x0082, B:70:0x008a, B:77:0x00b4, B:73:0x00a1, B:76:0x00a6, B:58:0x0036, B:52:0x0029), top: B:85:0x0005, inners: #3 }] */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0064 A[Catch: all -> 0x002d, TryCatch #2 {all -> 0x002d, blocks: (B:49:0x0005, B:51:0x000b, B:62:0x003f, B:63:0x0062, B:65:0x0064, B:67:0x006c, B:78:0x00cf, B:80:0x00d3, B:81:0x00fc, B:68:0x0082, B:70:0x008a, B:77:0x00b4, B:73:0x00a1, B:76:0x00a6, B:58:0x0036, B:52:0x0029), top: B:85:0x0005, inners: #3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:12:0x0064 A[Catch: all -> 0x002d, TryCatch #2 {all -> 0x002d, blocks: (B:39:0x0005, B:41:0x000b, B:8:0x003f, B:9:0x0062, B:12:0x0064, B:14:0x006c, B:15:0x00cf, B:17:0x00d3, B:18:0x00fc, B:20:0x0082, B:24:0x008a, B:22:0x00b4, B:30:0x00a1, B:28:0x00a6, B:35:0x0036, B:42:0x0029), top: B:38:0x0005, inners: #3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0036 A[Catch: all -> 0x002d, TryCatch #2 {all -> 0x002d, blocks: (B:39:0x0005, B:41:0x000b, B:8:0x003f, B:9:0x0062, B:12:0x0064, B:14:0x006c, B:15:0x00cf, B:17:0x00d3, B:18:0x00fc, B:20:0x0082, B:24:0x008a, B:22:0x00b4, B:30:0x00a1, B:28:0x00a6, B:35:0x0036, B:42:0x0029), top: B:38:0x0005, inners: #3 }] */
+    /* JADX WARN: Removed duplicated region for block: B:8:0x003f A[Catch: all -> 0x002d, TryCatch #2 {all -> 0x002d, blocks: (B:39:0x0005, B:41:0x000b, B:8:0x003f, B:9:0x0062, B:12:0x0064, B:14:0x006c, B:15:0x00cf, B:17:0x00d3, B:18:0x00fc, B:20:0x0082, B:24:0x008a, B:22:0x00b4, B:30:0x00a1, B:28:0x00a6, B:35:0x0036, B:42:0x0029), top: B:38:0x0005, inners: #3 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
         To view partially-correct code enable 'Show inconsistent code' option in preferences
@@ -680,7 +680,7 @@ public class VideoCapture2Android {
         throw new UnsupportedOperationException("Method not decompiled: com.huawei.videoengine.VideoCapture2Android.updateWinowSurface(com.huawei.videoengine.WindowSurface, android.view.Surface, java.lang.Object, java.lang.String):int");
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     private static class TranObj {
         private Surface mEncSf;
         private int mVH;
@@ -841,33 +841,38 @@ public class VideoCapture2Android {
         }
         if (this.mBackgroundHandler == null) {
             Log.e(TAG, "background is null when updateEncSf");
-        } else if (surface != null && !surface.isValid()) {
+            return;
+        }
+        if (surface != null && !surface.isValid()) {
             Log.e(TAG, "encsf is invalid");
-        } else if (this.mEglCore == null) {
+            return;
+        }
+        if (this.mEglCore == null) {
             Log.i(TAG, "#step#now egl has not init, save update encSf");
             this.mEncSfUpdateTmp = surface;
-        } else {
-            synchronized (this.mEncWinLock) {
-                if (this.mEncWindowSurface != null) {
-                    if (this.mEncWindowSurface.isCurrent()) {
-                        Log.i(TAG, "#winsf#mEncWindowSurface makeNothingCurrent ");
-                        this.mEglCore.makeNothingCurrent();
-                    }
-                    Log.i(TAG, "#winsf#mEncWindowSurface  release");
-                    this.mEncWindowSurface.release();
-                    this.mEncWindowSurface = null;
+            return;
+        }
+        synchronized (this.mEncWinLock) {
+            if (this.mEncWindowSurface != null) {
+                if (this.mEncWindowSurface.isCurrent()) {
+                    Log.i(TAG, "#winsf#mEncWindowSurface makeNothingCurrent ");
+                    this.mEglCore.makeNothingCurrent();
                 }
-                if (surface == null) {
-                    return;
-                }
-                Log.i(TAG, "#winsf#mEncWindowSurface create");
-                this.mEncSfUpdateTmp = surface;
-                this.mEncWindowSurface = new WindowSurface(this.mEglCore, surface, false);
-                this.mBackgroundHandler.sendMessage(this.mBackgroundHandler.obtainMessage(3, surface));
+                Log.i(TAG, "#winsf#mEncWindowSurface  release");
+                this.mEncWindowSurface.release();
+                this.mEncWindowSurface = null;
             }
+            if (surface == null) {
+                return;
+            }
+            Log.i(TAG, "#winsf#mEncWindowSurface create");
+            this.mEncSfUpdateTmp = surface;
+            this.mEncWindowSurface = new WindowSurface(this.mEglCore, surface, false);
+            this.mBackgroundHandler.sendMessage(this.mBackgroundHandler.obtainMessage(3, surface));
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void backUpdateEncSf(Surface surface) {
         if (this.mFullFrameBlit == null) {
             Log.i(TAG, "wwmax mEncWindowSurface new program 655");
@@ -892,13 +897,18 @@ public class VideoCapture2Android {
             this.bUpdated = false;
             while (!this.bUpdated) {
                 try {
-                    this.objUpdatePreview.wait(WAIT_TIME);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    objExtend = this.objUpdatePreview;
-                } catch (Exception e2) {
-                    e2.printStackTrace();
-                    objExtend = this.objUpdatePreview;
+                    try {
+                        this.objUpdatePreview.wait(WAIT_TIME);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        objExtend = this.objUpdatePreview;
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                        objExtend = this.objUpdatePreview;
+                    }
+                } catch (Throwable th) {
+                    this.objUpdatePreview.getRes();
+                    throw th;
                 }
             }
             objExtend = this.objUpdatePreview;
@@ -907,6 +917,7 @@ public class VideoCapture2Android {
         return res;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void backUpdatePreViewSf(Surface surface, int i, int i2) {
         int i3 = 0;
         if (this.mEglCore == null) {
@@ -1074,32 +1085,35 @@ public class VideoCapture2Android {
             while (!this.bDestroyed) {
                 try {
                     try {
-                        this.objDestroy.wait(WAIT_TIME);
-                        this.bDestroyed = true;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        try {
+                            this.objDestroy.wait(WAIT_TIME);
+                            this.bDestroyed = true;
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            res = this.objDestroy.getRes();
+                            if (res != 0) {
+                                Log.e(TAG, "destroy failed");
+                            }
+                        }
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
                         res = this.objDestroy.getRes();
                         if (res != 0) {
                             Log.e(TAG, "destroy failed");
                         }
                     }
-                } catch (Exception e2) {
-                    e2.printStackTrace();
-                    res = this.objDestroy.getRes();
-                    if (res != 0) {
+                } finally {
+                    if (this.objDestroy.getRes() != 0) {
                         Log.e(TAG, "destroy failed");
                     }
+                    stopBackgroundThread();
                 }
             }
-            res = this.objDestroy.getRes();
-            if (res != 0) {
-                Log.e(TAG, "destroy failed");
-            }
-            stopBackgroundThread();
         }
         return res;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void backDestroy() {
         if (this.mEglCore != null) {
             this.mEglCore.makeNothingCurrent();
@@ -1154,6 +1168,7 @@ public class VideoCapture2Android {
         return 0;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void getMVPP(float[] fArr, float[] fArr2, float[] fArr3, boolean z, int i, EAspectRatio eAspectRatio, int i2, int i3) {
         float f;
         float f2;
@@ -1174,16 +1189,14 @@ public class VideoCapture2Android {
         }
         if (eAspectRatio == EAspectRatio.crop) {
             if (i == 90 || i == 270) {
-                if (i3 > i2) {
-                    if ((f4 / f3) - (this.mCapW / this.mCapH) > 0.0f) {
-                        Matrix.scaleM(fArr3, 0, f6, z ? (-f) / 2.0f : f / 2.0f, 1.0f);
-                    } else {
-                        float f7 = f2 / 2.0f;
-                        if (z) {
-                            f5 = (-f3) / 2.0f;
-                        }
-                        Matrix.scaleM(fArr3, 0, f7, f5, 1.0f);
+                if (i3 <= i2) {
+                    float f7 = f2 / 2.0f;
+                    if (z) {
+                        f5 = (-f3) / 2.0f;
                     }
+                    Matrix.scaleM(fArr3, 0, f7, f5, 1.0f);
+                } else if ((f4 / f3) - (this.mCapW / this.mCapH) > 0.0f) {
+                    Matrix.scaleM(fArr3, 0, f6, z ? (-f) / 2.0f : f / 2.0f, 1.0f);
                 } else {
                     float f8 = f2 / 2.0f;
                     if (z) {
@@ -1256,7 +1269,8 @@ public class VideoCapture2Android {
         return i;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class ObjExtend {
         private int mRes = 0;
 

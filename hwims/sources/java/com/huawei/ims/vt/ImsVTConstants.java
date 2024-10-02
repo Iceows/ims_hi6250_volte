@@ -1,6 +1,6 @@
 package com.huawei.ims.vt;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsVTConstants {
     public static final String CARRIERCONFIG_ENHANCED_VIDEO_FEATURE = "carrierconfig_enhanced_video_feature";
     public static final int IMS_VT_CAPBILITITY_TYPE = 0;

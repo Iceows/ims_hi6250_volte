@@ -1,13 +1,13 @@
 package com.huawei.sci;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class SciUpgradeCb {
     public static final int NTYCODE_NO_NEW_VER = 0;
     public static final int NTYCODE_TIMEOUT = 1;
     public static final int NTYCODE_UNKNOWN = 255;
     static Callback mCallback;
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public interface Callback {
         void sciUpgradeCbUpgradeCheckNotify(int i);
 

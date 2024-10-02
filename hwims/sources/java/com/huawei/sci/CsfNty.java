@@ -1,6 +1,6 @@
 package com.huawei.sci;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class CsfNty {
     public static final int EN_CSF_NTY_PARA_COOKIE = 4;
     public static final int EN_CSF_NTY_PARA_EXPIRES = 17;

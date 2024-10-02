@@ -11,7 +11,7 @@ import java.util.Locale;
 import vendor.huawei.hardware.radio.ims.V1_0.LastCallFailCause;
 import vendor.huawei.hardware.radio.ims.V1_0.RilConstS32;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class VideoCaptureDeviceInfoAndroid {
     private static boolean DEBUG = false;
     private static final String TAG = "hme-video";
@@ -23,7 +23,7 @@ public class VideoCaptureDeviceInfoAndroid {
     private static final String model = Build.MODEL;
     private static int LOGLEVEL = 0;
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public static class AndroidVideoCaptureDevice {
         public CaptureCapabilityAndroid[] captureCapabilies;
         public String deviceUniqueName;
@@ -32,7 +32,7 @@ public class VideoCaptureDeviceInfoAndroid {
         public int orientation;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public enum FrontFacingCameraType {
         None,
         GalaxyS,
@@ -116,10 +116,10 @@ public class VideoCaptureDeviceInfoAndroid {
         } else {
             i = 0;
         }
-        if (i == 0) {
-            Log.e(TAG, "no valid Camera!");
+        if (i != 0) {
             return 0;
         }
+        Log.e(TAG, "no valid Camera!");
         return 0;
     }
 
@@ -328,6 +328,7 @@ public class VideoCaptureDeviceInfoAndroid {
         return -1;
     }
 
+    /* JADX WARN: Failed to find 'out' block for switch in B:9:0x0043. Please report as an issue. */
     public VideoCaptureAndroid allocateCamera(int i, long j, String str) {
         Camera allocateHTCFrontCamera;
         try {
@@ -342,9 +343,7 @@ public class VideoCaptureDeviceInfoAndroid {
                                 camera.release();
                             }
                             allocateHTCFrontCamera = Camera.open();
-                            if (allocateHTCFrontCamera == null) {
-                                break;
-                            } else {
+                            if (allocateHTCFrontCamera != null) {
                                 Camera.Parameters parameters = allocateHTCFrontCamera.getParameters();
                                 parameters.set("camera-id", 2);
                                 allocateHTCFrontCamera.setParameters(parameters);
@@ -353,16 +352,20 @@ public class VideoCaptureDeviceInfoAndroid {
                                 }
                                 try {
                                     verifyCapabilities(androidVideoCaptureDevice2);
-                                    break;
                                 } catch (Exception e) {
                                     Log.e(TAG, "Failed to verifyCapabilities ex::" + e.getLocalizedMessage());
                                     allocateHTCFrontCamera.release();
                                     return null;
                                 }
                             }
+                            androidVideoCaptureDevice = androidVideoCaptureDevice2;
+                            camera = allocateHTCFrontCamera;
+                            break;
                         case HTCEvo:
                             try {
                                 allocateHTCFrontCamera = allocateHTCFrontCamera();
+                                androidVideoCaptureDevice = androidVideoCaptureDevice2;
+                                camera = allocateHTCFrontCamera;
                                 break;
                             } catch (Exception e2) {
                                 Log.e(TAG, "Failed to verifyCapabilities ex::" + e2.getLocalizedMessage());
@@ -398,7 +401,6 @@ public class VideoCaptureDeviceInfoAndroid {
                                 addDeviceInfo(androidVideoCaptureDevice2, allocateHTCFrontCamera.getParameters());
                                 try {
                                     verifyCapabilities(androidVideoCaptureDevice2);
-                                    break;
                                 } catch (Exception e4) {
                                     Log.e(TAG, "Failed to VerifyCapabilities ex::" + e4.getLocalizedMessage());
                                     allocateHTCFrontCamera.release();
@@ -406,11 +408,11 @@ public class VideoCaptureDeviceInfoAndroid {
                                 }
                             } else {
                                 allocateHTCFrontCamera = Camera.open();
-                                break;
                             }
+                            androidVideoCaptureDevice = androidVideoCaptureDevice2;
+                            camera = allocateHTCFrontCamera;
+                            break;
                     }
-                    androidVideoCaptureDevice = androidVideoCaptureDevice2;
-                    camera = allocateHTCFrontCamera;
                 }
             }
             if (camera == null) {
@@ -432,7 +434,7 @@ public class VideoCaptureDeviceInfoAndroid {
         return null;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     static class CameraThread extends Thread {
         public Camera camera = null;
         int index;

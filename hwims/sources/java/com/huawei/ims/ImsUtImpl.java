@@ -13,7 +13,7 @@ import com.android.ims.internal.IImsUtListener;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 
-/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class ImsUtImpl extends ImsUtImplBase {
     private static final int ARRAY_INDEX_ONE = 1;
     private static final boolean DEBUG = false;
@@ -26,10 +26,12 @@ public class ImsUtImpl extends ImsUtImplBase {
     private static HwImsUtImpl[] mHwImsUtImpl = null;
     private static final String[][] DYADIC_ARRAY = {new String[]{HwImsConfigImpl.UT_FORBIDDEN_WVSO_PROP_KEY, HwImsConfigImpl.UT_FORBIDDEN_WHEN_VOLTE_SWITCH_OFF}, new String[]{HwImsConfigImpl.UT_BEARER_TYPE_PROP_KEY, HwImsConfigImpl.UT_BEARER_TYPE_XML_KEY}, new String[]{HwImsConfigImpl.UT_NAF_SRV_ADDR_PROP_KEY, HwImsConfigImpl.UT_NAF_SRV_ADDR_XML_KEY}, new String[]{HwImsConfigImpl.UT_NAF_PORT_PROP_KEY, HwImsConfigImpl.UT_NAF_PORT_XML_KEY}, new String[]{HwImsConfigImpl.UT_BSF_SRV_ADDR_PROP_KEY, HwImsConfigImpl.UT_BSF_SRV_ADDR_XML_KEY}, new String[]{HwImsConfigImpl.UT_BSF_PORT_PROP_KEY, HwImsConfigImpl.UT_BSF_PORT_XML_KEY}, new String[]{HwImsConfigImpl.SS_TYPE_USE_CS_ONLY_PROP_KEY, HwImsConfigImpl.SS_TYPE_USE_CS_ONLY_XML_KEY}, new String[]{HwImsConfigImpl.CALL_WAITING_MODE_PROP_KEY, HwImsConfigImpl.CALL_WAITING_MODE_XML_KEY}, new String[]{HwImsConfigImpl.UT_XCAP_ROOT_URI_PROP_KEY, HwImsConfigImpl.UT_XCAP_ROOT_XML_KEY}, new String[]{HwImsConfigImpl.UT_PREFER_TO_USE_UT_PROP_KEY, HwImsConfigImpl.PREFER_TO_USE_UT_XML_KEY}};
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public ImsUtImpl() {
         Rlog.i(LOG_TAG, "ImsUtImpl::ImsUtImpl()");
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public static ImsUtImpl getInstance() {
         checkAccessPermission();
         if (instance == null) {
@@ -52,19 +54,21 @@ public class ImsUtImpl extends ImsUtImplBase {
         if (hwImsServiceImpl == null) {
             Rlog.e(LOG_TAG, "getUtInterface - hwImsServiceImpl is null");
             return null;
-        } else if (!ImsCallProviderUtils.isValidServiceSubIndex(subId)) {
+        }
+        if (!ImsCallProviderUtils.isValidServiceSubIndex(subId)) {
             Rlog.e(LOG_TAG, "getUtInterface - subId is invalid");
             return null;
-        } else if (mHwImsUtImpl == null) {
+        }
+        if (mHwImsUtImpl == null) {
             Rlog.e(LOG_TAG, "getUtInterface - mHwImsUtImpl is null");
             return null;
-        } else if (mHwImsUtImpl[subId] != null) {
+        }
+        if (mHwImsUtImpl[subId] != null) {
             Rlog.d(LOG_TAG, "getUtInterface - mImsUtImpl [ " + subId + "] is already exist!");
             return mHwImsUtImpl[subId];
-        } else {
-            mHwImsUtImpl[subId] = new HwImsUtImpl(hwImsServiceImpl, subId, this);
-            return mHwImsUtImpl[subId];
         }
+        mHwImsUtImpl[subId] = new HwImsUtImpl(hwImsServiceImpl, subId, this);
+        return mHwImsUtImpl[subId];
     }
 
     public int transact(Bundle ssInfo) {
@@ -213,12 +217,13 @@ public class ImsUtImpl extends ImsUtImplBase {
         logUnexpectedMethodCall("clear");
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     public static void checkAccessPermission() {
         int callingUid = Binder.getCallingUid();
         if (callingUid == 1001 || callingUid == 1000) {
-            return;
+        } else {
+            throw new SecurityException("Only Phone is able to call this API");
         }
-        throw new SecurityException("Only Phone is able to call this API");
     }
 
     private void logUnexpectedMethodCall(String name) {
@@ -253,20 +258,21 @@ public class ImsUtImpl extends ImsUtImplBase {
         otherHwImsUtImpl.receiveOtherSubUtIdle();
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public HwImsUtImpl getHwImsUtImpl(int subId) {
         if (!ImsCallProviderUtils.isValidServiceSubIndex(subId)) {
             Rlog.e(LOG_TAG, "getHwImsUtImpl: subId is invalid");
             return null;
-        } else if (mHwImsUtImpl == null) {
+        }
+        if (mHwImsUtImpl == null) {
             Rlog.e(LOG_TAG, "getHwImsUtImpl: mHwImsUtImpl is null");
             return null;
-        } else {
-            HwImsUtImpl hwImsUtImpl = mHwImsUtImpl[subId];
-            if (hwImsUtImpl == null) {
-                Rlog.e(LOG_TAG, "getHwImsUtImpl: HwImsUtImpl[" + subId + "] is null");
-            }
-            return hwImsUtImpl;
         }
+        HwImsUtImpl hwImsUtImpl = mHwImsUtImpl[subId];
+        if (hwImsUtImpl == null) {
+            Rlog.e(LOG_TAG, "getHwImsUtImpl: HwImsUtImpl[" + subId + "] is null");
+        }
+        return hwImsUtImpl;
     }
 
     protected void dump(FileDescriptor fd, PrintWriter pw, String[] args) {
@@ -276,7 +282,9 @@ public class ImsUtImpl extends ImsUtImplBase {
         if (this.mContext != null && this.mContext.checkCallingPermission("android.permission.DUMP") != 0) {
             pw.println("Permission Denial: can't dump ims_ut from pid=" + Binder.getCallingPid() + ", uid=" + Binder.getCallingUid());
             Rlog.e(LOG_TAG, "dump,no permission return");
-        } else if (DYADIC_ARRAY != null && DYADIC_ARRAY.length != 0) {
+            return;
+        }
+        if (DYADIC_ARRAY != null && DYADIC_ARRAY.length != 0) {
             for (int i = 0; i < DYADIC_ARRAY.length; i++) {
                 pw.println(DYADIC_ARRAY[i][1] + " = " + SystemProperties.get(DYADIC_ARRAY[i][0], (String) null));
             }
@@ -287,12 +295,11 @@ public class ImsUtImpl extends ImsUtImplBase {
         return this.mHwInnerService;
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
     public class HwInnerImsUt extends IHwImsUtManager.Stub {
         private ImsUtImpl imsUtImpl;
 
         HwInnerImsUt(ImsUtImpl imsUt) {
-            ImsUtImpl.this = this$0;
             this.imsUtImpl = imsUt;
         }
 
