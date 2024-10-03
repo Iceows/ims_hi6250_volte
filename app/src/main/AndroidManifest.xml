@@ -1,4 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="28" android:compileSdkVersionCodename="9" android:sharedUserId="android.uid.phone" coreApp="true"
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:compileSdkVersion="28"
+    android:compileSdkVersionCodename="9" android:sharedUserId="android.uid.phone" coreApp="true"
     package="com.huawei.ims">
     <uses-permission android:name="com.huawei.permission.USE_LEGACY_INTERFACE"/>
     <uses-permission android:name="android.permission.CAMERA"/>

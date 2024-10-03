@@ -14,7 +14,6 @@ import android.os.Parcel;
 import android.os.PersistableBundle;
 import android.os.RemoteException;
 import android.os.SystemProperties;
-import android.os.UserHandle;
 import android.provider.Settings;
 import android.telephony.CarrierConfigManager;
 import android.telephony.Rlog;
@@ -24,13 +23,14 @@ import com.android.internal.telephony.dataconnection.DcFailCause;
 import com.android.internal.telephony.uicc.IccRecords;
 import com.android.internal.telephony.uicc.UiccController;
 import com.hisi.mapcon.IMapconService;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
-import org.kxml2.io.KXmlParser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-6194448491803390421.dex */
 public class HwImsConfigImpl extends ImsConfigImpl {
     public static final int CALL_WAITING_FROM_CS = 1;
     public static final int CALL_WAITING_FROM_LOCAL = 2;
@@ -342,22 +342,21 @@ public class HwImsConfigImpl extends ImsConfigImpl {
     private BroadcastReceiver mBroadCastReceiver = new BroadcastReceiver() { // from class: com.huawei.ims.HwImsConfigImpl.1
         @Override // android.content.BroadcastReceiver
         public void onReceive(Context context, Intent intent) {
-            HwImsConfigImpl hwImsConfigImpl = HwImsConfigImpl.this;
-            hwImsConfigImpl.logd("mBroadCastReceiver: action " + intent.getAction());
+            HwImsConfigImpl.this.mylogd("mBroadCastReceiver: action " + intent.getAction());
             if (HwImsConfigImpl.MAPCON_SERVICE_STARTED.equals(intent.getAction()) && HwImsConfigImpl.this.mMapconService == null) {
                 HwImsConfigImpl.this.bindMapconService();
             }
         }
     };
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-6194448491803390421.dex */
     public enum CALL_WAITING_SOURCE {
         CALL_WAITING_FROM_UT,
         CALL_WAITING_FROM_CS,
         CALL_WAITING_FROM_LOCAL
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-6194448491803390421.dex */
     public enum CONFIG_TYPE {
         CONFIG_TYPE_BOOL,
         CONFIG_TYPE_INT,
@@ -387,80 +386,91 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         this.mSubId = -1;
         this.mCi = null;
         this.mSubId = subId;
-        logd("HwImsConfigImpl construtor");
+        mylogd("HwImsConfigImpl construtor");
         if (!ImsCallProviderUtils.isValidServiceSubIndex(this.mSubId)) {
-            loge("subId is invalid");
-        } else if (hwImsServiceImpl == null || hwImsServiceImpl.mCi == null) {
-            loge("hwImsServiceImpl or imsRIL is null");
-        } else if (hwImsServiceImpl.mContext == null) {
-            loge("context is null");
-        } else {
-            this.mHwImsServiceImpl = hwImsServiceImpl;
-            this.mContext = hwImsServiceImpl.mContext;
-            init(this.mContext);
-            this.mCi = hwImsServiceImpl.mCi;
-            if (IS_VOWIFI_PROP_ON) {
-                bindMapconService();
-                IntentFilter filter = new IntentFilter();
-                filter.addAction(MAPCON_SERVICE_STARTED);
-                this.mContext.registerReceiver(this.mBroadCastReceiver, filter, MAPCON_BROADCAST_PERMISSION, null);
-            }
+            myloge("subId is invalid");
+            return;
+        }
+        if (hwImsServiceImpl == null || hwImsServiceImpl.mCi == null) {
+            myloge("hwImsServiceImpl or imsRIL is null");
+            return;
+        }
+        if (hwImsServiceImpl.mContext == null) {
+            myloge("context is null");
+            return;
+        }
+        this.mHwImsServiceImpl = hwImsServiceImpl;
+        this.mContext = hwImsServiceImpl.mContext;
+        init(this.mContext);
+        this.mCi = hwImsServiceImpl.mCi;
+        if (IS_VOWIFI_PROP_ON) {
+            bindMapconService();
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(MAPCON_SERVICE_STARTED);
+            this.mContext.registerReceiver(this.mBroadCastReceiver, filter, MAPCON_BROADCAST_PERMISSION, null);
         }
     }
 
-    public boolean processOnTransact(int code, Parcel data, Parcel reply, int flags) {
-        logd("processOnTransact , code = " + code);
-        if (code == 3001) {
-            String mmiCode = data.readString();
-            boolean isUnSupportMMICode = isUnSupportMMICode(mmiCode);
-            logd("isUnSupportMMICode = " + isUnSupportMMICode);
-            reply.writeNoException();
-            reply.writeInt(isUnSupportMMICode ? 1 : 0);
+    public boolean processOnTransact(int i, Parcel parcel, Parcel parcel2, int i2) {
+        mylogd("processOnTransact , code = " + i);
+        if (i == 3001) {
+            boolean isUnSupportMMICode = isUnSupportMMICode(parcel.readString());
+            mylogd("isUnSupportMMICode = " + isUnSupportMMICode);
+            parcel2.writeNoException();
+            parcel2.writeInt(isUnSupportMMICode ? 1 : 0);
             return true;
         }
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isImsSsBeUsed() {
         return this.mImsSsBeUsed;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtForbiddenWhenVolteSwitchOff() {
         String utForbiddenWhenVolteSwitchOff;
         utForbiddenWhenVolteSwitchOff = SystemProperties.get(UT_FORBIDDEN_WVSO_PROP_KEY, NULL_STRING_VALUE);
-        logd("utForbiddenWhenVolteSwitchOff = " + utForbiddenWhenVolteSwitchOff);
+        mylogd("utForbiddenWhenVolteSwitchOff = " + utForbiddenWhenVolteSwitchOff);
         return !NULL_STRING_VALUE.equals(utForbiddenWhenVolteSwitchOff) ? Boolean.parseBoolean(utForbiddenWhenVolteSwitchOff) : this.mUtForbiddenWhenVolteSwitchOff;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getUtUseApn() {
         return this.mUtUseApn;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isUse403ForLocalCW() {
         return this.mUse403ForLocalCW;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isCarrierSupportVolte() {
         return this.mCarrierSupportVolte;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isUtCanUseWifi() {
         return this.mUtCanUseWifi;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isCardTypePreferToUseUT(int cardType) {
-        logd("isCardTypePreferToUseUT, Card type is " + cardType);
+        mylogd("isCardTypePreferToUseUT, Card type is " + cardType);
         if (this.mCardTypePreferToUseUT != null && this.mCardTypePreferToUseUT.length != 0) {
             return isContainInIMSConfig(this.mCardTypePreferToUseUT, cardType);
         }
-        mylogw("mCardTypePreferToUseUT is null");
+        logw("mCardTypePreferToUseUT is null");
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isCardMccMncPreferToUseUT(String cardMccMnc) {
         String preferToUseUt = SystemProperties.get(UT_PREFER_TO_USE_UT_PROP_KEY, NULL_STRING_VALUE);
@@ -484,67 +494,76 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return this.mCarrierSupportVoWifi;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean getIsUseMultCondition() {
         return this.mIsUseMultCondition;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isSSUseCsOnly(int ssType) {
-        logd("isSSUseCsOnly, ss type is " + ssType);
+        mylogd("isSSUseCsOnly, ss type is " + ssType);
         String SSTypeUseCsOnly = SystemProperties.get(SS_TYPE_USE_CS_ONLY_PROP_KEY, NULL_STRING_VALUE);
-        logd("isSSUseCsOnly, SSTypeUseCsOnly " + SSTypeUseCsOnly);
+        mylogd("isSSUseCsOnly, SSTypeUseCsOnly " + SSTypeUseCsOnly);
         this.mSSTypeUseCsOnly = !NULL_STRING_VALUE.equals(SSTypeUseCsOnly) ? stringToIntArray(SSTypeUseCsOnly) : this.mSSTypeUseCsOnly;
         if (this.mSSTypeUseCsOnly != null && this.mSSTypeUseCsOnly.length != 0) {
             return isContainInIMSConfig(this.mSSTypeUseCsOnly, ssType);
         }
-        mylogw("mSSTypeUseCsOnly is null.");
+        logw("mSSTypeUseCsOnly is null.");
         return false;
     }
 
     @Override // com.huawei.ims.ImsConfigImpl
     synchronized boolean isUnSupportMMICode(String MMIcode) {
-        logd("MMI code is " + HiddenPrivacyInfo.putMosaic(MMIcode, 5));
+        mylogd("MMI code is " + HiddenPrivacyInfo.putMosaic(MMIcode, 5));
         if (this.mNotSupportMMICode != null && this.mNotSupportMMICode.length != 0) {
             return isContainInIMSConfig(this.mNotSupportMMICode, MMIcode);
         }
-        mylogw("mNotSupportMMICode is null.");
+        logw("mNotSupportMMICode is null.");
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtCSBeUsed() {
         return isConfigInProp(UT_CS_BE_USED_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_CS_BE_USED : this.mUtCSBeUsed;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isSSForbidFallbackCS(int ssType) {
-        logd("isSSForbidFallbackCS, ss type is " + ssType);
+        mylogd("isSSForbidFallbackCS, ss type is " + ssType);
         if (this.mSSForbidFallbackCS != null && this.mSSForbidFallbackCS.length != 0) {
             return isContainInIMSConfig(this.mSSForbidFallbackCS, ssType);
         }
-        mylogw("mSSForbidFallbackCS is null.");
+        logw("mSSForbidFallbackCS is null.");
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isCFNRcChangeWithCFNL() {
         return this.mCFNRcChangeWithCFNL;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getDefaultNoReplyTimer() {
         return this.mDefaultNoReplyTimer;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getDefaultNeedNoReplyTimer() {
         return this.mDefaultNeedNoReplyTimer;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getContentTypeMode() {
         return this.mContentTypeMode;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isImsStateFollowVoiceDomain() {
         return this.mImsStateFollowVoiceDomain;
@@ -555,104 +574,115 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         String callWaitingMode;
         int callWaitingModeInt;
         callWaitingMode = SystemProperties.get(CALL_WAITING_MODE_PROP_KEY, NULL_STRING_VALUE);
-        logd("getCallWaitingMode, callWaitingMode = " + callWaitingMode);
+        mylogd("getCallWaitingMode, callWaitingMode = " + callWaitingMode);
         callWaitingModeInt = this.mCallWaitingMode;
         try {
             callWaitingModeInt = Integer.parseInt(callWaitingMode);
         } catch (NumberFormatException e) {
-            loge("getCallWaitingMode : NumberFormatException ");
+            myloge("getCallWaitingMode : NumberFormatException ");
         }
         return !NULL_STRING_VALUE.equals(callWaitingMode) ? callWaitingModeInt : this.mCallWaitingMode;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isCallWaitingSyncToImsSdk() {
         return this.mIsCallWaitingSyncToImsSdk;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isCallWaitingSyncToCs() {
         return this.mIsCallWaitingSyncToCs;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized CALL_WAITING_SOURCE getCallWaitingSource() {
         return this.mCallWaitingSource;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtOpenHrsLog() {
         return isConfigInProp(UT_HRS_LOG_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_HRS_LOG : this.mUtHrsLog;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getUtNafSrvAddr() {
         String utNafSrvAddr = SystemProperties.get(UT_NAF_SRV_ADDR_PROP_KEY, NULL_STRING_VALUE);
         if (!NULL_STRING_VALUE.equals(utNafSrvAddr)) {
-            logd("use naf addr from prop");
+            mylogd("use naf addr from prop");
             return utNafSrvAddr;
-        } else if (!NULL_STRING_VALUE.equals(this.mUtNafSrvAddr)) {
-            logd("use naf addr from xml, naf ");
-            return this.mUtNafSrvAddr;
-        } else {
-            String nafAddr = getRootUriFromSim();
-            if (nafAddr != null) {
-                logd("use naf addr from sim, naf ");
-                return nafAddr;
-            }
-            loge("pick naf addr fail.");
-            return null;
         }
+        if (!NULL_STRING_VALUE.equals(this.mUtNafSrvAddr)) {
+            mylogd("use naf addr from xml, naf ");
+            return this.mUtNafSrvAddr;
+        }
+        String nafAddr = getRootUriFromSim();
+        if (nafAddr != null) {
+            mylogd("use naf addr from sim, naf ");
+            return nafAddr;
+        }
+        myloge("pick naf addr fail.");
+        return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getUtNafPort() {
         String utNafPort;
         int utNafPortInt;
         utNafPort = SystemProperties.get(UT_NAF_PORT_PROP_KEY, NULL_STRING_VALUE);
-        logd("getUtNafPort ");
+        mylogd("getUtNafPort ");
         utNafPortInt = this.mUtNafPort;
         try {
             utNafPortInt = Integer.parseInt(utNafPort);
         } catch (NumberFormatException e) {
-            loge("getUtNafPort : NumberFormatException ");
+            myloge("getUtNafPort : NumberFormatException ");
         }
         return !NULL_STRING_VALUE.equals(utNafPort) ? utNafPortInt : this.mUtNafPort;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtNafUseHttps() {
         return isConfigInProp(UT_NAF_USE_HTTPS_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_NAF_USE_HTTPS : this.mUtNafUseHttps;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getUtBsfSrvAddr() {
         String utBsfSrvAddr = SystemProperties.get(UT_BSF_SRV_ADDR_PROP_KEY, NULL_STRING_VALUE);
         if (!NULL_STRING_VALUE.equals(utBsfSrvAddr)) {
-            logd("use bsf addr from prop, bsf");
+            mylogd("use bsf addr from prop, bsf");
             return utBsfSrvAddr;
-        } else if (!NULL_STRING_VALUE.equals(this.mUtBsfSrvAddr)) {
-            logd("use bsf addr from xml, bsf addr");
-            return this.mUtBsfSrvAddr;
-        } else {
-            String bsfAddr = getBsfAddrFromSIM();
-            if (bsfAddr != null) {
-                logd("use bsf addr from sim, bsf");
-                return bsfAddr;
-            }
-            loge("pick bsf addr fail.");
-            return null;
         }
+        if (!NULL_STRING_VALUE.equals(this.mUtBsfSrvAddr)) {
+            mylogd("use bsf addr from xml, bsf addr");
+            return this.mUtBsfSrvAddr;
+        }
+        String bsfAddr = getBsfAddrFromSIM();
+        if (bsfAddr != null) {
+            mylogd("use bsf addr from sim, bsf");
+            return bsfAddr;
+        }
+        myloge("pick bsf addr fail.");
+        return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isUtPreferVowifiWhenVowifiReg() {
         return this.mUtPreferVowifiWhenVowifiReg;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean getVowifiUtSwitch() {
         return this.mVowifiUtSwitch;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getUtXcapRootUri() {
         String utXcapRootUri;
@@ -660,6 +690,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return !NULL_STRING_VALUE.equals(utXcapRootUri) ? utXcapRootUri : this.mUtXcapRootUri;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getUtBsfPort() {
         String utBsfPort;
@@ -669,50 +700,57 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         try {
             utBsfPortInt = Integer.parseInt(utBsfPort);
         } catch (NumberFormatException e) {
-            loge("getUtBsfPort : NumberFormatException ");
+            myloge("getUtBsfPort : NumberFormatException ");
         }
         return !NULL_STRING_VALUE.equals(utBsfPort) ? utBsfPortInt : this.mUtBsfPort;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtBsfUseHttps() {
         return isConfigInProp(UT_BSF_USE_HTTPS_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_BSF_USE_HTTPS : this.mUtBsfUseHttps;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtUseNodeSelector() {
         return isConfigInProp(UT_USE_NODE_SELECTOR_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_USE_NODE_SELECTOR : this.mUtUseNodeSelector;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtUseXcapNameSpace() {
         return isConfigInProp(UT_USE_XCAP_NAMESPACE_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_USE_XCAP_NAMESPACE : this.mUtUseXcapNamespace;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtKsnafEncodedByBase64() {
         return isConfigInProp(UT_KSNAF_USE_BASE64_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_KSNAF_USE_BASE64 : this.mUtKsnafUseBase64;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getUtPreferOption() {
         return this.mUtPreferOption;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getUtGbaType() {
         return isConfigInProp(UT_GBA_TYPE_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_INT) ? UT_GBA_TYPE : this.mUtGbaType;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getUtBearerType() {
         String utBearerType;
         int utBearerTypeInt;
         utBearerType = SystemProperties.get(UT_BEARER_TYPE_PROP_KEY, NULL_STRING_VALUE);
-        logd("getUtBearerType, utBearerType " + utBearerType);
+        mylogd("getUtBearerType, utBearerType " + utBearerType);
         utBearerTypeInt = this.mUtBearerType;
         try {
             utBearerTypeInt = Integer.parseInt(utBearerType);
         } catch (NumberFormatException e) {
-            loge("getUtBearerType : NumberFormatException ");
+            myloge("getUtBearerType : NumberFormatException ");
         }
         return !NULL_STRING_VALUE.equals(utBearerType) ? utBearerTypeInt : this.mUtBearerType;
     }
@@ -728,32 +766,34 @@ public class HwImsConfigImpl extends ImsConfigImpl {
             while (i2 < length) {
                 int code = codes[i2];
                 String cause = DcFailCause.fromInt(code).toString();
-                int i3 = i + 1;
                 failCauses[i] = cause;
-                logd("initDcFailCause code:" + code + " cause : " + cause);
+                mylogd("initDcFailCause code:" + code + " cause : " + cause);
                 i2++;
-                i = i3;
+                i++;
             }
         }
         return failCauses;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isDcFailCauseForNonVolteSim(String cause) {
         if (this.mDcFailCause != null && this.mDcFailCause.length != 0) {
             return isContainInIMSConfig(this.mDcFailCause, cause);
         }
-        mylogw("mDcFailCause is null.");
+        logw("mDcFailCause is null.");
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isDcFailCauseToReleaseApn(String cause) {
         if (this.mDcFailCauseToReleaseApn != null && this.mDcFailCauseToReleaseApn.length != 0) {
             return isContainInIMSConfig(this.mDcFailCauseToReleaseApn, cause);
         }
-        mylogw("isDcFailCauseToReleaseApn fasle mDcFailCauseToReleaseApn is null.");
+        logw("isDcFailCauseToReleaseApn fasle mDcFailCauseToReleaseApn is null.");
         return false;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isUtUseTmpi() {
         return isConfigInProp(UT_USE_TMPI_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_BOOL) ? UT_USE_TMPI : this.mUtUseTmpi;
@@ -764,67 +804,74 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return isConfigInProp(UT_X_3GPP_INTEND_ID_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_STRING) ? UT_X_3GPP_INTEND_ID : this.mUtX3gppIntendId;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getUtIMPUFromNetwork() {
         return getSharedPreferences(IMPU_FROM_NETWORK_KEY[this.mSubId], this.mContext);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getUtIMPU(Context context) {
         if (isConfigInProp(UT_IMPU_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_STRING)) {
-            logd("use impu from prop, impu=" + hiddenPrivacyInfo(UT_IMPU, 2));
+            mylogd("use impu from prop, impu=" + hiddenPrivacyInfo(UT_IMPU, 2));
             return UT_IMPU;
-        } else if (!NULL_STRING_VALUE.equals(this.mUtIMPU)) {
-            logd("use impu from xml, impu=" + hiddenPrivacyInfo(this.mUtIMPU, 2));
-            return this.mUtIMPU;
-        } else {
-            String impu = getSharedPreferences(IMPU_FROM_NETWORK_KEY[this.mSubId], context);
-            if (impu != null) {
-                logd("use impu from network, impu=" + hiddenPrivacyInfo(impu, 2));
-                return impu;
-            }
-            String impu2 = getSharedPreferences(IMPU_FROM_SIM_IMSI_KEY[this.mSubId], context);
-            if (impu2 != null) {
-                logd("use impu from imsi, impu=" + hiddenPrivacyInfo(impu2, 2));
-                return impu2;
-            }
-            loge("pick impu fail.");
-            return null;
         }
+        if (!NULL_STRING_VALUE.equals(this.mUtIMPU)) {
+            mylogd("use impu from xml, impu=" + hiddenPrivacyInfo(this.mUtIMPU, 2));
+            return this.mUtIMPU;
+        }
+        String impu = getSharedPreferences(IMPU_FROM_NETWORK_KEY[this.mSubId], context);
+        if (impu != null) {
+            mylogd("use impu from network, impu=" + hiddenPrivacyInfo(impu, 2));
+            return impu;
+        }
+        String impu2 = getSharedPreferences(IMPU_FROM_SIM_IMSI_KEY[this.mSubId], context);
+        if (impu2 != null) {
+            mylogd("use impu from imsi, impu=" + hiddenPrivacyInfo(impu2, 2));
+            return impu2;
+        }
+        myloge("pick impu fail.");
+        return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getUtIMPI() {
         String sImpi;
         if (isConfigInProp(UT_IMPI_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_STRING)) {
-            logd("use impi from prop, impi=" + hiddenPrivacyInfo(UT_IMPI, 2));
+            mylogd("use impi from prop, impi=" + hiddenPrivacyInfo(UT_IMPI, 2));
             return UT_IMPI;
-        } else if (!NULL_STRING_VALUE.equals(this.mUtIMPI)) {
-            logd("use impi from xml, impi=" + hiddenPrivacyInfo(this.mUtIMPI, 2));
+        }
+        if (!NULL_STRING_VALUE.equals(this.mUtIMPI)) {
+            mylogd("use impi from xml, impi=" + hiddenPrivacyInfo(this.mUtIMPI, 2));
             return this.mUtIMPI;
-        } else if (NULL_STRING_VALUE.equals(this.mImpiDomain) && this.mImpiFromSim != null) {
-            logd("impi from sim already exist, impi=" + hiddenPrivacyInfo(this.mImpiFromSim, 2));
+        }
+        if (NULL_STRING_VALUE.equals(this.mImpiDomain) && this.mImpiFromSim != null) {
+            mylogd("impi from sim already exist, impi=" + hiddenPrivacyInfo(this.mImpiFromSim, 2));
             return this.mImpiFromSim;
-        } else if (this.mSpliceMncMcc != null && this.mCurrentIMSI != null) {
-            logd("begin to assemble impi from imsi, mSpliceMncMcc=" + this.mSpliceMncMcc);
+        }
+        if (this.mSpliceMncMcc != null && this.mCurrentIMSI != null) {
+            mylogd("begin to assemble impi from imsi, mSpliceMncMcc=" + this.mSpliceMncMcc);
             if (!NULL_STRING_VALUE.equals(this.mImpiDomain)) {
                 sImpi = this.mCurrentIMSI + "@" + this.mImpiDomain;
             } else {
                 sImpi = this.mCurrentIMSI + "@ims." + this.mSpliceMncMcc + ".3gppnetwork.org";
             }
             this.mImpiFromSim = sImpi;
-            logd("after assemble, impi=" + hiddenPrivacyInfo(sImpi, 2));
+            mylogd("after assemble, impi=" + hiddenPrivacyInfo(sImpi, 2));
             return sImpi;
-        } else {
-            loge("getImpiFromSIM error: Cannot splice sim MCC MNC or can't get imsi from sim.");
-            return null;
         }
+        myloge("getImpiFromSIM error: Cannot splice sim MCC MNC or can't get imsi from sim.");
+        return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized String getDomainName() {
         return this.mDomainNameFromSim;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getUtRetryMaxCounts() {
         if (this.mUtRetryInterval == null) {
@@ -833,6 +880,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return this.mUtRetryInterval.length;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getUtRetryInterval(int index) {
         if (index < 0) {
@@ -849,11 +897,13 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return isMissedCallTipsInternal();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isMissedCallTipsInternal() {
         return this.mMissedCallTips;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isMissedCallDisplay() {
         return this.mMissedCallDisplay;
@@ -864,31 +914,37 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return this.mMissedCallTipsDelay;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getMissedCallTipsRingTimer() {
         return this.mMissedCallTipsRingTimer;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized int getMissedCallTipsDelayTimer() {
         return this.mMissedCallTipsDelayTimer;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isCheckServiceWhenIncomingCall() {
         return this.mCheckServiceWhenIncomingCall;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getIMSI() {
         return this.mCurrentIMSI;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setIMSI(String imsi) {
         this.mCurrentIMSI = imsi;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isIMPUConfigured() {
         if (!isConfigInProp(UT_IMPU_PROP_KEY, CONFIG_TYPE.CONFIG_TYPE_STRING)) {
@@ -899,57 +955,65 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setCurrentImsi(String imsi) {
         this.mCurrentIMSI = imsi;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setSpliceMncMcc(String spliceMncMcc) {
         this.mSpliceMncMcc = spliceMncMcc;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setImpiFromSIM(String impi) {
         this.mImpiFromSim = impi;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void setDomainNameFromSIM(String domainName) {
         this.mDomainNameFromSim = domainName;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setBsfAddrFromSIM(String bsfAddr) {
         this.mBsfAddrFromSim = bsfAddr;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setNafAddrFromSIM(String nsfAddr) {
         this.mXcapRootURIFromSim = nsfAddr;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String spliceMncMcc() {
         String spMncMcc;
         String simOperator = getSimOperator();
         if (simOperator != null) {
-            logd("simOperator=" + simOperator);
+            mylogd("simOperator=" + simOperator);
             if (5 == simOperator.length()) {
                 spMncMcc = "mnc0" + simOperator.substring(3, 5);
             } else if (6 == simOperator.length()) {
                 spMncMcc = "mnc" + simOperator.substring(3, 6);
             } else {
-                loge("spliceMncMcc error: Get wrong MCC MNC");
+                myloge("spliceMncMcc error: Get wrong MCC MNC");
                 return null;
             }
             String spMncMcc2 = spMncMcc + ".mcc" + simOperator.substring(0, 3);
-            logd("spMCCMNC = " + spMncMcc2);
+            mylogd("spMCCMNC = " + spMncMcc2);
             return spMncMcc2;
         }
-        loge("spliceMncMcc error: Cannot get sim MCC MNC ");
+        myloge("spliceMncMcc error: Cannot get sim MCC MNC ");
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized String getSimOperator() {
         IccRecords r;
         int phoneId = ImsCallProviderUtils.getSubId(this.mSubId);
@@ -957,6 +1021,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return r != null ? r.getOperatorNumeric() : null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized String getIccId() {
         IccRecords r;
         int phoneId = ImsCallProviderUtils.getSubId(this.mSubId);
@@ -964,14 +1029,15 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return r != null ? r.getIccId() : null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getImpuFromSIM() {
         if (this.mSpliceMncMcc != null && this.mCurrentIMSI != null) {
             String sIMPU = "sip:" + this.mCurrentIMSI + "@ims." + this.mSpliceMncMcc + ".3gppnetwork.org";
-            logd("assemble IMPU from SIM, sIMPU = " + hiddenPrivacyInfo(sIMPU, 2));
+            mylogd("assemble IMPU from SIM, sIMPU = " + hiddenPrivacyInfo(sIMPU, 2));
             return sIMPU;
         }
-        loge("getSimIMPU error: Cannot splice sim MCC MNC or can't get imsi from sim.");
+        myloge("getSimIMPU error: Cannot splice sim MCC MNC or can't get imsi from sim.");
         return null;
     }
 
@@ -979,82 +1045,94 @@ public class HwImsConfigImpl extends ImsConfigImpl {
     synchronized String getImpiFromSIM() {
         if (this.mImpiFromSim != null) {
             return this.mImpiFromSim;
-        } else if (this.mSpliceMncMcc != null && this.mCurrentIMSI != null) {
+        }
+        if (this.mSpliceMncMcc != null && this.mCurrentIMSI != null) {
             String sImpi = this.mCurrentIMSI + "@ims." + this.mSpliceMncMcc + ".3gppnetwork.org";
             this.mImpiFromSim = sImpi;
-            logd("sImpi = " + hiddenPrivacyInfo(sImpi, 2));
+            mylogd("sImpi = " + hiddenPrivacyInfo(sImpi, 2));
             return sImpi;
-        } else {
-            loge("getImpiFromSIM error: Cannot splice sim MCC MNC or can't get imsi from sim.");
-            return null;
         }
+        myloge("getImpiFromSIM error: Cannot splice sim MCC MNC or can't get imsi from sim.");
+        return null;
     }
 
     @Override // com.huawei.ims.ImsConfigImpl
     synchronized String getBsfAddrFromSIM() {
         if (this.mBsfAddrFromSim != null) {
             return this.mBsfAddrFromSim;
-        } else if (this.mSpliceMncMcc != null) {
+        }
+        if (this.mSpliceMncMcc != null) {
             String sBsf = "bsf." + this.mSpliceMncMcc + ".pub.3gppnetwork.org";
             this.mBsfAddrFromSim = sBsf;
             return sBsf;
-        } else {
-            loge("getBsfAddrFromSIM error: Cannot splice sim MCC MNC or can't get imsi from sim.");
-            return null;
         }
+        myloge("getBsfAddrFromSIM error: Cannot splice sim MCC MNC or can't get imsi from sim.");
+        return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean isHangUpWhenLostNet() {
         return this.mHangUpWhenLostNet;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized String[] getUtParamsCfg() {
         return this.mUtParamsCfg;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isUtBsfAuthBeUsed() {
         return this.mUtBsfAuthBeUsed;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getOIRSourceMode() {
         return this.mUtOIRSourceMode;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getOIRDefaultMode() {
         return this.mUtOIRDefaultMode;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getUtImsDataDelayEndTime() {
         return this.mUtImsDataDelayEndTime;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getDefUtImsDataDelayEndTime() {
         return this.mDefUtImsDataDelayEndTime;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean getUt409ShowPhrase() {
         return this.mUt409ShowPhrase;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isUtGbaLifetimeBeUsed() {
         return this.mUtGbaLifetimeBeUsed;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getUtVoWifiDelayEndTime() {
         return this.mUtVoWifiDelayEndTime;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isUtQueryDnsIgnoreNetId() {
         return this.mUtQueryDnsIgnoreNetId;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized String getSharedPreferences(String spKey, Context context) {
-        logd("enter getSharedPreferences, spKey=" + spKey);
+        mylogd("enter getSharedPreferences, spKey=" + spKey);
         String valueInMap = this.mSpValueMap.get(spKey);
         if (valueInMap != null) {
-            logd("value is already stored in map.");
+            mylogd("value is already stored in map.");
             return valueInMap;
         }
         SharedPreferences sp = SharePreferenceUtil.getDefaultSharedPreferencesDE(context);
@@ -1066,12 +1144,13 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return valueInSp;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setSharedPreferences(String spKey, String spValue, Context context) {
-        logd("enter setSharedPreferences, spKey=" + spKey);
+        mylogd("enter setSharedPreferences, spKey=" + spKey);
         String valueInMap = this.mSpValueMap.get(spKey);
         if (valueInMap != null && valueInMap.equals(spValue)) {
-            logd("value is not changed, need not to store in SP again.");
+            mylogd("value is not changed, need not to store in SP again.");
             return;
         }
         this.mSpValueMap.put(spKey, spValue);
@@ -1082,6 +1161,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         editor.apply();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized boolean getBoolFromSP(String spKey, Context context, boolean defValue) {
         SharedPreferences sp;
@@ -1089,6 +1169,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return sp.getBoolean(spKey, defValue);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     @Override // com.huawei.ims.ImsConfigImpl
     public synchronized void setBoolToSP(String spKey, boolean spValue, Context context) {
         SharedPreferences sp = SharePreferenceUtil.getDefaultSharedPreferencesDE(context);
@@ -1097,12 +1178,14 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         editor.apply();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getIntFromSP(String spKey, Context context, int defValue) {
         SharedPreferences sp;
         sp = SharePreferenceUtil.getDefaultSharedPreferencesDE(context);
         return sp.getInt(spKey, defValue);
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void setIntToSP(String spKey, int spValue, Context context) {
         SharedPreferences sp = SharePreferenceUtil.getDefaultSharedPreferencesDE(context);
         SharedPreferences.Editor editor = sp.edit();
@@ -1110,9 +1193,10 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         editor.apply();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void readCarrierConfig(Context context) {
         if (FEATURE_VOLTE_DYN) {
-            logd("readCarrierConfig begin");
+            mylogd("readCarrierConfig begin");
             CarrierConfigManager cfgMgr = (CarrierConfigManager) context.getSystemService(Context.CARRIER_CONFIG_SERVICE);
             int subId = ImsCallProviderUtils.getSubId(this.mSubId);
             PersistableBundle b = cfgMgr.getConfigForSubId(subId);
@@ -1132,14 +1216,14 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDcFailCodeToReleaseApn = b.get(DC_FAIL_CAUSE_RELEASE_APN_XML_KEY) != null ? stringToIntArray(b.getString(DC_FAIL_CAUSE_RELEASE_APN_XML_KEY)) : null;
                 this.mDcFailCauseToReleaseApn = getDcFailCause(this.mDcFailCodeToReleaseApn);
             } catch (RuntimeException e) {
-                loge("RuntimeException");
+                myloge("RuntimeException");
             } catch (Exception e2) {
-                loge("Exception");
+                myloge("Exception");
             }
             resolveCallWaitingMode();
             this.mIsProtocolIR92V10orGreater = getParamFromUtParamsCfg(17) == 1;
             this.mUtGbaLifetimeBeUsed = getParamFromUtParamsCfg(19) == 1;
-            logd("readCarrierConfig end");
+            mylogd("readCarrierConfig end");
         }
     }
 
@@ -1154,7 +1238,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 }
                 String[] utParamsCfg = utParamsCfgArray[i].split(":");
                 if (utParamsCfg.length != 2 || TextUtils.isEmpty(utParamsCfg[0]) || TextUtils.isEmpty(utParamsCfg[1])) {
-                    loge("getParamFromUtParamsCfg : config param not right");
+                    myloge("getParamFromUtParamsCfg : config param not right");
                 } else {
                     try {
                         int utParam0 = Integer.parseInt(utParamsCfg[0]);
@@ -1164,13 +1248,13 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                             break;
                         }
                     } catch (NumberFormatException e) {
-                        loge("getParamFromUtParamsCfg : NumberFormatException ");
+                        myloge("getParamFromUtParamsCfg : NumberFormatException ");
                     }
                 }
                 i++;
             }
         }
-        logd("getParamFromUtParamsCfg: key =" + key + " , result = " + result);
+        mylogd("getParamFromUtParamsCfg: key =" + key + " , result = " + result);
         return result;
     }
 
@@ -1255,29 +1339,61 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         this.mUtPreferVowifiWhenVowifiReg = b.get(UT_PREFER_VOWIFI_WHEN_VOWIFI_REG_KEY) != null ? b.getBoolean(UT_PREFER_VOWIFI_WHEN_VOWIFI_REG_KEY) : this.mDefUtPreferVowifiWhenVowifiReg;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:181:0x0088, code lost:
-        if (r3 != null) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0088, code lost:
+
+        if (r3 != null) goto L36;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:187:0x0094, code lost:
-        if (r3 == null) goto L32;
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x0094, code lost:
+
+        if (r3 == null) goto L64;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
-        To view partially-correct code enable 'Show inconsistent code' option in preferences
     */
-    private void init(android.content.Context r8) {
-        /*
-            Method dump skipped, instructions count: 204
-            To view this dump change 'Code comments level' option to 'DEBUG'
-        */
-        throw new UnsupportedOperationException("Method not decompiled: com.huawei.ims.HwImsConfigImpl.init(android.content.Context):void");
+    private void init(Context context) {
+        File file = null;
+        mylogd("init enter");
+        InputStream is = null;
+        XmlPullParser parser = null;
+        boolean result = true;
+        XmlResourceParser xmlParser = null;
+
+        try {
+
+            mylogd("ImsConfig load from R.xml.hw_ims_config");
+            try {
+                try {
+                    xmlParser = context.getResources().getXml(R.xml.hw_ims_config);
+                    if (xmlParser != null) {
+                        loadImsConfig(context, xmlParser);
+                    }
+                } catch (Throwable th) {
+                    if (xmlParser != null) {
+                    }
+                    throw th;
+                }
+            } catch (Exception e3) {
+                myloge("load R.xml.hw_ims_config caught");
+            }
+
+
+            try {
+                resolveCallWaitingMode();
+            } catch (Exception e4) {
+                myloge("can't resolve call waiting mode");
+            }
+            mylogd("init finish");
+
+        } catch (Throwable th2) {
+            myloge("Exception failed - error is : " + th2.toString());
+        }
     }
 
     private String encrypt(String spValue, Context context) {
         String sKey;
         String sParam;
         if (spValue == null) {
-            logd("spValue is null, do not encrypt");
+            mylogd("spValue is null, do not encrypt");
             return null;
         }
         SharedPreferences sp = SharePreferenceUtil.getDefaultSharedPreferencesDE(context);
@@ -1285,7 +1401,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         String sKey2 = sp.getString(SHARED_PREFERENCES_PROFILE_KEY[this.mSubId], NULL_STRING_VALUE);
         String sParam2 = sp.getString(SHARED_PREFERENCES_PROFILE_PARAM[this.mSubId], NULL_STRING_VALUE);
         if (sKey2.equals(NULL_STRING_VALUE) || sParam2.equals(NULL_STRING_VALUE)) {
-            logd("create AES key");
+            mylogd("create AES key");
             sKey = EncryptUtils.generateRandomString(256);
             sParam = EncryptUtils.generateRandomString(16);
             editor.putString(SHARED_PREFERENCES_PROFILE_KEY[this.mSubId], EncryptUtils.encodeAESKey(sKey, 256));
@@ -1303,7 +1419,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
     private String decrypt(String spValueEncrypt, String sKey, String sParam) {
         String sParam2;
         if (spValueEncrypt.equals(NULL_STRING_VALUE) || sKey.equals(NULL_STRING_VALUE) || sParam.equals(NULL_STRING_VALUE)) {
-            logd("value or key is not exist");
+            mylogd("value or key is not exist");
             return null;
         }
         String sKey2 = EncryptUtils.decodeAESKey(sKey, 256);
@@ -1360,9 +1476,9 @@ public class HwImsConfigImpl extends ImsConfigImpl {
             handleBoolTypeConfigPartOne(value, text);
             handleBoolTypeConfigPartTwo(value, text);
         } catch (RuntimeException e) {
-            loge("handleBoolTypeConfig RuntimeException");
+            myloge("handleBoolTypeConfig RuntimeException");
         } catch (Exception e2) {
-            loge("handleBoolTypeConfig Exception");
+            myloge("handleBoolTypeConfig Exception");
         }
     }
 
@@ -1466,9 +1582,9 @@ public class HwImsConfigImpl extends ImsConfigImpl {
             handleIntTypeConfigPartOne(value, text);
             handleIntTypeConfigPartTwo(value, text);
         } catch (RuntimeException e) {
-            loge("handleIntTypeConfig RuntimeException");
+            myloge("handleIntTypeConfig RuntimeException");
         } catch (Exception e2) {
-            loge("handleIntTypeConfig Exception");
+            myloge("handleIntTypeConfig Exception");
         }
     }
 
@@ -1479,7 +1595,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDefDefaultNoReplyTimer = parseInt;
                 this.mDefaultNoReplyTimer = parseInt;
             } catch (NumberFormatException e) {
-                loge("handleIntTypeConfigPartOne :  mDefaultNoReplyTimer NumberFormatException");
+                myloge("handleIntTypeConfigPartOne :  mDefaultNoReplyTimer NumberFormatException");
                 this.mDefaultNoReplyTimer = this.mDefDefaultNoReplyTimer;
             }
         } else if (isStringEqual(CONTENT_TYPE_MODE_XML_KEY, value)) {
@@ -1488,7 +1604,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDefContentTypeMode = parseInt2;
                 this.mContentTypeMode = parseInt2;
             } catch (NumberFormatException e2) {
-                loge("handleIntTypeConfigPartOne : mContentTypeMode NumberFormatException");
+                myloge("handleIntTypeConfigPartOne : mContentTypeMode NumberFormatException");
                 this.mContentTypeMode = this.mDefContentTypeMode;
             }
         } else if (isStringEqual(CALL_WAITING_MODE_XML_KEY, value)) {
@@ -1497,7 +1613,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDefCallWaitingMode = parseInt3;
                 this.mCallWaitingMode = parseInt3;
             } catch (NumberFormatException e3) {
-                loge("handleIntTypeConfigPartOne : mCallWaitingMode NumberFormatException");
+                myloge("handleIntTypeConfigPartOne : mCallWaitingMode NumberFormatException");
                 this.mCallWaitingMode = this.mDefCallWaitingMode;
             }
         } else if (isStringEqual(UT_NAF_PORT_XML_KEY, value)) {
@@ -1506,7 +1622,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDefUtNafPort = parseInt4;
                 this.mUtNafPort = parseInt4;
             } catch (NumberFormatException e4) {
-                loge("handleIntTypeConfigPartOne : mUtNafPort NumberFormatException");
+                myloge("handleIntTypeConfigPartOne : mUtNafPort NumberFormatException");
                 this.mUtNafPort = this.mDefUtNafPort;
             }
         } else if (isStringEqual(UT_BSF_PORT_XML_KEY, value)) {
@@ -1515,7 +1631,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDefUtBsfPort = parseInt5;
                 this.mUtBsfPort = parseInt5;
             } catch (NumberFormatException e5) {
-                loge("handleIntTypeConfigPartOne : mUtBsfPort NumberFormatException");
+                myloge("handleIntTypeConfigPartOne : mUtBsfPort NumberFormatException");
                 this.mUtBsfPort = this.mDefUtBsfPort;
             }
         } else if (isStringEqual(UT_GBA_TYPE_XML_KEY, value)) {
@@ -1524,7 +1640,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDefUtGbaType = parseInt6;
                 this.mUtGbaType = parseInt6;
             } catch (NumberFormatException e6) {
-                loge("handleIntTypeConfigPartOne : mUtGbaType NumberFormatException");
+                myloge("handleIntTypeConfigPartOne : mUtGbaType NumberFormatException");
                 this.mUtGbaType = this.mDefUtGbaType;
             }
         } else if (isStringEqual(UT_BEARER_TYPE_XML_KEY, value)) {
@@ -1533,7 +1649,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDefUtBearerType = parseInt7;
                 this.mUtBearerType = parseInt7;
             } catch (NumberFormatException e7) {
-                loge("handleIntTypeConfigPartOne : mUtBearerType NumberFormatException");
+                myloge("handleIntTypeConfigPartOne : mUtBearerType NumberFormatException");
                 this.mUtBearerType = this.mDefUtBearerType;
             }
         }
@@ -1546,7 +1662,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDefMissedCallTipsRingTimer = parseInt;
                 this.mMissedCallTipsRingTimer = parseInt;
             } catch (NumberFormatException e) {
-                loge("handleIntTypeConfigPartTwo : mMissedCallTipsRingTimer NumberFormatException");
+                myloge("handleIntTypeConfigPartTwo : mMissedCallTipsRingTimer NumberFormatException");
                 this.mMissedCallTipsRingTimer = this.mDefMissedCallTipsRingTimer;
             }
         } else if (isStringEqual(MISSED_CALL_TIPS_DELAY_TIMER_XML_KEY, value)) {
@@ -1555,7 +1671,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDefMissedCallTipsDelayTimer = parseInt2;
                 this.mMissedCallTipsDelayTimer = parseInt2;
             } catch (NumberFormatException e2) {
-                loge("handleIntTypeConfigPartTwo : mMissedCallTipsDelayTimer NumberFormatException");
+                myloge("handleIntTypeConfigPartTwo : mMissedCallTipsDelayTimer NumberFormatException");
                 this.mMissedCallTipsDelayTimer = this.mDefMissedCallTipsDelayTimer;
             }
         } else if (isStringEqual(UT_USE_APN_XML_KEY, value)) {
@@ -1564,7 +1680,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDefUtUseApn = parseInt3;
                 this.mUtUseApn = parseInt3;
             } catch (NumberFormatException e3) {
-                loge("handleIntTypeConfigPartTwo : mUtUseApn NumberFormatException");
+                myloge("handleIntTypeConfigPartTwo : mUtUseApn NumberFormatException");
                 this.mUtUseApn = this.mDefUtUseApn;
             }
         } else if (isStringEqual(UT_OIR_SOURCE_MODE_XML_KEY, value)) {
@@ -1573,7 +1689,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDefUtOIRSourceMode = parseInt4;
                 this.mUtOIRSourceMode = parseInt4;
             } catch (NumberFormatException e4) {
-                loge("handleIntTypeConfigPartTwo : mUtOIRSourceMode NumberFormatException");
+                myloge("handleIntTypeConfigPartTwo : mUtOIRSourceMode NumberFormatException");
                 this.mUtOIRSourceMode = this.mDefUtOIRSourceMode;
             }
         } else if (isStringEqual(UT_OIR_DEFAULT_MODE_XML_KEY, value)) {
@@ -1582,7 +1698,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDefUtOIRDefaultMode = parseInt5;
                 this.mUtOIRDefaultMode = parseInt5;
             } catch (NumberFormatException e5) {
-                loge("handleIntTypeConfigPartTwo : mUtOIRDefaultMode NumberFormatException");
+                myloge("handleIntTypeConfigPartTwo : mUtOIRDefaultMode NumberFormatException");
                 this.mUtOIRDefaultMode = this.mDefUtOIRDefaultMode;
             }
         } else if (isStringEqual(IMS_DATA_DELAY_END_XML_KEY, value)) {
@@ -1591,7 +1707,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDefUtImsDataDelayEndTime = parseInt6;
                 this.mUtImsDataDelayEndTime = parseInt6;
             } catch (NumberFormatException e6) {
-                loge("handleIntTypeConfigPartTwo : mUtImsDataDelayEndTime NumberFormatException");
+                myloge("handleIntTypeConfigPartTwo : mUtImsDataDelayEndTime NumberFormatException");
                 this.mUtImsDataDelayEndTime = this.mDefUtImsDataDelayEndTime;
             }
         } else if (isStringEqual(SET_DEACT_DEFAULT_NO_REPLY_TIMER_XML_KEY, value)) {
@@ -1600,7 +1716,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDefDefaultNeedNoReplyTimer = parseInt7;
                 this.mDefaultNeedNoReplyTimer = parseInt7;
             } catch (NumberFormatException e7) {
-                loge("handleIntTypeConfigPartTwo : mDefaultNeedNoReplyTimer NumberFormatException");
+                myloge("handleIntTypeConfigPartTwo : mDefaultNeedNoReplyTimer NumberFormatException");
                 this.mDefaultNeedNoReplyTimer = this.mDefDefaultNeedNoReplyTimer;
             }
         } else if (isStringEqual(UT_VOWIFI_DELAY_END_TIME_XML_KEY, value)) {
@@ -1609,11 +1725,11 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mDefUtVoWifiDelayEndTime = parseInt8;
                 this.mUtVoWifiDelayEndTime = parseInt8;
             } catch (NumberFormatException e8) {
-                loge("handleIntTypeConfigPartTwo : mUtVoWifiDelayEndTime NumberFormatException");
+                myloge("handleIntTypeConfigPartTwo : mUtVoWifiDelayEndTime NumberFormatException");
                 this.mUtVoWifiDelayEndTime = this.mDefUtVoWifiDelayEndTime;
             }
         } else {
-            loge("unknown config, value=" + value + ", text=" + text);
+            myloge("unknown config, value=" + value + ", text=" + text);
         }
     }
 
@@ -1625,9 +1741,9 @@ public class HwImsConfigImpl extends ImsConfigImpl {
             handleStringTypeConfigPartOne(value, text);
             handleStringTypeConfigPartTwo(value, text);
         } catch (RuntimeException e) {
-            loge("handleStringTypeConfig RuntimeException");
+            myloge("handleStringTypeConfig RuntimeException");
         } catch (Exception e2) {
-            loge("handleStringTypeConfig Exception");
+            myloge("handleStringTypeConfig Exception");
         }
     }
 
@@ -1720,53 +1836,37 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                         if (parser instanceof XmlResourceParser) {
                             ((XmlResourceParser) parser).close();
                         }
-                        if (parser instanceof KXmlParser) {
-                          //  ((KXmlParser) parser).close();
-                        }
                     } catch (Throwable th) {
                         if (parser instanceof XmlResourceParser) {
                             ((XmlResourceParser) parser).close();
                         }
-                        if (parser instanceof KXmlParser) {
-                            try {
-                               // ((KXmlParser) parser).close();
-                            } catch (Exception e) {
-                                loge("Exception");
-                            }
-                        }
                         throw th;
                     }
                 } catch (Exception e2) {
-                    loge("loadImsConfig Exception");
+                    myloge("loadImsConfig Exception");
                     if (parser instanceof XmlResourceParser) {
                         ((XmlResourceParser) parser).close();
                     }
-                    if (parser instanceof KXmlParser) {
-                       // ((KXmlParser) parser).close();
-                    }
                 }
             } catch (RuntimeException e3) {
-                loge("loadImsConfig RuntimeException");
+                myloge("loadImsConfig RuntimeException");
                 if (parser instanceof XmlResourceParser) {
                     ((XmlResourceParser) parser).close();
                 }
-                if (parser instanceof KXmlParser) {
-                   // ((KXmlParser) parser).close();
-                }
             }
         } catch (Exception e4) {
-            loge("Exception");
+            myloge("Exception");
         }
     }
 
     private boolean isContainInIMSConfig(int[] imsConfig, int serviceValue) {
         if (imsConfig == null || imsConfig.length == 0) {
-            mylogw("ims config is null.");
+            logw("ims config is null.");
             return true;
         }
         for (int i : imsConfig) {
             if (serviceValue == i) {
-                logd("Current SS type or card type is contained by ims config.");
+                mylogd("Current SS type or card type is contained by ims config.");
                 return true;
             }
         }
@@ -1775,13 +1875,13 @@ public class HwImsConfigImpl extends ImsConfigImpl {
 
     private boolean isContainInIMSConfig(String[] imsConfig, String serviceValue) {
         if (imsConfig == null) {
-            logd("ims config is null. ");
+            mylogd("ims config is null. ");
             return true;
         }
         for (int number = 0; number < imsConfig.length; number++) {
-            logd("imsConfig=" + imsConfig[number] + ", number=" + number);
+            mylogd("imsConfig=" + imsConfig[number] + ", number=" + number);
             if (imsConfig[number] != null && imsConfig[number].equals(serviceValue)) {
-                logd("serviceValue is contained by ims config.");
+                mylogd("serviceValue is contained by ims config.");
                 return true;
             }
         }
@@ -1790,17 +1890,17 @@ public class HwImsConfigImpl extends ImsConfigImpl {
 
     private int[] stringToIntArray(String stringText) {
         if (stringText == null) {
-            mylogw("stringText is null. ");
+            logw("stringText is null. ");
             return new int[0];
         }
         String stringReplaceSpace = stringText.replaceAll(" ", NULL_STRING_VALUE);
         if (NULL_STRING_VALUE.equals(stringReplaceSpace)) {
-            mylogw("stringText is null after replace space. ");
+            logw("stringText is null after replace space. ");
             return new int[0];
         }
         String[] stringTextArray = stringReplaceSpace.split(SEPARATOR_TAG);
         if (stringTextArray.length == 0) {
-            mylogw("stringTextArray length is 0 after replace space.");
+            logw("stringTextArray length is 0 after replace space.");
             return new int[0];
         }
         int[] intArray = new int[stringTextArray.length];
@@ -1809,10 +1909,10 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 try {
                     intArray[i] = Integer.parseInt(stringTextArray[i]);
                 } catch (NumberFormatException e) {
-                    loge("stringToIntArray : NumberFormatException ");
+                    myloge("stringToIntArray : NumberFormatException ");
                     intArray[i] = -123456;
                 }
-                logd("intArray[i] =  " + intArray[i]);
+                mylogd("intArray[i] =  " + intArray[i]);
             } else {
                 intArray[i] = -123456;
             }
@@ -1822,24 +1922,24 @@ public class HwImsConfigImpl extends ImsConfigImpl {
 
     private String[] stringToStringArray(String stringText) {
         if (stringText == null) {
-            mylogw("stringText is null.");
+            logw("stringText is null.");
             return new String[0];
         }
         String stringReplaceSpace = stringText.replaceAll(" ", NULL_STRING_VALUE);
         if (NULL_STRING_VALUE.equals(stringReplaceSpace)) {
-            mylogw("stringText is null after replace space.");
+            logw("stringText is null after replace space.");
             return new String[0];
         }
         String[] stringArray = stringReplaceSpace.split(SEPARATOR_TAG);
         if (stringArray.length == 0) {
-            mylogw("stringArray length is 0 after replace space.");
+            logw("stringArray length is 0 after replace space.");
             return new String[0];
         }
         for (int i = 0; i < stringArray.length; i++) {
             if (NULL_STRING_VALUE.equals(stringArray[i])) {
                 stringArray[i] = STRING_NOT_INITIALIZED;
             }
-            logd("stringArray[i]=" + stringArray[i]);
+            mylogd("stringArray[i]=" + stringArray[i]);
         }
         return stringArray;
     }
@@ -1868,10 +1968,10 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 this.mCallWaitingSource = CALL_WAITING_SOURCE.CALL_WAITING_FROM_LOCAL;
                 break;
             default:
-                loge("call waiting source is not exist, source=" + this.mCallWaitingSource);
+                myloge("call waiting source is not exist, source=" + this.mCallWaitingSource);
                 break;
         }
-        logd("resolveCallWaitingMode finished, callWaitingMode=" + callWaitingMode + ", mIsCallWaitingSyncToImsSdk=" + this.mIsCallWaitingSyncToImsSdk + ", mIsCallWaitingSyncToCs=" + this.mIsCallWaitingSyncToCs + ", mCallWaitingSource=" + this.mCallWaitingSource);
+        mylogd("resolveCallWaitingMode finished, callWaitingMode=" + callWaitingMode + ", mIsCallWaitingSyncToImsSdk=" + this.mIsCallWaitingSyncToImsSdk + ", mIsCallWaitingSyncToCs=" + this.mIsCallWaitingSyncToCs + ", mCallWaitingSource=" + this.mCallWaitingSource);
     }
 
     private String getRootUriFromSim() {
@@ -1883,14 +1983,14 @@ public class HwImsConfigImpl extends ImsConfigImpl {
             this.mXcapRootURIFromSim = sRootURI;
             return sRootURI;
         }
-        loge("getRootURI error: Get wrong MCC MNC ");
+        myloge("getRootURI error: Get wrong MCC MNC ");
         return null;
     }
 
     private boolean isConfigInProp(String key, CONFIG_TYPE propType) {
         int keyLength = key.length();
         if (31 < keyLength) {
-            loge("the prop name length=" + keyLength);
+            myloge("the prop name length=" + keyLength);
             return false;
         }
         switch (propType) {
@@ -1903,7 +2003,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                 }
                 return true;
             default:
-                loge("can't recognise this prop type");
+                myloge("can't recognise this prop type");
                 return false;
         }
     }
@@ -1912,6 +2012,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return HiddenPrivacyInfo.putMosaic(info, type);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void mylogd(String s) {
         Rlog.d("HwImsConfigImpl[" + this.mSubId + "]", s);
     }
@@ -1920,7 +2021,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         Rlog.e("HwImsConfigImpl[" + this.mSubId + "]", "[ERROR] " + s);
     }
 
-    private void mylogw(String s) {
+    private void logw(String s) {
         Rlog.w("HwImsConfigImpl[" + this.mSubId + "]", "[WARN] " + s);
     }
 
@@ -1929,25 +2030,25 @@ public class HwImsConfigImpl extends ImsConfigImpl {
             return 0;
         }
         if (this.mMapconService == null) {
-            loge("setProvisionedValue,mMapconService is null");
+            myloge("setProvisionedValue,mMapconService is null");
             return -1;
         }
         int phoneId = ImsCallProviderUtils.getSubId(this.mSubId);
         int ret = 0;
         if (26 == item) {
             try {
-                logd("set VOICE_OVER_WIFI_ROAMING,value:" + value);
+                mylogd("set VOICE_OVER_WIFI_ROAMING,value:" + value);
                 this.mMapconService.notifyRoaming(phoneId);
             } catch (RemoteException e) {
-                logd("set VOICE_OVER_WIFI_ROAMING failed");
+                mylogd("set VOICE_OVER_WIFI_ROAMING failed");
                 ret = 1;
             }
         } else if (27 == item) {
             try {
-                logd("set VOICE_OVER_WIFI_MODE,value:" + value);
+                mylogd("set VOICE_OVER_WIFI_MODE,value:" + value);
                 this.mMapconService.setDomain(phoneId, value);
             } catch (RemoteException e2) {
-                logd("set VOICE_OVER_WIFI_MODE failed");
+                mylogd("set VOICE_OVER_WIFI_MODE failed");
                 ret = 1;
             }
         }
@@ -1979,12 +2080,13 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void bindMapconService() {
         if (IS_VOWIFI_PROP_ON) {
             ServiceConnection mConnection = new ServiceConnection() { // from class: com.huawei.ims.HwImsConfigImpl.2
                 @Override // android.content.ServiceConnection
                 public void onServiceConnected(ComponentName className, IBinder service) {
-                    HwImsConfigImpl.this.logd("onServiceConnected");
+                    HwImsConfigImpl.this.mylogd("onServiceConnected");
                     HwImsConfigImpl.this.mMapconService = IMapconService.Stub.asInterface(service);
                 }
 
@@ -1995,13 +2097,12 @@ public class HwImsConfigImpl extends ImsConfigImpl {
             };
             Intent intent = new Intent().setClassName("com.hisi.mapcon", "com.hisi.mapcon.MapconService");
             this.mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-
         }
     }
 
     @Override // com.huawei.ims.ImsConfigImpl
     public void setFeatureValue(int feature, int network, int value, ImsConfigListener listener) {
-        logd("setFeatureValue feature=" + feature + ",network=" + network + ",value=" + value);
+        mylogd("setFeatureValue feature=" + feature + ",network=" + network + ",value=" + value);
         switch (feature) {
             case 0:
             case 1:
@@ -2015,7 +2116,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
 
     @Override // com.huawei.ims.ImsConfigImpl
     public int setImsConfig(String configKey, PersistableBundle configValue) {
-        logd("setImsConfig, configKey = " + configKey + ", configValue = *** ");
+        mylogd("setImsConfig, configKey = " + configKey + ", configValue = *** ");
         if (configKey != null) {
             char c = 65535;
             int hashCode = configKey.hashCode();
@@ -2044,17 +2145,17 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                     this.mHwImsServiceImpl.setVoWiFiRegErrReportEnable(enabled);
                     return 0;
                 default:
-                    logd("setImsConfig, configKey not exist!");
+                    mylogd("setImsConfig, configKey not exist!");
                     return 1;
             }
         }
-        logd("setImsConfig, configKey is null!");
+        mylogd("setImsConfig, configKey is null!");
         return 1;
     }
 
     @Override // com.huawei.ims.ImsConfigImpl
     public PersistableBundle getImsConfig(String configKey) {
-        logd("getImsConfig, configKey = " + configKey);
+        mylogd("getImsConfig, configKey = " + configKey);
         PersistableBundle bundle = new PersistableBundle();
         if (configKey != null) {
             char c = 65535;
@@ -2074,7 +2175,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                     String imsStoredKeyWithSubId = ImsCallProviderUtils.getImsStoredKeyWithSubId(i, HwImsServiceImpl.SMS_IMS_SET_VALUE);
                     HwImsServiceImpl hwImsServiceImpl2 = this.mHwImsServiceImpl;
                     int smsConfigValue = Settings.Secure.getInt(contentResolver, imsStoredKeyWithSubId, 1);
-                    logd("getImsConfig, smsConfigValue = " + smsConfigValue);
+                    mylogd("getImsConfig, smsConfigValue = " + smsConfigValue);
                     bundle.putInt(IMS_CONFIG_KEY_GETSMSCONFIG, smsConfigValue);
                     break;
                 case 1:
@@ -2082,26 +2183,26 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                     int i2 = this.mSubId;
                     HwImsServiceImpl hwImsServiceImpl3 = this.mHwImsServiceImpl;
                     String dmUserValue = Settings.Secure.getString(contentResolver2, ImsCallProviderUtils.getImsStoredKeyWithSubId(i2, HwImsServiceImpl.DM_USER_IMS_VALUE));
-                    logd("getImsConfig, dmUserValue = " + dmUserValue);
+                    mylogd("getImsConfig, dmUserValue = " + dmUserValue);
                     bundle.putString(IMS_CONFIG_KEY_GETDMUSER, dmUserValue);
                     break;
                 default:
-                    logd("getImsConfig, configKey not exist!" + configKey);
+                    mylogd("getImsConfig, configKey not exist!" + configKey);
                     break;
             }
         } else {
-            logd("getImsConfig, configKey is null!");
+            mylogd("getImsConfig, configKey is null!");
         }
         return bundle;
     }
 
     private void setVoWifiStatus(int value) {
-        logd("setVoWifiStatus value=" + value);
+        mylogd("setVoWifiStatus value=" + value);
         if (!IS_VOWIFI_PROP_ON) {
             return;
         }
         if (this.mMapconService == null) {
-            logd("mMapconService is null");
+            mylogd("mMapconService is null");
             return;
         }
         int phoneId = ImsCallProviderUtils.getSubId(this.mSubId);
@@ -2109,7 +2210,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
             switch (value) {
                 case 0:
                     this.mMapconService.setVoWifiOff(phoneId);
-                    logd("set vowifi off successful");
+                    mylogd("set vowifi off successful");
                     if (IS_ATT_WF) {
                         Rlog.d(LOG_TAG, "Wifi-Call HwImsConfigImpl set vowifi off successful");
                         this.mCi.setWifiEmergencyAid(false, null);
@@ -2118,7 +2219,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                     break;
                 case 1:
                     this.mMapconService.setVoWifiOn(phoneId);
-                    logd("set vowifi on successful");
+                    mylogd("set vowifi on successful");
                     if (IS_ATT_WF) {
                         Rlog.d(LOG_TAG, "Wifi-Call HwImsConfigImpl set vowifi on successful");
                         this.mCi.setWifiEmergencyAid(true, null);
@@ -2129,7 +2230,7 @@ public class HwImsConfigImpl extends ImsConfigImpl {
                     return;
             }
         } catch (RemoteException e) {
-            loge("set vowifi status failed");
+            myloge("set vowifi status failed");
         }
     }
 
@@ -2144,10 +2245,12 @@ public class HwImsConfigImpl extends ImsConfigImpl {
         editor.apply();
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean isVolteLowbatteryEndcall() {
         return this.mVolteLowbatteryEndcall;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean getIsEmergencyUnderWifi() {
         return this.mIsEmergencyUnderWifi;
     }

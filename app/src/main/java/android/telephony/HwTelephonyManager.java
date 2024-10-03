@@ -4,16 +4,10 @@ import android.content.Context;
 import android.telephony.TelephonyManager;
 public class HwTelephonyManager {
     private static HwTelephonyManager sInstance = new HwTelephonyManager();
-    private static TelephonyManager sInstanceTelMngr = new TelephonyManager();
 
-
-    public static TelephonyManager getTelMngrDefault() {
-        //        return (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        return sInstanceTelMngr;
-    }
 
     public static String getSimOperator(int subId) {
-        return sInstanceTelMngr.getSimOperator();
+        return "SFR";
     }
     // TODO Iceows
     public static int getCardType(int subId) {
@@ -21,7 +15,7 @@ public class HwTelephonyManager {
     }
     // TODO Iceows
     public static int getNetworkType(int subId) {
-        return sInstanceTelMngr.getNetworkType();
+        return 0;
     }
     // TODO Iceows
     public static boolean isNetorkRoaming(int slotId) {
@@ -43,12 +37,12 @@ public class HwTelephonyManager {
     }
 
     // TODO Iceows
-    public int getSimState(int i) {
+    public static int getSimState(int i) {
         return 0;
     }
     // TODO Iceows
-    public int getCurrentPhoneTypeForSlot(int subId) {
-        return (sInstanceTelMngr.getPhoneType());
+    public static int getCurrentPhoneTypeForSlot(int subId) {
+        return 0;
     }
     // TODO Iceows
     public boolean isCTSimCard(int subId) {

@@ -41,6 +41,7 @@ import com.android.internal.telephony.HwModemCapability;
 import com.android.internal.telephony.HwTelephonyFactory;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneFactory;
+import com.android.internal.telephony.dataconnection.DataConnection;
 import com.android.internal.telephony.imsphone.ImsPhone;
 import com.android.internal.telephony.imsphone.ImsPhoneCall;
 import com.android.internal.telephony.uicc.IccCardApplicationStatus;
@@ -72,6 +73,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+/* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
 public class HwImsServiceImpl {
     private static final String ACTION_DMPROVIDER_TO_IMS = "com.android.server.dm.BROADCAST_DMSYNCSERVICE_TO_IMS";
     private static final String ACTION_IMS_TO_DMPROVIDER = "com.android.server.dm.BROADCAST_IMS_TO_DMSYNCSERVICE";
@@ -266,8 +268,7 @@ public class HwImsServiceImpl {
     private BroadcastReceiver mBroadCastReceiver = new BroadcastReceiver() { // from class: com.huawei.ims.HwImsServiceImpl.1
         @Override // android.content.BroadcastReceiver
         public void onReceive(Context context, Intent intent) {
-            HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-            hwImsServiceImpl.log("mBroadCastReceiver: action " + intent.getAction());
+            HwImsServiceImpl.this.log("mBroadCastReceiver: action " + intent.getAction());
             if (HwImsServiceImpl.MAPCON_SERVICE_STARTED.equals(intent.getAction()) && HwImsServiceImpl.this.mMapconService == null) {
                 HwImsServiceImpl.this.bindMapconService();
             }
@@ -289,9 +290,13 @@ public class HwImsServiceImpl {
                     return;
                 }
                 HwImsServiceImpl.this.log("airplane mode off");
-            } else if ("android.intent.action.ACTION_SWITCH_DUAL_CARDS_SLOT".equals(action)) {
+                return;
+            }
+            if ("android.intent.action.ACTION_SWITCH_DUAL_CARDS_SLOT".equals(action)) {
                 HwImsServiceImpl.this.notifyImsState(HwImsServiceImpl.IMS_STATE_UNREGISTERED);
-            } else if ("android.telephony.action.CARRIER_CONFIG_CHANGED".equals(action)) {
+                return;
+            }
+            if ("android.telephony.action.CARRIER_CONFIG_CHANGED".equals(action)) {
                 if (ImsCallProviderUtils.IS_DUAL_IMS_AVAILABLE) {
                     int intentSubId = intent.getIntExtra(HwImsServiceImpl.SUBSCRIPTION_KEY, 0);
                     if (intentSubId != HwImsServiceImpl.this.mSub) {
@@ -309,16 +314,22 @@ public class HwImsServiceImpl {
                 HwImsServiceImpl.this.loge("carrier config changed ");
                 HwImsServiceImpl.this.setVTCapabilityToModem();
                 HwImsServiceImpl.this.sendSimCardType();
-            } else if ("android.intent.action.RADIO_TECHNOLOGY".equals(action)) {
+                return;
+            }
+            if ("android.intent.action.RADIO_TECHNOLOGY".equals(action)) {
                 int mainSlot = ImsCallProviderUtils.getSubId(HwImsServiceImpl.this.mSub);
-                HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-                hwImsServiceImpl.log("mainSlot = " + mainSlot + "intent sub =" + intent.getIntExtra(HwImsServiceImpl.SUBSCRIPTION_KEY, -1) + "intent phoneId = " + intent.getIntExtra("phone", -1));
+                HwImsServiceImpl.this.log("mainSlot = " + mainSlot + "intent sub =" + intent.getIntExtra(HwImsServiceImpl.SUBSCRIPTION_KEY, -1) + "intent phoneId = " + intent.getIntExtra("phone", -1));
                 if (mainSlot == intent.getIntExtra(HwImsServiceImpl.SUBSCRIPTION_KEY, -1)) {
                     HwImsServiceImpl.this.updatePhoneBaseEvent();
+                    return;
                 }
-            } else if ("android.intent.action.BOOT_COMPLETED".equals(action)) {
+                return;
+            }
+            if ("android.intent.action.BOOT_COMPLETED".equals(action)) {
                 HwImsServiceImpl.this.moveSharePreferenceToDE();
-            } else if (HwImsServiceImpl.ACTION_DMPROVIDER_TO_IMS.equals(action)) {
+                return;
+            }
+            if (HwImsServiceImpl.ACTION_DMPROVIDER_TO_IMS.equals(action)) {
                 int type = intent.getIntExtra(HwImsServiceImpl.DM_IMS_TYPE, -1);
                 String data = intent.getStringExtra(HwImsServiceImpl.DM_IMS_DATA);
                 HwImsServiceImpl.this.processDMBroadcast(type, data);
@@ -385,10 +396,9 @@ public class HwImsServiceImpl {
         this.mPhoneBase.set(null);
         updatePhoneBaseEvent();
         if (this.mPhoneBase.get() != null) {
-            this.mPhoneBase.get().mCi.registerForOn(this.mHandler, (int) EVENT_IMS_RADIO_ON, (Object) null);
+            this.mPhoneBase.get().mCi.registerForOn(this.mHandler, EVENT_IMS_RADIO_ON, (Object) null);
             // TODO Iceows
             //this.mPhoneBase.get().mCi.registerForUnsolNvCfgFinished(this.mHandler, 23, (Object) null);
-
         }
         onUpdateIccAvailability();
         try {
@@ -415,6 +425,7 @@ public class HwImsServiceImpl {
         log("HwImsServiceImpl init done");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void registerReceiverForBattery() {
         if (this.mImsConfigImpl != null && this.mImsConfigImpl.isVolteLowbatteryEndcall() && this.mContext != null) {
             IntentFilter filter = new IntentFilter();
@@ -424,6 +435,7 @@ public class HwImsServiceImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void sendBatteryStatus(Intent intent) {
         int level = intent.getIntExtra("level", 100);
         int plugType = intent.getIntExtra("plugged", 0);
@@ -444,6 +456,7 @@ public class HwImsServiceImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void notifyImsState(String state) {
         if (state.equals(IMS_STATE_REGISTERED)) {
             this.mImsStateBindRat = 1;
@@ -469,6 +482,7 @@ public class HwImsServiceImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void initServiceState() {
         this.mServiceState = new ImsServiceState[5];
         for (int i = 0; i < 5; i++) {
@@ -595,17 +609,16 @@ public class HwImsServiceImpl {
         return this.mHwImsEcbmImpl;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void createFeatureCapabilityCallBackThread(final ImsServiceCallTracker.FeatureCapatilityListener listener) {
         Runnable r = new Runnable() { // from class: com.huawei.ims.HwImsServiceImpl.3
             @Override // java.lang.Runnable
             public void run() {
                 try {
-                    HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-                    hwImsServiceImpl.log("enter createFeatureCapabilityCallBackThread.  mTelCapabilities=" + HwImsServiceImpl.this.mTelCapabilities);
+                    HwImsServiceImpl.this.log("enter createFeatureCapabilityCallBackThread.  mTelCapabilities=" + HwImsServiceImpl.this.mTelCapabilities);
                     listener.notifyCapabilitiesStatusChanged(HwImsServiceImpl.this.mTelCapabilities);
                 } catch (Throwable t) {
-                    HwImsServiceImpl hwImsServiceImpl2 = HwImsServiceImpl.this;
-                    hwImsServiceImpl2.loge(t + " createFeatureCapabilityCallBackThread()");
+                    HwImsServiceImpl.this.loge(t + " createFeatureCapabilityCallBackThread()");
                 }
             }
         };
@@ -617,10 +630,12 @@ public class HwImsServiceImpl {
         return e != null && (e instanceof CommandException) && ((CommandException) e).getCommandError() == CommandException.Error.RADIO_NOT_AVAILABLE;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean isVolteSwitchOn() {
         Phone defPhone = getDefaultPhone();
         boolean isVolteSwitchOn = false;
         if (defPhone != null) {
+            // TODO Iceows
             //isVolteSwitchOn = defPhone.getImsSwitch();
             isVolteSwitchOn=true;
         }
@@ -628,6 +643,7 @@ public class HwImsServiceImpl {
         return isVolteSwitchOn;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleCalls(AsyncResult ar) {
         ArrayList<DriverImsCall> callList;
         log(">handleCalls");
@@ -763,6 +779,7 @@ public class HwImsServiceImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleModifyCallRequest(ImsCallAdapter.CallModify cm) {
         log("handleCallModifyRequest(" + cm + ")");
         ImsServiceCallTracker tracker = this.mTrackerTable.get(1);
@@ -773,6 +790,7 @@ public class HwImsServiceImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void handleModifyCallResult(int[] modifyResult) {
         log("handleModifyCallResult");
         ImsServiceCallTracker tracker = this.mTrackerTable.get(1);
@@ -783,70 +801,68 @@ public class HwImsServiceImpl {
         }
     }
 
-    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-15191007970443133098.dex */
-    public class HwImsServiceImplHandler extends Handler {
+    /* loaded from: C:\Users\MOUNIERR\AppData\Local\Temp\jadx-13900076406109865746.dex */
+    private class HwImsServiceImplHandler extends Handler {
+        HwImsServiceImplHandler() {
+        }
 
         private void createRegCallBackThread(final int registrationState) {
             Runnable r = new Runnable() { // from class: com.huawei.ims.HwImsServiceImpl.HwImsServiceImplHandler.1
-                /* JADX WARN: Finally extract failed */
                 @Override // java.lang.Runnable
                 public void run() {
                     String imsState;
                     HwImsServiceImpl hwImsServiceImpl;
                     StringBuilder sb;
-                    HwImsServiceImpl hwImsServiceImpl2 = HwImsServiceImpl.this;
-                    hwImsServiceImpl2.log("registrationState=" + registrationState + " mAccessTechMode = " + HwImsServiceImpl.this.mAccessTechMode);
+                    HwImsServiceImpl.this.log("registrationState=" + registrationState + " mAccessTechMode = " + HwImsServiceImpl.this.mAccessTechMode);
                     try {
-                        switch (registrationState) {
-                            case 0:
-                                ImsReasonInfo imsReasonInfo = new ImsReasonInfo(1000, 0, null);
-                                if (HwCustUtil.isVZW) {
-                                    HwCustVZWIms.cleanVZWImsRegMode(HwImsServiceImpl.this.mContext, ImsCallProviderUtils.getSubId(HwImsServiceImpl.this.mSub));
-                                }
-                                HwImsServiceImpl.this.mImsRegistrationImpl.onDeregistered(imsReasonInfo);
-                                break;
-                            case 1:
-                                if (HwCustUtil.isVZW && !HwCustUtil.isVzwCard(HwImsServiceImpl.this.mImsConfigImpl.getSimOperator(), HwImsServiceImpl.this.mImsConfigImpl.getIccId())) {
-                                    HwCustVZWIms.cleanVZWImsRegMode(HwImsServiceImpl.this.mContext, ImsCallProviderUtils.getSubId(HwImsServiceImpl.this.mSub));
-                                }
-                                HwImsServiceImpl.this.mImsRegistrationImpl.onRegistered(HwImsServiceImpl.this.mAccessTechMode);
-                                break;
-                            case 2:
-                                HwImsServiceImpl.this.mImsRegistrationImpl.onRegistering(HwImsServiceImpl.this.mAccessTechMode);
-                                break;
-                        }
-                        imsState = 1 == registrationState ? HwImsServiceImpl.IMS_STATE_REGISTERED : HwImsServiceImpl.IMS_STATE_UNREGISTERED;
-                    } catch (Throwable t) {
                         try {
-                            HwImsServiceImpl hwImsServiceImpl3 = HwImsServiceImpl.this;
-                            hwImsServiceImpl3.loge(t + " createRegCallBackThread()");
+                            switch (registrationState) {
+                                case 0:
+                                    ImsReasonInfo imsReasonInfo = new ImsReasonInfo(1000, 0, null);
+                                    if (HwCustUtil.isVZW) {
+                                        HwCustVZWIms.cleanVZWImsRegMode(HwImsServiceImpl.this.mContext, ImsCallProviderUtils.getSubId(HwImsServiceImpl.this.mSub));
+                                    }
+                                    HwImsServiceImpl.this.mImsRegistrationImpl.onDeregistered(imsReasonInfo);
+                                    break;
+                                case 1:
+                                    if (HwCustUtil.isVZW && !HwCustUtil.isVzwCard(HwImsServiceImpl.this.mImsConfigImpl.getSimOperator(), HwImsServiceImpl.this.mImsConfigImpl.getIccId())) {
+                                        HwCustVZWIms.cleanVZWImsRegMode(HwImsServiceImpl.this.mContext, ImsCallProviderUtils.getSubId(HwImsServiceImpl.this.mSub));
+                                    }
+                                    HwImsServiceImpl.this.mImsRegistrationImpl.onRegistered(HwImsServiceImpl.this.mAccessTechMode);
+                                    break;
+                                case 2:
+                                    HwImsServiceImpl.this.mImsRegistrationImpl.onRegistering(HwImsServiceImpl.this.mAccessTechMode);
+                                    break;
+                            }
+                            imsState = 1 == registrationState ? HwImsServiceImpl.IMS_STATE_REGISTERED : HwImsServiceImpl.IMS_STATE_UNREGISTERED;
+                        } catch (Throwable t) {
+                            HwImsServiceImpl.this.loge(t + " createRegCallBackThread()");
                             imsState = 1 == registrationState ? HwImsServiceImpl.IMS_STATE_REGISTERED : HwImsServiceImpl.IMS_STATE_UNREGISTERED;
                             if (HwImsServiceImpl.this.mImsConfigImpl != null && HwImsServiceImpl.this.mImsConfigImpl.getIsEmergencyUnderWifi() && ((HwImsServiceImpl.this.mHandler != null && HwImsServiceImpl.this.mHandler.hasMessages(HwImsServiceImpl.EVENT_VOWIFI_SOS_PENDING_TIMEOUT)) || HwImsServiceImpl.this.mEmergencyUnderWifi)) {
                                 hwImsServiceImpl = HwImsServiceImpl.this;
                                 sb = new StringBuilder();
                             }
-                        } catch (Throwable th) {
-                            String imsState2 = 1 == registrationState ? HwImsServiceImpl.IMS_STATE_REGISTERED : HwImsServiceImpl.IMS_STATE_UNREGISTERED;
-                            if (HwImsServiceImpl.this.mImsConfigImpl == null || !HwImsServiceImpl.this.mImsConfigImpl.getIsEmergencyUnderWifi() || ((HwImsServiceImpl.this.mHandler == null || !HwImsServiceImpl.this.mHandler.hasMessages(HwImsServiceImpl.EVENT_VOWIFI_SOS_PENDING_TIMEOUT)) && !HwImsServiceImpl.this.mEmergencyUnderWifi)) {
-                                HwImsServiceImpl.this.notifyImsState(imsState2);
-                            } else {
-                                HwImsServiceImpl hwImsServiceImpl4 = HwImsServiceImpl.this;
-                                hwImsServiceImpl4.log("not notify ims state change, imsState:" + imsState2 + ",mEmergencyUnderWifi:" + HwImsServiceImpl.this.mEmergencyUnderWifi);
-                            }
-                            throw th;
                         }
+                        if (HwImsServiceImpl.this.mImsConfigImpl != null && HwImsServiceImpl.this.mImsConfigImpl.getIsEmergencyUnderWifi() && ((HwImsServiceImpl.this.mHandler != null && HwImsServiceImpl.this.mHandler.hasMessages(HwImsServiceImpl.EVENT_VOWIFI_SOS_PENDING_TIMEOUT)) || HwImsServiceImpl.this.mEmergencyUnderWifi)) {
+                            hwImsServiceImpl = HwImsServiceImpl.this;
+                            sb = new StringBuilder();
+                            sb.append("not notify ims state change, imsState:");
+                            sb.append(imsState);
+                            sb.append(",mEmergencyUnderWifi:");
+                            sb.append(HwImsServiceImpl.this.mEmergencyUnderWifi);
+                            hwImsServiceImpl.log(sb.toString());
+                            return;
+                        }
+                        HwImsServiceImpl.this.notifyImsState(imsState);
+                    } catch (Throwable th) {
+                        String imsState2 = 1 == registrationState ? HwImsServiceImpl.IMS_STATE_REGISTERED : HwImsServiceImpl.IMS_STATE_UNREGISTERED;
+                        if (HwImsServiceImpl.this.mImsConfigImpl == null || !HwImsServiceImpl.this.mImsConfigImpl.getIsEmergencyUnderWifi() || ((HwImsServiceImpl.this.mHandler == null || !HwImsServiceImpl.this.mHandler.hasMessages(HwImsServiceImpl.EVENT_VOWIFI_SOS_PENDING_TIMEOUT)) && !HwImsServiceImpl.this.mEmergencyUnderWifi)) {
+                            HwImsServiceImpl.this.notifyImsState(imsState2);
+                        } else {
+                            HwImsServiceImpl.this.log("not notify ims state change, imsState:" + imsState2 + ",mEmergencyUnderWifi:" + HwImsServiceImpl.this.mEmergencyUnderWifi);
+                        }
+                        throw th;
                     }
-                    if (HwImsServiceImpl.this.mImsConfigImpl != null && HwImsServiceImpl.this.mImsConfigImpl.getIsEmergencyUnderWifi() && ((HwImsServiceImpl.this.mHandler != null && HwImsServiceImpl.this.mHandler.hasMessages(HwImsServiceImpl.EVENT_VOWIFI_SOS_PENDING_TIMEOUT)) || HwImsServiceImpl.this.mEmergencyUnderWifi)) {
-                        hwImsServiceImpl = HwImsServiceImpl.this;
-                        sb = new StringBuilder();
-                        sb.append("not notify ims state change, imsState:");
-                        sb.append(imsState);
-                        sb.append(",mEmergencyUnderWifi:");
-                        sb.append(HwImsServiceImpl.this.mEmergencyUnderWifi);
-                        hwImsServiceImpl.log(sb.toString());
-                        return;
-                    }
-                    HwImsServiceImpl.this.notifyImsState(imsState);
                 }
             };
             Thread t = new Thread(r, "HwImsServiceImplRegCallbackThread");
@@ -867,6 +883,7 @@ public class HwImsServiceImpl {
                 tracker.handleSuppSvcUnsol(supp_svc_unsol);
             }
         }
+
         private void handleOnHoldTone(AsyncResult ar) {
             Rlog.d(HwImsServiceImpl.LOG_TAG, "handleOnHoldTone...");
             CarrierConfigManager cfgMgr = (CarrierConfigManager) HwImsServiceImpl.this.mContext.getSystemService(Context.CARRIER_CONFIG_SERVICE);
@@ -876,21 +893,23 @@ public class HwImsServiceImpl {
             PersistableBundle b = cfgMgr.getConfigForSubId(ImsCallProviderUtils.getSubId(HwImsServiceImpl.this.mSub));
             if (b == null || !b.getBoolean(HwImsServiceImpl.KEY_SUPPORT_HOLD_TONE_BOOL)) {
                 Rlog.d(HwImsServiceImpl.LOG_TAG, "handleOnHoldTone,current carrier not support holdtone");
-            } else if (ar == null) {
-            } else {
-                if (ar.exception == null) {
-                    boolean startOnHoldLocalTone = ((Boolean) ar.result).booleanValue();
-                    ImsServiceCallTracker tracker = (ImsServiceCallTracker) HwImsServiceImpl.this.mTrackerTable.get(1);
-                    if (tracker != null) {
-                        tracker.handleOnHoldTone(startOnHoldLocalTone);
-                        return;
-                    } else {
-                        Rlog.e(HwImsServiceImpl.LOG_TAG, "Message for non-registered service class");
-                        return;
-                    }
-                }
-                Rlog.e(HwImsServiceImpl.LOG_TAG, "AsyncResult exception in handleOnHoldTone.");
+                return;
             }
+            if (ar == null) {
+                return;
+            }
+            if (ar.exception == null) {
+                boolean startOnHoldLocalTone = ((Boolean) ar.result).booleanValue();
+                ImsServiceCallTracker tracker = (ImsServiceCallTracker) HwImsServiceImpl.this.mTrackerTable.get(1);
+                if (tracker != null) {
+                    tracker.handleOnHoldTone(startOnHoldLocalTone);
+                    return;
+                } else {
+                    Rlog.e(HwImsServiceImpl.LOG_TAG, "Message for non-registered service class");
+                    return;
+                }
+            }
+            Rlog.e(HwImsServiceImpl.LOG_TAG, "AsyncResult exception in handleOnHoldTone.");
         }
 
         private void handleHandover(AsyncResult ar) {
@@ -922,8 +941,7 @@ public class HwImsServiceImpl {
                 ImsServiceState update = updateList.get(j);
                 if (update != null && isSrvTypeValid(update.type)) {
                     if (HwImsServiceImpl.this.DBG) {
-                        HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-                        hwImsServiceImpl.log("type = " + update.type + " state = " + update.state + " isValid = " + update.isValid);
+                        HwImsServiceImpl.this.log("type = " + update.type + " state = " + update.state + " isValid = " + update.isValid);
                     }
                     int i = 11;
                     ImsServiceState srvSt = update.type == 11 ? HwImsServiceImpl.this.mServiceState[4] : HwImsServiceImpl.this.mServiceState[update.type];
@@ -936,16 +954,14 @@ public class HwImsServiceImpl {
                     if (update.accessTechStatus != null && update.accessTechStatus.length > 0) {
                         srvSt.accessTechStatus = new ImsServiceState.StatusForAccessTech[update.accessTechStatus.length];
                         if (HwImsServiceImpl.this.DBG) {
-                            HwImsServiceImpl hwImsServiceImpl2 = HwImsServiceImpl.this;
-                            hwImsServiceImpl2.log("Call Type " + srvSt.type + "has num updates = " + update.accessTechStatus.length);
+                            HwImsServiceImpl.this.log("Call Type " + srvSt.type + "has num updates = " + update.accessTechStatus.length);
                         }
                         ImsServiceState.StatusForAccessTech[] actSt = srvSt.accessTechStatus;
                         int i2 = 0;
                         while (i2 < update.accessTechStatus.length) {
                             ImsServiceState.StatusForAccessTech actUpdate = update.accessTechStatus[i2];
                             if (HwImsServiceImpl.this.DBG) {
-                                HwImsServiceImpl hwImsServiceImpl3 = HwImsServiceImpl.this;
-                                hwImsServiceImpl3.log("StatusForAccessTech networkMode = " + actUpdate.networkMode + " registered = " + actUpdate.registered + " state = " + actUpdate.state + " restrictCause = " + actUpdate.restrictCause);
+                                HwImsServiceImpl.this.log("StatusForAccessTech networkMode = " + actUpdate.networkMode + " registered = " + actUpdate.registered + " state = " + actUpdate.state + " restrictCause = " + actUpdate.restrictCause);
                             }
                             actSt[i2] = new ImsServiceState.StatusForAccessTech();
                             actSt[i2].networkMode = actUpdate.networkMode;
@@ -973,8 +989,7 @@ public class HwImsServiceImpl {
                                     HwImsServiceImpl.this.log("remove sos pending msg!");
                                 }
                                 if (actSt[i2].state == 2 || actSt[i2].state == 1) {
-                                    HwImsServiceImpl hwImsServiceImpl4 = HwImsServiceImpl.this;
-                                    hwImsServiceImpl4.log("enabledFeature = " + feature + ", mEmergencyUnderWifi = " + HwImsServiceImpl.this.mEmergencyUnderWifi + ",getImsRegisterState() = " + HwImsServiceImpl.this.getImsRegisterState());
+                                    HwImsServiceImpl.this.log("enabledFeature = " + feature + ", mEmergencyUnderWifi = " + HwImsServiceImpl.this.mEmergencyUnderWifi + ",getImsRegisterState() = " + HwImsServiceImpl.this.getImsRegisterState());
                                     if (modeWifi) {
                                         if (HwImsServiceImpl.this.mImsConfigImpl == null || !HwImsServiceImpl.this.mImsConfigImpl.getIsEmergencyUnderWifi() || !HwImsServiceImpl.this.mEmergencyUnderWifi || HwImsServiceImpl.this.getImsRegisterState() != 0) {
                                             HwImsServiceImpl.this.mTelCapabilities.addCapabilities(1);
@@ -991,8 +1006,7 @@ public class HwImsServiceImpl {
                                         i = 11;
                                     }
                                 } else if (actSt[i2].state == 0 || actSt[i2].state == 3) {
-                                    HwImsServiceImpl hwImsServiceImpl5 = HwImsServiceImpl.this;
-                                    hwImsServiceImpl5.log("disabledFeature = " + feature);
+                                    HwImsServiceImpl.this.log("disabledFeature = " + feature);
                                     if (modeWifi) {
                                         HwImsServiceImpl.this.mTelCapabilities.removeCapabilities(1);
                                         notifyImsVoWiFiState(HwImsServiceImpl.IMS_STATE_UNREGISTERED);
@@ -1013,8 +1027,7 @@ public class HwImsServiceImpl {
 
         private void notifyImsVoWiFiState(String state) {
             int subId = ImsCallProviderUtils.getSubId(HwImsServiceImpl.this.mSub);
-            HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-            hwImsServiceImpl.loge("Notify IMS-VoWiFi state is " + state + ", sub is " + subId);
+            HwImsServiceImpl.this.loge("Notify IMS-VoWiFi state is " + state + ", sub is " + subId);
             if (HwImsServiceImpl.IMS_STATE_REGISTERED.equals(state)) {
                 HwImsServiceImpl.this.setVTCapabilityToModem();
             }
@@ -1029,8 +1042,7 @@ public class HwImsServiceImpl {
 
         @Override // android.os.Handler
         public void handleMessage(Message msg) {
-            HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-            hwImsServiceImpl.log("Message received: what = " + msg.what);
+            HwImsServiceImpl.this.log("Message received: what = " + msg.what);
             int i = msg.what;
             switch (i) {
                 case 1:
@@ -1049,11 +1061,12 @@ public class HwImsServiceImpl {
                         HwImsServiceImpl.this.loge("IMS Service Status Update failed!");
                         HwImsServiceImpl.this.initServiceState();
                         return;
+                    } else {
+                        ArrayList<ImsServiceState> responseArray = (ArrayList) arResult.result;
+                        handleSrvStatusUpdate(responseArray);
+                        HwImsServiceImpl.this.getCurrentCallFromModem();
+                        return;
                     }
-                    ArrayList<ImsServiceState> responseArray = (ArrayList) arResult.result;
-                    handleSrvStatusUpdate(responseArray);
-                    HwImsServiceImpl.this.getCurrentCallFromModem();
-                    return;
                 default:
                     switch (i) {
                         case 7:
@@ -1076,8 +1089,7 @@ public class HwImsServiceImpl {
                                         HwImsServiceImpl.this.handleModifyCallRequest((ImsCallAdapter.CallModify) ar4.result);
                                         return;
                                     }
-                                    HwImsServiceImpl hwImsServiceImpl2 = HwImsServiceImpl.this;
-                                    hwImsServiceImpl2.loge("Error EVENT_MODIFY_CALL AsyncResult ar= " + ar4);
+                                    HwImsServiceImpl.this.loge("Error EVENT_MODIFY_CALL AsyncResult ar= " + ar4);
                                     return;
                                 default:
                                     switch (i) {
@@ -1101,12 +1113,12 @@ public class HwImsServiceImpl {
                                             return;
                                         case 18:
                                             HwImsServiceImpl.this.log("EVENT_IMS_REG_FAIL_DELAY");
-                                            ImsPhone imsPhone = (ImsPhone) HwImsServiceImpl.this.getImsPhone();
-                                            if (!(imsPhone instanceof ImsPhone) || 1 == HwImsServiceImpl.this.mImsRegisterState) {
+                                            if (!(HwImsServiceImpl.this.getImsPhone() instanceof ImsPhone) || 1 == HwImsServiceImpl.this.mImsRegisterState) {
                                                 HwImsServiceImpl.this.log("get imsphone fail, can't trigger Ims Reg Fail Event ");
                                                 return;
                                             } else {
-                                                boolean unused = HwImsServiceImpl.mFirstReg = !HwTelephonyFactory.getHwVolteChrManager().triggerImsRegFailEvent(imsPhone);
+                                                // TODO Iceows
+                                                //boolean unused = HwImsServiceImpl.mFirstReg = !HwTelephonyFactory.getHwVolteChrManager().triggerImsRegFailEvent(r0);
                                                 return;
                                             }
                                         case 19:
@@ -1127,8 +1139,7 @@ public class HwImsServiceImpl {
                                                         handleMtStatusReport((MtStatusReport) ar5.result);
                                                         return;
                                                     }
-                                                    HwImsServiceImpl hwImsServiceImpl3 = HwImsServiceImpl.this;
-                                                    hwImsServiceImpl3.loge("Error EVENT_MT_STATUS_REPORT AsyncResult ar= " + ar5);
+                                                    HwImsServiceImpl.this.loge("Error EVENT_MT_STATUS_REPORT AsyncResult ar= " + ar5);
                                                     return;
                                                 case 1006:
                                                     HwImsServiceImpl.this.log("EVENT_MT_NEW_RING_REPORT");
@@ -1137,8 +1148,7 @@ public class HwImsServiceImpl {
                                                         handleMtNewRingReport((Connection) ar6.result);
                                                         return;
                                                     }
-                                                    HwImsServiceImpl hwImsServiceImpl4 = HwImsServiceImpl.this;
-                                                    hwImsServiceImpl4.loge("Error EVENT_MT_NEW_RING_REPORT AsyncResult ar= " + ar6);
+                                                    HwImsServiceImpl.this.loge("Error EVENT_MT_NEW_RING_REPORT AsyncResult ar= " + ar6);
                                                     return;
                                                 case 1007:
                                                     try {
@@ -1146,8 +1156,7 @@ public class HwImsServiceImpl {
                                                         Pair<Integer, Integer> drsRatPair = (Pair) ar7.result;
                                                         int dataRegState = ((Integer) drsRatPair.first).intValue();
                                                         int rilRat = ((Integer) drsRatPair.second).intValue();
-                                                        HwImsServiceImpl hwImsServiceImpl5 = HwImsServiceImpl.this;
-                                                        hwImsServiceImpl5.log("EVENT_DATA_CONNECTION_DRS_OR_RAT_CHANGED, dataRegState=" + dataRegState + ", Ril RAT is " + rilRat);
+                                                        HwImsServiceImpl.this.log("EVENT_DATA_CONNECTION_DRS_OR_RAT_CHANGED, dataRegState=" + dataRegState + ", Ril RAT is " + rilRat);
                                                         handleNetworkStateChanged(dataRegState, rilRat);
                                                         return;
                                                     } catch (Exception e) {
@@ -1187,10 +1196,11 @@ public class HwImsServiceImpl {
                                                     if (ar9 == null || ar9.result == null || ar9.exception != null) {
                                                         HwImsServiceImpl.this.loge("EVENT_UNSOl_SPEECH_INFO exception");
                                                         return;
+                                                    } else {
+                                                        int[] intResult = (int[]) ar9.result;
+                                                        handleUnsolSpeechInfo(intResult[0]);
+                                                        return;
                                                     }
-                                                    int[] intResult = (int[]) ar9.result;
-                                                    handleUnsolSpeechInfo(intResult[0]);
-                                                    return;
                                                 case HwImsServiceImpl.EVENT_UNSOl_LTE_PDCP_INFO /* 1012 */:
                                                     AsyncResult ar10 = (AsyncResult) msg.obj;
                                                     handleLtePDCPInfo(ar10);
@@ -1229,8 +1239,7 @@ public class HwImsServiceImpl {
                                                                         HwImsServiceImpl.this.handleModifyCallResult((int[]) ar13.result);
                                                                         return;
                                                                     }
-                                                                    HwImsServiceImpl hwImsServiceImpl6 = HwImsServiceImpl.this;
-                                                                    hwImsServiceImpl6.loge("Error EVENT_MODIFY_RESULT AsyncResult ar= " + ar13);
+                                                                    HwImsServiceImpl.this.loge("Error EVENT_MODIFY_RESULT AsyncResult ar= " + ar13);
                                                                     return;
                                                                 case HwImsServiceImpl.EVENT_SEND_BATTERY_STATUS /* 1018 */:
                                                                     HwImsServiceImpl.this.log(" handleMessage (EVENT_SEND_BATTERY_STATUS)");
@@ -1315,8 +1324,7 @@ public class HwImsServiceImpl {
                 Rlog.d(HwImsServiceImpl.LOG_TAG, "handleUnsolVoWiFiRegErrReport ar.result: " + ar.result);
                 return;
             }
-            HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-            hwImsServiceImpl.loge("Error EVENT_UNSOL_VOWIF_REG_ERR_REPORT AsyncResult ar= " + ar);
+            HwImsServiceImpl.this.loge("Error EVENT_UNSOL_VOWIF_REG_ERR_REPORT AsyncResult ar= " + ar);
         }
 
         private void handleUnsolSimNvCfgFinished(Message msg) {
@@ -1328,8 +1336,7 @@ public class HwImsServiceImpl {
             Object obj = ar.result;
             if (obj != null && (obj instanceof Integer)) {
                 int result = ((Integer) obj).intValue();
-                HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-                hwImsServiceImpl.log("handleUnsolSimNvCfgFinished: result = " + result);
+                HwImsServiceImpl.this.log("handleUnsolSimNvCfgFinished: result = " + result);
                 boolean needSetVolteSwitchToModem = 1 == result;
                 if (needSetVolteSwitchToModem) {
                     HwImsServiceImpl.this.setVTCapabilityToModem();
@@ -1386,8 +1393,7 @@ public class HwImsServiceImpl {
                 return;
             }
             HwImsServiceImpl.access$3208(HwImsServiceImpl.this);
-            HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-            hwImsServiceImpl.log("EVENT_IMS_DMCN, no receiver of BROADCAST_DMSYNCSERVICE_TO_IMS found, try again later, count: " + HwImsServiceImpl.this.mDmSyncRetryCount);
+            HwImsServiceImpl.this.log("EVENT_IMS_DMCN, no receiver of BROADCAST_DMSYNCSERVICE_TO_IMS found, try again later, count: " + HwImsServiceImpl.this.mDmSyncRetryCount);
             if (HwImsServiceImpl.this.mDmSyncRetryCount < 5) {
                 sendEmptyMessageDelayed(HwImsServiceImpl.EVENT_IMS_DMCN, 2000L);
             }
@@ -1415,10 +1421,10 @@ public class HwImsServiceImpl {
             AsyncResult ar = (AsyncResult) msg.obj;
             if (ar == null || ar.result == null || ar.exception != null) {
                 HwImsServiceImpl.this.loge("handleGetDMUserData fail!");
-                return;
+            } else {
+                Settings.Secure.putString(HwImsServiceImpl.this.mContext.getContentResolver(), ImsCallProviderUtils.getImsStoredKeyWithSubId(HwImsServiceImpl.this.mSub, HwImsServiceImpl.DM_USER_IMS_VALUE), (String) ar.result);
+                HwImsServiceImpl.this.log("handleGetDMUserData success.");
             }
-            Settings.Secure.putString(HwImsServiceImpl.this.mContext.getContentResolver(), ImsCallProviderUtils.getImsStoredKeyWithSubId(HwImsServiceImpl.this.mSub, HwImsServiceImpl.DM_USER_IMS_VALUE), (String) ar.result);
-            HwImsServiceImpl.this.log("handleGetDMUserData success.");
         }
 
         private void handleBatteryStatus(AsyncResult ar) {
@@ -1426,16 +1432,14 @@ public class HwImsServiceImpl {
                 HwImsServiceImpl.this.mCurrentBatteryStatus = HwImsServiceImpl.this.mNewBatteryStatus;
                 return;
             }
-            HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-            hwImsServiceImpl.loge("Error EVENT_SEND_BATTERY_STATUS AsyncResult ar: " + ar);
+            HwImsServiceImpl.this.loge("Error EVENT_SEND_BATTERY_STATUS AsyncResult ar: " + ar);
         }
 
         private void handleUnsolSpeechInfo(int speechCodec) {
             if (HwImsServiceImpl.IS_AMR_WB_SHOW_HD_VOLTE) {
                 HwImsServiceImpl.this.setSpeechCodec(speechCodec);
             }
-            HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-            hwImsServiceImpl.log("handleUnsolSpeechInfo speechCodec = " + speechCodec);
+            HwImsServiceImpl.this.log("handleUnsolSpeechInfo speechCodec = " + speechCodec);
             broadcastSpeechCodecNotification(speechCodec);
             switch (speechCodec) {
                 case 1:
@@ -1452,18 +1456,17 @@ public class HwImsServiceImpl {
                     HwImsServiceImpl.this.mSpeechInfoCodec[0] = null;
                     break;
             }
-            HwImsServiceImpl hwImsServiceImpl2 = HwImsServiceImpl.this;
-            hwImsServiceImpl2.log("current speechInfoCodec is : " + HwImsServiceImpl.this.mSpeechInfoCodec[0]);
+            HwImsServiceImpl.this.log("current speechInfoCodec is : " + HwImsServiceImpl.this.mSpeechInfoCodec[0]);
             Phone phone = HwImsServiceImpl.this.getDefaultPhone();
-            // TODO Iceows
             if (phone != null && phone.getImsPhone() != null) {
-                //phone.setSpeechInfoCodec(speechCodec);
+                // TODO Iceows
+                // phone.setSpeechInfoCodec(speechCodec);
                 Context context = phone.getContext();
-                //String speechInfo = phone.getSpeechInfoCodec();
-                HwImsServiceImpl hwImsServiceImpl3 = HwImsServiceImpl.this;
-                //hwImsServiceImpl3.log("setAudioParameters speechInfo = " + speechInfo);
+                // TODO Iceows
+                // String speechInfo = phone.getSpeechInfoCodec();
+                //HwImsServiceImpl.this.log("setAudioParameters speechInfo = " + speechInfo);
                 //if (context != null && !speechInfo.equals(HwImsConfigImpl.NULL_STRING_VALUE)) {
-                //    AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                //    AudioManager audioManager = (AudioManager) context.getSystemService(SciSSConf.MEDIA_AUDIO);
                 //    audioManager.setParameters(speechInfo);
                 //}
             }
@@ -1471,8 +1474,7 @@ public class HwImsServiceImpl {
 
         private void broadcastSpeechCodecNotification(int speechCodec) {
             int subId = ImsCallProviderUtils.getSubId(HwImsServiceImpl.this.mSub);
-            HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-            hwImsServiceImpl.log("broadcastSpeechCodecNotification speechCodec = " + speechCodec + " for subId = " + subId);
+            HwImsServiceImpl.this.log("broadcastSpeechCodecNotification speechCodec = " + speechCodec + " for subId = " + subId);
             String pkgName = Settings.System.getString(HwImsServiceImpl.this.mContext.getContentResolver(), "EVSBroadcastReceiverPkg");
             Intent intent = new Intent(HwImsServiceImpl.AUDIO_QUALITY_SET_ACTION);
             intent.setPackage(pkgName);
@@ -1481,15 +1483,15 @@ public class HwImsServiceImpl {
             HwImsServiceImpl.this.mContext.sendBroadcast(intent, "com.huawei.ims.permission.AUDIO_QUALITY_GET");
         }
 
-        private void handleImsStateDone(Message msg) {
-            Phone defPhone;
-            AsyncResult ar = (AsyncResult) msg.obj;
-            if (ar.exception != null) {
-                CommandException.Error err = null;
-                if (ar.exception instanceof CommandException) {
-                    err = ((CommandException) ar.exception).getCommandError();
+        private void handleImsStateDone(Message message) {
+            Phone defaultPhone;
+            AsyncResult asyncResult = (AsyncResult) message.obj;
+            if (asyncResult.exception != null) {
+                CommandException.Error error = null;
+                if (asyncResult.exception instanceof CommandException) {
+                    error = ((CommandException) asyncResult.exception).getCommandError();
                 }
-                if (err == CommandException.Error.RADIO_NOT_AVAILABLE) {
+                if (error == CommandException.Error.RADIO_NOT_AVAILABLE) {
                     HwImsServiceImpl.this.log("Radio is not available");
                     HwImsServiceImpl.this.mImsRegisterState = 0;
                     Iterator it = HwImsServiceImpl.this.mTrackerTable.entrySet().iterator();
@@ -1500,21 +1502,18 @@ public class HwImsServiceImpl {
                     return;
                 }
             }
-            if (ar.exception != null || !(ar.result instanceof int[]) || ((int[]) ar.result).length < 2) {
+            if (asyncResult.exception != null || !(asyncResult.result instanceof int[]) || ((int[]) asyncResult.result).length < 2) {
                 HwImsServiceImpl.this.loge("IMS State query failed!");
                 return;
             }
-            int[] responseArray = (int[]) ar.result;
-            int imsRegisterState = responseArray[0];
-            HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-            hwImsServiceImpl.loge("IMS registration state is: " + imsRegisterState);
-            String imsState = HwImsServiceImpl.IMS_STATE_UNREGISTERED;
-            int oldState = HwImsServiceImpl.this.mImsRegisterState;
-            HwImsServiceImpl.this.setImsRegisterState(imsRegisterState);
-            if (imsRegisterState != 1) {
+            int i = ((int[]) asyncResult.result)[0];
+            HwImsServiceImpl.this.loge("IMS registration state is: " + i);
+            String str = HwImsServiceImpl.IMS_STATE_UNREGISTERED;
+            int i2 = HwImsServiceImpl.this.mImsRegisterState;
+            HwImsServiceImpl.this.setImsRegisterState(i);
+            if (i != 1) {
                 if (HwImsServiceImpl.IS_VOWIFI_PROP_ON) {
-                    HwImsServiceImpl hwImsServiceImpl2 = HwImsServiceImpl.this;
-                    hwImsServiceImpl2.log("mEmergencyUnderWifi:" + HwImsServiceImpl.this.mEmergencyUnderWifi);
+                    HwImsServiceImpl.this.log("mEmergencyUnderWifi:" + HwImsServiceImpl.this.mEmergencyUnderWifi);
                     if (HwImsServiceImpl.this.mImsConfigImpl != null && HwImsServiceImpl.this.mImsConfigImpl.getIsEmergencyUnderWifi() && ((HwImsServiceImpl.this.mHandler != null && HwImsServiceImpl.this.mHandler.hasMessages(HwImsServiceImpl.EVENT_VOWIFI_SOS_PENDING_TIMEOUT)) || HwImsServiceImpl.this.mEmergencyUnderWifi)) {
                         HwImsServiceImpl.this.log("sos pending, not disable vowifi capability.");
                     } else {
@@ -1523,26 +1522,23 @@ public class HwImsServiceImpl {
                     }
                 }
                 if (HwImsServiceImpl.this.DBG) {
-                    HwImsServiceImpl hwImsServiceImpl3 = HwImsServiceImpl.this;
-                    hwImsServiceImpl3.log("before check ims reg fail, mfirstReg is:" + HwImsServiceImpl.mFirstReg);
+                    HwImsServiceImpl.this.log("before check ims reg fail, mfirstReg is:" + HwImsServiceImpl.mFirstReg);
                 }
-                if (HwImsServiceImpl.this.isVolteSwitchOn() && (oldState == 1 || HwImsServiceImpl.mFirstReg)) {
+                if (HwImsServiceImpl.this.isVolteSwitchOn() && (i2 == 1 || HwImsServiceImpl.mFirstReg)) {
                     HwImsServiceImpl.this.mHandler.sendMessageDelayed(HwImsServiceImpl.this.mHandler.obtainMessage(18), 70000L);
                     boolean unused = HwImsServiceImpl.mFirstReg = false;
                 }
             } else {
-                imsState = HwImsServiceImpl.IMS_STATE_REGISTERED;
-                boolean optimize = HwImsServiceImpl.this.optimizeImsRegisterState();
-                if (HwImsServiceImpl.this.mImsConfigImpl != null && HwImsServiceImpl.this.mImsConfigImpl.isImsStateFollowVoiceDomain() && optimize && (defPhone = HwImsServiceImpl.this.getDefaultPhone()) != null) {
-                    ServiceState serviceState = defPhone.getServiceState();
+                str = HwImsServiceImpl.IMS_STATE_REGISTERED;
+                boolean optimizeImsRegisterState = HwImsServiceImpl.this.optimizeImsRegisterState();
+                if (HwImsServiceImpl.this.mImsConfigImpl != null && HwImsServiceImpl.this.mImsConfigImpl.isImsStateFollowVoiceDomain() && optimizeImsRegisterState && (defaultPhone = HwImsServiceImpl.this.getDefaultPhone()) != null) {
+                    ServiceState serviceState = defaultPhone.getServiceState();
                     // TODO Iceows
-                    //int dataRegState = serviceState.getDataRegState();
-                    //int rilRat = serviceState.getRilDataRadioTechnology();
-                    //if (detectImsRegisterState(dataRegState, rilRat) == 0) {
-                    //    imsState = HwImsServiceImpl.IMS_STATE_UNREGISTERED;
+                    //if (detectImsRegisterState(serviceState.getDataRegState(), serviceState.getRilDataRadioTechnology()) == 0) {
+                    //    str = HwImsServiceImpl.IMS_STATE_UNREGISTERED;
                     //}
                 }
-                if (oldState == 0) {
+                if (i2 == 0) {
                     boolean unused2 = HwImsServiceImpl.mFirstReg = false;
                     if (HwImsServiceImpl.this.mImsConfigImpl != null && !HwImsServiceImpl.this.mImsConfigImpl.isIMPUConfigured()) {
                         HwImsServiceImpl.this.log("get IMPU from modem");
@@ -1553,16 +1549,15 @@ public class HwImsServiceImpl {
                     }
                 }
                 Settings.Global.putInt(HwImsServiceImpl.this.mContext.getContentResolver(), "volte_vt_enabled", 1);
-                if (HwImsServiceImpl.IMS_STATE_REGISTERED.equals(imsState)) {
+                if (HwImsServiceImpl.IMS_STATE_REGISTERED.equals(str)) {
                     Settings.Global.putInt(HwImsServiceImpl.this.mContext.getContentResolver(), HwImsServiceImpl.CARD_VOLTE_FLAG[HwImsServiceImpl.this.mSub], HwImsServiceImpl.FLAG_IS_VOLTE);
                 }
             }
-            boolean equals = HwImsServiceImpl.IMS_STATE_REGISTERED.equals(imsState);
+            boolean equals = HwImsServiceImpl.IMS_STATE_REGISTERED.equals(str);
             Iterator it2 = HwImsServiceImpl.this.mTrackerTable.entrySet().iterator();
             while (it2.hasNext()) {
                 it2.next();
-                int imsRegState = equals ? 1 : 0;
-                createRegCallBackThread(imsRegState);
+                createRegCallBackThread(equals ? 1 : 0);
             }
         }
 
@@ -1587,8 +1582,7 @@ public class HwImsServiceImpl {
                 try {
                     ringingCall.hangup();
                 } catch (CallStateException e) {
-                    HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-                    hwImsServiceImpl.loge("hangup ring call fails. " + e.getMessage());
+                    HwImsServiceImpl.this.loge("hangup ring call fails. " + e.getMessage());
                 }
             }
             if (isBackgroundCallPresent) {
@@ -1596,8 +1590,7 @@ public class HwImsServiceImpl {
                 try {
                     backgroundCall.hangup();
                 } catch (CallStateException e2) {
-                    HwImsServiceImpl hwImsServiceImpl2 = HwImsServiceImpl.this;
-                    hwImsServiceImpl2.loge("hangup bg call fails. " + e2.getMessage());
+                    HwImsServiceImpl.this.loge("hangup bg call fails. " + e2.getMessage());
                 }
             }
             if (isForegroundCallPresent) {
@@ -1605,8 +1598,7 @@ public class HwImsServiceImpl {
                 try {
                     foregroundCall.hangup();
                 } catch (CallStateException e3) {
-                    HwImsServiceImpl hwImsServiceImpl3 = HwImsServiceImpl.this;
-                    hwImsServiceImpl3.loge("hangup fg call fails. " + e3.getMessage());
+                    HwImsServiceImpl.this.loge("hangup fg call fails. " + e3.getMessage());
                 }
             }
         }
@@ -1623,8 +1615,7 @@ public class HwImsServiceImpl {
                 boolean isDataReg = dataRegState == 0;
                 HwImsServiceImpl.this.mImsUtImpl.setIsDataReg(isDataReg);
                 boolean isSIMCardCheckedByUT = HwImsServiceImpl.this.mImsUtImpl.isSIMCardCheckedByUT();
-                HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-                hwImsServiceImpl.log("handleNetworkStateChanged: isSIMCardCheckedByUT = " + isSIMCardCheckedByUT + ", isDataReg = " + isDataReg);
+                HwImsServiceImpl.this.log("handleNetworkStateChanged: isSIMCardCheckedByUT = " + isSIMCardCheckedByUT + ", isDataReg = " + isDataReg);
                 if (HwImsServiceImpl.this.mImsConfigImpl.isUse403ForLocalCW() && !isSIMCardCheckedByUT && isDataReg) {
                     HwImsServiceImpl.this.mImsUtImpl.detectSimCardSubscriptionStatus();
                 }
@@ -1634,49 +1625,52 @@ public class HwImsServiceImpl {
                 return;
             }
             if (rilRat == 0) {
-                HwImsServiceImpl hwImsServiceImpl2 = HwImsServiceImpl.this;
-                hwImsServiceImpl2.log("PS abnormal, rat = " + rilRat + ", reg = " + dataRegState);
+                HwImsServiceImpl.this.log("PS abnormal, rat = " + rilRat + ", reg = " + dataRegState);
                 if (HwImsServiceImpl.this.mImsConfigImpl != null && HwImsServiceImpl.this.mImsConfigImpl.isHangUpWhenLostNet()) {
                     hangupCallsWhenNoService();
                 }
             }
             if (HwImsServiceImpl.this.mImsConfigImpl != null && HwImsServiceImpl.this.mImsConfigImpl.isImsStateFollowVoiceDomain()) {
                 int imsRegistration = detectImsRegisterState(dataRegState, rilRat);
-                HwImsServiceImpl hwImsServiceImpl3 = HwImsServiceImpl.this;
-                hwImsServiceImpl3.log("After detect, ims register state is " + imsRegistration);
+                HwImsServiceImpl.this.log("After detect, ims register state is " + imsRegistration);
                 if (imsRegistration == 0) {
                     Iterator it = HwImsServiceImpl.this.mTrackerTable.entrySet().iterator();
                     while (it.hasNext()) {
                         it.next();
                         createRegCallBackThread(0);
                     }
-                } else if (3 == imsRegistration) {
+                    return;
+                }
+                if (3 == imsRegistration) {
                     HwImsServiceImpl.this.mCi.getImsRegistrationState(obtainMessage(3));
                 }
             }
         }
 
         private void handleMtStatusReport(MtStatusReport rp) {
-            HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-            hwImsServiceImpl.log("handleMtStatusReport(" + rp + ")");
+            HwImsServiceImpl.this.log("handleMtStatusReport(" + rp + ")");
             if (HwImsServiceImpl.this.mMtStatusMgr == null) {
                 HwImsServiceImpl.this.loge("handleMtStatusReport: mMtStatusMgr is null");
-            } else if (rp != null) {
+                return;
+            }
+            if (rp != null) {
                 if (rp.call_status == 0) {
                     if (HwImsServiceImpl.this.mMtStatusMgr.isNeedNotifyImsCallStarted(rp.call_number)) {
                         HwImsServiceImpl.this.log("close do-recovery");
                         HwImsServiceImpl.this.mMtStatusMgr.setIsBusy(true);
                     }
                     HwImsServiceImpl.this.mMtStatusMgr.addIncomingCall(rp);
-                } else if (1 == rp.call_status) {
+                    return;
+                }
+                if (1 == rp.call_status) {
                     if (HwImsServiceImpl.this.mMtStatusMgr.isNeedNotifyImsCallEnded(rp.call_number)) {
                         HwImsServiceImpl.this.log("open do-recovery");
                         HwImsServiceImpl.this.mMtStatusMgr.setIsBusy(false);
                     }
                     HwImsServiceImpl.this.mMtStatusMgr.addFailCall(rp);
-                } else {
-                    HwImsServiceImpl.this.loge("status not supported. ");
+                    return;
                 }
+                HwImsServiceImpl.this.loge("status not supported. ");
             }
         }
 
@@ -1691,20 +1685,19 @@ public class HwImsServiceImpl {
         }
 
         private void handleMtNewRingReport(Connection c) {
-            HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-            hwImsServiceImpl.log("handleMtNewRingReport(" + c + ")");
+            HwImsServiceImpl.this.log("handleMtNewRingReport(" + c + ")");
             if (HwImsServiceImpl.this.mMtStatusMgr == null) {
                 HwImsServiceImpl.this.log("handleMtNewRingReport: mMtStatusMgr is null");
-            } else if (c != null) {
-                HwImsServiceImpl hwImsServiceImpl2 = HwImsServiceImpl.this;
-                hwImsServiceImpl2.log("remote address: " + HiddenPrivacyInfo.putMosaic(c.getAddress(), 0));
+                return;
+            }
+            if (c != null) {
+                HwImsServiceImpl.this.log("remote address: " + HiddenPrivacyInfo.putMosaic(c.getAddress(), 0));
                 HwImsServiceImpl.this.mMtStatusMgr.notifyRingCall(c.getAddress(), getPhoneId(c));
             }
         }
 
         private int detectImsRegisterState(int dataRegState, int rilRat) {
-            HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-            hwImsServiceImpl.log("enter detectImsRegisterState, dataRegState=" + dataRegState + ", rilRat=" + rilRat);
+            HwImsServiceImpl.this.log("enter detectImsRegisterState, dataRegState=" + dataRegState + ", rilRat=" + rilRat);
             if (dataRegState != 0 || rilRat != 14) {
                 return 0;
             }
@@ -1756,12 +1749,10 @@ public class HwImsServiceImpl {
             AsyncResult ar = (AsyncResult) msg.obj;
             int[] result = (ar == null || ar.result == null) ? null : (int[]) ar.result;
             if (ar != null && ar.exception == null && result != null && result.length > 0 && result[0] == 1) {
-                HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-                hwImsServiceImpl.log("handleSetDMParamsDone  success!type = " + cmdType);
+                HwImsServiceImpl.this.log("handleSetDMParamsDone  success!type = " + cmdType);
                 intent.putExtra(HwImsServiceImpl.DM_IMS_RET, 1);
             } else {
-                HwImsServiceImpl hwImsServiceImpl2 = HwImsServiceImpl.this;
-                hwImsServiceImpl2.log("handleSetDMParamsDone  fail!type = " + cmdType);
+                HwImsServiceImpl.this.log("handleSetDMParamsDone  fail!type = " + cmdType);
                 intent.putExtra(HwImsServiceImpl.DM_IMS_RET, -1);
             }
             HwImsServiceImpl.this.mContext.sendBroadcast(intent);
@@ -1775,17 +1766,16 @@ public class HwImsServiceImpl {
             intent.putExtra(HwImsServiceImpl.DM_IMS_TYPE, cmdType);
             AsyncResult ar = (AsyncResult) msg.obj;
             if (ar != null && ar.result != null && ar.exception == null) {
-                HwImsServiceImpl hwImsServiceImpl = HwImsServiceImpl.this;
-                hwImsServiceImpl.log("handleGetDMParamsDone success !type = " + cmdType);
+                HwImsServiceImpl.this.log("handleGetDMParamsDone success !type = " + cmdType);
                 intent.putExtra(HwImsServiceImpl.DM_IMS_DATA, (String) ar.result);
             } else {
-                HwImsServiceImpl hwImsServiceImpl2 = HwImsServiceImpl.this;
-                hwImsServiceImpl2.log("handleGetDMParamsDone fail !type = " + cmdType);
+                HwImsServiceImpl.this.log("handleGetDMParamsDone fail !type = " + cmdType);
             }
             HwImsServiceImpl.this.mContext.sendBroadcast(intent);
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setImsRegisterState(int state) {
         this.mImsRegisterState = state;
     }
@@ -1794,14 +1784,17 @@ public class HwImsServiceImpl {
         return this.mImsRegisterState;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public int getImsStateBindRat() {
         return this.mImsStateBindRat;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void log(String msg) {
         Rlog.d("HwImsServiceImpl[" + this.mSub + "]", msg);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void loge(String msg) {
         Rlog.e("HwImsServiceImpl[" + this.mSub + "]", msg);
     }
@@ -1818,6 +1811,7 @@ public class HwImsServiceImpl {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void onUpdateIccAvailability() {
         log("enter onUpdateIccAvailability");
         try {
@@ -1947,9 +1941,10 @@ public class HwImsServiceImpl {
         log("leave handleSimRecordsLoaded");
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void sendSimCardType() {
         int subId = ImsCallProviderUtils.getSubId(this.mSub);
-        int simState = HwTelephonyManager.getDefault().getSimState(subId == 0 ? 1 : 0);
+        int simState = HwTelephonyManager.getSimState(subId == 0 ? 1 : 0);
         if (simState == 5) {
             Intent phoneTypeIntent = new Intent(IMS_SERVICE_CURRENT_PHONE_TYPE_ACTION);
             phoneTypeIntent.putExtra(String.valueOf(0), getCurrentPhoneTypeForSlot(0));
@@ -1959,7 +1954,7 @@ public class HwImsServiceImpl {
     }
 
     private int getCurrentPhoneTypeForSlot(int subId) {
-        int phoneType = HwTelephonyManager.getDefault().getCurrentPhoneTypeForSlot(subId);
+        int phoneType = HwTelephonyManager.getCurrentPhoneTypeForSlot(subId);
         log("oldPhoneType = " + phoneType);
         if (HwTelephonyManager.getDefault().isCTSimCard(subId)) {
             phoneType = 2;
@@ -2000,6 +1995,7 @@ public class HwImsServiceImpl {
         return null;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Phone getImsPhone() {
         Phone phone = getDefaultPhone();
         if (phone == null) {
@@ -2010,6 +2006,7 @@ public class HwImsServiceImpl {
         return imsPhone;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     public Phone getDefaultPhone() {
         int slotId = ImsCallProviderUtils.getSubId(this.mSub);
         try {
@@ -2022,6 +2019,7 @@ public class HwImsServiceImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void updatePhoneBaseEvent() {
         Phone newPhoneBase = getDefaultPhone();
         Phone oldPhoneBase = this.mPhoneBase.get();
@@ -2039,9 +2037,15 @@ public class HwImsServiceImpl {
                 if (this.mImsConfigImpl != null && this.mImsConfigImpl.isImsStateFollowVoiceDomain()) {
                     log("register listening message of data reg state from new phone base");
                     newPhoneBase.getServiceStateTracker().registerForDataRegStateOrRatChanged(this.mHandler, 1007, (Object) null);
+
+                    // Register for DRS or RAT change
+                    //newPhoneBase.getServiceStateTracker().registerForDataRegStateOrRatChanged(
+                    //        mTransportType, getHandler(),
+                    //        DataConnection.EVENT_DATA_CONNECTION_DRS_OR_RAT_CHANGED, null);
+
                 }
                 newPhoneBase.getServiceStateTracker().registerForNetworkAttached(this.mHandler, 1008, (Object) null);
-                newPhoneBase.mCi.registerForSrvccStateChanged(this.mHandler, (int) EVENT_SRVCC_STATE_CHANGED, (Object) null);
+                newPhoneBase.mCi.registerForSrvccStateChanged(this.mHandler, EVENT_SRVCC_STATE_CHANGED, (Object) null);
             }
         }
     }
@@ -2050,6 +2054,7 @@ public class HwImsServiceImpl {
         return this.mLastCallType;
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public boolean optimizeImsRegisterState() {
         if (this.mImsRegisterState == 1) {
             boolean voWiFiRegistered = isVoWifiRegistered();
@@ -2079,7 +2084,7 @@ public class HwImsServiceImpl {
                 }
             };
             Intent intent = new Intent().setClassName("com.hisi.mapcon", "com.hisi.mapcon.MapconService");
-            this.mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+            this.mContext.bindService(intent, mConnection,Context.BIND_AUTO_CREATE);
         }
     }
 
@@ -2092,6 +2097,7 @@ public class HwImsServiceImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void moveSharePreferenceToDE() {
         String sharedPreferenceName = PreferenceManager.getDefaultSharedPreferencesName(this.mContext);
         if (SharePreferenceUtil.isNOrLater()) {
@@ -2103,6 +2109,7 @@ public class HwImsServiceImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void processDMBroadcast(int type, String data) {
         log("processDMBroadcast: type = " + type);
         switch (type) {
@@ -2139,6 +2146,7 @@ public class HwImsServiceImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setVTCapabilityToModem() {
         if (this.mCurrentHaveCall) {
             log("the Current have a Call ,You should set the video capability when the call hangs up");
@@ -2201,7 +2209,9 @@ public class HwImsServiceImpl {
     private void openOrCloseLTEInfo(boolean hasActiveVideoCall) {
         if (hasActiveVideoCall && !this.mIsReportLTEInfo) {
             queryCameraStatus();
-        } else if (!hasActiveVideoCall && this.mIsReportLTEInfo) {
+            return;
+        }
+        if (!hasActiveVideoCall && this.mIsReportLTEInfo) {
             requestLTEInfo(0, 100, null);
             this.mIsReportLTEInfo = false;
             this.mHandler.removeMessages(22);
@@ -2209,14 +2219,15 @@ public class HwImsServiceImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void queryCameraStatus() {
         CameraManager cameraManager = CameraManager.getInstance();
         if (cameraManager != null && cameraManager.isParamReady()) {
             executeRequestLTEInfo();
             this.mIsReportLTEInfo = true;
-            return;
+        } else {
+            this.mHandler.sendEmptyMessageDelayed(22, 100L);
         }
-        this.mHandler.sendEmptyMessageDelayed(22, 100L);
     }
 
     private void executeRequestLTEInfo() {
@@ -2231,6 +2242,7 @@ public class HwImsServiceImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void getCurrentCallFromModem() {
         ImsServiceCallTracker tracker;
         if (this.mTrackerTable != null && ImsCallProviderUtils.isVilteEnhancementSupported() && (tracker = this.mTrackerTable.get(1)) != null && tracker.haveCall()) {
@@ -2238,6 +2250,7 @@ public class HwImsServiceImpl {
         }
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
     public void setSpeechCodec(int speechCodec) {
         Phone imsphone = getImsPhone();
         if (imsphone == null || imsphone.getContext() == null) {
@@ -2273,7 +2286,8 @@ public class HwImsServiceImpl {
                 }
             }
             return 4;
-        } else if (radioTech == 1) {
+        }
+        if (radioTech == 1) {
             if (capability != 4) {
                 switch (capability) {
                     case 1:
@@ -2286,10 +2300,9 @@ public class HwImsServiceImpl {
                 }
             }
             return 5;
-        } else {
-            log("convertCapability radioTech not expected. radioTech = " + radioTech + " capability = " + capability);
-            return -1;
         }
+        log("convertCapability radioTech not expected. radioTech = " + radioTech + " capability = " + capability);
+        return -1;
     }
 
     public void setVoWiFiRegErrReportEnable(int enabled) {
