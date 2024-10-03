@@ -39,9 +39,10 @@ android {
         }
     }
     compileSdk 28
+
     defaultConfig {
         applicationId "com.huawei.ims"
-        minSdk 28
+        minSdkVersion 28
         targetSdk 28
         versionCode 1
         versionName androidGitVersion.name()
@@ -68,15 +69,15 @@ android {
     }
 
     sourceSets { main { jni.srcDirs = ['src/main/jniLibs'] } }
+    buildToolsVersion '28.0.3'
 }
 
 dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'kxml2:kxml2:2.3.0'
 
     implementation files('.\\libs\\vendor.huawei.hardware.radio-java.jar','.\\libs\\com.hisi.mapcon-java.jar')
-    compileOnly  files('.\\sdk\\framework.jar','.\\sdk\\ims-common.jar','.\\sdk\\telephony-common.jar')
+    compileOnly  files('.\\sdk28\\framework.jar','.\\sdk28\\ims-common.jar','.\\sdk28\\telephony-common.jar')
 }
 repositories {
     mavenCentral()
