@@ -1,87 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AndroidLayouts">
-    <shared>
-      <config>
-        <device id="pixel" />
-        <target>android-28</target>
-      </config>
-    </shared>
-  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1040c749-78a8-4074-b1a1-5b9a0376d3ca" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="e211ed2e-972a-4089-99b1-b0521009571e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/HuaweiIMS.apk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/InstallTrebleApp.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/InstallVolte.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/tools/InstallVolte.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/TrebleApp.apk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/apktool.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/apktool_2.3.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/app-release-unsigned.apk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/app-release.apk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/baksmali-2.2.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/baksmali.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/ims-hw.apk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/treble-overlay-telephony-hw-ims.apk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/vdexExtractor" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
   </component>
-  <component name="ExternalProjectsManager">
-    <system id="GRADLE">
-      <state>
-        <projects_view>
-          <tree_state>
-            <expand />
-            <select />
-          </tree_state>
-        </projects_view>
-      </state>
-    </system>
-  </component>
-  <component name="GenerateSignedApkSettings">
-    <option name="KEY_STORE_PATH" value="C:\GitRepo\iceows\ims_hi6250_volte\keystore\volte-ims.jks" />
-    <option name="KEY_ALIAS" value="key0" />
-    <option name="BUILD_TARGET_KEY" value="apk" />
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="21hNsFIXwiTYB0HnOsrFcQcNtVP" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="2my1Q49fDXeP8CVZqQjEDh0pupl" />
   <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="false" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cidr.known.project.marker": "true",
-    "project.structure.last.edited": "SDK Location",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="PsdUISettings">
-    <option name="MODULE_TAB" value="Default Config" />
-    <option name="LAST_EDITED_BUILD_TYPE" value="release" />
-  </component>
+}</component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="ims_hi6250_volte.app.main" />
@@ -145,11 +111,11 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="1040c749-78a8-4074-b1a1-5b9a0376d3ca" name="Default Changelist" comment="" />
-      <created>1638389568267</created>
+      <changelist id="e211ed2e-972a-4089-99b1-b0521009571e" name="Changes" comment="" />
+      <created>1728033985950</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1638389568267</updated>
+      <updated>1728033985950</updated>
     </task>
     <servers />
   </component>
@@ -163,8 +129,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>
