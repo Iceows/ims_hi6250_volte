@@ -60,7 +60,7 @@ public class HuaweiTelephonyManager {
     }
 
     public int getDefault4GSlotId() {
-        return HwTelephonyManager.getDefault4GSlotId();
+        return 0;
     }
 
 

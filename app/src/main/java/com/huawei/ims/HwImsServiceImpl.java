@@ -227,6 +227,7 @@ public class HwImsServiceImpl {
     public static final int VOWIFI_REG_ERROR_REPORT_SWITCH_DEFAULT = 0;
     private static final int VOWIFI_SOS_PENDING_TIMEOUT = 30000;
     private static final int VT_FLOW_INFO_REPORT = 40001;
+    private final HwTelephonyManager myTelMgr;
     protected ImsRIL mCi;
     protected Context mContext;
     protected Handler mHandler;
@@ -360,6 +361,10 @@ public class HwImsServiceImpl {
         this.mSub = sub;
         log("HwImsServiceImpl Constructor");
         this.mContext = context;
+
+        log("HwImsUtImpl state context");
+        myTelMgr = new HwTelephonyManager(context);
+        
         this.mCi = new ImsRIL(this.mContext, Integer.valueOf(this.mSub));
         this.mHandler = new HwImsServiceImplHandler();
         this.mTelCapabilities = new MmTelFeature.MmTelCapabilities();
@@ -1944,7 +1949,7 @@ public class HwImsServiceImpl {
     /* JADX INFO: Access modifiers changed from: private */
     public void sendSimCardType() {
         int subId = ImsCallProviderUtils.getSubId(this.mSub);
-        int simState = HwTelephonyManager.getSimState(subId == 0 ? 1 : 0);
+        int simState = myTelMgr.getSimState(subId == 0 ? 1 : 0);
         if (simState == 5) {
             Intent phoneTypeIntent = new Intent(IMS_SERVICE_CURRENT_PHONE_TYPE_ACTION);
             phoneTypeIntent.putExtra(String.valueOf(0), getCurrentPhoneTypeForSlot(0));
@@ -1954,9 +1959,9 @@ public class HwImsServiceImpl {
     }
 
     private int getCurrentPhoneTypeForSlot(int subId) {
-        int phoneType = HwTelephonyManager.getCurrentPhoneTypeForSlot(subId);
+        int phoneType = myTelMgr.getCurrentPhoneTypeForSlot(subId);
         log("oldPhoneType = " + phoneType);
-        if (HwTelephonyManager.getDefault().isCTSimCard(subId)) {
+        if (myTelMgr.getDefault().isCTSimCard(subId)) {
             phoneType = 2;
         }
         log("newPhoneType = " + phoneType);
@@ -2172,7 +2177,7 @@ public class HwImsServiceImpl {
         String mValueKeyConfig;
         int valueKeyConfig = -1;
         CarrierConfigManager cfgMgr = (CarrierConfigManager) this.mContext.getSystemService(Context.CARRIER_CONFIG_SERVICE);
-        int subId = HwTelephonyManager.getDefault().getDefault4GSlotId();
+        int subId = myTelMgr.getDefault().getDefault4GSlotId();
         if (cfgMgr != null && (b = cfgMgr.getConfigForSubId(subId)) != null && (mValueKeyConfig = b.getString(ImsVTConstants.CARRIERCONFIG_ENHANCED_VIDEO_FEATURE)) != null) {
             try {
                 valueKeyConfig = Integer.parseInt(mValueKeyConfig, 2);

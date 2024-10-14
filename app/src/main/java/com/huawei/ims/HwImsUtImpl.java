@@ -222,6 +222,8 @@ public class HwImsUtImpl extends ImsUtImpl {
     private ImsUtImpl mImsUtImpl;
     private ConnectivityManager.NetworkCallback mNetworkCallback;
     private int mSubId;
+
+    private Context myContext = null;
     public static final boolean IS_VOWIFI_PROP_ON = ImsCallProviderUtils.isVowifiPropOn();
     private static final String RO_HW_OEMNAME = SystemProperties.get("ro.hw.oemName", HwImsConfigImpl.NULL_STRING_VALUE);
     private static final String RO_BUILD_HW_VERSION_INCREMENTAL = SystemProperties.get("ro.huawei.build.version.incremental", HwImsConfigImpl.NULL_STRING_VALUE);
@@ -255,6 +257,8 @@ public class HwImsUtImpl extends ImsUtImpl {
     private boolean mShowDataConnectionDialog = false;
     private boolean mHasChangedDefaultDataSub = false;
     private Date mUtForbiddenDate = null;
+
+    private HwTelephonyManager myTelMgr = null;
     private ContentObserver mApnChangeObserver = new ContentObserver(new Handler()) { // from class: com.huawei.ims.HwImsUtImpl.1
         @Override // android.database.ContentObserver
         public void onChange(boolean selfChange) {
@@ -410,7 +414,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         IMS_DC_ACT_EXECUTE_LTE_FAIL
     }
 
-    static /* synthetic */ int access$000() {
+    static /* synthetic */ int accessIdForRequest() {
         return getIdForRequest();
     }
 
@@ -469,7 +473,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         String csPassword = null;
         int csServiceClass = 0;
         ImsDataConnectionState dcState = ImsDataConnectionState.IMS_DC_INIT;
-        int utId = HwImsUtImpl.access$000();
+        int utId = HwImsUtImpl.accessIdForRequest();
         int utRetryCounts = 0;
 
         public UtCmd(CmdToken token, int type, int opType) {
@@ -507,6 +511,10 @@ public class HwImsUtImpl extends ImsUtImpl {
         this.mImsConfigImpl = null;
         this.mImsUtImpl = null;
         this.mSubId = subId;
+
+        logd("HwImsUtImpl state context");
+        myTelMgr = new HwTelephonyManager(getContext());
+
         logd("HwImsUtImpl constructor");
         if (!ImsCallProviderUtils.isValidServiceSubIndex(this.mSubId)) {
             loge("subId is invalid");
@@ -1668,7 +1676,7 @@ public class HwImsUtImpl extends ImsUtImpl {
         boolean isVoWifiRegistered = false;
         if (this.mImsConfigImpl != null && this.mImsConfigImpl.isUtPreferVowifiWhenVowifiReg()) {
             int subId = ImsCallProviderUtils.getSubId(this.mSubId);
-            isVoWifiRegistered = HwTelephonyManager.isWifiCallingAvailable(subId);
+            isVoWifiRegistered = myTelMgr.isWifiCallingAvailable(subId);
         }
         if (2 == utDomain || utDomain == 0 || isVoWifiRegistered) {
             return true;
@@ -2691,7 +2699,7 @@ public class HwImsUtImpl extends ImsUtImpl {
 
     private boolean isCardTypePreferToUseUT() {
         int subId = ImsCallProviderUtils.getSubId(this.mSubId);
-        int cardType = HwTelephonyManager.getCardType(subId);
+        int cardType = myTelMgr.getCardType(subId);
         return this.mImsConfigImpl.isCardTypePreferToUseUT(cardType);
     }
 
@@ -2702,7 +2710,7 @@ public class HwImsUtImpl extends ImsUtImpl {
     private String getCardMccMnc() {
         String mccMnc;
         int subId = ImsCallProviderUtils.getSubId(this.mSubId);
-        String simOperator = HwTelephonyManager.getSimOperator(subId);
+        String simOperator = myTelMgr.getSimOperator(subId);
         if (simOperator == null) {
             return null;
         }
@@ -3599,7 +3607,7 @@ public class HwImsUtImpl extends ImsUtImpl {
 
     private int getUtDomain() {
         int slotId = ImsCallProviderUtils.getSubId(this.mSubId);
-        boolean isRoaming = HwTelephonyManager.isNetorkRoaming(slotId);
+        boolean isRoaming = myTelMgr.isNetorkRoaming(slotId);
         int utDomain = HwImsManager.getWfcMode(getContext(), isRoaming, slotId);
         logd("isUtOverWifiEnabled isRoaming = " + isRoaming + " sub = " + slotId);
         return utDomain;
@@ -3860,7 +3868,7 @@ public class HwImsUtImpl extends ImsUtImpl {
 
     public void queryUtApn() {
         int subId = ImsCallProviderUtils.getSubId(this.mSubId);
-        String operator = HwTelephonyManager.getSimOperator(subId);
+        String operator = myTelMgr.getSimOperator(subId);
         String apnType = "ims";
         apnType = (this.mImsConfigImpl.getUtUseApn() == 1 || this.mImsConfigImpl.getUtUseApn() == 3) ? "xcap" : "xcap";
         String selection = "numeric = ? AND (type like '%" + apnType + "%')";
@@ -4400,7 +4408,7 @@ public class HwImsUtImpl extends ImsUtImpl {
 
     private boolean isLTENetworkType() {
         int subId = ImsCallProviderUtils.getSubId(this.mSubId);
-        int networkType = HwTelephonyManager.getNetworkType(subId);
+        int networkType = myTelMgr.getNetworkType(subId);
         logd("isLTENetworkType subId = " + subId + " networkType = " + networkType);
         return networkType == 13 || networkType == 19;
     }
