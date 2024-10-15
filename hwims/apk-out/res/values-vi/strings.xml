@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Cho phép ứng dụng bật hoặc tắt cuộc gọi đã mã hóa.</string>
+    <string name="permission_reason_camera">Quyền này được sử dụng để thực hiện cuộc gọi video.</string>
+    <string name="permlab_volteService">Bật hoặc tắt cuộc gọi đã mã hóa</string>
+</resources>

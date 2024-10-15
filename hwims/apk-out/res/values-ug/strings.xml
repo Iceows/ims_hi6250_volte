@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">بۇ ئەپ چاقىرىق مەخپىيلەشتۈرۈش كۇنۇپكىسىنى تىزگىنلەيدۇ.</string>
+    <string name="permission_reason_camera">بۇ ئىجازەت سىنلىق چاقىرىق ئۈچۈن ئىشلىتىلىدۇ</string>
+    <string name="permlab_volteService">چاقىرىق مەخپىيلەشتۈرۈشنى تىزگىنلەش</string>
+</resources>

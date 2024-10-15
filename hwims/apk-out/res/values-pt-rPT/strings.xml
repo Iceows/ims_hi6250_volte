@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Permite que a aplicação ative ou desative chamadas encriptadas.</string>
+    <string name="permission_reason_camera">Para videochamadas.</string>
+    <string name="permlab_volteService">Ativar ou desativar chamadas encriptadas</string>
+</resources>

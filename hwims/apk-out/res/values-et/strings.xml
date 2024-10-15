@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Võimaldab rakendusel krüptitud kõnesid lubada või keelata.</string>
+    <string name="permission_reason_camera">Seda kasutatakse videokõnede puhul.</string>
+    <string name="permlab_volteService">Krüptitud kõnede lubamine või keelamine</string>
+</resources>

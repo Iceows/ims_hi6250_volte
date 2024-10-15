@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">ਐਪ ਨੂੰ ਏਨਕ੍ਰਿਪਟ ਕੀਤੀਆਂ ਕਾਲਾਂ ਨੂੰ ਸਮਰੱਥ ਜਾਂ ਅਸਮਰੱਥ ਕਰਨ ਦੀ ਇਜਾਜ਼ਤ ਦਿੰਦਾ ਹੈ।</string>
+    <string name="permission_reason_camera">ਇਸ ਦੀ ਵਰਤੋਂ ਵੀਡੀਓ ਕਾਲਾਂ ਲਈ ਕੀਤੀ ਜਾਂਦੀ ਹੈ।</string>
+    <string name="permlab_volteService">ਏਨਕ੍ਰਿਪਟ ਕੀਤੀਆਂ ਕਾਲਾਂ ਨੂੰ ਸਮਰੱਥ ਜਾਂ ਅਸਮਰੱਥ ਕਰਦਾ ਹੈ</string>
+</resources>

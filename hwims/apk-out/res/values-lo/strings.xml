@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">ອະນຸຍາດໃຫ້​ແອັບ​ເປີດ​ໃຊ້​ງານ ຫຼື ປິດໃຊ້ງານສາຍ​ໂທ​ທີ່​​ໃສ່​ລະ​ຫັດ​ໄວ້.</string>
+    <string name="permission_reason_camera">ໃຊ້​ສິ່ງ​ນີ້​ສຳ​ລັບ​ການ​ໂທ​ວິ​ດີ​ໂອ.</string>
+    <string name="permlab_volteService">​ເປີດ​ໃຊ້​ງານ ຫຼື ປິດໃຊ້ງານສາຍ​ໂທ​ທີ່​​ໃສ່​ລະ​ຫັດ​ໄວ້</string>
+</resources>

@@ -1,0 +1,22 @@
+version: 2.9.3
+apkFileName: HwIms.apk
+isFrameworkApk: false
+usesFramework:
+  ids:
+  - 1
+  tag: null
+sdkInfo:
+  minSdkVersion: 29
+  targetSdkVersion: 28
+packageInfo:
+  forcedPackageId: 127
+  renameManifestPackage: null
+versionInfo:
+  versionCode: 110000100
+  versionName: 11.0.0.100
+resourcesAreCompressed: false
+sharedLibrary: false
+sparseResources: false
+doNotCompress:
+- resources.arsc
+- png

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Ilovaga chaqiruvlarni shifrlash funksiyasini yoqish yoki faolsizlantirish imkonini beradi.</string>
+    <string name="permission_reason_camera">Bu ruxsat video chaqiruvlar uchun ishlatiladi.</string>
+    <string name="permlab_volteService">Chaqiruvlarni shifrlash funksiyasini yoqish yoki faolsizlantirish</string>
+</resources>

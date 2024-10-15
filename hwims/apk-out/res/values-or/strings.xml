@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">ଏନକ୍ରିପ୍ଟେଡ୍ କଲ୍‌ ସକ୍ଷମ କିମ୍ବା ଅକ୍ଷମ କରିବାକୁ ଆପ୍‌କୁ ଅନୁମତି ଦିଏ।</string>
+    <string name="permission_reason_camera">ଭିଡ଼ିଓ କଲ୍‌ଗୁଡ଼ିକ କରିବାକୁ ଏବଂ ଏହାର ଉତ୍ତର ଦେବାକୁ ଏହା ବ୍ୟବହାର କରାଯାଇଥାଏ।</string>
+    <string name="permlab_volteService">ଏନକ୍ରିପ୍ଟେଡ୍ କଲ୍‌ ସକ୍ଷମ କିମ୍ବା ଅକ୍ଷମ କରନ୍ତୁ</string>
+</resources>

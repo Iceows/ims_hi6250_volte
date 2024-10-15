@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Aplikazioak dei enkriptatuak gaitzea edo desgaitzea baimentzen du.</string>
+    <string name="permission_reason_camera">Bideo-deietarako erabiltzen da.</string>
+    <string name="permlab_volteService">Gaitu edo desgaitu dei enkriptatuak</string>
+</resources>

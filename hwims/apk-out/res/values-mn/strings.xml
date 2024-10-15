@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Апликэйшнд нууцалсан дуудлагыг идэвхжүүлэх эсвэл идэвхгүй болгохыг зөвшөөрнө.</string>
+    <string name="permission_reason_camera">Үүнийг видео дуудлага хийхэд ашигладаг.</string>
+    <string name="permlab_volteService">Нууцалсан дуудлагыг идэвхжүүлэх эсвэл идэвхгүй болгох</string>
+</resources>

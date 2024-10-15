@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Atļauj lietotnei iespējot vai atspējot šifrētus zvanus.</string>
+    <string name="permission_reason_camera">To izmanto video zvaniem.</string>
+    <string name="permlab_volteService">Iespējot vai atspējot šifrētus zvanus</string>
+</resources>

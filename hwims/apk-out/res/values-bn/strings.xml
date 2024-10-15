@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">অ্যাপটিকে এনক্রিপ্ট করা কলগুলি সক্রিয় বা নিষ্ক্রিয় করার অনুমতি দেয়।</string>
+    <string name="permission_reason_camera">ভিডিও কল করার জন্য এটি ব্যবহৃত হয়।</string>
+    <string name="permlab_volteService">এনক্রিপ্ট করা কলগুলি সক্রিয় বা নিষ্ক্রিয় করুন</string>
+</resources>

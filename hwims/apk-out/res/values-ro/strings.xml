@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Permite aplicației să activeze sau să dezactiveze apelurile criptate.</string>
+    <string name="permission_reason_camera">Se utilizează pentru apeluri video.</string>
+    <string name="permlab_volteService">Activați sau dezactivați apelurile criptate</string>
+</resources>

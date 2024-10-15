@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">อนุญาตให้แอปเปิดหรือปิดใช้งานการโทรที่เข้ารหัส</string>
+    <string name="permission_reason_camera">ใช้สำหรับการโทรวิดีโอ</string>
+    <string name="permlab_volteService">เปิดหรือปิดใช้งานการโทรที่เข้ารหัส</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Programėlei leidžiama įjungti arba išjungti užšifruotus skambučius.</string>
+    <string name="permission_reason_camera">Naudojama vaizdo skambučiams.</string>
+    <string name="permlab_volteService">Įjungti arba išjungti užšifruotus skambučius</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Επιτρέπει στην εφαρμογή να ενεργοποιεί ή να απενεργοποιεί κρυπτογραφημένες κλήσεις.</string>
+    <string name="permission_reason_camera">Χρησιμοποιείται για βιντεοκλήσεις.</string>
+    <string name="permlab_volteService">Ενεργοποίηση ή απενεργοποίηση κρυπτογραφημένων κλήσεων</string>
+</resources>

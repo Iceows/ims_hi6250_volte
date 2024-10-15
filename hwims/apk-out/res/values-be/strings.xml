@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Дазваляе праграме ўключаць або адключаць зашыфраваныя выклікі.</string>
+    <string name="permission_reason_camera">Выкарыстоўваецца для відэавыклікаў.</string>
+    <string name="permlab_volteService">Уключыць або адключыць зашыфраваныя выклікі</string>
+</resources>

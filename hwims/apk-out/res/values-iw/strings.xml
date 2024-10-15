@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">מאפשר ליישום להפעל או להשבית שיחות מוצפנות.</string>
+    <string name="permission_reason_camera">משמשת לשיחות וידאו.</string>
+    <string name="permlab_volteService">הפעל או השבת שיחות מוצפנות</string>
+</resources>

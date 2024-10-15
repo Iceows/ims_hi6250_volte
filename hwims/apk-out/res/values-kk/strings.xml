@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Қолданбаға шифрланған қоңырауларды қосуға немесе өшіруге мүмкіндік береді.</string>
+    <string name="permission_reason_camera">Бұл бейне қоңыраулар үшін пайдаланылады.</string>
+    <string name="permlab_volteService">Шифрланған қоңырауларды қосу немесе өшіру</string>
+</resources>

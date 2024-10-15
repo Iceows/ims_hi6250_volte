@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Lar appen aktivere eller deaktivere krypterte anrop.</string>
+    <string name="permission_reason_camera">Dette brukes til videoanrop.</string>
+    <string name="permlab_volteService">Aktiver eller deaktiver krypterte anrop</string>
+</resources>

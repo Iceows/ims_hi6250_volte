@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">[Åļļöŵš ţĥé åþþ ţö éñåɓļé öŕ ðîšåɓļé éñçŕýþţéð çåļļš. one two three four five six]</string>
+    <string name="permission_reason_camera">[Ţĥîš îš ûšéð ƒöŕ Vîðéö çåļļš. one two three four]</string>
+    <string name="permlab_volteService">[Éñåɓļé öŕ ðîšåɓļé éñçŕýþţéð çåļļš one two three four]</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">[PL_697150]_Allows the app to enable or disable encrypted calls.</string>
+    <string name="permission_reason_camera">[PL_672812]_This is used for video calls.</string>
+    <string name="permlab_volteService">[PL_697151]_Enable or disable encrypted calls</string>
+</resources>

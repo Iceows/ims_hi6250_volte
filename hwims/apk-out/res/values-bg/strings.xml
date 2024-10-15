@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Позволява на приложението да активира или деактивира шифрираните повиквания.</string>
+    <string name="permission_reason_camera">Това се използва за видео повиквания.</string>
+    <string name="permlab_volteService">Активиране или деактивиране на шифрираните повиквания</string>
+</resources>

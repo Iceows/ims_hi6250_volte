@@ -1,0 +1,94 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_15_10_2024_22_15_[Changes]" date="1729023328045" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_15_10_2024_22_15_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 15/10/2024 22:15 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/lib/arm64/libsecurec.so" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/lib/arm64/libvsc.so" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/oat/arm64/HwIms.vdex" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/lib/arm64/libtls_default.so" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/lib/arm64/libsci_tls_default.so" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/HwIms.apk" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/oat/arm64/HwIms.odex" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/lib/arm64/libhw_sys.so" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/lib/arm64/libhw_media.so" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/lib/arm64/libcrypto.so" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/lib/arm64/libmvd_hme_vt.so" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".idea/.name" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/lib/arm64/libssl.so" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/lib/arm64/libut.so" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/build-emui10.cmd" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/lib/arm64/libsci.so" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/lib/arm64/libsci_ssconf.so" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="hwims/HwIms-emui10/lib/arm64/liblogin.so" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+</changelist>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Permite que o aplicativo ative ou desative chamadas criptografadas.</string>
+    <string name="permission_reason_camera">Isso é usado para chamadas de vídeo.</string>
+    <string name="permlab_volteService">Ativar ou desativar chamadas criptografadas</string>
+</resources>

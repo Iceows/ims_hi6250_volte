@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Memungkinkan aplikasi untuk mengaktifkan atau menonaktifkan panggilan terenkripsi.</string>
+    <string name="permission_reason_camera">Ini digunakan untuk panggilan video.</string>
+    <string name="permlab_volteService">Aktifkan atau nonaktifkan panggilan terenkripsi</string>
+</resources>

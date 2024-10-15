@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">"Permet que l'aplicació habiliti o inhabiliti les trucades xifrades."</string>
+    <string name="permission_reason_camera">"S'utilitza per a les videotrucades."</string>
+    <string name="permlab_volteService">Habilitar o inhabilitar les trucades xifrades</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Proqrama şifrlənmiş zəngləri aktivləşdirmək və ya qeyri-aktiv etmək imkanı verir.</string>
+    <string name="permission_reason_camera">Bundan video zənglər üçün istifadə edilir.</string>
+    <string name="permlab_volteService">Şifrlənmiş zəngləri aktivləşdirin və ya qeyri-aktiv edin</string>
+</resources>

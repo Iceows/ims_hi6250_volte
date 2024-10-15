@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">अ‍ॅपला एन्क्रिप्‍टेड कॉल्स सक्षम किंवा अक्षम करण्याची अनुमती देते.</string>
+    <string name="permission_reason_camera">हे व्हिडिओ कॉल्ससाठी वापरले जाते.</string>
+    <string name="permlab_volteService">एन्क्रिप्‍टेड कॉल्स सक्षम किंवा अक्षम करा</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Umožňuje aplikácii zapnúť alebo vypnúť šifrované hovory.</string>
+    <string name="permission_reason_camera">Používa sa na videohovory.</string>
+    <string name="permlab_volteService">Zapnúť alebo vypnúť šifrované hovory</string>
+</resources>

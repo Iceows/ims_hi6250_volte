@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">აძლევს აპს დაშიფრული ზარების ჩართვის ან გამორთვის საშუალებას.</string>
+    <string name="permission_reason_camera">ეს გამოიყენება ვიდეოზარებისთვის.</string>
+    <string name="permlab_volteService">დაშიფრული ზარების ჩართვა ან გამორთვა</string>
+</resources>

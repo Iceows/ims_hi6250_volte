@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">एप केँ एन्क्रिप्टेड कॉल सभ केँ सक्षम या अक्षम करबाक अनुमति दैत अछि।</string>
+    <string name="permission_reason_camera">एकर उपयोग वीडियो कॉल सब लेल कयल जाइत अछि।</string>
+    <string name="permlab_volteService">एन्क्रिप्टेड कॉल केँ सक्षम वा अक्षम करू</string>
+</resources>

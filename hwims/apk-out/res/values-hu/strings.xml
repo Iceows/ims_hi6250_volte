@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Lehetővé teszi az alkalmazás számára a titkosított hívások engedélyezését vagy letiltását.</string>
+    <string name="permission_reason_camera">Erre a videohívásokhoz van szükség.</string>
+    <string name="permlab_volteService">Titkosított hívások engedélyezése vagy letiltása</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Antaa sovelluksen ottaa käyttöön tai poistaa puhelujen salaaminen.</string>
+    <string name="permission_reason_camera">Tätä käytetään videopuheluihin.</string>
+    <string name="permlab_volteService">Ota puhelujen salaaminen käyttöön tai poista käytöstä</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">መተግበሪያው የተመሰጠሩ ጥሪዎችን ስራ እንዲያስጀምር እና እንዲያስቆም ያስችለዋል።</string>
+    <string name="permission_reason_camera">ይህ የቪዲዮ ጥሪዎችን ለማድረግ ስራ ላይ ይውላል።</string>
+    <string name="permlab_volteService">የተመሰጠሩ ጥሪዎችን ስራ ያስጀምሩ ወይም ያስቁሙ</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">暗号化通話を有効または無効にすることをアプリに許可します。</string>
+    <string name="permission_reason_camera">テレビ電話のために使用されます。</string>
+    <string name="permlab_volteService">暗号化通話を有効化または無効化</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">允許該應用程式控制加密通話開關。</string>
+    <string name="permission_reason_camera">用於視像通話</string>
+    <string name="permlab_volteService">控制加密通話開關</string>
+</resources>

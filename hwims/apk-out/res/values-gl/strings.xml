@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Permítelle á aplicación activar ou desactivar as chamadas cifradas.</string>
+    <string name="permission_reason_camera">Este permiso úsase para facer chamadas de vídeo.</string>
+    <string name="permlab_volteService">Activar ou desactivar as chamadas cifradas</string>
+</resources>

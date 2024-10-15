@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Ermöglicht der App, verschlüsselte Anrufe zu aktivieren oder zu deaktivieren.</string>
+    <string name="permission_reason_camera">Diese Berechtigung wird für Videoanrufe genutzt.</string>
+    <string name="permlab_volteService">Verschlüsselte Anrufe aktivieren oder deaktivieren</string>
+</resources>

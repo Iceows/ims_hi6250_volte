@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Дозволува апликацијата да овозможи или оневозможи шифрирани повици.</string>
+    <string name="permission_reason_camera">Ова се користи за видеоповици.</string>
+    <string name="permlab_volteService">Овозможете или оневозможете шифрирани повици</string>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <public type="drawable" name="ic_launcher" id="0x7f010000" />
+    <public type="string" name="app_label" id="0x7f020000" />
+    <public type="string" name="permdesc_volteService" id="0x7f020001" />
+    <public type="string" name="permission_reason_camera" id="0x7f020002" />
+    <public type="string" name="permlab_volteService" id="0x7f020003" />
+    <public type="xml" name="hw_ims_config" id="0x7f030000" />
+</resources>

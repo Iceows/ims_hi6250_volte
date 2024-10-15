@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Ka tukuna te taupānga ki te whakahohe, te mono rānei i ngā waea kua whakamunatia.</string>
+    <string name="permission_reason_camera">E whakamahia ana tēnei mō ngā ataata waea.</string>
+    <string name="permlab_volteService">Whakahohe, mono rānei i ngā waea kua whakamunatia</string>
+</resources>

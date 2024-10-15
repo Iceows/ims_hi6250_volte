@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">എൻക്രിപ്റ്റ് ചെയ്ത കോളുകൾ പ്രവർത്തനസജ്ജമാക്കാനോ പ്രവർത്തനരഹിതമാക്കാനോ ആപ്പിനെ അനുവദിക്കുന്നു.</string>
+    <string name="permission_reason_camera">വീഡിയോ കോളുകൾക്കായി ഇത് ഉപയോഗിക്കുന്നു.</string>
+    <string name="permlab_volteService">എൻക്രിപ്റ്റ് ചെയ്ത കോളുകൾ പ്രവർത്തനസജ്ജമാക്കുക അല്ലെങ്കിൽ പ്രവർത്തനരഹിതമാക്കുക</string>
+</resources>

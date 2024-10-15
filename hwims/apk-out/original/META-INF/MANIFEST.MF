@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Created-By: 9 (Oracle Corporation)
+
+Name: AndroidManifest.xml
+SHA-256-Digest: eWB7xfPlKmd9dJofTMFpx7JKUGlYE/Na3dMW9dcopqk=
+
+Name: assets/photo/photo_480_640.h264
+SHA-256-Digest: zMydE+oLBViwiN3sIvMZW2MA8K8nPn5cUJLM7Uc49CA=
+
+Name: assets/photo/photo_480_640.h265
+SHA-256-Digest: C7D+tUPbRB2t4c0iSXLBG2/RkX37W23vvPmVdLXk3Iw=
+
+Name: res/drawable-xxhdpi-v4/ic_launcher.png
+SHA-256-Digest: kw8G+UPZ6GLjnZGg6/zkD9Jh3TbKXEPqx64JVkKQMPQ=
+
+Name: res/xml/hw_ims_config.xml
+SHA-256-Digest: 4hYwq5ClXeiX0ZO1LfsLczTqzKnfm98nKdZO8R5GAc8=
+
+Name: resources.arsc
+SHA-256-Digest: bSt0n2JnZx2D/kb632z9AB66YtouKrUsMfSor/QyKEo=
+

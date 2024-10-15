@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Inairuhusu programu iwezeshe au ilemaze simu zilizosimbwa.</string>
+    <string name="permission_reason_camera">Hii inatumiwa kwenye simu za video.</string>
+    <string name="permlab_volteService">Wezesha au lemaza simu zilizosimbwa</string>
+</resources>

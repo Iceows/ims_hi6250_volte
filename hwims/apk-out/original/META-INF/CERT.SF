@@ -1,0 +1,23 @@
+Signature-Version: 1.0
+Created-By: 1.0 (Android)
+SHA-256-Digest-Manifest: AQQNAy+qq2geGYcvz/mhL8HkFIRBMhlHlS1W1Kf3K4U=
+X-Android-APK-Signed: 2
+
+Name: AndroidManifest.xml
+SHA-256-Digest: v1niiaiJmYaMavjcbFxkLbN9OLSWxcP45mz+kYawRbk=
+
+Name: assets/photo/photo_480_640.h264
+SHA-256-Digest: Sra/Fn2majvjKJ3WUXi80bqo/q7shEwlt0WsxCMl6kw=
+
+Name: assets/photo/photo_480_640.h265
+SHA-256-Digest: 7F53wiLtM22UyFM/s8g8dTuuv4DZMJEj+YnScZDZ8UM=
+
+Name: res/drawable-xxhdpi-v4/ic_launcher.png
+SHA-256-Digest: CaBCZX49Sz0wEZ5Cn43pLKJGAEySKUS0O9Bwmt4mXKc=
+
+Name: res/xml/hw_ims_config.xml
+SHA-256-Digest: z1v67Cz4DeXjm3LI4CclTnJy7Dg3AWrIp6eWLcVPyZs=
+
+Name: resources.arsc
+SHA-256-Digest: Yk2OK19xZuiHWl/uADgBVn+69Ze7Vq/t9VrpqexCwKc=
+

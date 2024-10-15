@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Benarkan aplikasi mendayakan atau menyahdayakan panggilan disulitkan.</string>
+    <string name="permission_reason_camera">Digunakan untuk panggilan video.</string>
+    <string name="permlab_volteService">Dayakan atau nyahdayakan panggilan disulitkan</string>
+</resources>

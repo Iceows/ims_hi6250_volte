@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">السماح للتطبيق بتشغيل أو إيقاف تشغيل المكالمات المشفرة.</string>
+    <string name="permission_reason_camera">يُستخدم هذا الإذن لإجراء مكالمات الفيديو.</string>
+    <string name="permlab_volteService">تشغيل أو إيقاف تشغيل المكالمات المشفرة.</string>
+</resources>

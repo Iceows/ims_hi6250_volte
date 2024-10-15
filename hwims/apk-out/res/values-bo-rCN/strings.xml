@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">ཉེར་སྤྱོད་དེར་གསང་སྡོམ་གྱི་ཁ་པར་གཏོང་ལེན་གྱི་བསད་སྤར་ལ་ཚོད་འཛིན་བྱ་ཆོག་པར་བྱེད།</string>
+    <string name="permission_reason_camera">བརྙན་འཕྲིན་ཁ་པར་གཏོང་ལེན་ལ་བཀོལ་བ།</string>
+    <string name="permlab_volteService">གསང་སྡོམ་གྱི་ཁ་པར་གཏོང་ལེན་གྱི་བསད་སྤར་ལ་ཚོད་འཛིན་བྱེད།</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Zezwala aplikacji na włączanie i wyłączanie szyfrowanych połączeń.</string>
+    <string name="permission_reason_camera">Wymagane do połączeń wideo.</string>
+    <string name="permlab_volteService">Włącz lub wyłącz szyfrowane połączenia</string>
+</resources>

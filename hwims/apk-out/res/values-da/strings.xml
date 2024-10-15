@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Tillader, at appen kan aktivere krypterede opkald.</string>
+    <string name="permission_reason_camera">Dette bruges til videoopkald.</string>
+    <string name="permlab_volteService">Slå krypterede opkald til eller fra</string>
+</resources>

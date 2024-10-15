@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">এপ্প্‌টোক এনক্ৰিপ্ট কৰা কলসমূহ সক্ষম বা অক্ষম কৰিবলৈ অনুমতি দিয়ে।</string>
+    <string name="permission_reason_camera">"ভিডিঅ' কলসমূহৰ বাবে ইয়াক ব্যৱহাৰ কৰা হয়।"</string>
+    <string name="permlab_volteService">এনক্ৰিপ্ট কৰা কলসমূহ সক্ষম বা অক্ষম কৰক</string>
+</resources>

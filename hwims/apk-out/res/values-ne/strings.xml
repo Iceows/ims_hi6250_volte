@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">एपलाई इन्क्रिप्ट गरिएका कलहरू सक्षम वा असक्षम गर्न अनुमति दिन्छ ।</string>
+    <string name="permission_reason_camera">यसलाई भिडियो कलहरूको लागि प्रयोग गरिन्छ ।</string>
+    <string name="permlab_volteService">इन्क्रिप्ट गरिएका कलहरू सक्षम वा असक्षम गर्नुहोस्</string>
+</resources>

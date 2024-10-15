@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">සංකේතනය කළ ඇමතුම් සක්‍රීය හෝ අක්‍රීය කිරීමට යෙදුමට ඉඩ දෙයි.</string>
+    <string name="permission_reason_camera">මෙය වීඩියෝ ඇමතුම් සඳහා භාවිතා කෙරේ.</string>
+    <string name="permlab_volteService">සංකේතනය කළ ඇමතුම් සක්‍රීය හෝ අක්‍රීය කරන්න</string>
+</resources>

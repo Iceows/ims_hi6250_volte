@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">အက္ပ္အား ကုဒ္ေျပာင္းဝွက္ထားေသာ ေကာလ္မ်ားကို အဖြင့္၊ အပိတ္လုပ္ရန္ ခြင့္ျပဳေပးပါသည္။</string>
+    <string name="permission_reason_camera">ဗီဒီယိုေကာလ္မ်ားအတြက္ ဤသည္ကို သုံးပါသည္။</string>
+    <string name="permlab_volteService">ကုဒ္ေျပာင္းဝွက္ထားေသာ ေကာလ္မ်ားကို အဖြင့္၊ အပိတ္လုပ္ရန္</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">앱이 암호화된 통화를 실행하거나 종료할 수 있도록 허용합니다.</string>
+    <string name="permission_reason_camera">이 권한은 영상 통화에 사용됩니다.</string>
+    <string name="permlab_volteService">암호화된 통화의 실행 또는 종료</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Pinapayagan ang app na i-enable o i-disable ang mga naka-encrypt na tawag.</string>
+    <string name="permission_reason_camera">Ginagamit ito sa mga video call.</string>
+    <string name="permlab_volteService">I-enable o i-disable ang mga naka-encrypt na tawag</string>
+</resources>

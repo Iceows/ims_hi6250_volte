@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">એપ્લિકેશનને એન્ક્રિપ્ટ કરેલા કૉલ્સ સક્ષમ કરવા અથવા અક્ષમ કરવાની અનુમતિ આપે છે.</string>
+    <string name="permission_reason_camera">વિડિયો કૉલ્સ માટે આનો ઉપયોગ થાય છે.</string>
+    <string name="permlab_volteService">એન્ક્રિપ્ટ કરેલા કૉલ્સ સક્ષમ અથવા અક્ષમ કરો</string>
+</resources>

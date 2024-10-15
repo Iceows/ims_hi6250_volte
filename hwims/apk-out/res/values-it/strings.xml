@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">"Consente all'app di abilitare o disabilitare le chiamate crittografate."</string>
+    <string name="permission_reason_camera">Questa funzione viene utilizzata per le videochiamate.</string>
+    <string name="permlab_volteService">Abilita o disabilita le chiamate crittografate</string>
+</resources>

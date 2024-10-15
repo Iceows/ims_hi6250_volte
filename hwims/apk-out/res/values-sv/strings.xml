@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Låter appen aktivera eller avaktivera krypterade samtal.</string>
+    <string name="permission_reason_camera">Detta används för videosamtal.</string>
+    <string name="permlab_volteService">Aktivera eller avaktivera krypterade samtal</string>
+</resources>

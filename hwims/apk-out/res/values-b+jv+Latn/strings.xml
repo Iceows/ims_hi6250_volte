@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Ngidini apl ngaktifake utawa nonaktifake telpon dienkripsi.</string>
+    <string name="permission_reason_camera">Iki digunakake kanggo telpon video.</string>
+    <string name="permlab_volteService">Aktifake utawa nonaktifake telpon dienkripsi</string>
+</resources>

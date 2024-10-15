@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">"Permet aux applications d'activer ou de désactiver les appels cryptés."</string>
+    <string name="permission_reason_camera">Ceci est utilisé pour les appels vidéo.</string>
+    <string name="permlab_volteService">Activer ou désactiver les appels cryptés</string>
+</resources>

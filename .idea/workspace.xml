@@ -5,21 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e211ed2e-972a-4089-99b1-b0521009571e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/HuaweiIMS.apk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/InstallTrebleApp.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/InstallVolte.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/tools/InstallVolte.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/TrebleApp.apk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/apktool.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/apktool_2.3.3.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/app-release-unsigned.apk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/app-release.apk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/baksmali-2.2.5.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/baksmali.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/ims-hw.apk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/treble-overlay-telephony-hw-ims.apk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/vdexExtractor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/HwIms.apk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/HwIms.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/lib/arm64/libcrypto.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/lib/arm64/libhw_media.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/lib/arm64/libhw_sys.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/lib/arm64/liblogin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/lib/arm64/libmvd_hme_vt.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/lib/arm64/libsci.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/lib/arm64/libsci_ssconf.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/lib/arm64/libsci_tls_default.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/lib/arm64/libsecurec.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/lib/arm64/libssl.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/lib/arm64/libtls_default.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/lib/arm64/libut.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/lib/arm64/libvsc.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/oat/arm64/HwIms.odex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/HwIms-emui10/oat/arm64/HwIms.vdex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwims/build-emui10.cmd" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

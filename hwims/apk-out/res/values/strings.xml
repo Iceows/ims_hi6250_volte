@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_label">HwImsService</string>
+    <string name="permdesc_volteService">Allows the app to enable or disable encrypted calls.</string>
+    <string name="permission_reason_camera">This is used for video calls.</string>
+    <string name="permlab_volteService">Enable or disable encrypted calls</string>
+</resources>

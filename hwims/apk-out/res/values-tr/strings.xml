@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Uygulamanın şifrelenmiş aramaları etkinleştirmesine veya devre dışı bırakmasına izin verilir.</string>
+    <string name="permission_reason_camera">Bu izin, görüntülü arama yapmak için kullanılır.</string>
+    <string name="permlab_volteService">Şifreli aramaları etkinleştir veya devre dışı bırak</string>
+</resources>

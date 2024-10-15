@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">به برنامه اجازۀ فعال کردن یا غیرفعال کردن تماس‌های رمزگذاری‌شده را می‌دهد.</string>
+    <string name="permission_reason_camera">از این مورد برای تماس‌های ویدیویی استفاده می‌شود.</string>
+    <string name="permlab_volteService">فعال کردن یا غیرفعال کردن تماس‌های رمزگذاری‌شده</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">ایپ کو مرموز کالز کو فعال یا غیر فعال کرنے کی اجازت دیتی ہے۔</string>
+    <string name="permission_reason_camera">اسے ویڈیو کالز کے لیے استعمال کیا جاتا ہے۔</string>
+    <string name="permlab_volteService">مرموز کالز کو فعال یا غیر فعال کریں</string>
+</resources>

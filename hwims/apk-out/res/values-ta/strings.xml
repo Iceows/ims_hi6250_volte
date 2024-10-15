@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">குறியாக்கிய அழைப்புகளைச் செயல்படுத்த அல்லது முடக்க, செயலியை அனுமதிக்கிறது.</string>
+    <string name="permission_reason_camera">வீடியோ அழைப்புகளுக்காக இது பயன்படுகிறது.</string>
+    <string name="permlab_volteService">குறியாக்கிய அழைப்புகளைச் செயல்படுத்து அல்லது முடக்கு</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾದ ಕರೆಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು ಅಥವಾ ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲು ಆ್ಯಪ್‌ಗೆ ಅವಕಾಶ ನೀಡುತ್ತದೆ.</string>
+    <string name="permission_reason_camera">ವೀಡಿಯೊ ಕರೆಗಳಿಗಾಗಿ ಇದನ್ನು ಬಳಸಲಾಗುತ್ತದೆ.</string>
+    <string name="permlab_volteService">ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾದ ಕರೆಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ ಅಥವಾ ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ</string>
+</resources>

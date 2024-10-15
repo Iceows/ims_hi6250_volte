@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">អនុញ្ញាតឱ្យកម្មវិធីបើក ឬបិទការហៅដែលបានអ៊ិនគ្រីប។</string>
+    <string name="permission_reason_camera">វាត្រូវបានប្រើ​សម្រាប់​ការហៅទូរស័ព្ទជាវីដេអូ។</string>
+    <string name="permlab_volteService">បើក ឬបិទការហៅដែលបានអ៊ិនគ្រីប</string>
+</resources>

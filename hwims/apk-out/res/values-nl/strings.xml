@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Hiermee kan de app versleutelde oproepen in- of uitschakelen.</string>
+    <string name="permission_reason_camera">Dit wordt gebruikt voor video-oproepen.</string>
+    <string name="permlab_volteService">Versleutelde oproepen in- of uitschakelen</string>
+</resources>

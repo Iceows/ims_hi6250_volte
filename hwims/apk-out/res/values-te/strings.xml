@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">ఎన్‌క్రిప్టెడ్ కాల్‌లను ప్రారంభించడానికి లేదా నిలిపివేయడానికి అప్లికేషన్‌ను అనుమతిస్తుంది.</string>
+    <string name="permission_reason_camera">ఇది వీడియో కాల్‌లు కోసం ఉపయోగించబడుతుంది.</string>
+    <string name="permlab_volteService">ఎన్‌క్రిప్టెడ్ కాల్‌లను ప్రారంభించండి లేదా నిలిపివేయండి</string>
+</resources>

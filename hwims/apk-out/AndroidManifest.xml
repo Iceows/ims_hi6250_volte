@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="29" android:compileSdkVersionCodename="10" android:sharedUserId="android.uid.phone" coreApp="true" package="com.huawei.ims" platformBuildVersionCode="29" platformBuildVersionName="10">
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera"/>
+    <permission android:name="com.huawei.ims.permission.IMS_SWITCH_STATE_CHANGE" android:protectionLevel="signatureOrSystem"/>
+    <permission android:name="com.android.huawei.permission.IMS" android:protectionLevel="signatureOrSystem"/>
+    <permission android:name="com.huawei.ims.permission.AUDIO_QUALITY_GET" android:protectionLevel="signatureOrSystem"/>
+    <permission android:name="com.android.huawei.permission.mt.missing.tips" android:protectionLevel="signatureOrSystem"/>
+    <uses-permission android:name="com.android.huawei.permission.mt.missing.tips"/>
+    <permission android:name="com.huawei.ims.permission.GET_IMS_SERVICE_STATE" android:protectionLevel="signatureOrSystem"/>
+    <permission android:name="com.huawei.ims.permission.GET_IMS_SERVICE_VOWIFI_STATE" android:protectionLevel="signatureOrSystem"/>
+    <uses-permission android:name="com.huawei.ims.permission.GET_IMS_SERVICE_VOWIFI_STATE"/>
+    <uses-permission android:name="com.hisi.permission.VOWIFI_SPECIAL"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <permission android:name="com.huawei.ims.permission.RECEIVE_DMPROVIDER_BROADCAST" android:protectionLevel="signatureOrSystem"/>
+    <uses-permission android:name="com.huawei.ims.permission.RECEIVE_DMPROVIDER_BROADCAST"/>
+    <uses-permission android:name="com.huawei.permission.BIND_VOLTE_ENCRYPT_TELEPHONY_SERVICE"/>
+    <uses-permission android:name="com.huawei.android.permission.GET_CHR_DATA"/>
+    <permission android:name="com.huawei.ims.permission.GET_IMS_REG_ERROR_REPORT" android:protectionLevel="signatureOrSystem"/>
+    <permission android:name="com.huawei.ims.permission.IMS_CURRENT_PHONE_TYPE" android:protectionLevel="signatureOrSystem"/>
+    <permission android:description="@string/permdesc_volteService" android:label="@string/permlab_volteService" android:name="com.westone.permission.VOLTE_SERVICE" android:protectionLevel="normal"/>
+    <permission android:name="com.huawei.ims.permission.P2P_TRANSPORT_SERVICE_FOR_CALL" android:protectionLevel="signatureOrSystem"/>
+    <application android:allowBackup="false" android:extractNativeLibs="false" android:icon="@drawable/ic_launcher" android:label="@string/app_label" android:process="com.huawei.telephony.ims" android:usesNonSdkApi="true">
+        <meta-data android:name="permission.reason.android.permission-group.CAMERA" android:resource="@string/permission_reason_camera"/>
+        <service android:directBootAware="true" android:enabled="true" android:exported="false" android:name=".HwImsService" android:permission="android.permission.BIND_IMS_SERVICE" android:process="com.android.phone">
+            <meta-data android:name="android.telephony.ims.MMTEL_FEATURE" android:value="true"/>
+            <meta-data android:name="android.telephony.ims.EMERGENCY_MMTEL_FEATURE" android:value="true"/>
+            <intent-filter>
+                <action android:name="android.telephony.ims.ImsService"/>
+            </intent-filter>
+        </service>
+        <service android:directBootAware="true" android:enabled="true" android:exported="false" android:name=".HemihuaLoaderService"/>
+        <service android:enabled="true" android:exported="true" android:name="com.voltecrypt.service.VoLTECryptService" android:permission="com.westone.permission.VOLTE_SERVICE">
+            <intent-filter>
+                <action android:name="com.voltecrypt.service.VoLTECryptService"/>
+            </intent-filter>
+        </service>
+        <service android:exported="true" android:name="com.huawei.ims.p2ptransport.P2pTransportService">
+            <intent-filter>
+                <action android:name="com.huawei.ims.p2ptransport.P2pTransportService"/>
+            </intent-filter>
+        </service>
+        <activity android:exported="false" android:name="EmptyLicenseActivity">
+            <intent-filter>
+                <action android:name="com.huawei.lisense.HW_SHOW_LISENSE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <meta-data android:name="lisense_file_path" android:value="/system/etc/noticeFile/HwIms.html"/>
+        </activity>
+    </application>
+</manifest>

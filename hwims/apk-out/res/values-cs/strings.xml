@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permdesc_volteService">Povolit aplikaci zapínat nebo vypínat šifrované hovory.</string>
+    <string name="permission_reason_camera">Slouží k video hovorům.</string>
+    <string name="permlab_volteService">Zapnout nebo vypnout šifrované hovory</string>
+</resources>
