@@ -1,5 +1,7 @@
 package com.huawei.ims;
 
+import static com.android.internal.telephony.DctConstants.EVENT_DATA_RAT_CHANGED;
+
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -19,6 +21,7 @@ import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.telephony.AccessNetworkConstants;
 import android.telephony.CarrierConfigManager;
 import android.telephony.HwTelephonyManager;
 import android.telephony.Rlog;
@@ -2041,7 +2044,7 @@ public class HwImsServiceImpl {
             if (newPhoneBase != null) {
                 if (this.mImsConfigImpl != null && this.mImsConfigImpl.isImsStateFollowVoiceDomain()) {
                     log("register listening message of data reg state from new phone base");
-                    newPhoneBase.getServiceStateTracker().registerForDataRegStateOrRatChanged(this.mHandler, 1007, (Object) null);
+                    newPhoneBase.getServiceStateTracker().registerForDataRegStateOrRatChanged(this.mHandler, EVENT_DATA_CONNECTION_DRS_OR_RAT_CHANGED, (Object) null);
 
                     // Register for DRS or RAT change
                     //newPhoneBase.getServiceStateTracker().registerForDataRegStateOrRatChanged(

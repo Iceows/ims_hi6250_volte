@@ -223,7 +223,6 @@ public class HwImsUtImpl extends ImsUtImpl {
     private ConnectivityManager.NetworkCallback mNetworkCallback;
     private int mSubId;
 
-    private Context myContext = null;
     public static final boolean IS_VOWIFI_PROP_ON = ImsCallProviderUtils.isVowifiPropOn();
     private static final String RO_HW_OEMNAME = SystemProperties.get("ro.hw.oemName", HwImsConfigImpl.NULL_STRING_VALUE);
     private static final String RO_BUILD_HW_VERSION_INCREMENTAL = SystemProperties.get("ro.huawei.build.version.incremental", HwImsConfigImpl.NULL_STRING_VALUE);
@@ -512,9 +511,6 @@ public class HwImsUtImpl extends ImsUtImpl {
         this.mImsUtImpl = null;
         this.mSubId = subId;
 
-        logd("HwImsUtImpl state context");
-        myTelMgr = new HwTelephonyManager(getContext());
-
         logd("HwImsUtImpl constructor");
         if (!ImsCallProviderUtils.isValidServiceSubIndex(this.mSubId)) {
             loge("subId is invalid");
@@ -530,6 +526,10 @@ public class HwImsUtImpl extends ImsUtImpl {
             loge("mImsConfigImpl is null");
             return;
         }
+
+        logd("HwImsUtImpl state context");
+        myTelMgr = new HwTelephonyManager(getContext());
+
         this.mImsUtImpl = imsUtImpl;
         if (this.mImsUtImpl == null) {
             loge("mImsUtImpl is null");
@@ -781,6 +781,7 @@ public class HwImsUtImpl extends ImsUtImpl {
     }
 
     public Context getContext() {
+        logd("getContext");
         return this.mHwImsServiceImpl.mContext;
     }
 
